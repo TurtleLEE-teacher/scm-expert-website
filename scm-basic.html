@@ -1,0 +1,1474 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SCM(ERP) 초급반 - 5주 실무 완성 과정</title>
+    <meta name="description" content="글로벌 빅4 컨설팅펌 현직자와 함께하는 SCM/ERP 실무 교육">
+    
+    <style>
+        /* 기본 리셋 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+            background: #0f0f0f;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+        
+        /* 프리로더 */
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0f0f0f;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s;
+        }
+        
+        .loader-modern {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: conic-gradient(transparent, #667eea);
+            animation: spin 1s linear infinite;
+            position: relative;
+        }
+        
+        .loader-modern::before {
+            content: '';
+            position: absolute;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #0f0f0f;
+            top: 6px;
+            left: 6px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* 파티클 배경 */
+        .particle-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(102, 126, 234, 0.4);
+            border-radius: 50%;
+            animation: float 15s infinite linear;
+        }
+        
+        @keyframes float {
+            from {
+                transform: translateY(100vh) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            to {
+                transform: translateY(-10vh) translateX(100px);
+                opacity: 0;
+            }
+        }
+        
+        /* 헤더 */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 20px 0;
+            background: rgba(15, 15, 15, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .navbar {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-brand h1 {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        /* 그라데이션 애니메이션 */
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        /* 히어로 섹션 */
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 100px 20px 50px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero-content {
+            text-align: center;
+            max-width: 900px;
+        }
+        
+        .badge {
+            display: inline-block;
+            background: rgba(102, 126, 234, 0.2);
+            border: 1px solid rgba(102, 126, 234, 0.5);
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+        
+        .hero-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            background-size: 200% 200%;
+            animation: gradientShift 5s ease infinite;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 2px 10px rgba(102, 126, 234, 0.3));
+        }
+        
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+        
+        /* 버튼 스타일 */
+        .btn {
+            padding: 15px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+        }
+        
+        /* 섹션 스타일 */
+        .section {
+            padding: 80px 20px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            text-align: center;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 50px;
+            font-size: 1.1rem;
+        }
+        
+        /* 카드 스타일 */
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.2);
+        }
+        
+        /* 주차별 커리큘럼 */
+        .curriculum-grid {
+            display: grid;
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .week-card {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+        
+        .week-number {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        
+        .week-content h3 {
+            color: #fff;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        
+        .week-content p {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .deliverable {
+            background: rgba(102, 126, 234, 0.1);
+            padding: 10px 20px;
+            border-radius: 10px;
+            display: inline-block;
+            font-size: 0.9rem;
+            color: #f093fb;
+        }
+        
+        /* 특징 그리드 */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .feature-card {
+            text-align: center;
+            padding: 30px;
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        
+        .feature-title {
+            color: #fff;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .feature-desc {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+        }
+        
+        /* 가격 카드 */
+        .price-card {
+            max-width: 500px;
+            margin: 50px auto;
+            text-align: center;
+            padding: 50px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+        }
+        
+        .price-original {
+            text-decoration: line-through;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 1.2rem;
+        }
+        
+        .price-current {
+            font-size: 3rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 20px 0;
+        }
+        
+        .price-desc {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 30px;
+        }
+        
+        /* 푸터 */
+        .footer {
+            padding: 40px 20px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        /* 스크롤 애니메이션 */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.23, 1, 0.320, 1);
+        }
+        
+        .scroll-reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* 반응형 */
+        @media (max-width: 768px) {
+            .week-card {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .week-number {
+                margin: 0 auto;
+            }
+            
+            .hero-title {
+                font-size: 2rem;
+            }
+        }
+        
+        /* 플로팅 버튼 */
+        .floating-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.5);
+            z-index: 999;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+        
+        .floating-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.7);
+        }
+        
+        @media (max-width: 768px) {
+            .floating-btn {
+                bottom: 20px;
+                right: 20px;
+                padding: 12px 25px;
+                font-size: 0.9rem;
+            }
+        }
+        
+        /* 달력 스타일 */
+        .calendar-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .calendar-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .calendar-month {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        
+        .calendar-year {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            margin-bottom: 40px;
+        }
+        
+        .calendar-day-header {
+            text-align: center;
+            font-weight: 600;
+            color: #667eea;
+            padding: 10px;
+            font-size: 0.9rem;
+        }
+        
+        .calendar-day {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px 10px;
+            min-height: 100px;
+            position: relative;
+            transition: all 0.3s;
+        }
+        
+        .calendar-day:hover {
+            background: rgba(102, 126, 234, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .calendar-day-number {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 5px;
+        }
+        
+        .calendar-day.class-day {
+            background: rgba(102, 126, 234, 0.15);
+            border-color: #667eea;
+        }
+        
+        .calendar-day.class-day .calendar-day-number {
+            color: #667eea;
+            font-weight: 600;
+        }
+        
+        .calendar-event {
+            font-size: 0.8rem;
+            color: #fff;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 4px 8px;
+            border-radius: 5px;
+            margin-top: 5px;
+            display: inline-block;
+        }
+        
+        .calendar-assignment {
+            font-size: 0.75rem;
+            color: #f093fb;
+            margin-top: 5px;
+            display: block;
+        }
+        
+        .calendar-day.empty {
+            background: transparent;
+            border: none;
+            pointer-events: none;
+        }
+        
+        .schedule-legend {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 5px;
+        }
+        
+        .legend-class {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .legend-assignment {
+            background: #f093fb;
+        }
+        
+        .legend-text {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        @media (max-width: 768px) {
+            .calendar-grid {
+                gap: 5px;
+            }
+            
+            .calendar-day {
+                padding: 10px 5px;
+                min-height: 80px;
+            }
+            
+            .calendar-day-number {
+                font-size: 0.8rem;
+            }
+            
+            .calendar-event {
+                font-size: 0.7rem;
+                padding: 3px 6px;
+            }
+            
+            .calendar-assignment {
+                font-size: 0.7rem;
+            }
+        }
+        
+        /* 월 선택 탭 */
+        .month-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .month-tab {
+            padding: 10px 25px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            color: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+        
+        .month-tab:hover {
+            background: rgba(102, 126, 234, 0.1);
+            border-color: rgba(102, 126, 234, 0.3);
+        }
+        
+        .month-tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: transparent;
+        }
+        
+        .batch-info {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            color: #f093fb;
+        }
+    </style>
+</head>
+<body>
+    <!-- 프리로더 -->
+    <div class="preloader">
+        <div class="loader-modern"></div>
+    </div>
+    
+    <!-- 파티클 배경 -->
+    <div class="particle-bg" id="particleBg"></div>
+    
+    <!-- 헤더 -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <h1>이선생</h1>
+                </div>
+                <div style="display: flex; gap: 20px; align-items: center;">
+                    <a href="index.html" style="color: rgba(255,255,255,0.7); text-decoration: none; transition: color 0.3s;">메인</a>
+                    <span style="color: rgba(255,255,255,0.3);">|</span>
+                    <span style="color: #667eea;">초급반</span>
+                    <span style="color: rgba(255,255,255,0.3);">|</span>
+                    <span style="color: rgba(255,255,255,0.5); cursor: not-allowed;">심화반</span>
+                    <a href="#register" class="btn btn-primary" style="margin-left: 20px;">수강신청</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+    
+    <!-- 히어로 섹션 -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <div class="badge">5주 완성 실무 과정</div>
+            <h1 class="hero-title">SCM(ERP) 초급반</h1>
+            <p class="hero-subtitle">
+                글로벌 빅4 컨설팅펌 현직자가 직접 가르치는<br>
+                실무 중심 SCM/ERP 교육 프로그램
+            </p>
+            <a href="#register" class="btn btn-primary">지금 신청하기</a>
+        </div>
+    </section>
+    
+    <!-- 과정 소개 섹션 -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">왜 이 과정이 필요한가요?</h2>
+            <p class="section-subtitle">
+                SCM은 기업의 전체 Value Chain을 다루는 핵심 직무입니다.<br>
+                실무 경험 없이는 이해하기 어려운 SCM, 현직자와 함께 제대로 배워보세요.
+            </p>
+            
+            <div class="features-grid">
+                <div class="feature-card card">
+                    <div class="feature-icon">🎯</div>
+                    <h3 class="feature-title">실무 중심 교육</h3>
+                    <p class="feature-desc">
+                        실제 기업에서 사용하는 프로세스와 시스템을 그대로 경험합니다
+                    </p>
+                </div>
+                
+                <div class="feature-card card">
+                    <div class="feature-icon">💬</div>
+                    <h3 class="feature-title">1:1 피드백</h3>
+                    <p class="feature-desc">
+                        매주 제출하는 과제에 대해 현직자의 상세한 피드백을 받습니다
+                    </p>
+                </div>
+                
+                <div class="feature-card card">
+                    <div class="feature-icon">📊</div>
+                    <h3 class="feature-title">포트폴리오 완성</h3>
+                    <p class="feature-desc">
+                        5주 후 SCM PI 보고서로 나만의 포트폴리오를 갖게 됩니다
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 주차별 커리큘럼 -->
+    <section class="section" style="background: rgba(102, 126, 234, 0.05);">
+        <div class="container">
+            <h2 class="section-title">주차별 커리큘럼</h2>
+            <p class="section-subtitle">
+                5주간 단계별로 SCM 실무 역량을 쌓아갑니다
+            </p>
+            
+            <div class="curriculum-grid">
+                <div class="week-card card">
+                    <div class="week-number">1</div>
+                    <div class="week-content">
+                        <h3>SCM 프로세스 & ERP 이해하기</h3>
+                        <p>
+                            SCM 표준 프로세스를 도식화하여 전체 공급망의 흐름을 이해합니다.
+                            생산/출하/구매 등 주요 영역별 프로세스와 상호 연계성을 파악하고,
+                            SAP ERP 시스템에서 실제로 어떻게 구현되는지 실습합니다.
+                        </p>
+                        <span class="deliverable">📄 결과물: SCM 프로세스 흐름도 (PPT)</span>
+                    </div>
+                </div>
+                
+                <div class="week-card card">
+                    <div class="week-number">2</div>
+                    <div class="week-content">
+                        <h3>SCM 이슈 분석 & 개선안 도출</h3>
+                        <p>
+                            실제 기업에서 발생하는 SCM 이슈들을 분석하고 원인을 파악합니다.
+                            PI(Process Innovation) 방법론을 활용하여 문제점을 구조화하고,
+                            실행 가능한 개선방안을 도출하는 방법을 학습합니다.
+                        </p>
+                        <span class="deliverable">📊 결과물: 이슈-원인-해결방안 마인드맵</span>
+                    </div>
+                </div>
+                
+                <div class="week-card card">
+                    <div class="week-number">3</div>
+                    <div class="week-content">
+                        <h3>SCM-재무 Integration 실습</h3>
+                        <p>
+                            SCM 활동이 기업의 재무성과에 미치는 영향을 분석합니다.
+                            매출, 원가, 이익률 데이터를 Excel로 분석하고 시각화하며,
+                            자동화된 대시보드를 구축하는 실무 스킬을 익힙니다.
+                        </p>
+                        <span class="deliverable">📈 결과물: Excel 분석 대시보드</span>
+                    </div>
+                </div>
+                
+                <div class="week-card card">
+                    <div class="week-number">4-5</div>
+                    <div class="week-content">
+                        <h3>SCM PI 포트폴리오 완성</h3>
+                        <p>
+                            지금까지 수행한 모든 과제를 통합하여 종합 보고서를 작성합니다.
+                            실제 컨설팅 프로젝트처럼 문제 정의부터 해결방안까지 전 과정을 담은
+                            프로페셔널한 SCM PI 포트폴리오를 완성합니다.
+                        </p>
+                        <span class="deliverable">🎯 결과물: SCM PI 최종 보고서</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 수업 일정 달력 -->
+    <section class="section" style="background: rgba(102, 126, 234, 0.05);">
+        <div class="container">
+            <h2 class="section-title">수업 일정</h2>
+            <p class="section-subtitle">
+                매주 금요일 오후 8시-10시, 5주간의 여정
+            </p>
+            
+            <!-- 월 선택 탭 -->
+            <div class="month-tabs">
+                <div class="month-tab" data-month="5" data-year="2025">5월 (완료)</div>
+                <div class="month-tab active" data-month="8" data-year="2025">8월 (모집중)</div>
+                <div class="month-tab" data-month="9" data-year="2025">9월 (예정)</div>
+            </div>
+            
+            <div class="batch-info" id="batchInfo">초급반 4기 - 8월</div>
+            
+            <div class="calendar-container">
+                <div class="calendar-header">
+                    <div class="calendar-month">8월</div>
+                    <div class="calendar-year">2025년</div>
+                </div>
+                
+                <div class="calendar-grid">
+                    <!-- 요일 헤더 -->
+                    <div class="calendar-day-header">일</div>
+                    <div class="calendar-day-header">월</div>
+                    <div class="calendar-day-header">화</div>
+                    <div class="calendar-day-header">수</div>
+                    <div class="calendar-day-header">목</div>
+                    <div class="calendar-day-header">금</div>
+                    <div class="calendar-day-header">토</div>
+                    
+                    <!-- 첫째 주 -->
+                    <div class="calendar-day empty"></div>
+                    <div class="calendar-day empty"></div>
+                    <div class="calendar-day empty"></div>
+                    <div class="calendar-day empty"></div>
+                    <div class="calendar-day empty"></div>
+                    <div class="calendar-day class-day">
+                        <div class="calendar-day-number">1</div>
+                        <div class="calendar-event">1주차</div>
+                        <div class="calendar-assignment">📋 과제: SCM 프로세스 도식화</div>
+                    </div>
+                    <div class="calendar-day">
+                        <div class="calendar-day-number">2</div>
+                    </div>
+                    
+                    <!-- 둘째 주 -->
+                    <div class="calendar-day">
+                        <div class="calendar-day-number">3</div>
+                    </div>
+                    <div class="calendar-day">
+                        <div class="calendar-day-number">4</div>
+                    </div>
+                    <div class="calendar-day">
+                        <div class="calendar-day-number">5</div>
+                    </div>
+                    <div class="calendar-day">
+                        <div class="calendar-day-number">6</div>
+                    </div>
+                    <div class="calendar-day">
+                        <div class="calendar-day-number">7</div>
+                    </div>
+                    <div class="calendar-day class-day">
+                        <div class="calendar-day-number">8</div>
+                        <div class="calendar-event">2주차</div>
+                        <div class="calendar-assignment">📋 과제: 재고 분석</div>
+                    </div>
+                    <div class="calendar-day">
+                        <div class="calendar-day-number">9</div>
+                    </div>
+                    
+                    <!-- 셋째 주 -->
+                    <div class="calendar-day">
+                        <div class="calendar-day-number">10</div>
+                    </div>
+                    <div class="calendar-day">
+                        <div class="calendar-day-number">11</div>
+                    </div>
+                    <div class="calendar-day">
+                        <div class="calendar-day-number">12</div>
+                    </div>
+                    <div class="calendar-day">
+                        <div class="calendar-day-number">13</div>
+                    </div>
+                    <div class="calendar-day">
+                        <div class="calendar-day-number">14</div>
+                    </div>
+                    <div class="calendar-day class-day">
+                        <div class="calendar-day-number">15</div>
+                        <div class="calendar-event">3주차</div>
+                        <div class="calendar-assignment">📋 과제: MRP 계산</div>
+                    </div>
+                    <div class="calendar-day">
+                        <div class="calendar-day-number">16</div>
+                    </div>
+                    
+                    <!-- 넷째 주 -->
+                    <div class="calendar-day">
+                        <div class="calendar-day-number">17</div>
+                    </div>
+                    <div class="calendar-day">
+                        <div class="calendar-day-number">18</div>
+                    </div>
+                    <div class="calendar-day">
+                        <div class="calendar-day-number">19</div>
+                    </div>
+                    <div class="calendar-day">
+                        <div class="calendar-day-number">20</div>
+                    </div>
+                    <div class="calendar-day">
+                        <div class="calendar-day-number">21</div>
+                    </div>
+                    <div class="calendar-day class-day">
+                        <div class="calendar-day-number">22</div>
+                        <div class="calendar-event">4주차</div>
+                        <div class="calendar-assignment">📋 과제: OTD 개선안</div>
+                    </div>
+                    <div class="calendar-day">
+                        <div class="calendar-day-number">23</div>
+                    </div>
+                    
+                    <!-- 다섯째 주 -->
+                    <div class="calendar-day">
+                        <div class="calendar-day-number">24</div>
+                    </div>
+                    <div class="calendar-day">
+                        <div class="calendar-day-number">25</div>
+                    </div>
+                    <div class="calendar-day">
+                        <div class="calendar-day-number">26</div>
+                    </div>
+                    <div class="calendar-day">
+                        <div class="calendar-day-number">27</div>
+                    </div>
+                    <div class="calendar-day">
+                        <div class="calendar-day-number">28</div>
+                    </div>
+                    <div class="calendar-day class-day">
+                        <div class="calendar-day-number">29</div>
+                        <div class="calendar-event">5주차</div>
+                        <div class="calendar-assignment">🎯 최종 프로젝트 발표</div>
+                    </div>
+                    <div class="calendar-day">
+                        <div class="calendar-day-number">30</div>
+                    </div>
+                    
+                    <!-- 마지막 날 -->
+                    <div class="calendar-day">
+                        <div class="calendar-day-number">31</div>
+                    </div>
+                </div>
+                
+                <div class="schedule-legend">
+                    <div class="legend-item">
+                        <div class="legend-color legend-class"></div>
+                        <span class="legend-text">수업일 (금요일 오후 8-10시)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color legend-assignment"></div>
+                        <span class="legend-text">과제 및 프로젝트</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 강사 소개 -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">함께하는 전문가</h2>
+            
+            <div class="card" style="max-width: 800px; margin: 50px auto;">
+                <div style="display: grid; grid-template-columns: 200px 1fr; gap: 40px; align-items: center;">
+                    <div style="text-align: center;">
+                        <div style="width: 150px; height: 150px; margin: 0 auto; overflow: hidden; border-radius: 50%; border: 3px solid #667eea;">
+                            <img src="images/portfolio/teacher.png" alt="이선생 프로필" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                    </div>
+                    <div>
+                        <h3 style="color: #fff; margin-bottom: 20px;">글로벌 빅4 컨설팅펌 SCM 컨설턴트</h3>
+                        <ul style="list-style: none; color: rgba(255,255,255,0.8); line-height: 2;">
+                            <li>✓ 현) 글로벌 컨설팅펌 SCM/ERP 컨설턴트 (5년+)</li>
+                            <li>✓ 전) 국내 중견기업 구매/SCM 담당 (5년+)</li>
+                            <li>✓ CPIM, CPSM 글로벌 SCM 자격 보유</li>
+                            <li>✓ SAP 공인 자격 3종 (S/4 HANA)</li>
+                            <li>✓ 생산성본부 재고관리 최연소 전문위원</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 가격 안내 -->
+    <section class="section" id="register" style="background: rgba(102, 126, 234, 0.05);">
+        <div class="container">
+            <h2 class="section-title">수강 신청</h2>
+            
+            <div class="price-card card">
+                <p class="price-original">정가 300,000원</p>
+                <p class="price-current">169,000원</p>
+                <p class="price-desc">
+                    5주 과정 | 3회 세션 | 매주 1:1 피드백<br>
+                    포트폴리오 완성 | 수료증 발급
+                </p>
+                <a href="#" class="btn btn-primary" onclick="alert('신청 페이지 준비중입니다. 문의: contact@scmexpert.com'); return false;">지금 신청하기</a>
+                
+                <div style="margin-top: 40px; padding: 20px; background: rgba(240, 147, 251, 0.1); border-radius: 10px;">
+                    <p style="color: #f093fb; margin: 0;">
+                        🎁 수강생 특별 혜택<br>
+                        <span style="color: rgba(255,255,255,0.8); font-size: 0.9rem;">
+                            커리어 컨설팅 서비스 30% 할인
+                        </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 추천 대상 -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">이런 분들께 추천합니다</h2>
+            
+            <div class="features-grid">
+                <div class="feature-card card">
+                    <div class="feature-icon">🎓</div>
+                    <h3 class="feature-title">직무경험이 없는 분</h3>
+                    <p class="feature-desc">
+                        "회사가 어떻게 돌아가는지 막연해요"<br>
+                        "SCM이 정확히 뭔지 모르겠어요"<br>
+                        실무 경험 없이도 이해할 수 있도록 차근차근 설명합니다
+                    </p>
+                </div>
+                
+                <div class="feature-card card">
+                    <div class="feature-icon">💼</div>
+                    <h3 class="feature-title">SCM 직무 전환 희망자</h3>
+                    <p class="feature-desc">
+                        "SCM으로 커리어를 바꾸고 싶어요"<br>
+                        "관련 직무 경험을 만들고 싶어요"<br>
+                        이력서에 쓸 수 있는 실무 경험을 만들어드립니다
+                    </p>
+                </div>
+                
+                <div class="feature-card card">
+                    <div class="feature-icon">🚀</div>
+                    <h3 class="feature-title">취업/이직 준비생</h3>
+                    <p class="feature-desc">
+                        "면접에서 할 말이 없어요"<br>
+                        "포트폴리오가 필요해요"<br>
+                        실제 프로젝트 경험으로 경쟁력을 갖추세요
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 수강 후 기대효과 -->
+    <section class="section" style="background: rgba(102, 126, 234, 0.05);">
+        <div class="container">
+            <h2 class="section-title">5주 후, 이렇게 달라집니다</h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 50px;">
+                <div class="card">
+                    <h3 style="color: #667eea; margin-bottom: 20px;">✅ 직무 이해도 향상</h3>
+                    <ul style="list-style: none; color: rgba(255,255,255,0.8); line-height: 2;">
+                        <li>• SCM 전체 프로세스를 설명할 수 있습니다</li>
+                        <li>• 구매/생산/물류/재무 연결고리를 이해합니다</li>
+                        <li>• ERP 시스템의 작동 원리를 알게 됩니다</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3 style="color: #667eea; margin-bottom: 20px;">📊 실무 스킬 습득</h3>
+                    <ul style="list-style: none; color: rgba(255,255,255,0.8); line-height: 2;">
+                        <li>• Excel 데이터 분석 능력이 향상됩니다</li>
+                        <li>• PI 방법론으로 문제를 해결할 수 있습니다</li>
+                        <li>• 보고서 작성 스킬을 갖추게 됩니다</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h3 style="color: #667eea; margin-bottom: 20px;">🎯 취업 경쟁력 확보</h3>
+                    <ul style="list-style: none; color: rgba(255,255,255,0.8); line-height: 2;">
+                        <li>• 이력서에 쓸 프로젝트 경험을 갖게 됩니다</li>
+                        <li>• 면접에서 활용할 전문 용어를 익힙니다</li>
+                        <li>• 포트폴리오로 실력을 증명할 수 있습니다</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 수강생 후기 -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">수강생들의 생생한 후기</h2>
+            
+            <div style="display: grid; gap: 30px; margin-top: 50px;">
+                <div class="card">
+                    <p style="font-size: 1.1rem; line-height: 1.8; color: rgba(255,255,255,0.9); margin-bottom: 20px;">
+                        "직무부트캠프에서 했던 경험과 배웠던 <strong style="color: #667eea;">직무 전문 단어를 면접에서 활용</strong>하였더니 
+                        면접관들이 흥미를 보였고, 결국 <strong style="color: #f093fb;">최종 합격</strong>했어요."
+                    </p>
+                    <p style="color: rgba(255,255,255,0.5);">- 남OO님, 대기업 SCM 직무 합격</p>
+                </div>
+                
+                <div class="card">
+                    <p style="font-size: 1.1rem; line-height: 1.8; color: rgba(255,255,255,0.9); margin-bottom: 20px;">
+                        "수료증을 토대로 <strong style="color: #667eea;">이력서에 직무 관련 경험으로 작성</strong>했고 
+                        임원 면접시 경험에 대한 질문에 직무 관련한 관심이 많다는 것으로 어필했고, 
+                        <strong style="color: #f093fb;">좋은 평가</strong>를 받을 수 있었어요."
+                    </p>
+                    <p style="color: rgba(255,255,255,0.5);">- 강OO님, 중견기업 구매팀 합격</p>
+                </div>
+                
+                <div class="card">
+                    <p style="font-size: 1.1rem; line-height: 1.8; color: rgba(255,255,255,0.9); margin-bottom: 20px;">
+                        "막연했던 SCM이 이제는 명확해졌어요. <strong style="color: #667eea;">실무에서 어떤 일을 하는지</strong> 
+                        구체적으로 알게 되었고, 제가 정말 이 일을 하고 싶은지 확신을 갖게 되었습니다."
+                    </p>
+                    <p style="color: rgba(255,255,255,0.5);">- 이OO님, 전직 준비중</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- FAQ -->
+    <section class="section" style="background: rgba(102, 126, 234, 0.05);">
+        <div class="container">
+            <h2 class="section-title">자주 묻는 질문</h2>
+            
+            <div style="max-width: 800px; margin: 50px auto;">
+                <div class="card" style="margin-bottom: 20px;">
+                    <h3 style="color: #667eea; margin-bottom: 15px;">Q. SCM 경험이 전혀 없는데 수강 가능한가요?</h3>
+                    <p style="color: rgba(255,255,255,0.8); line-height: 1.6;">
+                        네, 가능합니다. 이 과정은 SCM 경험이 없는 분들을 위해 설계되었습니다. 
+                        기초부터 차근차근 설명하며, 실무 용어도 쉽게 풀어서 설명드립니다.
+                    </p>
+                </div>
+                
+                <div class="card" style="margin-bottom: 20px;">
+                    <h3 style="color: #667eea; margin-bottom: 15px;">Q. 현재 직장을 다니면서도 수강할 수 있나요?</h3>
+                    <p style="color: rgba(255,255,255,0.8); line-height: 1.6;">
+                        네, 충분히 가능합니다. 주당 평균 2-3시간 정도만 투자하시면 되며, 
+                        모든 과제는 개인 일정에 맞춰 수행할 수 있습니다. 세션도 녹화본으로 제공됩니다.
+                    </p>
+                </div>
+                
+                <div class="card" style="margin-bottom: 20px;">
+                    <h3 style="color: #667eea; margin-bottom: 15px;">Q. SAP를 전혀 모르는데 괜찮을까요?</h3>
+                    <p style="color: rgba(255,255,255,0.8); line-height: 1.6;">
+                        걱정하지 마세요. SAP 기초부터 교육합니다. 실제 화면을 보면서 
+                        하나하나 따라할 수 있도록 상세히 안내드립니다.
+                    </p>
+                </div>
+                
+                <div class="card" style="margin-bottom: 20px;">
+                    <h3 style="color: #667eea; margin-bottom: 15px;">Q. 수료증은 취업에 도움이 되나요?</h3>
+                    <p style="color: rgba(255,255,255,0.8); line-height: 1.6;">
+                        많은 수강생들이 수료증과 포트폴리오를 활용해 취업에 성공했습니다. 
+                        특히 면접에서 구체적인 프로젝트 경험을 어필할 수 있어 큰 도움이 됩니다.
+                    </p>
+                </div>
+                
+                <div class="card">
+                    <h3 style="color: #667eea; margin-bottom: 15px;">Q. 환불은 가능한가요?</h3>
+                    <p style="color: rgba(255,255,255,0.8); line-height: 1.6;">
+                        수강 시작 전까지는 전액 환불이 가능합니다. 
+                        1주차 수강 후에는 2/3, 2주차 수강 후에는 1/2 환불이 가능하며, 
+                        3주차부터는 환불이 불가능합니다.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 마지막 CTA -->
+    <section class="section">
+        <div class="container" style="text-align: center;">
+            <h2 style="font-size: 2.5rem; margin-bottom: 20px; color: #fff;">
+                지금이 시작할 때입니다
+            </h2>
+            <p style="font-size: 1.2rem; color: rgba(255,255,255,0.8); margin-bottom: 40px;">
+                5주 후, SCM 전문가로의 첫걸음을 내딛게 됩니다
+            </p>
+            <a href="#register" class="btn btn-primary" style="font-size: 1.2rem; padding: 20px 50px;">
+                수강 신청하기
+            </a>
+        </div>
+    </section>
+    
+    <!-- 푸터 -->
+    <footer class="footer">
+        <p>&copy; 2025 이선생. All rights reserved.</p>
+    </footer>
+    
+    <!-- 플로팅 신청 버튼 -->
+    <a href="#register" class="floating-btn">수강 신청</a>
+    
+    <script>
+        // 파티클 생성
+        function createParticles() {
+            const particleBg = document.getElementById('particleBg');
+            
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+                particleBg.appendChild(particle);
+            }
+        }
+        
+        // 프리로더 숨기기
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.querySelector('.preloader').style.opacity = '0';
+                setTimeout(() => {
+                    document.querySelector('.preloader').style.display = 'none';
+                }, 500);
+            }, 1000);
+        });
+        
+        // 초기화
+        document.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+            
+            // 스크롤 애니메이션
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, observerOptions);
+            
+            // 모든 카드와 섹션에 애니메이션 적용
+            document.querySelectorAll('.card, .feature-card, .week-card').forEach(el => {
+                el.classList.add('scroll-reveal');
+                observer.observe(el);
+            });
+            
+            // 노션 데이터를 저장할 변수
+            let notionData = [];
+            
+            // 노션 데이터를 API에서 가져오는 함수
+            async function fetchNotionData() {
+                try {
+                    const response = await fetch('/api/get-notion-schedule.php');
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        notionData = result.data;
+                        console.log('노션 데이터 로드 성공:', notionData);
+                        
+                        // 초기 달력 표시
+                        updateCalendar(8, 2025);
+                    } else {
+                        console.error('노션 데이터 로드 실패:', result.error);
+                    }
+                } catch (error) {
+                    console.error('API 호출 오류:', error);
+                    
+                    // 오류 시 기본 데이터 사용
+                    notionData = [
+                        // 3기 - 완료
+                        {
+                            name: "1주차",
+                            date: "2025-05-09",
+                            tags: ["1주차 캠프: SCM(ERP) Overview", "1주차 과제: SCM 프로세스 도식"],
+                            status: "✅종료",
+                            batch: "3기"
+                        },
+                        {
+                            name: "2주차",
+                            date: "2025-05-16",
+                            tags: ["2주차 과제: SCM 이슈 분석 도출"],
+                            status: "✅종료",
+                            batch: "3기"
+                        },
+                        {
+                            name: "3주차",
+                            date: "2025-05-23",
+                            tags: ["3주차 캠프: 발표 및 SCP", "3주차 과제: 자동 손익계산서"],
+                            status: "✅종료",
+                            batch: "3기"
+                        },
+                        {
+                            name: "4주차",
+                            date: "2025-05-30",
+                            tags: ["4주차 과제: SCM PI 보고서"],
+                            status: "✅종료",
+                            batch: "3기"
+                        },
+                        {
+                            name: "5주차",
+                            date: "2025-06-06",
+                            tags: ["5주차 캠프: 발표 및 SCE"],
+                            status: "✅종료",
+                            batch: "3기"
+                        },
+                        // 4기 - 모집중
+                        {
+                            name: "1주차",
+                            date: "2025-08-01",
+                            tags: ["1주차: SCM(ERP) Overview", "과제: SCM 프로세스 도식화"],
+                            status: "모집중",
+                            batch: "4기"
+                        },
+                        {
+                            name: "2주차",
+                            date: "2025-08-08",
+                            tags: ["2주차: SCM 이슈 분석", "과제: 재고 분석"],
+                            status: "모집중",
+                            batch: "4기"
+                        },
+                        {
+                            name: "3주차",
+                            date: "2025-08-15",
+                            tags: ["3주차: SCP", "과제: MRP 계산"],
+                            status: "모집중",
+                            batch: "4기"
+                        },
+                        {
+                            name: "4주차",
+                            date: "2025-08-22",
+                            tags: ["4주차: SCM-재무 Integration", "과제: OTD 개선안"],
+                            status: "모집중",
+                            batch: "4기"
+                        },
+                        {
+                            name: "5주차",
+                            date: "2025-08-29",
+                            tags: ["5주차: 최종 발표", "최종 프로젝트 발표"],
+                            status: "모집중",
+                            batch: "4기"
+                        },
+                        // 5기 - 예정
+                        {
+                            name: "1주차",
+                            date: "2025-09-05",
+                            tags: ["1주차: SCM(ERP) Overview", "과제: SCM 프로세스 도식화"],
+                            status: "예정",
+                            batch: "5기"
+                        },
+                        {
+                            name: "2주차",
+                            date: "2025-09-12",
+                            tags: ["2주차: SCM 이슈 분석", "과제: 재고 분석"],
+                            status: "예정",
+                            batch: "5기"
+                        },
+                        {
+                            name: "3주차",
+                            date: "2025-09-19",
+                            tags: ["3주차: SCP", "과제: MRP 계산"],
+                            status: "예정",
+                            batch: "5기"
+                        },
+                        {
+                            name: "4주차",
+                            date: "2025-09-26",
+                            tags: ["4주차: SCM-재무 Integration", "과제: OTD 개선안"],
+                            status: "예정",
+                            batch: "5기"
+                        },
+                        {
+                            name: "5주차",
+                            date: "2025-10-10",
+                            tags: ["5주차: 최종 발표", "최종 프로젝트 발표"],
+                            status: "예정",
+                            batch: "5기"
+                        }
+                    ];
+                    
+                    // 기본 데이터로 달력 표시
+                    updateCalendar(8, 2025);
+                }
+            }
+            
+            // 달력 동적 생성 함수
+            function generateDynamicCalendar(data, targetMonth, targetYear) {
+                const firstDay = new Date(targetYear, targetMonth - 1, 1);
+                const lastDay = new Date(targetYear, targetMonth, 0);
+                const daysInMonth = lastDay.getDate();
+                const startingDayOfWeek = firstDay.getDay();
+                
+                let calendarHTML = '';
+                
+                // 요일 헤더
+                const dayHeaders = ['일', '월', '화', '수', '목', '금', '토'];
+                dayHeaders.forEach(day => {
+                    calendarHTML += `<div class="calendar-day-header">${day}</div>`;
+                });
+                
+                // 빈 날짜 채우기
+                for (let i = 0; i < startingDayOfWeek; i++) {
+                    calendarHTML += '<div class="calendar-day empty"></div>';
+                }
+                
+                // 실제 날짜
+                for (let day = 1; day <= daysInMonth; day++) {
+                    const currentDate = new Date(targetYear, targetMonth - 1, day);
+                    const dateString = currentDate.toISOString().split('T')[0];
+                    
+                    // 해당 날짜에 수업이 있는지 확인
+                    const classData = data.find(item => item.date === dateString);
+                    
+                    if (classData) {
+                        calendarHTML += `
+                            <div class="calendar-day class-day">
+                                <div class="calendar-day-number">${day}</div>
+                                <div class="calendar-event">${classData.name}</div>
+                                ${classData.tags.map(tag => {
+                                    if (tag.includes('과제')) {
+                                        return `<div class="calendar-assignment">📋 ${tag.split(': ')[1]}</div>`;
+                                    }
+                                    return '';
+                                }).join('')}
+                            </div>
+                        `;
+                    } else {
+                        calendarHTML += `
+                            <div class="calendar-day">
+                                <div class="calendar-day-number">${day}</div>
+                            </div>
+                        `;
+                    }
+                }
+                
+                return calendarHTML;
+            }
+            
+            // 달력 업데이트 함수
+            function updateCalendar(month, year) {
+                const calendarContainer = document.querySelector('.calendar-container');
+                if (!calendarContainer) return;
+                
+                // 해당 월의 데이터 필터링
+                const monthData = notionData.filter(item => {
+                    const itemDate = new Date(item.date);
+                    return itemDate.getMonth() + 1 === month && itemDate.getFullYear() === year;
+                });
+                
+                // 기수 정보 업데이트
+                const batchInfo = document.getElementById('batchInfo');
+                if (monthData.length > 0) {
+                    const batch = monthData[0].batch;
+                    const status = monthData[0].status;
+                    const monthNames = ['', '1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'];
+                    batchInfo.textContent = `초급반 ${batch} - ${monthNames[month]} (${status.includes('종료') ? '완료' : status})`;
+                }
+                
+                // 달력 HTML 생성
+                const calendarHTML = `
+                    <div class="calendar-header">
+                        <div class="calendar-month">${month}월</div>
+                        <div class="calendar-year">${year}년</div>
+                    </div>
+                    <div class="calendar-grid">
+                        ${generateDynamicCalendar(monthData, month, year)}
+                    </div>
+                    <div class="schedule-legend">
+                        <div class="legend-item">
+                            <div class="legend-color legend-class"></div>
+                            <span class="legend-text">수업일 (금요일 오후 8-10시)</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color legend-assignment"></div>
+                            <span class="legend-text">과제 및 프로젝트</span>
+                        </div>
+                    </div>
+                `;
+                
+                calendarContainer.innerHTML = calendarHTML;
+            }
+            
+            // 월 탭 클릭 이벤트
+            document.querySelectorAll('.month-tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // 활성 탭 변경
+                    document.querySelectorAll('.month-tab').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // 달력 업데이트
+                    const month = parseInt(this.dataset.month);
+                    const year = parseInt(this.dataset.year);
+                    updateCalendar(month, year);
+                });
+            });
+            
+            // 페이지 로드 시 노션 데이터 가져오기
+            fetchNotionData();
+        });
+    </script>
+</body>
+</html>

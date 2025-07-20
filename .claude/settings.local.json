@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(claude mcp add:*)",
+      "Bash(claude mcp:*)",
+      "Bash(claude --debug)",
+      "Bash(npx:*)",
+      "Bash(timeout:*)",
+      "Bash(echo $OS)",
+      "Bash(node:*)",
+      "Bash(npm:*)",
+      "mcp__context7__resolve-library-id",
+      "mcp__context7__get-library-docs",
+      "Bash",
+      "WebFetch"
+    ],
+    "deny": []
+  }
+}

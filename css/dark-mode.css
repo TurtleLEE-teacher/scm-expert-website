@@ -1,0 +1,298 @@
+/* ===================================
+   Dark Mode Styles
+   =================================== */
+
+/* CSS Variables for Dark Mode */
+body.dark-mode {
+    --bg-primary: #0f0f0f;
+    --bg-secondary: #1a1a1a;
+    --bg-tertiary: #252525;
+    --text-primary: #ffffff;
+    --text-secondary: #b3b3b3;
+    --text-tertiary: #808080;
+    --border-color: rgba(255, 255, 255, 0.1);
+    --shadow-color: rgba(0, 0, 0, 0.5);
+    --card-bg: rgba(255, 255, 255, 0.05);
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --primary-color: #8b9cff;
+    --secondary-color: #a78bfa;
+    --accent-color: #f472b6;
+    --gradient-primary: linear-gradient(135deg, #8b9cff 0%, #a78bfa 100%);
+    --gradient-secondary: linear-gradient(135deg, #f472b6 0%, #fb7185 100%);
+}
+
+/* Dark Mode Base Styles */
+body.dark-mode {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+}
+
+/* Header Dark Mode */
+body.dark-mode .header {
+    background: rgba(15, 15, 15, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border-color);
+}
+
+body.dark-mode .nav-brand h1 {
+    color: var(--text-primary);
+}
+
+body.dark-mode .nav-brand .tagline {
+    color: var(--text-secondary);
+}
+
+body.dark-mode .nav-menu a {
+    color: var(--text-secondary);
+}
+
+body.dark-mode .nav-menu a:hover,
+body.dark-mode .nav-menu a.active {
+    color: var(--primary-color);
+}
+
+/* Bento Cards Dark Mode */
+body.dark-mode .bento-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 20px var(--shadow-color);
+}
+
+body.dark-mode .bento-card:hover {
+    border-color: var(--primary-color);
+    box-shadow: 0 8px 40px rgba(139, 156, 255, 0.2);
+}
+
+body.dark-mode .bento-title {
+    color: var(--text-primary);
+}
+
+body.dark-mode .bento-subtitle {
+    color: var(--text-secondary);
+}
+
+body.dark-mode .bento-hero {
+    background: var(--gradient-primary);
+}
+
+body.dark-mode .bento-stats {
+    background: var(--gradient-secondary);
+}
+
+body.dark-mode .bento-cta {
+    background: var(--gradient-primary);
+}
+
+/* Buttons Dark Mode */
+body.dark-mode .btn-primary {
+    background: var(--primary-color);
+    color: var(--bg-primary);
+    border: 1px solid var(--primary-color);
+}
+
+body.dark-mode .btn-primary:hover {
+    background: transparent;
+    color: var(--primary-color);
+}
+
+body.dark-mode .btn-secondary {
+    background: transparent;
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+
+body.dark-mode .btn-secondary:hover {
+    background: var(--bg-tertiary);
+    border-color: var(--text-secondary);
+}
+
+/* Forms Dark Mode */
+body.dark-mode input,
+body.dark-mode textarea,
+body.dark-mode select {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+
+body.dark-mode input:focus,
+body.dark-mode textarea:focus,
+body.dark-mode select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(139, 156, 255, 0.2);
+}
+
+/* Sections Dark Mode */
+body.dark-mode .section {
+    background: var(--bg-secondary);
+}
+
+body.dark-mode .section:nth-child(even) {
+    background: var(--bg-primary);
+}
+
+body.dark-mode .section-title {
+    color: var(--text-primary);
+}
+
+body.dark-mode .section-subtitle {
+    color: var(--text-secondary);
+}
+
+/* Cards Dark Mode */
+body.dark-mode .card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+}
+
+body.dark-mode .card-title {
+    color: var(--text-primary);
+}
+
+body.dark-mode .card-description {
+    color: var(--text-secondary);
+}
+
+/* Footer Dark Mode */
+body.dark-mode .footer {
+    background: var(--bg-tertiary);
+    border-top: 1px solid var(--border-color);
+}
+
+body.dark-mode .footer-text {
+    color: var(--text-secondary);
+}
+
+body.dark-mode .footer-link {
+    color: var(--primary-color);
+}
+
+body.dark-mode .footer-link:hover {
+    color: var(--secondary-color);
+}
+
+/* Glassmorphism Dark Mode */
+body.dark-mode .glass-effect {
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px) saturate(180%);
+    border: 1px solid var(--glass-border);
+}
+
+/* Particle Effect Dark Mode */
+body.dark-mode .particle {
+    background: var(--primary-color);
+}
+
+/* Gradient Text Dark Mode */
+body.dark-mode .gradient-text {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Course Cards Dark Mode */
+body.dark-mode .course-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+}
+
+body.dark-mode .course-card:hover {
+    border-color: var(--primary-color);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 40px rgba(139, 156, 255, 0.2);
+}
+
+/* Testimonial Dark Mode */
+body.dark-mode .testimonial-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+}
+
+body.dark-mode .testimonial-text {
+    color: var(--text-primary);
+}
+
+body.dark-mode .testimonial-author {
+    color: var(--text-secondary);
+}
+
+/* Process Steps Dark Mode */
+body.dark-mode .process-step {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+}
+
+body.dark-mode .step-number {
+    background: var(--gradient-primary);
+    color: var(--bg-primary);
+}
+
+/* Stats Dark Mode */
+body.dark-mode .stat-number {
+    color: var(--text-primary);
+}
+
+body.dark-mode .stat-label {
+    color: var(--text-secondary);
+}
+
+/* Badge Dark Mode */
+body.dark-mode .feature-badge {
+    background: var(--accent-color);
+    color: var(--bg-primary);
+}
+
+/* Service Link Dark Mode */
+body.dark-mode .service-link {
+    color: var(--primary-color);
+}
+
+body.dark-mode .service-link:hover {
+    color: var(--secondary-color);
+}
+
+/* Mouse Tracker Dark Mode */
+body.dark-mode .mouse-tracker {
+    border-color: var(--primary-color);
+}
+
+/* Loading Skeleton Dark Mode */
+body.dark-mode .skeleton {
+    background: linear-gradient(90deg, var(--bg-tertiary) 25%, var(--bg-secondary) 50%, var(--bg-tertiary) 75%);
+}
+
+/* Neon Effect Dark Mode */
+body.dark-mode .neon-text {
+    text-shadow: 
+        0 0 7px var(--primary-color),
+        0 0 10px var(--primary-color),
+        0 0 21px var(--primary-color),
+        0 0 42px var(--secondary-color),
+        0 0 82px var(--secondary-color);
+}
+
+/* Scrollbar Dark Mode */
+body.dark-mode::-webkit-scrollbar {
+    width: 12px;
+    background: var(--bg-primary);
+}
+
+body.dark-mode::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+}
+
+body.dark-mode::-webkit-scrollbar-thumb {
+    background: var(--bg-tertiary);
+    border-radius: 6px;
+}
+
+body.dark-mode::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-color);
+}
+
+/* Smooth Transitions */
+body.dark-mode * {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}

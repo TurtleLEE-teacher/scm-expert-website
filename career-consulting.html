@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>커리어 컨설팅 - 이력서, 자소서, 면접 전문 컨설팅</title>
+    <meta name="description" content="글로벌 빅4 컨설팅펌 시니어 매니저의 1:1 커리어 컨설팅">
+    
+    <style>
+        /* 기본 리셋 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+            background: #0f0f0f;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+        
+        /* 프리로더 */
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0f0f0f;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s;
+        }
+        
+        .loader-modern {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: conic-gradient(transparent, #667eea);
+            animation: spin 1s linear infinite;
+            position: relative;
+        }
+        
+        .loader-modern::before {
+            content: '';
+            position: absolute;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #0f0f0f;
+            top: 6px;
+            left: 6px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* 파티클 배경 */
+        .particle-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(240, 147, 251, 0.4);
+            border-radius: 50%;
+            animation: float 15s infinite linear;
+        }
+        
+        @keyframes float {
+            from {
+                transform: translateY(100vh) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            to {
+                transform: translateY(-10vh) translateX(100px);
+                opacity: 0;
+            }
+        }
+        
+        /* 헤더 */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 20px 0;
+            background: rgba(15, 15, 15, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .navbar {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-brand h1 {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        /* 그라데이션 애니메이션 */
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        /* 히어로 섹션 */
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 100px 20px 50px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero-content {
+            text-align: center;
+            max-width: 900px;
+        }
+        
+        .badge {
+            display: inline-block;
+            background: rgba(240, 147, 251, 0.2);
+            border: 1px solid rgba(240, 147, 251, 0.5);
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: #f093fb;
+            margin-bottom: 20px;
+        }
+        
+        .hero-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            background-size: 200% 200%;
+            animation: gradientShift 5s ease infinite;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 2px 10px rgba(102, 126, 234, 0.3));
+        }
+        
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+        
+        /* 버튼 스타일 */
+        .btn {
+            padding: 15px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+        }
+        
+        /* 섹션 스타일 */
+        .section {
+            padding: 80px 20px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            text-align: center;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 50px;
+            font-size: 1.1rem;
+        }
+        
+        /* 카드 스타일 */
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.2);
+        }
+        
+        /* 프로세스 스텝 */
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .process-card {
+            text-align: center;
+            padding: 30px;
+        }
+        
+        .process-number {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 0 auto 20px;
+        }
+        
+        .process-title {
+            color: #fff;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        
+        .process-desc {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+        }
+        
+        /* 특징 그리드 */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .feature-card {
+            text-align: center;
+            padding: 30px;
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        
+        .feature-title {
+            color: #fff;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .feature-desc {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+        }
+        
+        /* 가격 카드 */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .price-card {
+            text-align: center;
+            padding: 40px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            position: relative;
+        }
+        
+        .price-card.featured {
+            transform: scale(1.05);
+            border: 2px solid #667eea;
+        }
+        
+        .price-title {
+            font-size: 1.5rem;
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+        
+        .price-amount {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+        
+        .price-desc {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 30px;
+            font-size: 0.9rem;
+        }
+        
+        .price-features {
+            list-style: none;
+            text-align: left;
+            margin-bottom: 30px;
+        }
+        
+        .price-features li {
+            color: rgba(255, 255, 255, 0.8);
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .price-features li:before {
+            content: "✓ ";
+            color: #667eea;
+            font-weight: bold;
+        }
+        
+        /* 성과 섹션 */
+        .achievement-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .achievement-card {
+            text-align: center;
+            padding: 30px;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 20px;
+        }
+        
+        .achievement-number {
+            font-size: 3rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .achievement-label {
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 10px;
+        }
+        
+        /* 후기 */
+        .review-card {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.03);
+            border-left: 4px solid #667eea;
+        }
+        
+        .review-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+        
+        .review-author {
+            color: rgba(255, 255, 255, 0.5);
+            text-align: right;
+        }
+        
+        /* 푸터 */
+        .footer {
+            padding: 40px 20px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        /* 스크롤 애니메이션 */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.23, 1, 0.320, 1);
+        }
+        
+        .scroll-reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* 반응형 */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .price-card.featured {
+                transform: scale(1);
+            }
+        }
+        
+        /* 플로팅 버튼 */
+        .floating-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #f093fb, #764ba2);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            box-shadow: 0 10px 30px rgba(240, 147, 251, 0.5);
+            z-index: 999;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+        
+        .floating-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(240, 147, 251, 0.7);
+        }
+    </style>
+</head>
+<body>
+    <!-- 프리로더 -->
+    <div class="preloader">
+        <div class="loader-modern"></div>
+    </div>
+    
+    <!-- 파티클 배경 -->
+    <div class="particle-bg" id="particleBg"></div>
+    
+    <!-- 헤더 -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <h1>이선생</h1>
+                </div>
+                <div style="display: flex; gap: 20px; align-items: center;">
+                    <a href="index.html" style="color: rgba(255,255,255,0.7); text-decoration: none; transition: color 0.3s;">메인</a>
+                    <span style="color: rgba(255,255,255,0.3);">|</span>
+                    <a href="scm-basic.html" style="color: rgba(255,255,255,0.7); text-decoration: none; transition: color 0.3s;">SCM 교육</a>
+                    <span style="color: rgba(255,255,255,0.3);">|</span>
+                    <span style="color: #f093fb;">커리어 컨설팅</span>
+                    <a href="#pricing" class="btn btn-primary" style="margin-left: 20px;">상담 신청</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+    
+    <!-- 히어로 섹션 -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <div class="badge">1:1 맞춤형 커리어 컨설팅</div>
+            <h1 class="hero-title">당신의 커리어,<br>다음 단계로</h1>
+            <p class="hero-subtitle">
+                글로벌 빅4 컨설팅펌 시니어 매니저가<br>
+                이력서부터 면접까지 완벽하게 준비해드립니다
+            </p>
+            <a href="#pricing" class="btn btn-primary">컨설팅 신청하기</a>
+        </div>
+    </section>
+    
+    <!-- 전문가 소개 섹션 -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">함께하는 전문가</h2>
+            
+            <div class="card" style="max-width: 900px; margin: 50px auto;">
+                <div style="display: grid; grid-template-columns: 250px 1fr; gap: 50px; align-items: center;">
+                    <div style="text-align: center;">
+                        <div style="width: 200px; height: 200px; margin: 0 auto; overflow: hidden; border-radius: 50%; border: 3px solid #f093fb;">
+                            <img src="images/portfolio/teacher.png" alt="이선생 프로필" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <h3 style="color: #f093fb; margin-top: 20px;">이선생</h3>
+                        <p style="color: rgba(255,255,255,0.6);">Big4 시니어 매니저</p>
+                    </div>
+                    <div>
+                        <h3 style="color: #fff; margin-bottom: 20px; font-size: 1.5rem;">
+                            연봉 306.25% 상승의 주인공
+                        </h3>
+                        <div style="background: rgba(240, 147, 251, 0.1); padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+                            <p style="font-size: 1.2rem; color: #f093fb; margin: 0;">
+                                2015년 2,983만원 → 2024년 1억 3,259만원
+                            </p>
+                        </div>
+                        <ul style="list-style: none; color: rgba(255,255,255,0.8); line-height: 2.2;">
+                            <li>✓ 현) 글로벌 Big 4 컨설팅펌 시니어 매니저</li>
+                            <li>✓ 전) 대기업 전자산업 구매/SCM 담당자</li>
+                            <li>✓ 한국생산성본부 SCM 부문 최연소 전문위원</li>
+                            <li>✓ 기업 신입/경력 면접관 실무 경험 보유</li>
+                            <li>✓ 2019년~ 현재 직무 멘토링 100회 이상 진행</li>
+                        </ul>
+                        
+                        <!-- 연봉 증명 이미지 -->
+                        <div style="margin-top: 30px; padding: 20px; background: rgba(255,255,255,0.05); border-radius: 10px;">
+                            <h4 style="color: #f093fb; margin-bottom: 15px; text-align: center;">연봉 상승 기록</h4>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                                <div style="text-align: center;">
+                                    <img src="images/portfolio/salary_2015.png" alt="2015년 연봉" style="max-width: 100%; height: auto; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+                                    <p style="color: rgba(255,255,255,0.7); margin-top: 10px; font-size: 0.9rem;">2015년 시작</p>
+                                </div>
+                                <div style="text-align: center;">
+                                    <img src="images/portfolio/2024년연봉22.png" alt="2024년 연봉" style="max-width: 100%; height: auto; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+                                    <p style="color: rgba(255,255,255,0.7); margin-top: 10px; font-size: 0.9rem;">2024년 현재</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 서비스 프로세스 -->
+    <section class="section" style="background: rgba(102, 126, 234, 0.05);">
+        <div class="container">
+            <h2 class="section-title">컨설팅 프로세스</h2>
+            <p class="section-subtitle">
+                체계적인 3단계 프로세스로 당신의 취업/이직을 성공으로 이끕니다
+            </p>
+            
+            <div class="process-grid">
+                <div class="process-card card">
+                    <div class="process-number">1</div>
+                    <h3 class="process-title">서류 분석 & 전략 수립</h3>
+                    <p class="process-desc">
+                        제출된 이력서와 자기소개서를 면밀히 분석하여
+                        지원 기업과 직무에 최적화된 개선 방향을 제시합니다
+                    </p>
+                </div>
+                
+                <div class="process-card card">
+                    <div class="process-number">2</div>
+                    <h3 class="process-title">1:1 맞춤형 피드백</h3>
+                    <p class="process-desc">
+                        온라인 화상 미팅을 통해 구체적인 피드백을 제공하고
+                        실제 면접관 관점에서의 조언을 전달합니다
+                    </p>
+                </div>
+                
+                <div class="process-card card">
+                    <div class="process-number">3</div>
+                    <h3 class="process-title">실전 모의면접</h3>
+                    <p class="process-desc">
+                        실제 면접과 동일한 환경에서 모의면접을 진행하고
+                        즉각적인 피드백으로 면접 스킬을 향상시킵니다
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 이런 분들께 추천 -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">이런 분들께 추천합니다</h2>
+            
+            <div class="features-grid">
+                <div class="feature-card card">
+                    <div class="feature-icon">🎓</div>
+                    <h3 class="feature-title">신입 취업 준비생</h3>
+                    <p class="feature-desc">
+                        "첫 취업이 막막해요"<br>
+                        "서류는 어떻게 써야 할까요?"<br>
+                        처음부터 올바른 방향으로 준비하세요
+                    </p>
+                </div>
+                
+                <div class="feature-card card">
+                    <div class="feature-icon">💼</div>
+                    <h3 class="feature-title">경력 이직 준비생</h3>
+                    <p class="feature-desc">
+                        "연봉을 더 높이고 싶어요"<br>
+                        "커리어 전환이 필요해요"<br>
+                        전략적인 이직으로 성장하세요
+                    </p>
+                </div>
+                
+                <div class="feature-card card">
+                    <div class="feature-icon">🚀</div>
+                    <h3 class="feature-title">면접 준비가 필요한 분</h3>
+                    <p class="feature-desc">
+                        "면접에서 떨어져요"<br>
+                        "무엇을 준비해야 할지 모르겠어요"<br>
+                        실전 경험으로 자신감을 얻으세요
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 성과 섹션 -->
+    <section class="section" style="background: linear-gradient(135deg, rgba(240, 147, 251, 0.05), rgba(102, 126, 234, 0.05));">
+        <div class="container">
+            <h2 class="section-title">검증된 성과</h2>
+            
+            <div class="achievement-grid">
+                <div class="achievement-card">
+                    <div class="achievement-number">100+</div>
+                    <div class="achievement-label">멘토링 진행</div>
+                </div>
+                
+                <div class="achievement-card">
+                    <div class="achievement-number">306%</div>
+                    <div class="achievement-label">연봉 상승률</div>
+                </div>
+                
+                <div class="achievement-card">
+                    <div class="achievement-number">Big4</div>
+                    <div class="achievement-label">컨설팅펌 재직</div>
+                </div>
+                
+                <div class="achievement-card">
+                    <div class="achievement-number">100%</div>
+                    <div class="achievement-label">만족도</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 가격 안내 -->
+    <section class="section" id="pricing">
+        <div class="container">
+            <h2 class="section-title">컨설팅 패키지</h2>
+            <p class="section-subtitle">
+                목표와 상황에 맞는 최적의 패키지를 선택하세요
+            </p>
+            
+            <div class="pricing-grid">
+                <div class="price-card card">
+                    <h3 class="price-title">STANDARD</h3>
+                    <p class="price-amount">150,000원</p>
+                    <p class="price-desc">이력서 검토 + 1:1 피드백</p>
+                    <ul class="price-features">
+                        <li>이력서/자소서 상세 검토</li>
+                        <li>맞춤형 커리어 방향성 수립</li>
+                        <li>1:1 온라인 피드백 (60분)</li>
+                        <li>작업일 3일</li>
+                    </ul>
+                    <a href="#" class="btn btn-primary" style="width: 100%;" onclick="alert('신청 페이지 준비중입니다. 문의: contact@scmexpert.com'); return false;">신청하기</a>
+                </div>
+                
+                <div class="price-card card featured">
+                    <div style="position: absolute; top: -15px; right: 20px; background: #f093fb; color: white; padding: 5px 20px; border-radius: 20px; font-size: 0.9rem;">
+                        인기
+                    </div>
+                    <h3 class="price-title">DELUXE</h3>
+                    <p class="price-amount">200,000원</p>
+                    <p class="price-desc">스탠다드 + 모의면접</p>
+                    <ul class="price-features">
+                        <li>스탠다드 서비스 전체 포함</li>
+                        <li>1차 피드백 기반 서류 개선</li>
+                        <li>실전 모의면접 진행</li>
+                        <li>2회 코칭 (각 60분)</li>
+                    </ul>
+                    <a href="#" class="btn btn-primary" style="width: 100%;" onclick="alert('신청 페이지 준비중입니다. 문의: contact@scmexpert.com'); return false;">신청하기</a>
+                </div>
+                
+                <div class="price-card card">
+                    <h3 class="price-title">PREMIUM</h3>
+                    <p class="price-amount">250,000원</p>
+                    <p class="price-desc">디럭스 + 심화 모의면접</p>
+                    <ul class="price-features">
+                        <li>디럭스 서비스 전체 포함</li>
+                        <li>추가 모의면접 진행</li>
+                        <li>3회 코칭 (각 60분)</li>
+                        <li>작업일 5일</li>
+                        <li>불합격 시 1회 추가 면접</li>
+                    </ul>
+                    <a href="#" class="btn btn-primary" style="width: 100%;" onclick="alert('신청 페이지 준비중입니다. 문의: contact@scmexpert.com'); return false;">신청하기</a>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 50px;">
+                <div style="display: inline-block; padding: 20px 40px; background: rgba(102, 126, 234, 0.1); border-radius: 10px;">
+                    <p style="color: #667eea; margin: 0; font-size: 1.1rem;">
+                        🎁 SCM 교육 수강생 특별 혜택<br>
+                        <span style="color: rgba(255,255,255,0.8);">모든 패키지 30% 할인</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 수강생 후기 -->
+    <section class="section" style="background: rgba(102, 126, 234, 0.05);">
+        <div class="container">
+            <h2 class="section-title">실제 수강생 후기</h2>
+            
+            <div class="review-card card">
+                <p class="review-text">
+                    "면접에서 챌린지 들어올 내용과 답변의 방향성을 제 이력서 기반으로 꼼꼼히 봐주셔서 큰 도움이 됐습니다! 
+                    이번 면접 뿐 아니라 다른 면접에서도 활용할 수 있을 것 같습니다."
+                </p>
+                <p class="review-author">- K님, 대기업 최종 합격</p>
+            </div>
+            
+            <div class="review-card card">
+                <p class="review-text">
+                    "현직자의 관점에서 매력적인 경험을 짚어주시고 고쳐야 할 부분을 명확히 말씀해주셔서 
+                    자존감이 조금은 올라간 것 같습니다. 시간을 넘겨서까지 도와주셔서 정말 감사했습니다!"
+                </p>
+                <p class="review-author">- 배님, 컨설팅펌 이직 성공</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- FAQ -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">자주 묻는 질문</h2>
+            
+            <div style="max-width: 800px; margin: 50px auto;">
+                <div class="card" style="margin-bottom: 20px;">
+                    <h3 style="color: #f093fb; margin-bottom: 15px;">Q. 비대면으로도 효과가 있나요?</h3>
+                    <p style="color: rgba(255,255,255,0.8); line-height: 1.6;">
+                        네, 모든 컨설팅은 온라인 화상 미팅으로 진행되며, 
+                        대면 못지않은 상세한 피드백과 실전 연습이 가능합니다.
+                    </p>
+                </div>
+                
+                <div class="card" style="margin-bottom: 20px;">
+                    <h3 style="color: #f093fb; margin-bottom: 15px;">Q. 어떤 직무에 특화되어 있나요?</h3>
+                    <p style="color: rgba(255,255,255,0.8); line-height: 1.6;">
+                        SCM, 구매/조달, 생산관리, 물류/유통, 경영컨설팅 분야에 특화되어 있으며,
+                        일반 경영지원 직무도 컨설팅 가능합니다.
+                    </p>
+                </div>
+                
+                <div class="card" style="margin-bottom: 20px;">
+                    <h3 style="color: #f093fb; margin-bottom: 15px;">Q. 서류 합격률이 얼마나 되나요?</h3>
+                    <p style="color: rgba(255,255,255,0.8); line-height: 1.6;">
+                        개인차가 있지만, 컨설팅을 받은 분들의 서류 합격률이 
+                        평균 3배 이상 향상되었습니다.
+                    </p>
+                </div>
+                
+                <div class="card">
+                    <h3 style="color: #f093fb; margin-bottom: 15px;">Q. 불합격하면 추가 컨설팅이 가능한가요?</h3>
+                    <p style="color: rgba(255,255,255,0.8); line-height: 1.6;">
+                        디럭스, 프리미엄 패키지는 1차 또는 최종 면접 불합격 시 
+                        1회 추가 면접/피드백을 무료로 제공합니다.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 마지막 CTA -->
+    <section class="section" style="background: linear-gradient(135deg, #f093fb 0%, #764ba2 100%); padding: 100px 20px;">
+        <div class="container" style="text-align: center;">
+            <h2 style="font-size: 2.5rem; margin-bottom: 20px; color: white;">
+                당신의 가치를 제대로 보여주세요
+            </h2>
+            <p style="font-size: 1.2rem; color: rgba(255,255,255,0.9); margin-bottom: 40px;">
+                이력서 한 장이 당신의 미래를 바꿀 수 있습니다
+            </p>
+            <a href="#pricing" class="btn" style="background: white; color: #764ba2; padding: 20px 50px; font-size: 1.1rem;">
+                지금 시작하기
+            </a>
+        </div>
+    </section>
+    
+    <!-- 푸터 -->
+    <footer class="footer">
+        <p>&copy; 2025 이선생. All rights reserved.</p>
+    </footer>
+    
+    <!-- 플로팅 신청 버튼 -->
+    <a href="#pricing" class="floating-btn">컨설팅 신청</a>
+    
+    <script>
+        // 파티클 생성
+        function createParticles() {
+            const particleBg = document.getElementById('particleBg');
+            
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+                particleBg.appendChild(particle);
+            }
+        }
+        
+        // 프리로더 숨기기
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.querySelector('.preloader').style.opacity = '0';
+                setTimeout(() => {
+                    document.querySelector('.preloader').style.display = 'none';
+                }, 500);
+            }, 1000);
+        });
+        
+        // 초기화
+        document.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+            
+            // 스크롤 애니메이션
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, observerOptions);
+            
+            // 모든 카드와 섹션에 애니메이션 적용
+            document.querySelectorAll('.card, .process-card, .feature-card, .price-card, .achievement-card, .review-card').forEach(el => {
+                el.classList.add('scroll-reveal');
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>
