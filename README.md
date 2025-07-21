@@ -71,20 +71,34 @@ php -S localhost:8000
 
 ```
 scm-expert-website/
-├── 📄 index.html              # 최적화된 메인 페이지
-├── 📄 career-consulting.html  # 커리어 컨설팅 페이지
-├── 📄 scm-basic.html         # SCM 기초 강의 페이지
+├── 📄 index.html              # 🎯 메인 랜딩 페이지
+├── 📄 career-consulting.html  # 💼 커리어 컨설팅 서비스 페이지
+├── 📄 scm-basic.html         # 📚 SCM 기초 강의 페이지
+├── 📄 _config.yml            # ⚙️ GitHub Pages 설정
+├── 📄 CLAUDE.md              # 🤖 Claude Code 프로젝트 지침
 ├── 📂 css/
-│   └── 📄 optimized.css      # 통합 최적화 스타일시트
+│   └── 📄 optimized.css      # 🎨 통합 최적화 스타일시트 (749+ 라인)
 ├── 📂 js/
-│   └── 📄 enhanced.js        # 고도화된 JavaScript
-├── 📂 images/                # 이미지 리소스
-├── 📂 includes/              # PHP 백엔드 클래스
-│   ├── 📄 config.php         # 보안 설정 관리
-│   ├── 📄 database.php       # 데이터베이스 연결
-│   └── 📄 notion-api.php     # Notion API 연동
-├── 📂 api/                   # API 엔드포인트
-└── 📄 .env.example           # 환경변수 템플릿
+│   └── 📄 enhanced.js        # ⚡ 고도화된 JavaScript (ES6+)
+├── 📂 images/                # 🖼️ 이미지 리소스
+│   ├── 📂 portfolio/         # 포트폴리오 관련 이미지
+│   └── 🏢 기업 로고 이미지들
+├── 📂 includes/              # 🔧 PHP 백엔드 클래스
+│   ├── 📄 config.php         # 🔐 보안 설정 관리
+│   ├── 📄 database.php       # 🗄️ SQLite 데이터베이스 연결
+│   ├── 📄 notion-api.php     # 📝 Notion API 연동 클래스
+│   ├── 📄 notion.php         # 🔗 Notion 통합 헬퍼
+│   └── 📄 email.php          # 📧 이메일 발송 기능
+├── 📂 api/                   # 🔌 API 엔드포인트
+│   ├── 📄 get-notion-schedule.php  # 📅 Notion 일정 조회
+│   ├── 📄 notion-config.php       # ⚙️ Notion 설정
+│   └── 📄 test-notion-api.php      # 🧪 API 테스트
+└── 📂 old/                   # 📦 아카이브 폴더
+    ├── 📂 css_archive/       # 이전 CSS 파일들
+    ├── 📂 js_archive/        # 이전 JavaScript 파일들
+    ├── 📂 html_archive/      # 백업 HTML 파일들
+    ├── 📂 documentation_archive/  # 프로젝트 문서 백업
+    └── 📂 backup_files/      # 개발 과정 백업 파일들
 ```
 
 ## 🔧 환경 설정
