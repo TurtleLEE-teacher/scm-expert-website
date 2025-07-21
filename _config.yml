@@ -1,0 +1,53 @@
+# GitHub Pages 설정
+title: "SCM 전문가 양성 - 강의 및 컨설팅"
+description: "글로벌 컨설팅펌 현직 컨설턴트가 제공하는 SCM 전문 강의와 커리어 컨설팅 서비스"
+baseurl: "/scm-expert-website"
+url: "https://turtlelee-teacher.github.io"
+
+# 플러그인
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+# 파일 제외
+exclude:
+  - README.md
+  - CHANGELOG.md
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+  - .env
+  - .env.example
+  - old/
+  - dd/
+  - logs/
+  - database/
+
+# 정적 파일 포함
+include:
+  - _redirects
+
+# 마크다운 설정
+markdown: kramdown
+highlighter: rouge
+
+# SEO 설정
+lang: ko
+author: SCM Expert
+twitter:
+  username: scmexpert
+facebook:
+  app_id: 
+  publisher: 
+  admins: 
+
+# Google Analytics (선택사항)
+# google_analytics: UA-XXXXXXXX-X
+
+# 소셜 미디어
+social:
+  name: SCM Expert
+  links:
+    - https://github.com/TurtleLEE-teacher
