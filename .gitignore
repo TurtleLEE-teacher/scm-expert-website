@@ -1,6 +1,13 @@
 # 환경 설정 파일
 .env
+.env.local
+.env.production
+.env.development
 config.local.php
+
+# 보안 파일
+*.key
+*.pem
 
 # 데이터베이스 파일
 *.db
