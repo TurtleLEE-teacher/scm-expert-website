@@ -13,7 +13,8 @@
       "mcp__context7__get-library-docs",
       "Bash",
       "WebFetch",
-      "mcp__github-mcp__get_file_contents"
+      "mcp__github-mcp__get_file_contents",
+      "mcp__github-mcp__create_or_update_file"
     ],
     "deny": []
   }

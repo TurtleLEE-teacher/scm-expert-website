@@ -341,12 +341,24 @@ class SCMWebsite {
         return regex.test(email);
     }
 
-    // 문의 폼 제출 (API 연동)
+    // 문의 폼 제출 (Notion API 연동)
     async submitContactForm(data) {
-        // 실제 구현 시 백엔드 API 연동
-        return new Promise((resolve) => {
-            setTimeout(() => resolve({ success: true }), 1000);
+        const response = await fetch('./api/contact-form.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(data)
         });
+        
+        const result = await response.json();
+        
+        if (!response.ok) {
+            throw new Error(result.error || '서버 오류가 발생했습니다.');
+        }
+        
+        return result;
     }
 
     // 알림 메시지 표시
