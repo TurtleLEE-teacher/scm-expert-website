@@ -1233,8 +1233,15 @@
                     const data = await response.json();
                     
                     if (data.success && data.data && data.data.length > 0) {
-                        notionData = data.data;
-                        console.log(`✅ Notion 데이터 로드 성공 (${data.totalCourses}개 강의)`);
+                        // schedule.json의 중첩 구조에서 실제 강의 스케줄 추출
+                        notionData = [];
+                        data.data.forEach(course => {
+                            if (course.schedule && course.schedule.length > 0) {
+                                notionData.push(...course.schedule);
+                            }
+                        });
+                        
+                        console.log(`✅ Notion 데이터 로드 성공 (${notionData.length}개 강의)`);
                         console.log(`📅 마지막 업데이트: ${new Date(data.lastUpdated).toLocaleString('ko-KR')}`);
                         console.log('데이터:', notionData);
                         
@@ -1242,9 +1249,11 @@
                         generateMonthTabs();
                         
                         // 초기 달력 표시 (첫 번째 강의가 있는 월로)
-                        const firstCourse = notionData[0];
-                        const firstDate = new Date(firstCourse.date);
-                        updateCalendar(firstDate.getMonth() + 1, firstDate.getFullYear());
+                        if (notionData.length > 0) {
+                            const firstCourse = notionData[0];
+                            const firstDate = new Date(firstCourse.date);
+                            updateCalendar(firstDate.getMonth() + 1, firstDate.getFullYear());
+                        }
                         return;
                     } else {
                         throw new Error('유효하지 않은 데이터 형식');
