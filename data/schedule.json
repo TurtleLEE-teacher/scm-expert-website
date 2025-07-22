@@ -2,76 +2,44 @@
   "success": true,
   "data": [
     {
-      "id": "course-1",
-      "title": "SCM 기초 완성 강의",
-      "category": "SCM 기초",
+      "name": "SCM 기초 완성 강의 - 2025년 1분기",
+      "date": "2025-02-03",
+      "tags": [
+        "SCM 기초 완성 강의 - 2025년 1분기",
+        "카테고리: SCM 기초",
+        "글로벌 컨설팅펌 현직 컨설턴트가 직접 가르치는 SCM 실무 기초 강의입니다. 실제 프로젝트 경험을 바탕으로 한 사례 중심 교육으로 진행됩니다."
+      ],
       "status": "모집중",
-      "startDate": "2025-02-03",
-      "endDate": "2025-03-03",
-      "price": 450000,
-      "discountPrice": 350000,
-      "maxStudents": 20,
-      "currentStudents": 15,
-      "description": "공급망 관리의 기초부터 실무까지 완벽 마스터",
-      "duration": "총 20시간",
-      "enrollmentStatus": "almost_full",
-      "daysUntilStart": 15,
-      "progress": 0,
-      "isActive": true,
-      "schedule": [
-        {
-          "name": "1주차",
-          "date": "2025-02-03",
-          "tags": [
-            "1주차: SCM(ERP) Overview",
-            "과제: SCM 프로세스 도식화"
-          ],
-          "status": "모집중",
-          "batch": "1분기"
-        },
-        {
-          "name": "2주차",
-          "date": "2025-02-10",
-          "tags": [
-            "2주차: Supply Chain Strategy",
-            "과제: 공급망 전략 분석"
-          ],
-          "status": "모집중",
-          "batch": "1분기"
-        },
-        {
-          "name": "3주차",
-          "date": "2025-02-17",
-          "tags": [
-            "3주차: SCP",
-            "과제: MRP 계산"
-          ],
-          "status": "모집중",
-          "batch": "1분기"
-        },
-        {
-          "name": "4주차",
-          "date": "2025-02-24",
-          "tags": [
-            "4주차: SCM-재무 Integration",
-            "과제: OTD 개선안"
-          ],
-          "status": "모집중",
-          "batch": "1분기"
-        },
-        {
-          "name": "5주차",
-          "date": "2025-03-03",
-          "tags": [
-            "5주차: 실무 프로젝트",
-            "과제: 종합 분석 보고서"
-          ],
-          "status": "모집중",
-          "batch": "1분기"
-        }
-      ]
+      "batch": "실제 Notion 데이터",
+      "notionData": {
+        "id": "23787a19-32c4-81aa-9d40-fc4e9a6270c1",
+        "title": "SCM 기초 완성 강의 - 2025년 1분기",
+        "category": "SCM 기초",
+        "status": "모집중",
+        "startDate": "2025-02-03",
+        "description": "글로벌 컨설팅펌 현직 컨설턴트가 직접 가르치는 SCM 실무 기초 강의입니다. 실제 프로젝트 경험을 바탕으로 한 사례 중심 교육으로 진행됩니다."
+      }
+    },
+    {
+      "name": "SCM 기초 완성 강의 - 2025년 1분기",
+      "date": "2025-02-03",
+      "tags": [
+        "SCM 기초 완성 강의 - 2025년 1분기",
+        "카테고리: SCM 기초",
+        "글로벌 컨설팅펌 현직 컨설턴트가 직접 가르치는 SCM 실무 기초 강의입니다. 실제 프로젝트 경험을 바탕으로 한 사례 중심 교육으로 진행됩니다."
+      ],
+      "status": "모집중",
+      "batch": "실제 Notion 데이터",
+      "notionData": {
+        "id": "23787a19-32c4-8126-aa63-e813140292af",
+        "title": "SCM 기초 완성 강의 - 2025년 1분기",
+        "category": "SCM 기초",
+        "status": "모집중",
+        "startDate": "2025-02-03",
+        "description": "글로벌 컨설팅펌 현직 컨설턴트가 직접 가르치는 SCM 실무 기초 강의입니다. 실제 프로젝트 경험을 바탕으로 한 사례 중심 교육으로 진행됩니다."
+      }
     }
   ],
-  "lastUpdated": "2025-01-22T10:00:00Z",
-  "totalCourses": 1
+  "lastUpdated": "2025-07-22T21:23:56.846Z",
+  "totalCourses": 2
 }
