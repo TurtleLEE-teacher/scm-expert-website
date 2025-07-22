@@ -1233,11 +1233,17 @@
                     const data = await response.json();
                     
                     if (data.success && data.data && data.data.length > 0) {
-                        // schedule.json의 중첩 구조에서 실제 강의 스케줄 추출
+                        // 데이터 구조 확인: 이미 평면화된 강의 데이터인지, 아니면 중첩 구조인지
                         notionData = [];
+                        
                         data.data.forEach(course => {
+                            // 중첩 구조 (course.schedule 배열이 있는 경우)
                             if (course.schedule && course.schedule.length > 0) {
                                 notionData.push(...course.schedule);
+                            } 
+                            // 평면 구조 (직접 강의 데이터인 경우)
+                            else if (course.date) {
+                                notionData.push(course);
                             }
                         });
                         
