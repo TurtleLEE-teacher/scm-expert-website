@@ -1429,7 +1429,9 @@
                                 <div class="calendar-event">${classData.name}</div>
                                 ${classData.tags.map(tag => {
                                     if (tag.includes('과제')) {
-                                        return `<div class="calendar-assignment">📋 ${tag.split(': ')[1]}</div>`;
+                                        const parts = tag.split(': ');
+                                        const assignment = parts.length > 1 ? parts[1] : tag;
+                                        return `<div class="calendar-assignment">📋 ${assignment}</div>`;
                                     }
                                     return '';
                                 }).join('')}
