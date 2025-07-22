@@ -1220,136 +1220,233 @@
             // 노션 데이터를 저장할 변수
             let notionData = [];
             
-            // 노션 데이터를 API에서 가져오는 함수
+            // 노션 데이터를 가져오는 함수 - 직접 Notion API 호출
             async function fetchNotionData() {
                 try {
-                    const response = await fetch('/api/get-notion-schedule.php');
-                    const result = await response.json();
+                    // Notion API 직접 호출
+                    console.log('Notion API 직접 호출 시도...');
                     
-                    if (result.success) {
-                        notionData = result.data;
-                        console.log('노션 데이터 로드 성공:', notionData);
+                    const response = await fetch('https://api.notion.com/v1/databases/23787a19-32c4-81bb-a2c1-d5f33256cc37/query', {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': 'Bearer secret_KaJcAIvtrwcPsFxvLXVNzzYDZ34zJb3cRLVb55K4U2f',
+                            'Notion-Version': '2022-06-28',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            page_size: 50,
+                            filter: {
+                                or: [
+                                    { property: '상태', select: { equals: '모집중' } },
+                                    { property: '상태', select: { equals: '진행중' } },
+                                    { property: '상태', select: { equals: '완료' } }
+                                ]
+                            },
+                            sorts: [
+                                { property: '개강일', direction: 'ascending' }
+                            ]
+                        })
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`Notion API 오류: ${response.status} ${response.statusText}`);
+                    }
+                    
+                    const data = await response.json();
+                    console.log('Notion API 응답:', data);
+                    
+                    // Notion 데이터를 캘린더 형식으로 변환
+                    notionData = convertNotionToCalendar(data.results);
+                    console.log('변환된 캘린더 데이터:', notionData);
+                    
+                    // 초기 달력 표시
+                    updateCalendar(8, 2025);
+                    
+                } catch (error) {
+                    console.error('Notion API 직접 호출 실패:', error.message);
+                    console.log('기본 데이터로 대체합니다.');
+                    loadDefaultData();
+                }
+                
+                // 향후 개발을 위한 주석 처리된 API 호출 코드
+                /*
+                try {
+                    // 로컬 개발 환경에서만 작동
+                    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+                        const response = await fetch('/api/get-notion-schedule.php');
                         
-                        // 초기 달력 표시
-                        updateCalendar(8, 2025);
-                    } else {
-                        console.error('노션 데이터 로드 실패:', result.error);
+                        if (!response.ok) {
+                            throw new Error(`HTTP ${response.status}: PHP 서버가 실행되지 않음`);
+                        }
+                        
+                        const result = await response.json();
+                        
+                        if (result.success) {
+                            notionData = result.data;
+                            console.log('노션 데이터 로드 성공:', notionData);
+                            updateCalendar(8, 2025);
+                            return;
+                        }
                     }
                 } catch (error) {
-                    console.error('API 호출 오류:', error);
+                    console.log('로컬 API 호출 실패, 기본 데이터 사용:', error.message);
+                }
+                
+                // 프로덕션 환경에서는 기본 데이터 사용
+                loadDefaultData();
+                */
+            }
+            
+            // Notion 데이터를 캘린더 형식으로 변환
+            function convertNotionToCalendar(notionResults) {
+                const calendarData = [];
+                
+                notionResults.forEach((course, index) => {
+                    const properties = course.properties;
                     
-                    // 오류 시 기본 데이터 사용
-                    notionData = [
-                        // 3기 - 완료
-                        {
-                            name: "1주차",
-                            date: "2025-05-09",
-                            tags: ["1주차 캠프: SCM(ERP) Overview", "1주차 과제: SCM 프로세스 도식"],
-                            status: "✅종료",
-                            batch: "3기"
-                        },
-                        {
-                            name: "2주차",
-                            date: "2025-05-16",
-                            tags: ["2주차 과제: SCM 이슈 분석 도출"],
-                            status: "✅종료",
-                            batch: "3기"
-                        },
-                        {
-                            name: "3주차",
-                            date: "2025-05-23",
-                            tags: ["3주차 캠프: 발표 및 SCP", "3주차 과제: 자동 손익계산서"],
-                            status: "✅종료",
-                            batch: "3기"
-                        },
-                        {
-                            name: "4주차",
-                            date: "2025-05-30",
-                            tags: ["4주차 과제: SCM PI 보고서"],
-                            status: "✅종료",
-                            batch: "3기"
-                        },
-                        {
-                            name: "5주차",
-                            date: "2025-06-06",
-                            tags: ["5주차 캠프: 발표 및 SCE"],
-                            status: "✅종료",
-                            batch: "3기"
-                        },
-                        // 4기 - 모집중
-                        {
-                            name: "1주차",
-                            date: "2025-08-01",
-                            tags: ["1주차: SCM(ERP) Overview", "과제: SCM 프로세스 도식화"],
-                            status: "모집중",
-                            batch: "4기"
-                        },
-                        {
-                            name: "2주차",
-                            date: "2025-08-08",
-                            tags: ["2주차: SCM 이슈 분석", "과제: 재고 분석"],
-                            status: "모집중",
-                            batch: "4기"
-                        },
-                        {
-                            name: "3주차",
-                            date: "2025-08-15",
-                            tags: ["3주차: SCP", "과제: MRP 계산"],
-                            status: "모집중",
-                            batch: "4기"
-                        },
-                        {
-                            name: "4주차",
-                            date: "2025-08-22",
-                            tags: ["4주차: SCM-재무 Integration", "과제: OTD 개선안"],
-                            status: "모집중",
-                            batch: "4기"
-                        },
-                        {
-                            name: "5주차",
-                            date: "2025-08-29",
-                            tags: ["5주차: 최종 발표", "최종 프로젝트 발표"],
-                            status: "모집중",
-                            batch: "4기"
-                        },
-                        // 5기 - 예정
-                        {
-                            name: "1주차",
-                            date: "2025-09-05",
-                            tags: ["1주차: SCM(ERP) Overview", "과제: SCM 프로세스 도식화"],
-                            status: "예정",
-                            batch: "5기"
-                        },
-                        {
-                            name: "2주차",
-                            date: "2025-09-12",
-                            tags: ["2주차: SCM 이슈 분석", "과제: 재고 분석"],
-                            status: "예정",
-                            batch: "5기"
-                        },
-                        {
-                            name: "3주차",
-                            date: "2025-09-19",
-                            tags: ["3주차: SCP", "과제: MRP 계산"],
-                            status: "예정",
-                            batch: "5기"
-                        },
-                        {
-                            name: "4주차",
-                            date: "2025-09-26",
-                            tags: ["4주차: SCM-재무 Integration", "과제: OTD 개선안"],
-                            status: "예정",
-                            batch: "5기"
-                        },
-                        {
-                            name: "5주차",
-                            date: "2025-10-10",
-                            tags: ["5주차: 최종 발표", "최종 프로젝트 발표"],
-                            status: "예정",
-                            batch: "5기"
-                        }
-                    ];
+                    // 속성 추출 (안전한 접근)
+                    const title = properties.강의명?.title?.[0]?.text?.content || `강의 ${index + 1}`;
+                    const category = properties.카테고리?.select?.name || 'SCM 기초';
+                    const status = properties.상태?.select?.name || '모집중';
+                    const startDate = properties.개강일?.date?.start;
+                    const endDate = properties.종료일?.date?.start;
+                    const description = properties.강의설명?.rich_text?.[0]?.text?.content || '';
                     
+                    // 날짜가 있는 경우에만 캘린더 이벤트 생성
+                    if (startDate) {
+                        calendarData.push({
+                            name: `${title}`,
+                            date: startDate,
+                            tags: [
+                                `${title}`,
+                                `카테고리: ${category}`,
+                                description || '상세 설명 없음'
+                            ],
+                            status: status,
+                            batch: "실제 데이터",
+                            notionData: {
+                                id: course.id,
+                                title,
+                                category,
+                                status,
+                                startDate,
+                                endDate,
+                                description
+                            }
+                        });
+                    }
+                });
+                
+                return calendarData;
+            }
+            
+            // 기본 데이터 로드 함수
+            function loadDefaultData() {
+                // 오류 시 기본 데이터 사용
+                notionData = [
+          {
+                    "name": "1주차",
+                    "date": "2025-02-03",
+                    "tags": [
+                              "1주차: SCM(ERP) Overview",
+                              "과제: SCM 프로세스 도식화"
+                    ],
+                    "status": "모집중",
+                    "batch": "1분기"
+          },
+          {
+                    "name": "2주차",
+                    "date": "2025-02-10",
+                    "tags": [
+                              "2주차: SCM 이슈 분석",
+                              "과제: 재고 분석"
+                    ],
+                    "status": "모집중",
+                    "batch": "1분기"
+          },
+          {
+                    "name": "3주차",
+                    "date": "2025-02-17",
+                    "tags": [
+                              "3주차: SCP",
+                              "과제: MRP 계산"
+                    ],
+                    "status": "모집중",
+                    "batch": "1분기"
+          },
+          {
+                    "name": "4주차",
+                    "date": "2025-02-24",
+                    "tags": [
+                              "4주차: SCM-재무 Integration",
+                              "과제: OTD 개선안"
+                    ],
+                    "status": "모집중",
+                    "batch": "1분기"
+          },
+          {
+                    "name": "5주차",
+                    "date": "2025-03-03",
+                    "tags": [
+                              "5주차: 최종 발표",
+                              "최종 프로젝트 발표"
+                    ],
+                    "status": "모집중",
+                    "batch": "1분기"
+          },
+          {
+                    "name": "1주차",
+                    "date": "2025-02-03",
+                    "tags": [
+                              "1주차: SCM(ERP) Overview",
+                              "과제: SCM 프로세스 도식화"
+                    ],
+                    "status": "모집중",
+                    "batch": "1분기"
+          },
+          {
+                    "name": "2주차",
+                    "date": "2025-02-10",
+                    "tags": [
+                              "2주차: SCM 이슈 분석",
+                              "과제: 재고 분석"
+                    ],
+                    "status": "모집중",
+                    "batch": "1분기"
+          },
+          {
+                    "name": "3주차",
+                    "date": "2025-02-17",
+                    "tags": [
+                              "3주차: SCP",
+                              "과제: MRP 계산"
+                    ],
+                    "status": "모집중",
+                    "batch": "1분기"
+          },
+          {
+                    "name": "4주차",
+                    "date": "2025-02-24",
+                    "tags": [
+                              "4주차: SCM-재무 Integration",
+                              "과제: OTD 개선안"
+                    ],
+                    "status": "모집중",
+                    "batch": "1분기"
+          },
+          {
+                    "name": "5주차",
+                    "date": "2025-03-03",
+                    "tags": [
+                              "5주차: 최종 발표",
+                              "최종 프로젝트 발표"
+                    ],
+                    "status": "모집중",
+                    "batch": "1분기"
+          }
+                ];
+                    
+                console.log('기본 데이터 로드 완료:', notionData);
                     // 기본 데이터로 달력 표시
                     updateCalendar(8, 2025);
                 }

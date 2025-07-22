@@ -1,0 +1,77 @@
+{
+  "success": true,
+  "data": [
+    {
+      "id": "course-1",
+      "title": "SCM 기초 완성 강의",
+      "category": "SCM 기초",
+      "status": "모집중",
+      "startDate": "2025-02-03",
+      "endDate": "2025-03-03",
+      "price": 450000,
+      "discountPrice": 350000,
+      "maxStudents": 20,
+      "currentStudents": 15,
+      "description": "공급망 관리의 기초부터 실무까지 완벽 마스터",
+      "duration": "총 20시간",
+      "enrollmentStatus": "almost_full",
+      "daysUntilStart": 15,
+      "progress": 0,
+      "isActive": true,
+      "schedule": [
+        {
+          "name": "1주차",
+          "date": "2025-02-03",
+          "tags": [
+            "1주차: SCM(ERP) Overview",
+            "과제: SCM 프로세스 도식화"
+          ],
+          "status": "모집중",
+          "batch": "1분기"
+        },
+        {
+          "name": "2주차",
+          "date": "2025-02-10",
+          "tags": [
+            "2주차: Supply Chain Strategy",
+            "과제: 공급망 전략 분석"
+          ],
+          "status": "모집중",
+          "batch": "1분기"
+        },
+        {
+          "name": "3주차",
+          "date": "2025-02-17",
+          "tags": [
+            "3주차: SCP",
+            "과제: MRP 계산"
+          ],
+          "status": "모집중",
+          "batch": "1분기"
+        },
+        {
+          "name": "4주차",
+          "date": "2025-02-24",
+          "tags": [
+            "4주차: SCM-재무 Integration",
+            "과제: OTD 개선안"
+          ],
+          "status": "모집중",
+          "batch": "1분기"
+        },
+        {
+          "name": "5주차",
+          "date": "2025-03-03",
+          "tags": [
+            "5주차: 실무 프로젝트",
+            "과제: 종합 분석 보고서"
+          ],
+          "status": "모집중",
+          "batch": "1분기"
+        }
+      ]
+    }
+  ],
+  "lastUpdated": "2025-01-22T10:00:00Z",
+  "totalCourses": 1
+}

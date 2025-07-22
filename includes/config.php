@@ -37,9 +37,12 @@ class Config {
     
     private function setDefaults() {
         $defaults = [
-            'NOTION_API_KEY' => 'your_notion_api_key_here',
+            'NOTION_API_KEY' => 'secret_KaJcAIvtrwcPsFxvLXVNzzYDZ34zJb3cRLVb55K4U2f',
             'NOTION_DATABASE_ID' => 'your_database_id_here',
-            'DB_TYPE' => 'sqlite',
+            'NOTION_INQUIRIES_DB_ID' => '23787a19-32c4-81c5-9df9-eb0bed62f1a8',
+            'NOTION_STUDENTS_DB_ID' => '23787a19-32c4-8129-9a6e-d7ed01c9424f',
+            'NOTION_COURSES_DB_ID' => '23787a1932c481bba2c1d5f33256cc37',
+            'DB_TYPE' => 'notion',
             'DB_PATH' => 'database/scm_expert.db',
             'ENVIRONMENT' => 'development',
             'DEBUG_MODE' => 'false',
@@ -126,6 +129,15 @@ if (!defined('NOTION_API_KEY')) {
 }
 if (!defined('NOTION_DATABASE_ID')) {
     define('NOTION_DATABASE_ID', config('NOTION_DATABASE_ID'));
+}
+if (!defined('INQUIRIES_DB_ID')) {
+    define('INQUIRIES_DB_ID', config('NOTION_INQUIRIES_DB_ID'));
+}
+if (!defined('STUDENTS_DB_ID')) {
+    define('STUDENTS_DB_ID', config('NOTION_STUDENTS_DB_ID'));
+}
+if (!defined('COURSES_DB_ID')) {
+    define('COURSES_DB_ID', config('NOTION_COURSES_DB_ID'));
 }
 if (!defined('DB_PATH')) {
     define('DB_PATH', config('DB_PATH'));
