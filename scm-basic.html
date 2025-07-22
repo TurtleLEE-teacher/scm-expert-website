@@ -1220,50 +1220,35 @@
             // 노션 데이터를 저장할 변수
             let notionData = [];
             
-            // 노션 데이터를 가져오는 함수 - 직접 Notion API 호출
+            // 노션 데이터를 가져오는 함수 - 안전한 정적 파일 방식
             async function fetchNotionData() {
                 try {
-                    // Notion API 직접 호출
-                    console.log('Notion API 직접 호출 시도...');
+                    // GitHub Actions로 자동 생성된 정적 JSON 파일에서 로드
+                    console.log('최신 Notion 데이터 로드 시도...');
                     
-                    const response = await fetch('https://api.notion.com/v1/databases/23787a19-32c4-81bb-a2c1-d5f33256cc37/query', {
-                        method: 'POST',
-                        headers: {
-                            'Authorization': 'Bearer secret_KaJcAIvtrwcPsFxvLXVNzzYDZ34zJb3cRLVb55K4U2f',
-                            'Notion-Version': '2022-06-28',
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            page_size: 50,
-                            filter: {
-                                or: [
-                                    { property: '상태', select: { equals: '모집중' } },
-                                    { property: '상태', select: { equals: '진행중' } },
-                                    { property: '상태', select: { equals: '완료' } }
-                                ]
-                            },
-                            sorts: [
-                                { property: '개강일', direction: 'ascending' }
-                            ]
-                        })
-                    });
+                    const response = await fetch('./data/schedule.json?t=' + Date.now());
                     
                     if (!response.ok) {
-                        throw new Error(`Notion API 오류: ${response.status} ${response.statusText}`);
+                        throw new Error(`데이터 로드 실패: ${response.status}`);
                     }
                     
                     const data = await response.json();
-                    console.log('Notion API 응답:', data);
                     
-                    // Notion 데이터를 캘린더 형식으로 변환
-                    notionData = convertNotionToCalendar(data.results);
-                    console.log('변환된 캘린더 데이터:', notionData);
-                    
-                    // 초기 달력 표시
-                    updateCalendar(8, 2025);
+                    if (data.success && data.data && data.data.length > 0) {
+                        notionData = data.data;
+                        console.log(`✅ Notion 데이터 로드 성공 (${data.totalCourses}개 강의)`);
+                        console.log(`📅 마지막 업데이트: ${new Date(data.lastUpdated).toLocaleString('ko-KR')}`);
+                        console.log('데이터:', notionData);
+                        
+                        // 초기 달력 표시
+                        updateCalendar(8, 2025);
+                        return;
+                    } else {
+                        throw new Error('유효하지 않은 데이터 형식');
+                    }
                     
                 } catch (error) {
-                    console.error('Notion API 직접 호출 실패:', error.message);
+                    console.warn('최신 데이터 로드 실패:', error.message);
                     console.log('기본 데이터로 대체합니다.');
                     loadDefaultData();
                 }
@@ -1297,48 +1282,6 @@
                 */
             }
             
-            // Notion 데이터를 캘린더 형식으로 변환
-            function convertNotionToCalendar(notionResults) {
-                const calendarData = [];
-                
-                notionResults.forEach((course, index) => {
-                    const properties = course.properties;
-                    
-                    // 속성 추출 (안전한 접근)
-                    const title = properties.강의명?.title?.[0]?.text?.content || `강의 ${index + 1}`;
-                    const category = properties.카테고리?.select?.name || 'SCM 기초';
-                    const status = properties.상태?.select?.name || '모집중';
-                    const startDate = properties.개강일?.date?.start;
-                    const endDate = properties.종료일?.date?.start;
-                    const description = properties.강의설명?.rich_text?.[0]?.text?.content || '';
-                    
-                    // 날짜가 있는 경우에만 캘린더 이벤트 생성
-                    if (startDate) {
-                        calendarData.push({
-                            name: `${title}`,
-                            date: startDate,
-                            tags: [
-                                `${title}`,
-                                `카테고리: ${category}`,
-                                description || '상세 설명 없음'
-                            ],
-                            status: status,
-                            batch: "실제 데이터",
-                            notionData: {
-                                id: course.id,
-                                title,
-                                category,
-                                status,
-                                startDate,
-                                endDate,
-                                description
-                            }
-                        });
-                    }
-                });
-                
-                return calendarData;
-            }
             
             // 기본 데이터 로드 함수
             function loadDefaultData() {

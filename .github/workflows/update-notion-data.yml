@@ -1,0 +1,102 @@
+name: Update Notion Data
+
+on:
+  schedule:
+    # 매일 오전 9시 (KST 기준 18시 UTC)에 자동 실행
+    - cron: '0 18 * * *'
+  workflow_dispatch: # 수동 실행 가능
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        
+    - name: Fetch Notion data
+      run: |
+        curl -X POST "https://api.notion.com/v1/databases/${{ secrets.NOTION_DATABASE_ID }}/query" \
+          -H "Authorization: Bearer ${{ secrets.NOTION_API_KEY }}" \
+          -H "Notion-Version: 2022-06-28" \
+          -H "Content-Type: application/json" \
+          -d '{
+            "page_size": 50,
+            "filter": {
+              "or": [
+                {"property": "상태", "select": {"equals": "모집중"}},
+                {"property": "상태", "select": {"equals": "진행중"}},
+                {"property": "상태", "select": {"equals": "완료"}}
+              ]
+            },
+            "sorts": [
+              {"property": "개강일", "direction": "ascending"}
+            ]
+          }' > notion-raw.json
+          
+    - name: Transform data to calendar format
+      run: |
+        node -e "
+        const fs = require('fs');
+        const rawData = JSON.parse(fs.readFileSync('notion-raw.json', 'utf8'));
+        
+        const calendarData = [];
+        
+        rawData.results.forEach((course, index) => {
+          const props = course.properties;
+          const title = props.강의명?.title?.[0]?.text?.content || \`강의 \${index + 1}\`;
+          const category = props.카테고리?.select?.name || 'SCM 기초';
+          const status = props.상태?.select?.name || '모집중';
+          const startDate = props.개강일?.date?.start;
+          const description = props.강의설명?.rich_text?.[0]?.text?.content || '';
+          
+          if (startDate) {
+            calendarData.push({
+              name: title,
+              date: startDate,
+              tags: [
+                title,
+                \`카테고리: \${category}\`,
+                description || '상세 설명 없음'
+              ],
+              status: status,
+              batch: '실제 Notion 데이터',
+              notionData: {
+                id: course.id,
+                title,
+                category,
+                status,
+                startDate,
+                description
+              }
+            });
+          }
+        });
+        
+        const output = {
+          success: true,
+          data: calendarData,
+          lastUpdated: new Date().toISOString(),
+          totalCourses: calendarData.length
+        };
+        
+        fs.writeFileSync('data/schedule.json', JSON.stringify(output, null, 2));
+        console.log(\`✅ \${calendarData.length}개 강의 데이터 업데이트 완료\`);
+        "
+        
+    - name: Commit and push if changed
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add data/schedule.json
+        if ! git diff --cached --exit-code; then
+          git commit -m "🔄 Notion 강의 데이터 자동 업데이트 $(date '+%Y-%m-%d %H:%M')"
+          git push
+        else
+          echo "데이터 변경사항 없음"
+        fi
