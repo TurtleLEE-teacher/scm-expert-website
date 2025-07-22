@@ -6,6 +6,9 @@ on:
     - cron: '0 18 * * *'
   workflow_dispatch: # 수동 실행 가능
 
+permissions:
+  contents: write  # 파일 수정 및 커밋 권한
+
 jobs:
   update-data:
     runs-on: ubuntu-latest
@@ -13,11 +16,17 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
       
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
         node-version: '18'
+        
+    - name: Create data directory
+      run: |
+        mkdir -p data
         
     - name: Fetch Notion data
       run: |
