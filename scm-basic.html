@@ -774,10 +774,8 @@
             </p>
             
             <!-- 월 선택 탭 -->
-            <div class="month-tabs">
-                <div class="month-tab" data-month="5" data-year="2025">5월 (완료)</div>
-                <div class="month-tab active" data-month="8" data-year="2025">8월 (모집중)</div>
-                <div class="month-tab" data-month="9" data-year="2025">9월 (예정)</div>
+            <div class="month-tabs" id="monthTabs">
+                <!-- 동적으로 생성됨 -->
             </div>
             
             <div class="batch-info" id="batchInfo">초급반 4기 - 8월</div>
@@ -1240,8 +1238,13 @@
                         console.log(`📅 마지막 업데이트: ${new Date(data.lastUpdated).toLocaleString('ko-KR')}`);
                         console.log('데이터:', notionData);
                         
-                        // 초기 달력 표시
-                        updateCalendar(8, 2025);
+                        // 동적 월 탭 생성
+                        generateMonthTabs();
+                        
+                        // 초기 달력 표시 (첫 번째 강의가 있는 월로)
+                        const firstCourse = notionData[0];
+                        const firstDate = new Date(firstCourse.date);
+                        updateCalendar(firstDate.getMonth() + 1, firstDate.getFullYear());
                         return;
                     } else {
                         throw new Error('유효하지 않은 데이터 형식');
@@ -1390,8 +1393,74 @@
                 ];
                     
                 console.log('기본 데이터 로드 완료:', notionData);
-                // 기본 데이터로 달력 표시
-                updateCalendar(8, 2025);
+                
+                // 동적 월 탭 생성
+                generateMonthTabs();
+                
+                // 기본 데이터로 달력 표시 (첫 번째 강의가 있는 월로)
+                const firstCourse = notionData[0];
+                const firstDate = new Date(firstCourse.date);
+                updateCalendar(firstDate.getMonth() + 1, firstDate.getFullYear());
+            }
+            
+            // 동적 월 탭 생성 함수
+            function generateMonthTabs() {
+                const monthTabs = document.getElementById('monthTabs');
+                if (!monthTabs || !notionData || notionData.length === 0) return;
+                
+                // 강의 데이터에서 월 정보 추출 및 중복 제거
+                const months = [...new Set(notionData.map(course => {
+                    const date = new Date(course.date);
+                    return {
+                        month: date.getMonth() + 1,
+                        year: date.getFullYear(),
+                        status: course.status || '예정'
+                    };
+                }).map(item => JSON.stringify(item)))].map(item => JSON.parse(item));
+                
+                // 날짜순 정렬
+                months.sort((a, b) => {
+                    if (a.year !== b.year) return a.year - b.year;
+                    return a.month - b.month;
+                });
+                
+                const monthNames = ['', '1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'];
+                
+                // 상태별 표시 텍스트
+                const getStatusText = (status) => {
+                    if (status.includes('완료') || status.includes('종료')) return '완료';
+                    if (status.includes('진행')) return '진행중';
+                    if (status.includes('모집')) return '모집중';
+                    return '예정';
+                };
+                
+                // 월 탭 HTML 생성
+                let tabsHTML = '';
+                months.forEach((monthInfo, index) => {
+                    const isActive = index === 0 ? 'active' : ''; // 첫 번째 탭을 활성화
+                    const statusText = getStatusText(monthInfo.status);
+                    tabsHTML += `
+                        <div class="month-tab ${isActive}" data-month="${monthInfo.month}" data-year="${monthInfo.year}">
+                            ${monthNames[monthInfo.month]} (${statusText})
+                        </div>
+                    `;
+                });
+                
+                monthTabs.innerHTML = tabsHTML;
+                
+                // 탭 클릭 이벤트 재등록
+                document.querySelectorAll('.month-tab').forEach(tab => {
+                    tab.addEventListener('click', function() {
+                        // 활성 탭 변경
+                        document.querySelectorAll('.month-tab').forEach(t => t.classList.remove('active'));
+                        this.classList.add('active');
+                        
+                        // 달력 업데이트
+                        const month = parseInt(this.dataset.month);
+                        const year = parseInt(this.dataset.year);
+                        updateCalendar(month, year);
+                    });
+                });
             }
             
             // 달력 동적 생성 함수
@@ -1492,20 +1561,6 @@
                 
                 calendarContainer.innerHTML = calendarHTML;
             }
-            
-            // 월 탭 클릭 이벤트
-            document.querySelectorAll('.month-tab').forEach(tab => {
-                tab.addEventListener('click', function() {
-                    // 활성 탭 변경
-                    document.querySelectorAll('.month-tab').forEach(t => t.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    // 달력 업데이트
-                    const month = parseInt(this.dataset.month);
-                    const year = parseInt(this.dataset.year);
-                    updateCalendar(month, year);
-                });
-            });
             
             // 페이지 로드 시 노션 데이터 가져오기
             fetchNotionData();
