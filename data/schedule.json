@@ -98,7 +98,7 @@
     },
     {
       "name": "SCM 심화 과정",
-      "date": "2026-01-07",
+      "date": "2026-01-21",
       "tags": [
         "SCM 심화 과정",
         "카테고리: 실무 프로젝트",
@@ -111,11 +111,11 @@
         "title": "SCM 심화 과정",
         "category": "실무 프로젝트",
         "status": "종료",
-        "startDate": "2026-01-07",
+        "startDate": "2026-01-21",
         "description": ""
       }
     }
   ],
-  "lastUpdated": "2025-07-23T04:45:23.916Z",
+  "lastUpdated": "2025-07-23T04:45:49.876Z",
   "totalCourses": 6
 }
