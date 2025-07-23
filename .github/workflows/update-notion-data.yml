@@ -57,11 +57,11 @@ jobs:
           const startDate = props.개강일?.date?.start;
           const description = props.강의설명?.rich_text?.[0]?.text?.content || '';
           
-          // 유효한 강의만 포함 (개강일이 있고, 삭제되지 않은 것)
-          if (startDate && !course.archived && !course.in_trash) {
+          // 삭제되지 않은 모든 강의 포함 (개강일 없어도 포함)
+          if (!course.archived && !course.in_trash) {
             calendarData.push({
               name: title,
-              date: startDate,
+              date: startDate || null,
               tags: [
                 title,
                 \`카테고리: \${category}\`,
