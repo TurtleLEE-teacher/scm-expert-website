@@ -78,8 +78,27 @@
       }
     },
     {
+      "name": "컨타도얍얍얍",
+      "date": "2025-09-12",
+      "tags": [
+        "컨타도얍얍얍",
+        "카테고리: 컨설팅 도구",
+        "상세 설명 없음"
+      ],
+      "status": "모집중",
+      "batch": "실제 Notion 데이터",
+      "notionData": {
+        "id": "23987a19-32c4-8028-9e95-efeffc6d5f49",
+        "title": "컨타도얍얍얍",
+        "category": "컨설팅 도구",
+        "status": "모집중",
+        "startDate": "2025-09-12",
+        "description": ""
+      }
+    },
+    {
       "name": "SCM 심화 과정",
-      "date": "2026-01-07",
+      "date": "2026-01-21",
       "tags": [
         "SCM 심화 과정",
         "카테고리: 실무 프로젝트",
@@ -92,11 +111,11 @@
         "title": "SCM 심화 과정",
         "category": "실무 프로젝트",
         "status": "종료",
-        "startDate": "2026-01-07",
+        "startDate": "2026-01-21",
         "description": ""
       }
     }
   ],
-  "lastUpdated": "2025-07-23T04:37:47.023Z",
-  "totalCourses": 5
+  "lastUpdated": "2025-07-23T04:45:49.876Z",
+  "totalCourses": 6
 }
