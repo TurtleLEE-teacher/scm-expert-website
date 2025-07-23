@@ -32,7 +32,8 @@
       "mcp__playwright-stealth__playwright_get_visible_text",
       "mcp__github-mcp__create_repository",
       "mcp__notionApi__API-post-database-query",
-      "mcp__playwright-stealth__playwright_get_visible_html"
+      "mcp__playwright-stealth__playwright_get_visible_html",
+      "mcp__playwright-stealth__playwright_get"
     ],
     "deny": []
   }
