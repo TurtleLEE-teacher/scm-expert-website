@@ -1255,6 +1255,12 @@
             // 노션 데이터를 저장할 변수
             let notionData = [];
             
+            // 시간대 안전한 날짜 파싱 함수
+            function parseDate(dateString) {
+                const [year, month, day] = dateString.split('-').map(Number);
+                return new Date(year, month - 1, day); // month는 0부터 시작
+            }
+            
             // 노션 데이터를 가져오는 함수 - 안전한 정적 파일 방식
             async function fetchNotionData() {
                 try {
@@ -1294,7 +1300,7 @@
                         // 초기 달력 표시 (첫 번째 강의가 있는 월로)
                         if (notionData.length > 0) {
                             const firstCourse = notionData[0];
-                            const firstDate = new Date(firstCourse.date);
+                            const firstDate = parseDate(firstCourse.date);
                             updateCalendar(firstDate.getMonth() + 1, firstDate.getFullYear());
                         }
                         return;
@@ -1451,7 +1457,7 @@
                 
                 // 기본 데이터로 달력 표시 (첫 번째 강의가 있는 월로)
                 const firstCourse = notionData[0];
-                const firstDate = new Date(firstCourse.date);
+                const firstDate = parseDate(firstCourse.date);
                 updateCalendar(firstDate.getMonth() + 1, firstDate.getFullYear());
             }
             
@@ -1462,7 +1468,7 @@
                 
                 // 강의 데이터에서 월 정보 추출 및 중복 제거
                 const months = [...new Set(notionData.map(course => {
-                    const date = new Date(course.date);
+                    const date = parseDate(course.date);
                     return {
                         month: date.getMonth() + 1,
                         year: date.getFullYear(),
@@ -1582,7 +1588,7 @@
                 
                 // 해당 월의 데이터 필터링
                 const monthData = notionData.filter(item => {
-                    const itemDate = new Date(item.date);
+                    const itemDate = parseDate(item.date);
                     return itemDate.getMonth() + 1 === month && itemDate.getFullYear() === year;
                 });
                 
@@ -1645,7 +1651,7 @@
                 
                 // 해당 월에 데이터가 있는지 확인
                 const hasDataForMonth = notionData && notionData.some(course => {
-                    const courseDate = new Date(course.date);
+                    const courseDate = parseDate(course.date);
                     return courseDate.getMonth() + 1 === newMonth && courseDate.getFullYear() === newYear;
                 });
                 
@@ -1686,7 +1692,7 @@
                 
                 // 이전/다음 월에 데이터가 있는지 확인
                 const hasPrevData = notionData.some(course => {
-                    const courseDate = new Date(course.date);
+                    const courseDate = parseDate(course.date);
                     let prevMonth = currentDisplayMonth - 1;
                     let prevYear = currentDisplayYear;
                     if (prevMonth < 1) {
@@ -1697,7 +1703,7 @@
                 });
                 
                 const hasNextData = notionData.some(course => {
-                    const courseDate = new Date(course.date);
+                    const courseDate = parseDate(course.date);
                     let nextMonth = currentDisplayMonth + 1;
                     let nextYear = currentDisplayYear;
                     if (nextMonth > 12) {
