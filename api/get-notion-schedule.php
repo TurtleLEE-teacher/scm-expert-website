@@ -72,31 +72,9 @@ class NotionScheduleAPI {
      */
     public function getScheduleData() {
         try {
-            // Notion 강의 데이터베이스에서 활성 강의 조회
+            // Notion 강의 데이터베이스에서 모든 강의 조회 (필터 제거)
             $queryData = [
                 'page_size' => 50,
-                'filter' => [
-                    'or' => [
-                        [
-                            'property' => '상태',
-                            'select' => [
-                                'equals' => '모집중'
-                            ]
-                        ],
-                        [
-                            'property' => '상태',
-                            'select' => [
-                                'equals' => '진행중'
-                            ]
-                        ],
-                        [
-                            'property' => '상태',
-                            'select' => [
-                                'equals' => '완료'
-                            ]
-                        ]
-                    ]
-                ],
                 'sorts' => [
                     [
                         'property' => '개강일',
@@ -130,7 +108,7 @@ class NotionScheduleAPI {
                     'id' => $course['id'],
                     'title' => $title ?: 'SCM 기초 완성 강의',
                     'category' => $category ?: 'SCM 기초',
-                    'status' => $status ?: '모집중',
+                    'status' => $status ?: '준비중',
                     'startDate' => $startDate,
                     'endDate' => $endDate,
                     'price' => $price ?: 450000,
@@ -142,7 +120,7 @@ class NotionScheduleAPI {
                     'enrollmentStatus' => $this->getEnrollmentStatus($status, $currentStudents, $maxStudents),
                     'daysUntilStart' => $this->getDaysUntilStart($startDate),
                     'progress' => $this->getProgress($startDate, $endDate, $status),
-                    'isActive' => in_array($status, ['모집중', '진행중'])
+                    'isActive' => in_array($status ?: '준비중', ['모집중', '진행중', '준비중'])
                 ];
                 
                 $scheduleData[] = $courseData;
