@@ -40,7 +40,9 @@ jobs:
               "or": [
                 {"property": "상태", "select": {"equals": "모집중"}},
                 {"property": "상태", "select": {"equals": "진행중"}},
-                {"property": "상태", "select": {"equals": "완료"}}
+                {"property": "상태", "select": {"equals": "완료"}},
+                {"property": "상태", "select": {"equals": "준비중"}},
+                {"property": "상태", "select": {"is_empty": true}}
               ]
             },
             "sorts": [
@@ -60,7 +62,7 @@ jobs:
           const props = course.properties;
           const title = props.강의명?.title?.[0]?.text?.content || \`강의 \${index + 1}\`;
           const category = props.카테고리?.select?.name || 'SCM 기초';
-          const status = props.상태?.select?.name || '모집중';
+          const status = props.상태?.select?.name || '준비중';
           const startDate = props.개강일?.date?.start;
           const description = props.강의설명?.rich_text?.[0]?.text?.content || '';
           
