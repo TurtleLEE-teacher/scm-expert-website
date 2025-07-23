@@ -1627,8 +1627,8 @@
             let currentDisplayMonth = null;
             let currentDisplayYear = null;
             
-            // 달력 네비게이션 함수
-            function navigateMonth(direction) {
+            // 달력 네비게이션 함수 (전역 스코프)
+            window.navigateMonth = function(direction) {
                 if (!currentDisplayMonth || !currentDisplayYear) return;
                 
                 let newMonth = currentDisplayMonth + direction;
@@ -1664,7 +1664,7 @@
                     // 데이터가 없는 월로 이동 시도 시 알림
                     console.log(`${newYear}년 ${newMonth}월에는 강의 데이터가 없습니다.`);
                 }
-            }
+            };
             
             // updateCalendar 함수 수정하여 현재 월/년도 추적
             const originalUpdateCalendar = updateCalendar;
@@ -1675,10 +1675,10 @@
                 
                 // 네비게이션 버튼 상태 업데이트
                 updateNavigationButtons();
-            }
+            };
             
             // 네비게이션 버튼 상태 업데이트 함수
-            function updateNavigationButtons() {
+            window.updateNavigationButtons = function() {
                 const prevBtn = document.getElementById('prevMonth');
                 const nextBtn = document.getElementById('nextMonth');
                 
@@ -1709,7 +1709,7 @@
                 
                 prevBtn.disabled = !hasPrevData;
                 nextBtn.disabled = !hasNextData;
-            }
+            };
             
             // 페이지 로드 시 노션 데이터 가져오기
             fetchNotionData();
