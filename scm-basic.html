@@ -1303,7 +1303,9 @@
                         // 초기 달력 표시 (첫 번째 강의가 있는 월로)
                         if (notionData.length > 0) {
                             const firstCourse = notionData[0];
-                            const firstDate = parseDate(firstCourse.date);
+                            // 시간대 안전한 날짜 파싱 (인라인)
+                            const [year, month, day] = firstCourse.date.split('-').map(Number);
+                            const firstDate = new Date(year, month - 1, day);
                             updateCalendar(firstDate.getMonth() + 1, firstDate.getFullYear());
                         }
                         return;
@@ -1460,7 +1462,9 @@
                 
                 // 기본 데이터로 달력 표시 (첫 번째 강의가 있는 월로)
                 const firstCourse = notionData[0];
-                const firstDate = parseDate(firstCourse.date);
+                // 시간대 안전한 날짜 파싱 (인라인)
+                const [year, month, day] = firstCourse.date.split('-').map(Number);
+                const firstDate = new Date(year, month - 1, day);
                 updateCalendar(firstDate.getMonth() + 1, firstDate.getFullYear());
             }
             
@@ -1471,7 +1475,9 @@
                 
                 // 강의 데이터에서 월 정보 추출 및 중복 제거
                 const months = [...new Set(notionData.map(course => {
-                    const date = parseDate(course.date);
+                    // 시간대 안전한 날짜 파싱 (인라인)
+                    const [year, month, day] = course.date.split('-').map(Number);
+                    const date = new Date(year, month - 1, day);
                     return {
                         month: date.getMonth() + 1,
                         year: date.getFullYear(),
@@ -1557,6 +1563,12 @@
                     // 해당 날짜에 수업이 있는지 확인
                     const classData = data.find(item => item.date === dateString);
                     
+                    // 8월 14일 TEST2 특별 디버깅
+                    if (targetMonth === 8 && day === 14) {
+                        console.log(`🎯 8월 14일 특별 확인: ${dateString}`);
+                        console.log('TEST2 데이터 찾기 시도:', data.find(item => item.name === 'TEST2'));
+                        console.log('해당 날짜 데이터:', classData);
+                    }
                     console.log(`캘린더 ${day}일 확인: ${dateString}, 데이터 찾음:`, classData ? classData.name : '없음');
                     
                     if (classData) {
@@ -1593,7 +1605,9 @@
                 
                 // 해당 월의 데이터 필터링
                 const monthData = notionData.filter(item => {
-                    const itemDate = parseDate(item.date);
+                    // 시간대 안전한 날짜 파싱 (인라인)
+                    const [itemYear, itemMonth, itemDay] = item.date.split('-').map(Number);
+                    const itemDate = new Date(itemYear, itemMonth - 1, itemDay);
                     return itemDate.getMonth() + 1 === month && itemDate.getFullYear() === year;
                 });
                 
@@ -1656,7 +1670,9 @@
                 
                 // 해당 월에 데이터가 있는지 확인
                 const hasDataForMonth = notionData && notionData.some(course => {
-                    const courseDate = parseDate(course.date);
+                    // 시간대 안전한 날짜 파싱 (인라인)
+                    const [courseYear, courseMonth, courseDay] = course.date.split('-').map(Number);
+                    const courseDate = new Date(courseYear, courseMonth - 1, courseDay);
                     return courseDate.getMonth() + 1 === newMonth && courseDate.getFullYear() === newYear;
                 });
                 
@@ -1697,7 +1713,9 @@
                 
                 // 이전/다음 월에 데이터가 있는지 확인
                 const hasPrevData = notionData.some(course => {
-                    const courseDate = parseDate(course.date);
+                    // 시간대 안전한 날짜 파싱 (인라인)
+                    const [courseYear, courseMonth, courseDay] = course.date.split('-').map(Number);
+                    const courseDate = new Date(courseYear, courseMonth - 1, courseDay);
                     let prevMonth = currentDisplayMonth - 1;
                     let prevYear = currentDisplayYear;
                     if (prevMonth < 1) {
@@ -1708,7 +1726,9 @@
                 });
                 
                 const hasNextData = notionData.some(course => {
-                    const courseDate = parseDate(course.date);
+                    // 시간대 안전한 날짜 파싱 (인라인)
+                    const [courseYear, courseMonth, courseDay] = course.date.split('-').map(Number);
+                    const courseDate = new Date(courseYear, courseMonth - 1, courseDay);
                     let nextMonth = currentDisplayMonth + 1;
                     let nextYear = currentDisplayYear;
                     if (nextMonth > 12) {
