@@ -36,15 +36,6 @@ jobs:
           -H "Content-Type: application/json" \
           -d '{
             "page_size": 50,
-            "filter": {
-              "or": [
-                {"property": "상태", "select": {"equals": "모집중"}},
-                {"property": "상태", "select": {"equals": "진행중"}},
-                {"property": "상태", "select": {"equals": "완료"}},
-                {"property": "상태", "select": {"equals": "준비중"}},
-                {"property": "상태", "select": {"is_empty": true}}
-              ]
-            },
             "sorts": [
               {"property": "개강일", "direction": "ascending"}
             ]
@@ -66,7 +57,8 @@ jobs:
           const startDate = props.개강일?.date?.start;
           const description = props.강의설명?.rich_text?.[0]?.text?.content || '';
           
-          if (startDate) {
+          // 유효한 강의만 포함 (개강일이 있고, 삭제되지 않은 것)
+          if (startDate && !course.archived && !course.in_trash) {
             calendarData.push({
               name: title,
               date: startDate,
