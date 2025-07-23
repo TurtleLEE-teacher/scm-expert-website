@@ -57,8 +57,46 @@
         "startDate": "2025-07-25",
         "description": ""
       }
+    },
+    {
+      "name": "TEST2",
+      "date": "2025-08-14",
+      "tags": [
+        "TEST2",
+        "카테고리: 커리어 개발",
+        "상세 설명 없음"
+      ],
+      "status": "진행중",
+      "batch": "실제 Notion 데이터",
+      "notionData": {
+        "id": "23987a19-32c4-8003-8ff7-c0050946e7d4",
+        "title": "TEST2",
+        "category": "커리어 개발",
+        "status": "진행중",
+        "startDate": "2025-08-14",
+        "description": ""
+      }
+    },
+    {
+      "name": "SCM 심화 과정",
+      "date": "2026-01-07",
+      "tags": [
+        "SCM 심화 과정",
+        "카테고리: 실무 프로젝트",
+        "상세 설명 없음"
+      ],
+      "status": "종료",
+      "batch": "실제 Notion 데이터",
+      "notionData": {
+        "id": "23987a19-32c4-80dc-b3ce-cf953bfd1520",
+        "title": "SCM 심화 과정",
+        "category": "실무 프로젝트",
+        "status": "종료",
+        "startDate": "2026-01-07",
+        "description": ""
+      }
     }
   ],
-  "lastUpdated": "2025-07-23T04:10:40.809Z",
-  "totalCourses": 3
+  "lastUpdated": "2025-07-23T04:37:47.023Z",
+  "totalCourses": 5
 }
