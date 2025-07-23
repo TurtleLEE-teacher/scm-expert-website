@@ -1255,11 +1255,14 @@
             // 노션 데이터를 저장할 변수
             let notionData = [];
             
-            // 시간대 안전한 날짜 파싱 함수
+            // 시간대 안전한 날짜 파싱 함수 - 날짜 하루 밀림 방지
             function parseDate(dateString) {
                 const [year, month, day] = dateString.split('-').map(Number);
-                return new Date(year, month - 1, day); // month는 0부터 시작
+                return new Date(year, month - 1, day); // month는 0부터 시작하므로 -1
             }
+            
+            // 파싱 함수가 로드되었는지 확인용
+            console.log('✅ parseDate 함수 로드됨:', new Date().toLocaleString());
             
             // 노션 데이터를 가져오는 함수 - 안전한 정적 파일 방식
             async function fetchNotionData() {
@@ -1548,11 +1551,13 @@
                 
                 // 실제 날짜
                 for (let day = 1; day <= daysInMonth; day++) {
-                    const currentDate = new Date(targetYear, targetMonth - 1, day);
-                    const dateString = currentDate.toISOString().split('T')[0];
+                    // 시간대 문제 해결을 위한 수정된 날짜 문자열 생성
+                    const dateString = `${targetYear}-${String(targetMonth).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
                     
                     // 해당 날짜에 수업이 있는지 확인
                     const classData = data.find(item => item.date === dateString);
+                    
+                    console.log(`캘린더 ${day}일 확인: ${dateString}, 데이터 찾음:`, classData ? classData.name : '없음');
                     
                     if (classData) {
                         calendarHTML += `
