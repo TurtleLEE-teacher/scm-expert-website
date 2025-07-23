@@ -1,271 +1,269 @@
 <?php
-// ?�러 ?�시 ?�정 (?�버깅용)
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+/**
+ * Notion 강의 일정 API 엔드포인트
+ * scm-basic.html의 달력과 연동하여 동적 스케줄 제공
+ */
 
-header('Content-Type: application/json');
+header('Content-Type: application/json; charset=utf-8');
 header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type');
 
-// ?�정 ?�일 로드
-$config_file = __DIR__ . '/notion-config.php';
-if (!file_exists($config_file)) {
-    die(json_encode(['success' => false, 'error' => 'Config file not found: ' . $config_file]));
-}
-require_once $config_file;
-
-// ?�션 API ?�정
-$notion_api_key = defined('NOTION_API_KEY') ? NOTION_API_KEY : null;
-$database_id = '90504dff75564d87869867326c6a5743';
-
-// API ???�인
-if (!$notion_api_key || $notion_api_key === 'secret_KaJcAIvtrwcPsFxvLXVNzzYDZ34zJb3cRLVb55K4U2f') {
-    die(json_encode(['success' => false, 'error' => 'Notion API key not configured']));
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    exit(0);
 }
 
-// ?�션 API ?�출 ?�수
-function getNotionData($database_id, $api_key) {
-    $url = "https://api.notion.com/v1/databases/{$database_id}/query";
-    
-    $headers = [
-        'Authorization: Bearer ' . $api_key,
-        'Content-Type: application/json',
-        'Notion-Version: 2022-06-28'
-    ];
-    
-    // ?�버�? ?�청 ?�보 로그
-    error_log("Notion API URL: " . $url);
-    error_log("API Key (first 10 chars): " . substr($api_key, 0, 10) . "...");
-    
-    $ch = curl_init($url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([]));
-    
-    // SSL 검�?(개발 ?�경?�서�?
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-    
-    $response = curl_exec($ch);
-    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    $error = curl_error($ch);
-    curl_close($ch);
-    
-    if ($error) {
-        return ['error' => 'CURL Error: ' . $error];
-    }
-    
-    if ($http_code !== 200) {
-        return ['error' => 'HTTP Error: ' . $http_code, 'response' => $response];
-    }
-    
-    return json_decode($response, true);
-}
+require_once __DIR__ . '/../includes/config.php';
 
-// ?�이???�맷???�수
-function formatNotionData($notion_response) {
-    if (isset($notion_response['error'])) {
-        return $notion_response;
+class NotionScheduleAPI {
+    private $apiKey;
+    private $courseDbId;
+    private $apiVersion = '2022-06-28';
+    
+    public function __construct() {
+        $this->apiKey = NOTION_API_KEY;
+        $this->courseDbId = COURSES_DB_ID;
     }
     
-    $formatted_data = [];
+    /**
+     * Notion API 호출
+     */
+    private function callNotionAPI($endpoint, $method = 'GET', $data = null) {
+        $url = 'https://api.notion.com/v1' . $endpoint;
+        
+        $headers = [
+            'Authorization: Bearer ' . $this->apiKey,
+            'Notion-Version: ' . $this->apiVersion,
+            'Content-Type: application/json'
+        ];
+        
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+        
+        if ($data) {
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+        }
+        
+        $response = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $error = curl_error($ch);
+        curl_close($ch);
+        
+        if ($error) {
+            throw new Exception('cURL 오류: ' . $error);
+        }
+        
+        $result = json_decode($response, true);
+        
+        if ($httpCode >= 400) {
+            throw new Exception('Notion API 오류: ' . ($result['message'] ?? 'Unknown error'));
+        }
+        
+        return $result;
+    }
     
-    if (isset($notion_response['results'])) {
-        foreach ($notion_response['results'] as $item) {
-            $properties = $item['properties'];
+    /**
+     * 강의 일정 조회 및 포맷팅
+     */
+    public function getScheduleData() {
+        try {
+            // Notion 강의 데이터베이스에서 활성 강의 조회
+            $queryData = [
+                'page_size' => 50,
+                'filter' => [
+                    'or' => [
+                        [
+                            'property' => '상태',
+                            'select' => [
+                                'equals' => '모집중'
+                            ]
+                        ],
+                        [
+                            'property' => '상태',
+                            'select' => [
+                                'equals' => '진행중'
+                            ]
+                        ],
+                        [
+                            'property' => '상태',
+                            'select' => [
+                                'equals' => '완료'
+                            ]
+                        ]
+                    ]
+                ],
+                'sorts' => [
+                    [
+                        'property' => '개강일',
+                        'direction' => 'ascending'
+                    ]
+                ]
+            ];
             
-            // ?�짜 추출
-            $date = null;
-            if (isset($properties['캠프 ?�짜']['date']['start'])) {
-                $date = $properties['캠프 ?�짜']['date']['start'];
+            $response = $this->callNotionAPI('/databases/' . $this->courseDbId . '/query', 'POST', $queryData);
+            
+            $scheduleData = [];
+            
+            foreach ($response['results'] as $course) {
+                $properties = $course['properties'];
+                
+                // 속성 추출
+                $title = $this->extractText($properties['강의명'] ?? null);
+                $category = $this->extractSelect($properties['카테고리'] ?? null);
+                $status = $this->extractSelect($properties['상태'] ?? null);
+                $startDate = $this->extractDate($properties['개강일'] ?? null);
+                $endDate = $this->extractDate($properties['종료일'] ?? null);
+                $maxStudents = $this->extractNumber($properties['최대인원'] ?? null);
+                $currentStudents = $this->extractNumber($properties['현재등록인원'] ?? null);
+                $price = $this->extractNumber($properties['가격'] ?? null);
+                $discountPrice = $this->extractNumber($properties['할인가격'] ?? null);
+                $description = $this->extractText($properties['강의설명'] ?? null);
+                $duration = $this->extractText($properties['강의시간'] ?? null);
+                
+                // 스케줄 데이터 구조화
+                $courseData = [
+                    'id' => $course['id'],
+                    'title' => $title ?: 'SCM 기초 완성 강의',
+                    'category' => $category ?: 'SCM 기초',
+                    'status' => $status ?: '모집중',
+                    'startDate' => $startDate,
+                    'endDate' => $endDate,
+                    'price' => $price ?: 450000,
+                    'discountPrice' => $discountPrice,
+                    'maxStudents' => $maxStudents ?: 20,
+                    'currentStudents' => $currentStudents ?: 0,
+                    'description' => $description ?: '',
+                    'duration' => $duration ?: '총 20시간',
+                    'enrollmentStatus' => $this->getEnrollmentStatus($status, $currentStudents, $maxStudents),
+                    'daysUntilStart' => $this->getDaysUntilStart($startDate),
+                    'progress' => $this->getProgress($startDate, $endDate, $status),
+                    'isActive' => in_array($status, ['모집중', '진행중'])
+                ];
+                
+                $scheduleData[] = $courseData;
             }
             
-            // ?�름 추출
-            $name = '';
-            if (isset($properties['?�름']['title'][0]['plain_text'])) {
-                $name = $properties['?�름']['title'][0]['plain_text'];
-            }
+            return [
+                'success' => true,
+                'data' => $scheduleData,
+                'lastUpdated' => date('Y-m-d H:i:s'),
+                'totalCourses' => count($scheduleData)
+            ];
             
-            // ?�그 추출
-            $tags = [];
-            if (isset($properties['?�그']['multi_select'])) {
-                foreach ($properties['?�그']['multi_select'] as $tag) {
-                    $tags[] = $tag['name'];
-                }
-            }
-            
-            // ?�태 추출
-            $status = '';
-            if (isset($properties['진행 ?�태']['formula']['string'])) {
-                $status = $properties['진행 ?�태']['formula']['string'];
-            }
-            
-            // 기수 ?�단 (?�짜 기반)
-            $batch = '';
-            if ($date) {
-                $month = date('n', strtotime($date));
-                if ($month == 5) $batch = '3�?;
-                elseif ($month == 8) $batch = '4�?;
-                elseif ($month == 9) $batch = '5�?;
-            }
-            
-            $formatted_data[] = [
-                'name' => $name,
-                'date' => $date,
-                'tags' => $tags,
-                'status' => $status,
-                'batch' => $batch
+        } catch (Exception $e) {
+            return [
+                'success' => false,
+                'error' => $e->getMessage(),
+                'data' => []
             ];
         }
     }
     
-    // ?�짜???�렬
-    usort($formatted_data, function($a, $b) {
-        return strtotime($a['date']) - strtotime($b['date']);
-    });
-    
-    return $formatted_data;
-}
-
-// 메인 ?�행
-try {
-    // ?�제 ?�션 ?�이??가?�오�?    if ($notion_api_key && $notion_api_key !== 'secret_KaJcAIvtrwcPsFxvLXVNzzYDZ34zJb3cRLVb55K4U2f') {
-        // ?�제 ?�션 API ?�출
-        $notion_response = getNotionData($database_id, $notion_api_key);
+    /**
+     * 텍스트 속성 추출
+     */
+    private function extractText($property) {
+        if (!$property) return '';
         
-        // ?�러 체크
-        if (isset($notion_response['error'])) {
-            // ?�세???�러 ?�보 반환
-            echo json_encode([
-                'success' => false, 
-                'error' => $notion_response['error'],
-                'details' => isset($notion_response['response']) ? json_decode($notion_response['response'], true) : null,
-                'database_id' => $database_id
-            ]);
-            exit;
+        if ($property['type'] === 'title' && !empty($property['title'])) {
+            return $property['title'][0]['text']['content'] ?? '';
         }
         
-        $formatted_data = formatNotionData($notion_response);
-        echo json_encode(['success' => true, 'data' => $formatted_data, 'source' => 'notion']);
-    } else {
-        // ?��? ?�이??반환 (?�스?�용)
-        $dummy_data = [
-            // 3�?- ?�료
-            [
-                'name' => '1주차',
-                'date' => '2025-05-06',
-                'tags' => ['1주차: SCM(ERP) Overview', '과제: SCM ?�로?�스 ?�식'],
-                'status' => '?�종�?,
-                'batch' => '3�?
-            ],
-            [
-                'name' => '2주차',
-                'date' => '2025-05-16',
-                'tags' => ['2주차: SCM ?�슈 분석', '과제: SCM ?�슈 분석 ?�출'],
-                'status' => '?�종�?,
-                'batch' => '3�?
-            ],
-            [
-                'name' => '3주차',
-                'date' => '2025-05-23',
-                'tags' => ['3주차: 발표 �?SCP', '과제: ?�동 ?�익계산??],
-                'status' => '?�종�?,
-                'batch' => '3�?
-            ],
-            [
-                'name' => '4주차',
-                'date' => '2025-05-30',
-                'tags' => ['4주차: SCM PI', '과제: SCM PI 보고??],
-                'status' => '?�종�?,
-                'batch' => '3�?
-            ],
-            [
-                'name' => '5주차',
-                'date' => '2025-06-06',
-                'tags' => ['5주차: 발표 �?SCE'],
-                'status' => '?�종�?,
-                'batch' => '3�?
-            ],
-            // 4�?- 모집�?            [
-                'name' => '1주차',
-                'date' => '2025-08-01',
-                'tags' => ['1주차: SCM(ERP) Overview', '과제: SCM ?�로?�스 ?�식??],
-                'status' => '모집�?,
-                'batch' => '4�?
-            ],
-            [
-                'name' => '2주차',
-                'date' => '2025-08-08',
-                'tags' => ['2주차: SCM ?�슈 분석', '과제: ?�고 분석'],
-                'status' => '모집�?,
-                'batch' => '4�?
-            ],
-            [
-                'name' => '3주차',
-                'date' => '2025-08-15',
-                'tags' => ['3주차: SCP', '과제: MRP 계산'],
-                'status' => '모집�?,
-                'batch' => '4�?
-            ],
-            [
-                'name' => '4주차',
-                'date' => '2025-08-22',
-                'tags' => ['4주차: SCM-?�무 Integration', '과제: OTD 개선??],
-                'status' => '모집�?,
-                'batch' => '4�?
-            ],
-            [
-                'name' => '5주차',
-                'date' => '2025-08-29',
-                'tags' => ['5주차: 최종 발표', '최종 ?�로?�트 발표'],
-                'status' => '모집�?,
-                'batch' => '4�?
-            ],
-            // 5�?- ?�정
-            [
-                'name' => '1주차',
-                'date' => '2025-09-05',
-                'tags' => ['1주차: SCM(ERP) Overview', '과제: SCM ?�로?�스 ?�식??],
-                'status' => '?�정',
-                'batch' => '5�?
-            ],
-            [
-                'name' => '2주차',
-                'date' => '2025-09-12',
-                'tags' => ['2주차: SCM ?�슈 분석', '과제: ?�고 분석'],
-                'status' => '?�정',
-                'batch' => '5�?
-            ],
-            [
-                'name' => '3주차',
-                'date' => '2025-09-19',
-                'tags' => ['3주차: SCP', '과제: MRP 계산'],
-                'status' => '?�정',
-                'batch' => '5�?
-            ],
-            [
-                'name' => '4주차',
-                'date' => '2025-09-26',
-                'tags' => ['4주차: SCM-?�무 Integration', '과제: OTD 개선??],
-                'status' => '?�정',
-                'batch' => '5�?
-            ],
-            [
-                'name' => '5주차',
-                'date' => '2025-10-10',
-                'tags' => ['5주차: 최종 발표', '최종 ?�로?�트 발표'],
-                'status' => '?�정',
-                'batch' => '5�?
-            ]
-        ];
-        echo json_encode(['success' => true, 'data' => $dummy_data]);
-    } else {
-        // ?�제 ?�션 API ?�출
-        $notion_response = getNotionData($database_id, $notion_api_key);
-        $formatted_data = formatNotionData($notion_response);
-        echo json_encode(['success' => true, 'data' => $formatted_data]);
+        if ($property['type'] === 'rich_text' && !empty($property['rich_text'])) {
+            return $property['rich_text'][0]['text']['content'] ?? '';
+        }
+        
+        return '';
     }
+    
+    /**
+     * 선택 속성 추출
+     */
+    private function extractSelect($property) {
+        if (!$property || $property['type'] !== 'select') return '';
+        return $property['select']['name'] ?? '';
+    }
+    
+    /**
+     * 날짜 속성 추출
+     */
+    private function extractDate($property) {
+        if (!$property || $property['type'] !== 'date') return null;
+        return $property['date']['start'] ?? null;
+    }
+    
+    /**
+     * 숫자 속성 추출
+     */
+    private function extractNumber($property) {
+        if (!$property || $property['type'] !== 'number') return 0;
+        return $property['number'] ?? 0;
+    }
+    
+    /**
+     * 모집 상태 계산
+     */
+    private function getEnrollmentStatus($status, $current, $max) {
+        if ($status === '완료') return 'completed';
+        if ($status === '진행중') return 'ongoing';
+        if ($current >= $max) return 'full';
+        if ($current / $max >= 0.8) return 'almost_full';
+        return 'available';
+    }
+    
+    /**
+     * 개강까지 남은 일수 계산
+     */
+    private function getDaysUntilStart($startDate) {
+        if (!$startDate) return null;
+        
+        $start = new DateTime($startDate);
+        $now = new DateTime();
+        $diff = $now->diff($start);
+        
+        return $start > $now ? $diff->days : -$diff->days;
+    }
+    
+    /**
+     * 강의 진행률 계산
+     */
+    private function getProgress($startDate, $endDate, $status) {
+        if (!$startDate || !$endDate) return 0;
+        
+        $start = new DateTime($startDate);
+        $end = new DateTime($endDate);
+        $now = new DateTime();
+        
+        if ($status === '완료') return 100;
+        if ($now < $start) return 0;
+        if ($now > $end) return 100;
+        
+        $total = $start->diff($end)->days;
+        $elapsed = $start->diff($now)->days;
+        
+        return $total > 0 ? min(100, round(($elapsed / $total) * 100)) : 0;
+    }
+}
+
+// API 실행
+try {
+    $api = new NotionScheduleAPI();
+    $result = $api->getScheduleData();
+    
+    // JSON 응답 출력
+    echo json_encode($result, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+    
 } catch (Exception $e) {
-    echo json_encode(['success' => false, 'error' => $e->getMessage()]);
+    http_response_code(500);
+    echo json_encode([
+        'success' => false,
+        'error' => $e->getMessage(),
+        'data' => []
+    ], JSON_UNESCAPED_UNICODE);
 }
 ?>

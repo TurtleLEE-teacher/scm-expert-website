@@ -2,7 +2,7 @@
 // 노션 API 설정
 // 이 파일은 .gitignore에 추가하여 버전 관리에서 제외해야 합니다
 
-define('NOTION_API_KEY', 'YOUR_NOTION_API_KEY_HERE');
+define('NOTION_API_KEY', 'secret_KaJcAIvtrwcPsFxvLXVNzzYDZ34zJb3cRLVb55K4U2f');
 define('NOTION_VERSION', '2022-06-28');
 
 // 노션 통합(Integration) 생성 방법:

@@ -440,8 +440,42 @@
         }
         
         .calendar-header {
-            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 30px;
+            padding: 0 10px;
+        }
+        
+        .calendar-title {
+            text-align: center;
+            flex: 1;
+        }
+        
+        .calendar-nav-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            color: rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+        
+        .calendar-nav-btn:hover {
+            background: rgba(102, 126, 234, 0.2);
+            border-color: rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+        
+        .calendar-nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
         }
         
         .calendar-month {
@@ -589,8 +623,11 @@
         .month-tabs {
             display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 15px;
             margin-bottom: 30px;
+            flex-wrap: wrap;
+            max-width: 100%;
+            padding: 0 20px;
         }
         
         .month-tab {
@@ -1449,14 +1486,19 @@
                     return '예정';
                 };
                 
-                // 월 탭 HTML 생성
+                // 월 탭 HTML 생성 (년도 포함)
                 let tabsHTML = '';
                 months.forEach((monthInfo, index) => {
                     const isActive = index === 0 ? 'active' : ''; // 첫 번째 탭을 활성화
                     const statusText = getStatusText(monthInfo.status);
+                    
+                    // 년도 표시 (현재 년도가 아닌 경우만)
+                    const currentYear = new Date().getFullYear();
+                    const yearText = monthInfo.year !== currentYear ? ` ${monthInfo.year}` : '';
+                    
                     tabsHTML += `
                         <div class="month-tab ${isActive}" data-month="${monthInfo.month}" data-year="${monthInfo.year}">
-                            ${monthNames[monthInfo.month]} (${statusText})
+                            ${monthNames[monthInfo.month]}${yearText} (${statusText})
                         </div>
                     `;
                 });
@@ -1556,8 +1598,12 @@
                 // 달력 HTML 생성
                 const calendarHTML = `
                     <div class="calendar-header">
-                        <div class="calendar-month">${month}월</div>
-                        <div class="calendar-year">${year}년</div>
+                        <button class="calendar-nav-btn" id="prevMonth" onclick="navigateMonth(-1)">‹</button>
+                        <div class="calendar-title">
+                            <div class="calendar-month">${month}월</div>
+                            <div class="calendar-year">${year}년</div>
+                        </div>
+                        <button class="calendar-nav-btn" id="nextMonth" onclick="navigateMonth(1)">›</button>
                     </div>
                     <div class="calendar-grid">
                         ${generateDynamicCalendar(monthData, month, year)}
@@ -1575,6 +1621,94 @@
                 `;
                 
                 calendarContainer.innerHTML = calendarHTML;
+            }
+            
+            // 현재 표시 중인 월/년도 추적 변수
+            let currentDisplayMonth = null;
+            let currentDisplayYear = null;
+            
+            // 달력 네비게이션 함수
+            function navigateMonth(direction) {
+                if (!currentDisplayMonth || !currentDisplayYear) return;
+                
+                let newMonth = currentDisplayMonth + direction;
+                let newYear = currentDisplayYear;
+                
+                // 월 범위 조정
+                if (newMonth > 12) {
+                    newMonth = 1;
+                    newYear++;
+                } else if (newMonth < 1) {
+                    newMonth = 12;
+                    newYear--;
+                }
+                
+                // 해당 월에 데이터가 있는지 확인
+                const hasDataForMonth = notionData && notionData.some(course => {
+                    const courseDate = new Date(course.date);
+                    return courseDate.getMonth() + 1 === newMonth && courseDate.getFullYear() === newYear;
+                });
+                
+                if (hasDataForMonth) {
+                    // 해당 월 탭 활성화
+                    const targetTab = document.querySelector(`.month-tab[data-month="${newMonth}"][data-year="${newYear}"]`);
+                    if (targetTab) {
+                        // 기존 활성 탭 제거
+                        document.querySelectorAll('.month-tab').forEach(tab => tab.classList.remove('active'));
+                        // 새 탭 활성화
+                        targetTab.classList.add('active');
+                        // 달력 업데이트
+                        updateCalendar(newMonth, newYear);
+                    }
+                } else {
+                    // 데이터가 없는 월로 이동 시도 시 알림
+                    console.log(`${newYear}년 ${newMonth}월에는 강의 데이터가 없습니다.`);
+                }
+            }
+            
+            // updateCalendar 함수 수정하여 현재 월/년도 추적
+            const originalUpdateCalendar = updateCalendar;
+            updateCalendar = function(month, year) {
+                currentDisplayMonth = month;
+                currentDisplayYear = year;
+                originalUpdateCalendar(month, year);
+                
+                // 네비게이션 버튼 상태 업데이트
+                updateNavigationButtons();
+            }
+            
+            // 네비게이션 버튼 상태 업데이트 함수
+            function updateNavigationButtons() {
+                const prevBtn = document.getElementById('prevMonth');
+                const nextBtn = document.getElementById('nextMonth');
+                
+                if (!prevBtn || !nextBtn || !notionData) return;
+                
+                // 이전/다음 월에 데이터가 있는지 확인
+                const hasPrevData = notionData.some(course => {
+                    const courseDate = new Date(course.date);
+                    let prevMonth = currentDisplayMonth - 1;
+                    let prevYear = currentDisplayYear;
+                    if (prevMonth < 1) {
+                        prevMonth = 12;
+                        prevYear--;
+                    }
+                    return courseDate.getMonth() + 1 === prevMonth && courseDate.getFullYear() === prevYear;
+                });
+                
+                const hasNextData = notionData.some(course => {
+                    const courseDate = new Date(course.date);
+                    let nextMonth = currentDisplayMonth + 1;
+                    let nextYear = currentDisplayYear;
+                    if (nextMonth > 12) {
+                        nextMonth = 1;
+                        nextYear++;
+                    }
+                    return courseDate.getMonth() + 1 === nextMonth && courseDate.getFullYear() === nextYear;
+                });
+                
+                prevBtn.disabled = !hasPrevData;
+                nextBtn.disabled = !hasNextData;
             }
             
             // 페이지 로드 시 노션 데이터 가져오기

@@ -14,7 +14,23 @@
       "Bash",
       "WebFetch",
       "mcp__github-mcp__get_file_contents",
-      "mcp__github-mcp__create_or_update_file"
+      "mcp__github-mcp__create_or_update_file",
+      "mcp__github-mcp__search_code",
+      "mcp__sequential-thinking__sequentialthinking",
+      "mcp__playwright-stealth__playwright_navigate",
+      "mcp__playwright-stealth__playwright_screenshot",
+      "mcp__playwright-stealth__playwright_evaluate",
+      "mcp__playwright-stealth__playwright_fill",
+      "mcp__playwright-stealth__playwright_select",
+      "mcp__playwright-stealth__playwright_click",
+      "mcp__playwright-stealth__playwright_press_key",
+      "mcp__playwright-stealth__playwright_close",
+      "mcp__notionApi__API-retrieve-a-database",
+      "mcp__mem0-memory-mcp__search-memories",
+      "mcp__notionApi__API-get-self",
+      "mcp__playwright-stealth__playwright_console_logs",
+      "mcp__playwright-stealth__playwright_get_visible_text",
+      "mcp__github-mcp__create_repository"
     ],
     "deny": []
   }
