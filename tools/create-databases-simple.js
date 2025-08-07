@@ -1,12 +1,29 @@
 /**
- * Notion 데이터베이스 생성 스크립트 (Node.js)
- * SCM 웹사이트용 3개 데이터베이스를 Notion API로 생성합니다.
+ * 간단한 Notion 데이터베이스 생성 스크립트
+ * 사용자가 메인 페이지를 먼저 생성한 후 페이지 ID를 입력하면 실행
  */
 
 const https = require('https');
 
-const NOTION_API_KEY = 'secret_KaJcAIvtrwcPsFxvLXVNzzYDZ34zJb3cRLVb55K4U2f';
+const NOTION_API_KEY = process.env.NOTION_API_KEY || 'your_notion_api_key_here';
 const NOTION_API_VERSION = '2022-06-28';
+
+// 명령행 인자에서 페이지 ID 받기
+const parentPageId = process.argv[2];
+
+if (!parentPageId) {
+    console.log('🚨 사용법: node create-databases-simple.js <페이지_ID>');
+    console.log('');
+    console.log('📌 먼저 다음 단계를 완료하세요:');
+    console.log('1. Notion에서 새 페이지 생성');
+    console.log('2. 페이지 제목: "SCM 웹사이트 관리"');
+    console.log('3. 페이지 URL에서 ID 복사 (32자리 영숫자)');
+    console.log('4. 이 스크립트를 다시 실행: node create-databases-simple.js <페이지_ID>');
+    process.exit(1);
+}
+
+console.log(`📋 메인 페이지 ID: ${parentPageId}`);
+console.log('🚀 데이터베이스 생성을 시작합니다...\n');
 
 // Notion API 호출 함수
 function callNotionAPI(endpoint, method = 'GET', data = null) {
@@ -53,69 +70,16 @@ function callNotionAPI(endpoint, method = 'GET', data = null) {
     });
 }
 
-// 메인 페이지 생성
-async function createMainPage() {
-    console.log('🚀 SCM 웹사이트 관리 페이지 생성 중...');
-    
-    const pageData = {
-        parent: { type: 'page_id', page_id: null }, // workspace root
-        properties: {
-            title: {
-                title: [
-                    {
-                        text: { content: 'SCM 웹사이트 관리' }
-                    }
-                ]
-            }
-        },
-        children: [
-            {
-                object: 'block',
-                type: 'heading_1',
-                heading_1: {
-                    rich_text: [
-                        {
-                            type: 'text',
-                            text: { content: '🎓 SCM 전문가 웹사이트 관리 시스템' }
-                        }
-                    ]
-                }
-            },
-            {
-                object: 'block',
-                type: 'paragraph',
-                paragraph: {
-                    rich_text: [
-                        {
-                            type: 'text',
-                            text: { content: '이 페이지는 SCM 웹사이트의 고객 관리 및 데이터베이스를 통합 관리합니다.' }
-                        }
-                    ]
-                }
-            }
-        ]
-    };
-
-    try {
-        const result = await callNotionAPI('/v1/pages', 'POST', pageData);
-        console.log('✅ 메인 페이지 생성 완료:', result.id);
-        return result.id;
-    } catch (error) {
-        console.error('❌ 메인 페이지 생성 실패:', error);
-        throw error;
-    }
-}
-
 // 문의사항 데이터베이스 생성
 async function createInquiriesDatabase(parentId) {
-    console.log('\n📋 문의사항 데이터베이스 생성 중...');
+    console.log('📋 문의사항 데이터베이스 생성 중...');
     
     const databaseData = {
         parent: { type: 'page_id', page_id: parentId },
         title: [
             {
                 type: 'text',
-                text: { content: 'SCM 웹사이트 문의사항' }
+                text: { content: '문의사항 관리' }
             }
         ],
         properties: {
@@ -165,7 +129,9 @@ async function createInquiriesDatabase(parentId) {
 
     try {
         const result = await callNotionAPI('/v1/databases', 'POST', databaseData);
-        console.log('✅ 문의사항 데이터베이스 생성 완료:', result.id);
+        console.log('✅ 문의사항 데이터베이스 생성 완료');
+        console.log(`   ID: ${result.id}`);
+        console.log(`   URL: ${result.url}`);
         return result.id;
     } catch (error) {
         console.error('❌ 문의사항 데이터베이스 생성 실패:', error);
@@ -182,7 +148,7 @@ async function createStudentsDatabase(parentId) {
         title: [
             {
                 type: 'text',
-                text: { content: 'SCM 수강생 관리' }
+                text: { content: '수강생 관리' }
             }
         ],
         properties: {
@@ -231,7 +197,9 @@ async function createStudentsDatabase(parentId) {
 
     try {
         const result = await callNotionAPI('/v1/databases', 'POST', databaseData);
-        console.log('✅ 수강생 관리 데이터베이스 생성 완료:', result.id);
+        console.log('✅ 수강생 관리 데이터베이스 생성 완료');
+        console.log(`   ID: ${result.id}`);
+        console.log(`   URL: ${result.url}`);
         return result.id;
     } catch (error) {
         console.error('❌ 수강생 관리 데이터베이스 생성 실패:', error);
@@ -248,7 +216,7 @@ async function createCoursesDatabase(parentId) {
         title: [
             {
                 type: 'text',
-                text: { content: 'SCM 강의 관리' }
+                text: { content: '강의 관리' }
             }
         ],
         properties: {
@@ -312,7 +280,9 @@ async function createCoursesDatabase(parentId) {
 
     try {
         const result = await callNotionAPI('/v1/databases', 'POST', databaseData);
-        console.log('✅ 강의 관리 데이터베이스 생성 완료:', result.id);
+        console.log('✅ 강의 관리 데이터베이스 생성 완료');
+        console.log(`   ID: ${result.id}`);
+        console.log(`   URL: ${result.url}`);
         return result.id;
     } catch (error) {
         console.error('❌ 강의 관리 데이터베이스 생성 실패:', error);
@@ -323,33 +293,25 @@ async function createCoursesDatabase(parentId) {
 // 메인 실행 함수
 async function createAllDatabases() {
     try {
-        console.log('🚀 SCM 웹사이트 Notion 데이터베이스 생성을 시작합니다...\n');
-        
-        // 1. 메인 페이지 생성
-        const mainPageId = await createMainPage();
-        
-        // 2. 데이터베이스들 생성
-        const inquiriesId = await createInquiriesDatabase(mainPageId);
-        const studentsId = await createStudentsDatabase(mainPageId);
-        const coursesId = await createCoursesDatabase(mainPageId);
+        const inquiriesId = await createInquiriesDatabase(parentPageId);
+        const studentsId = await createStudentsDatabase(parentPageId);
+        const coursesId = await createCoursesDatabase(parentPageId);
         
         console.log('\n' + '='.repeat(70));
-        console.log('✅ 모든 데이터베이스 생성이 완료되었습니다!');
+        console.log('🎉 모든 데이터베이스 생성이 완료되었습니다!');
         console.log('='.repeat(70));
         
-        console.log('\n📋 생성된 데이터베이스 ID:');
-        console.log(`메인 페이지 ID: ${mainPageId}`);
-        console.log(`문의사항 DB ID: ${inquiriesId}`);
-        console.log(`수강생 관리 DB ID: ${studentsId}`);
-        console.log(`강의 관리 DB ID: ${coursesId}`);
+        console.log('\n📋 생성된 데이터베이스 ID (config.php에 설정하세요):');
+        console.log(`NOTION_INQUIRIES_DB_ID="${inquiriesId}"`);
+        console.log(`NOTION_STUDENTS_DB_ID="${studentsId}"`);
+        console.log(`NOTION_COURSES_DB_ID="${coursesId}"`);
         
         console.log('\n📌 다음 단계:');
-        console.log('1. config.php 파일에 위 ID들을 설정하세요');
-        console.log('2. 웹사이트에서 문의 폼 테스트를 진행하세요');
-        console.log('3. Notion에서 실시간 데이터 동기화를 확인하세요');
+        console.log('1. includes/config.php 파일의 기본값을 위 ID들로 교체');
+        console.log('2. 웹사이트에서 문의 폼 테스트 진행');
+        console.log('3. Notion에서 실시간 데이터 동기화 확인');
         
         return {
-            mainPageId,
             inquiriesId,
             studentsId,
             coursesId
@@ -362,8 +324,4 @@ async function createAllDatabases() {
 }
 
 // 스크립트 실행
-if (require.main === module) {
-    createAllDatabases();
-}
-
-module.exports = { createAllDatabases };
+createAllDatabases();

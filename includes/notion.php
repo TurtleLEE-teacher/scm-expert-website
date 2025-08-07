@@ -303,44 +303,29 @@ class NotionAPI {
  */
 class NotionHelper {
     private $notion;
-    private $database;
     
     public function __construct() {
         $this->notion = new NotionAPI();
-        $this->database = new DatabaseHelper();
     }
     
     /**
-     * 이중 저장 (노션 + SQLite)
+     * Notion에 수강생 데이터 저장
      */
     public function saveStudentData($data) {
-        $results = [
-            'notion' => false,
-            'sqlite' => false,
-            'errors' => []
-        ];
-        
-        // 노션에 저장 시도
         try {
             $notionId = $this->notion->addStudent($data);
-            if ($notionId) {
-                $results['notion'] = $notionId;
-            }
+            return [
+                'success' => true,
+                'notion_id' => $notionId,
+                'errors' => []
+            ];
         } catch (Exception $e) {
-            $results['errors'][] = "Notion 저장 실패: " . $e->getMessage();
+            return [
+                'success' => false,
+                'notion_id' => null,
+                'errors' => ["Notion 저장 실패: " . $e->getMessage()]
+            ];
         }
-        
-        // SQLite 백업 저장
-        try {
-            $sqliteResult = $this->database->saveInquiry($data);
-            if ($sqliteResult) {
-                $results['sqlite'] = true;
-            }
-        } catch (Exception $e) {
-            $results['errors'][] = "SQLite 저장 실패: " . $e->getMessage();
-        }
-        
-        return $results;
     }
     
     /**

@@ -762,20 +762,9 @@
         <div class="container">
             <h2 class="section-title">실제 수강생 후기</h2>
             
-            <div class="review-card card">
-                <p class="review-text">
-                    "면접에서 챌린지 들어올 내용과 답변의 방향성을 제 이력서 기반으로 꼼꼼히 봐주셔서 큰 도움이 됐습니다! 
-                    이번 면접 뿐 아니라 다른 면접에서도 활용할 수 있을 것 같습니다."
-                </p>
-                <p class="review-author">- K님, 대기업 최종 합격</p>
-            </div>
-            
-            <div class="review-card card">
-                <p class="review-text">
-                    "현직자의 관점에서 매력적인 경험을 짚어주시고 고쳐야 할 부분을 명확히 말씀해주셔서 
-                    자존감이 조금은 올라간 것 같습니다. 시간을 넘겨서까지 도와주셔서 정말 감사했습니다!"
-                </p>
-                <p class="review-author">- 배님, 컨설팅펌 이직 성공</p>
+            <!-- 동적 후기 렌더링 영역 -->
+            <div id="career-testimonials" class="testimonials-section">
+                <!-- JavaScript로 동적 로딩됩니다 -->
             </div>
         </div>
     </section>
@@ -892,6 +881,19 @@
                 el.classList.add('scroll-reveal');
                 observer.observe(el);
             });
+        });
+    </script>
+    
+    <!-- 후기 시스템 JavaScript -->
+    <script src="./js/testimonials.js"></script>
+    <script>
+        // 페이지 로드 완료 후 커리어 컨설팅 후기 로드
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                if (window.loadTestimonials) {
+                    loadTestimonials('career-testimonials', 'career_consulting', 3);
+                }
+            }, 1000);
         });
     </script>
 </body>

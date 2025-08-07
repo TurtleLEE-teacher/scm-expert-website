@@ -97,6 +97,25 @@
       }
     },
     {
+      "name": "최종 테스트입니다",
+      "date": "2025-10-09",
+      "tags": [
+        "최종 테스트입니다",
+        "카테고리: SCM 기초",
+        "상세 설명 없음"
+      ],
+      "status": "준비중",
+      "batch": "실제 Notion 데이터",
+      "notionData": {
+        "id": "23987a19-32c4-80a7-9de5-f39150e6d05f",
+        "title": "최종 테스트입니다",
+        "category": "SCM 기초",
+        "status": "준비중",
+        "startDate": "2025-10-09",
+        "description": ""
+      }
+    },
+    {
       "name": "SCM 심화 과정",
       "date": "2026-01-21",
       "tags": [
@@ -116,6 +135,6 @@
       }
     }
   ],
-  "lastUpdated": "2025-07-23T04:45:49.876Z",
-  "totalCourses": 6
+  "lastUpdated": "2025-07-28T18:31:19.123Z",
+  "totalCourses": 7
 }

@@ -33,7 +33,20 @@
       "mcp__github-mcp__create_repository",
       "mcp__notionApi__API-post-database-query",
       "mcp__playwright-stealth__playwright_get_visible_html",
-      "mcp__playwright-stealth__playwright_get"
+      "mcp__playwright-stealth__playwright_get",
+      "mcp__mem0-memory-mcp__add-memory",
+      "mcp__notion-api__API-retrieve-a-database",
+      "mcp__notion-api__API-post-database-query",
+      "mcp__slack__slack_list_channels",
+      "mcp__slack__slack_post_message",
+      "mcp__git-mcp-server__git_status",
+      "mcp__git-mcp-server__git_set_working_dir",
+      "mcp__git-mcp-server__git_add",
+      "mcp__git-mcp-server__git_commit",
+      "mcp__git-mcp-server__git_push",
+      "mcp__git-mcp-server__git_pull",
+      "mcp__git-mcp-server__git_log",
+      "mcp__git-mcp-server__git_reset"
     ],
     "deny": []
   }

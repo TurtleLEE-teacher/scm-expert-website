@@ -5,5 +5,27 @@
       "WebFetch"
     ],
     "deny": []
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "TodoWrite",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/tools/hooks/task-completion-notifier.js\""
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command", 
+            "command": "node \"$CLAUDE_PROJECT_DIR/tools/hooks/task-completion-notifier.js\""
+          }
+        ]
+      }
+    ]
   }
 }

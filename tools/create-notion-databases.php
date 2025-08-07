@@ -7,7 +7,8 @@
 require_once 'includes/notion-migration.php';
 
 // Notion API 설정
-$notion_api_key = 'secret_KaJcAIvtrwcPsFxvLXVNzzYDZ34zJb3cRLVb55K4U2f';
+require_once 'includes/config.php';
+$notion_api_key = config('NOTION_API_KEY');
 $parent_page_id = null; // 메인 페이지 ID (수동으로 입력 필요)
 
 echo "🚀 SCM 웹사이트 Notion 데이터베이스 생성을 시작합니다...\n\n";

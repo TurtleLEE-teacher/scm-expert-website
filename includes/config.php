@@ -37,17 +37,12 @@ class Config {
     
     private function setDefaults() {
         $defaults = [
-            'NOTION_API_KEY' => 'secret_KaJcAIvtrwcPsFxvLXVNzzYDZ34zJb3cRLVb55K4U2f',
-            'NOTION_DATABASE_ID' => 'your_database_id_here',
+            'NOTION_API_KEY' => $_ENV['NOTION_API_KEY'] ?? 'your_notion_api_key_here',
             'NOTION_INQUIRIES_DB_ID' => '23787a19-32c4-81c5-9df9-eb0bed62f1a8',
             'NOTION_STUDENTS_DB_ID' => '23787a19-32c4-8129-9a6e-d7ed01c9424f',
             'NOTION_COURSES_DB_ID' => '23787a1932c481bba2c1d5f33256cc37',
-            'DB_TYPE' => 'notion',
-            'DB_PATH' => 'database/scm_expert.db',
-            'ENVIRONMENT' => 'development',
-            'DEBUG_MODE' => 'false',
-            'SESSION_SECRET' => 'default_session_secret_' . uniqid(),
-            'ENCRYPTION_KEY' => 'default_encryption_key_' . uniqid()
+            'ENVIRONMENT' => 'production',
+            'DEBUG_MODE' => 'false'
         ];
         
         foreach ($defaults as $key => $value) {
@@ -79,27 +74,33 @@ class Config {
     public function validateNotionConfig() {
         $errors = [];
         
-        $apiKey = $this->get('NOTION_API_KEY');
-        if (!$apiKey || $apiKey === 'your_notion_api_key_here') {
-            $errors[] = 'NOTION_API_KEY가 설정되지 않았습니다. .env 파일을 확인하세요.';
+        $inquiriesDbId = $this->get('NOTION_INQUIRIES_DB_ID');
+        if (!$inquiriesDbId) {
+            $errors[] = 'NOTION_INQUIRIES_DB_ID가 설정되지 않았습니다.';
         }
         
-        $databaseId = $this->get('NOTION_DATABASE_ID');
-        if (!$databaseId || $databaseId === 'your_database_id_here') {
-            $errors[] = 'NOTION_DATABASE_ID가 설정되지 않았습니다. .env 파일을 확인하세요.';
+        $studentsDbId = $this->get('NOTION_STUDENTS_DB_ID');
+        if (!$studentsDbId) {
+            $errors[] = 'NOTION_STUDENTS_DB_ID가 설정되지 않았습니다.';
+        }
+        
+        $coursesDbId = $this->get('NOTION_COURSES_DB_ID');
+        if (!$coursesDbId) {
+            $errors[] = 'NOTION_COURSES_DB_ID가 설정되지 않았습니다.';
         }
         
         return $errors;
     }
     
     /**
-     * 데이터베이스 설정 반환
+     * 데이터베이스 설정 반환 (Notion 전용)
      */
     public function getDatabaseConfig() {
         return [
-            'type' => $this->get('DB_TYPE'),
-            'path' => $this->get('DB_PATH'),
-            'sqlite_path' => __DIR__ . '/../' . $this->get('DB_PATH')
+            'type' => 'notion',
+            'inquiries_db_id' => $this->get('NOTION_INQUIRIES_DB_ID'),
+            'students_db_id' => $this->get('NOTION_STUDENTS_DB_ID'),
+            'courses_db_id' => $this->get('NOTION_COURSES_DB_ID')
         ];
     }
     
@@ -108,8 +109,9 @@ class Config {
      */
     public function getNotionConfig() {
         return [
-            'api_key' => $this->get('NOTION_API_KEY'),
-            'database_id' => $this->get('NOTION_DATABASE_ID')
+            'inquiries_db_id' => $this->get('NOTION_INQUIRIES_DB_ID'),
+            'students_db_id' => $this->get('NOTION_STUDENTS_DB_ID'),
+            'courses_db_id' => $this->get('NOTION_COURSES_DB_ID')
         ];
     }
 }
@@ -123,13 +125,7 @@ function config($key = null, $default = null) {
     return $config->get($key, $default);
 }
 
-// 레거시 호환성을 위한 상수 정의 (점진적 마이그레이션)
-if (!defined('NOTION_API_KEY')) {
-    define('NOTION_API_KEY', config('NOTION_API_KEY'));
-}
-if (!defined('NOTION_DATABASE_ID')) {
-    define('NOTION_DATABASE_ID', config('NOTION_DATABASE_ID'));
-}
+// Notion 데이터베이스 ID 상수 정의
 if (!defined('INQUIRIES_DB_ID')) {
     define('INQUIRIES_DB_ID', config('NOTION_INQUIRIES_DB_ID'));
 }
@@ -138,7 +134,4 @@ if (!defined('STUDENTS_DB_ID')) {
 }
 if (!defined('COURSES_DB_ID')) {
     define('COURSES_DB_ID', config('NOTION_COURSES_DB_ID'));
-}
-if (!defined('DB_PATH')) {
-    define('DB_PATH', config('DB_PATH'));
 }

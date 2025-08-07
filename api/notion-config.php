@@ -1,8 +1,12 @@
 <?php
-// 노션 API 설정
-// 이 파일은 .gitignore에 추가하여 버전 관리에서 제외해야 합니다
+/**
+ * Notion API 설정
+ * 환경변수 기반으로 변경됨 - .env 파일을 사용하세요
+ */
 
-define('NOTION_API_KEY', 'secret_KaJcAIvtrwcPsFxvLXVNzzYDZ34zJb3cRLVb55K4U2f');
+require_once __DIR__ . '/../includes/config.php';
+
+define('NOTION_API_KEY', config('NOTION_API_KEY'));
 define('NOTION_VERSION', '2022-06-28');
 
 // 노션 통합(Integration) 생성 방법:

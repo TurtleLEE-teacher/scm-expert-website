@@ -4,7 +4,7 @@
 
 const https = require('https');
 
-const NOTION_API_KEY = 'secret_KaJcAIvtrwcPsFxvLXVNzzYDZ34zJb3cRLVb55K4U2f';
+const NOTION_API_KEY = process.env.NOTION_API_KEY || 'your_notion_api_key_here';
 const NOTION_API_VERSION = '2022-06-28';
 
 const DATABASE_IDS = {

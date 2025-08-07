@@ -8,6 +8,7 @@ header('Content-Type: application/json; charset=utf-8');
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
+header('Cache-Control: public, max-age=300'); // 5분 캐시
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit(0);
@@ -19,10 +20,13 @@ class NotionScheduleAPI {
     private $apiKey;
     private $courseDbId;
     private $apiVersion = '2022-06-28';
+    private $cacheFile;
     
     public function __construct() {
-        $this->apiKey = NOTION_API_KEY;
+        $config = Config::getInstance();
+        $this->apiKey = $_ENV['NOTION_API_KEY'] ?? $config->get('NOTION_API_KEY');
         $this->courseDbId = COURSES_DB_ID;
+        $this->cacheFile = __DIR__ . '/../data/schedule-cache.json';
     }
     
     /**
@@ -68,9 +72,48 @@ class NotionScheduleAPI {
     }
     
     /**
+     * 캐시된 데이터 확인
+     */
+    private function getCachedData() {
+        if (!file_exists($this->cacheFile)) {
+            return null;
+        }
+        
+        $cacheTime = filemtime($this->cacheFile);
+        $cacheExpiry = 300; // 5분
+        
+        if (time() - $cacheTime < $cacheExpiry) {
+            $cached = json_decode(file_get_contents($this->cacheFile), true);
+            if ($cached && isset($cached['data'])) {
+                return $cached;
+            }
+        }
+        
+        return null;
+    }
+    
+    /**
+     * 데이터 캐시 저장
+     */
+    private function cacheData($data) {
+        $dir = dirname($this->cacheFile);
+        if (!is_dir($dir)) {
+            mkdir($dir, 0755, true);
+        }
+        
+        file_put_contents($this->cacheFile, json_encode($data, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+    }
+
+    /**
      * 강의 일정 조회 및 포맷팅
      */
     public function getScheduleData() {
+        // 캐시된 데이터 확인
+        $cached = $this->getCachedData();
+        if ($cached) {
+            return $cached;
+        }
+        
         try {
             // Notion 강의 데이터베이스에서 모든 강의 조회 (필터 제거)
             $queryData = [
@@ -126,20 +169,57 @@ class NotionScheduleAPI {
                 $scheduleData[] = $courseData;
             }
             
-            return [
+            $result = [
                 'success' => true,
                 'data' => $scheduleData,
                 'lastUpdated' => date('Y-m-d H:i:s'),
-                'totalCourses' => count($scheduleData)
+                'totalCourses' => count($scheduleData),
+                'cached' => false
             ];
             
+            // 성공한 경우 캐시 저장
+            $this->cacheData($result);
+            
+            return $result;
+            
         } catch (Exception $e) {
+            // Notion API 실패 시 기존 캐시나 정적 파일 사용
+            $fallbackData = $this->getFallbackData();
+            
             return [
                 'success' => false,
                 'error' => $e->getMessage(),
-                'data' => []
+                'data' => $fallbackData,
+                'fallback' => true,
+                'message' => '캐시된 데이터를 사용합니다.'
             ];
         }
+    }
+    
+    /**
+     * Notion API 실패 시 폴백 데이터 제공
+     */
+    private function getFallbackData() {
+        // 1. 캐시 파일 확인 (만료되었더라도 사용)
+        if (file_exists($this->cacheFile)) {
+            $cached = json_decode(file_get_contents($this->cacheFile), true);
+            if ($cached && isset($cached['data'])) {
+                return $cached['data'];
+            }
+        }
+        
+        // 2. 정적 스케줄 파일 확인
+        $staticFile = __DIR__ . '/../data/schedule.json';
+        if (file_exists($staticFile)) {
+            $static = json_decode(file_get_contents($staticFile), true);
+            if ($static && isset($static['data'])) {
+                return $static['data'];
+            }
+        }
+        
+        // 3. 기본 데이터 반환
+        return [];
+    }
     }
     
     /**

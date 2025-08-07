@@ -5,7 +5,7 @@
 const fs = require('fs');
 const https = require('https');
 
-const NOTION_API_KEY = 'secret_KaJcAIvtrwcPsFxvLXVNzzYDZ34zJb3cRLVb55K4U2f';
+const NOTION_API_KEY = process.env.NOTION_API_KEY || 'your_notion_api_key_here';
 const COURSES_DB_ID = '23787a19-32c4-81bb-a2c1-d5f33256cc37';
 const NOTION_API_VERSION = '2022-06-28';
 
