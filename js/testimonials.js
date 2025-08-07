@@ -94,7 +94,7 @@ class TestimonialSystem {
     /**
      * 특정 카테고리의 후기 섹션 렌더링
      */
-    renderTestimonialSection(containerId, category, initialLimit = 3) {
+    renderTestimonialSection(containerId, category, initialLimit = 6) {
         const container = document.getElementById(containerId);
         if (!container) {
             console.warn(`후기 컨테이너를 찾을 수 없습니다: ${containerId}`);
@@ -409,18 +409,130 @@ const testimonialStyles = `
     }
 }
 
+/* 모바일 최적화 - 3단계 브레이크포인트 */
 @media (max-width: 768px) {
     .testimonials-grid {
         grid-template-columns: 1fr;
-        gap: 20px;
+        gap: 15px;
+        padding: 0 10px;
     }
     
     .testimonial-card {
-        padding: 20px;
+        padding: 18px;
+        margin-bottom: 10px;
     }
     
     .testimonial-text {
+        font-size: 0.95rem;
+        line-height: 1.6;
+        padding-left: 15px;
+    }
+    
+    .testimonial-header {
+        margin-bottom: 12px;
+    }
+    
+    .testimonial-rating {
         font-size: 1rem;
+    }
+    
+    .achievement-badge {
+        font-size: 0.75rem;
+        padding: 3px 10px;
+    }
+    
+    .load-more-btn {
+        padding: 14px 25px;
+        font-size: 0.9rem;
+        min-height: 44px;
+    }
+}
+
+@media (max-width: 480px) {
+    .testimonials-grid {
+        gap: 12px;
+        padding: 0 5px;
+    }
+    
+    .testimonial-card {
+        padding: 15px;
+        border-radius: 12px;
+    }
+    
+    .testimonial-text {
+        font-size: 0.9rem;
+        line-height: 1.5;
+        padding-left: 12px;
+    }
+    
+    .testimonial-text::before {
+        font-size: 1.5rem;
+        top: -3px;
+    }
+    
+    .testimonial-author strong {
+        font-size: 1rem;
+    }
+    
+    .testimonial-title {
+        font-size: 0.85rem;
+    }
+    
+    .achievement-badge {
+        font-size: 0.7rem;
+        padding: 2px 8px;
+        margin-top: 6px;
+    }
+    
+    .load-more-btn {
+        padding: 16px 20px;
+        font-size: 0.85rem;
+        width: 100%;
+        max-width: 280px;
+        margin: 0 auto;
+        display: block;
+    }
+}
+
+@media (max-width: 360px) {
+    .testimonial-card {
+        padding: 12px;
+        border-radius: 10px;
+    }
+    
+    .testimonial-text {
+        font-size: 0.85rem;
+        line-height: 1.4;
+        padding-left: 10px;
+    }
+    
+    .testimonial-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+        margin-bottom: 10px;
+    }
+    
+    .testimonial-content {
+        margin-bottom: 15px;
+    }
+    
+    .testimonial-author {
+        gap: 3px;
+    }
+    
+    .testimonial-author strong {
+        font-size: 0.95rem;
+    }
+    
+    .testimonial-title {
+        font-size: 0.8rem;
+    }
+    
+    .achievement-badge {
+        font-size: 0.65rem;
+        padding: 2px 6px;
+        margin-top: 4px;
     }
 }
 </style>
@@ -444,7 +556,7 @@ if (document.readyState === 'loading') {
 }
 
 // 전역 함수들 (HTML에서 직접 호출 가능)
-window.loadTestimonials = function(containerId, category, limit = 3) {
+window.loadTestimonials = function(containerId, category, limit = 6) {
     if (testimonialSystem) {
         testimonialSystem.renderTestimonialSection(containerId, category, limit);
     }
@@ -455,7 +567,7 @@ window.getTestimonialStats = function() {
 };
 
 // TestimonialSystem 클래스에 렌더링 메서드 추가
-TestimonialSystem.prototype.renderTestimonialSection = function(containerId, category, initialLimit = 3) {
+TestimonialSystem.prototype.renderTestimonialSection = function(containerId, category, initialLimit = 6) {
     const container = document.getElementById(containerId);
     if (!container) {
         console.warn(`후기 컨테이너를 찾을 수 없습니다: ${containerId}`);
