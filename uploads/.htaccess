@@ -1,0 +1,27 @@
+# 업로드 디렉토리 보안 설정
+# 직접 파일 접근 차단
+
+# PHP 실행 금지
+<Files "*.php">
+    Order allow,deny
+    Deny from all
+</Files>
+
+# 스크립트 실행 차단
+Options -ExecCGI
+AddHandler cgi-script .php .pl .py .jsp .asp .sh .cgi
+
+# 인덱스 페이지 차단
+Options -Indexes
+
+# 허용된 파일 타입만 접근 가능
+<FilesMatch "\.(pdf|doc|docx)$">
+    Order allow,deny
+    Allow from all
+</FilesMatch>
+
+# 다른 모든 파일 접근 차단
+<FilesMatch "^(?!(.*\.(pdf|doc|docx)$)).*$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>

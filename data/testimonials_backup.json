@@ -1,0 +1,80 @@
+{
+  "testimonials": [
+    {
+      "id": "scm_001",
+      "category": "scm_course",
+      "name": "남OO",
+      "title": "대기업 SCM 직무 합격",
+      "company": "대기업",
+      "content": "직무부트캠프에서 했던 경험과 배웠던 직무 전문 단어를 면접에서 활용하였더니 면접관들이 흥미를 보였고, 결국 최종 합격했어요.",
+      "achievement": "대기업 SCM 직무 최종 합격",
+      "date": "2024-11",
+      "featured": true,
+      "rating": 5
+    },
+    {
+      "id": "career_001", 
+      "category": "career_consulting",
+      "name": "K",
+      "title": "대기업 최종 합격",
+      "company": "대기업",
+      "content": "면접에서 챌린지 들어올 내용과 답변의 방향성을 제 이력서 기반으로 꼼꼼히 봐주셔서 큰 도움이 됐습니다! 이번 면접 뿐 아니라 다른 면접에서도 활용할 수 있을 것 같습니다.",
+      "achievement": "대기업 최종 합격",
+      "date": "2024-10",
+      "featured": true,
+      "rating": 5
+    },
+    {
+      "id": "career_002",
+      "category": "career_consulting", 
+      "name": "배",
+      "title": "컨설팅펌 이직 성공",
+      "company": "컨설팅펌",
+      "content": "이력서와 자기소개서 모두 전문적인 관점에서 피드백을 받을 수 있어서 좋았습니다. 특히 제가 놓쳤던 핵심 역량들을 부각시키는 방법을 배웠어요.",
+      "achievement": "컨설팅펌 이직 성공", 
+      "date": "2024-09",
+      "featured": true,
+      "rating": 5
+    },
+    {
+      "id": "career_003",
+      "category": "career_consulting",
+      "name": "CJ대한통운 합격생",
+      "title": "CJ 대한통운 SCM 최종 합격",
+      "company": "CJ 대한통운",
+      "content": "면접에서 챌린지 들어올 내용과 답변의 방향성을 제 이력서 기반으로 꼼꼼히 봐주셔서 큰 도움이 됐습니다! 절대 면접장에서 '어버버'나 자신없는 모습 나오면 안된다고 조언해주셔서 자신감 있게 면접볼 수 있었어요. 토론면접 2x2 매트릭스 방법론도 정말 유용했습니다!",
+      "achievement": "CJ 대한통운 SCM 최종 합격",
+      "date": "2025-06",
+      "featured": true,
+      "rating": 5,
+      "details": "1차 면접 통과 → 토론면접 준비 → 최종 합격까지 전 과정 컨설팅"
+    },
+    {
+      "id": "career_004", 
+      "category": "career_consulting",
+      "name": "수익성분석 전문가",
+      "title": "리스크 관점 면접 성공",
+      "company": "대기업",
+      "content": "수익성과 리스크 관점에서 리스크가 높기 때문에 현재~상향(거시경제 또는 기업현황 방향성 등)을 고려할 때 좋은 결정이 될 것이라는 논리적 답변 구조를 배웠습니다. 질문과 관계없이 2가지 관점을 다시 한번 얘기하면서 답변하는 방법이 매우 도움되었어요.",
+      "achievement": "논리적 면접 답변 역량 향상",
+      "date": "2025-06",
+      "featured": true,
+      "rating": 5,
+      "details": "토론면접 전략 및 논리적 사고 구조화"
+    }
+  ],
+  "template_structure": {
+    "id": "고유 식별자",
+    "category": "scm_course | career_consulting",
+    "name": "후기 작성자 이름 (익명화)",
+    "title": "직책 또는 성과",
+    "company": "회사 정보 (선택사항)",
+    "content": "후기 내용 전문",
+    "achievement": "주요 성과나 결과",
+    "date": "YYYY-MM 형식",
+    "featured": "메인에 노출 여부 (boolean)",
+    "rating": "만족도 (1-5)",
+    "tags": "관련 태그 배열 (선택사항)",
+    "image": "후기 관련 이미지 (선택사항)"
+  }
+}

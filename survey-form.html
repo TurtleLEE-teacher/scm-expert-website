@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>고객 만족도 조사</title>
+    <meta name="description" content="SCM Expert 서비스 이용 후기 및 만족도 조사">
+    
+    <style>
+        /* 기본 리셋 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+            background: #0f0f0f;
+            color: #ffffff;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        /* 헤더 */
+        .header {
+            background: rgba(15, 15, 15, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .nav-brand {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+        
+        /* 메인 컨텐츠 */
+        .main-content {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        
+        .form-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .form-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        
+        .form-subtitle {
+            font-size: 1.2rem;
+            color: #a0a0a0;
+            margin-bottom: 20px;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            border-radius: 3px;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .progress-text {
+            text-align: center;
+            color: #a0a0a0;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        
+        /* 폼 스타일 */
+        .survey-form {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .form-step {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .form-step.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .step-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #4facfe;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 500;
+            color: #ffffff;
+        }
+        
+        .required {
+            color: #ff6b6b;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: #ffffff;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        input::placeholder, textarea::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #4facfe;
+            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.2);
+        }
+        
+        select {
+            cursor: pointer;
+        }
+        
+        select option {
+            background: #1a1a1a;
+            color: #ffffff;
+        }
+        
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        /* 별점 평가 */
+        .rating-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .rating-option {
+            flex: 1;
+            text-align: center;
+            padding: 15px 5px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+        
+        .rating-option:hover {
+            border-color: #4facfe;
+            background: rgba(79, 172, 254, 0.1);
+        }
+        
+        .rating-option.selected {
+            border-color: #4facfe;
+            background: rgba(79, 172, 254, 0.2);
+            color: #4facfe;
+        }
+        
+        .rating-option input {
+            display: none;
+        }
+        
+        .rating-emoji {
+            font-size: 24px;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        /* 네비게이션 버튼 */
+        .form-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            gap: 20px;
+        }
+        
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+            max-width: 200px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(79, 172, 254, 0.4);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        /* 로딩 상태 */
+        .loading {
+            display: none;
+            margin-left: 10px;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #ffffff;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* 메시지 스타일 */
+        .message {
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-weight: 500;
+            display: none;
+        }
+        
+        .message.success {
+            background: rgba(76, 175, 80, 0.2);
+            border: 1px solid #4caf50;
+            color: #4caf50;
+        }
+        
+        .message.error {
+            background: rgba(244, 67, 54, 0.2);
+            border: 1px solid #f44336;
+            color: #f44336;
+        }
+        
+        /* 반응형 디자인 */
+        @media (max-width: 768px) {
+            .container, .main-content {
+                padding: 0 15px;
+            }
+            
+            .form-title {
+                font-size: 2rem;
+            }
+            
+            .survey-form {
+                padding: 30px 20px;
+            }
+            
+            .rating-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .rating-option {
+                padding: 10px;
+            }
+            
+            .form-navigation {
+                flex-direction: column;
+            }
+            
+            .btn {
+                max-width: none;
+            }
+        }
+        
+        /* 완료 페이지 스타일 */
+        .completion-page {
+            text-align: center;
+            padding: 60px 20px;
+        }
+        
+        .completion-icon {
+            font-size: 80px;
+            color: #4caf50;
+            margin-bottom: 20px;
+        }
+        
+        .completion-title {
+            font-size: 2rem;
+            color: #4caf50;
+            margin-bottom: 15px;
+        }
+        
+        .completion-message {
+            font-size: 1.1rem;
+            color: #a0a0a0;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <a href="index.html" class="nav-brand">SCM Expert</a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="form-header">
+            <h1 class="form-title">고객 만족도 조사</h1>
+            <p class="form-subtitle">소중한 의견을 통해 더 나은 서비스를 만들어가겠습니다</p>
+            
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-text" id="progressText">1단계 / 4단계</div>
+        </div>
+
+        <form class="survey-form" id="surveyForm">
+            
+            <!-- Step 1: 기본 정보 -->
+            <div class="form-step active" id="step1">
+                <h2 class="step-title">📝 기본 정보</h2>
+                
+                <div class="form-group">
+                    <label for="name">성명 <span class="required">*</span></label>
+                    <input type="text" id="name" name="name" required placeholder="홍길동">
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">이메일 <span class="required">*</span></label>
+                    <input type="email" id="email" name="email" required placeholder="example@email.com">
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">연락처</label>
+                    <input type="tel" id="phone" name="phone" placeholder="010-0000-0000">
+                </div>
+                
+                <div class="form-group">
+                    <label for="service_used">이용하신 서비스 <span class="required">*</span></label>
+                    <select id="service_used" name="service_used" required>
+                        <option value="">서비스를 선택해주세요</option>
+                        <option value="scm_course">SCM 기초강의</option>
+                        <option value="career_consulting">커리어 컨설팅</option>
+                        <option value="both">둘 다 이용</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Step 2: 만족도 평가 -->
+            <div class="form-step" id="step2">
+                <h2 class="step-title">⭐ 만족도 평가</h2>
+                
+                <div class="form-group">
+                    <label>전체적인 만족도는 어떠셨나요? <span class="required">*</span></label>
+                    <div class="rating-group">
+                        <label class="rating-option">
+                            <input type="radio" name="overall_satisfaction" value="매우불만족" required>
+                            <span class="rating-emoji">😠</span>
+                            <span>매우불만족</span>
+                        </label>
+                        <label class="rating-option">
+                            <input type="radio" name="overall_satisfaction" value="불만족" required>
+                            <span class="rating-emoji">😞</span>
+                            <span>불만족</span>
+                        </label>
+                        <label class="rating-option">
+                            <input type="radio" name="overall_satisfaction" value="보통" required>
+                            <span class="rating-emoji">😐</span>
+                            <span>보통</span>
+                        </label>
+                        <label class="rating-option">
+                            <input type="radio" name="overall_satisfaction" value="만족" required>
+                            <span class="rating-emoji">😊</span>
+                            <span>만족</span>
+                        </label>
+                        <label class="rating-option">
+                            <input type="radio" name="overall_satisfaction" value="매우만족" required>
+                            <span class="rating-emoji">😍</span>
+                            <span>매우만족</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>강사에 대한 만족도는 어떠셨나요? <span class="required">*</span></label>
+                    <div class="rating-group">
+                        <label class="rating-option">
+                            <input type="radio" name="instructor_satisfaction" value="매우불만족" required>
+                            <span class="rating-emoji">😠</span>
+                            <span>매우불만족</span>
+                        </label>
+                        <label class="rating-option">
+                            <input type="radio" name="instructor_satisfaction" value="불만족" required>
+                            <span class="rating-emoji">😞</span>
+                            <span>불만족</span>
+                        </label>
+                        <label class="rating-option">
+                            <input type="radio" name="instructor_satisfaction" value="보통" required>
+                            <span class="rating-emoji">😐</span>
+                            <span>보통</span>
+                        </label>
+                        <label class="rating-option">
+                            <input type="radio" name="instructor_satisfaction" value="만족" required>
+                            <span class="rating-emoji">😊</span>
+                            <span>만족</span>
+                        </label>
+                        <label class="rating-option">
+                            <input type="radio" name="instructor_satisfaction" value="매우만족" required>
+                            <span class="rating-emoji">😍</span>
+                            <span>매우만족</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>내용 품질에 대한 만족도는 어떠셨나요? <span class="required">*</span></label>
+                    <div class="rating-group">
+                        <label class="rating-option">
+                            <input type="radio" name="content_satisfaction" value="매우불만족" required>
+                            <span class="rating-emoji">😠</span>
+                            <span>매우불만족</span>
+                        </label>
+                        <label class="rating-option">
+                            <input type="radio" name="content_satisfaction" value="불만족" required>
+                            <span class="rating-emoji">😞</span>
+                            <span>불만족</span>
+                        </label>
+                        <label class="rating-option">
+                            <input type="radio" name="content_satisfaction" value="보통" required>
+                            <span class="rating-emoji">😐</span>
+                            <span>보통</span>
+                        </label>
+                        <label class="rating-option">
+                            <input type="radio" name="content_satisfaction" value="만족" required>
+                            <span class="rating-emoji">😊</span>
+                            <span>만족</span>
+                        </label>
+                        <label class="rating-option">
+                            <input type="radio" name="content_satisfaction" value="매우만족" required>
+                            <span class="rating-emoji">😍</span>
+                            <span>매우만족</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3: 추천 의향 -->
+            <div class="form-step" id="step3">
+                <h2 class="step-title">💬 추천 의향</h2>
+                
+                <div class="form-group">
+                    <label>지인에게 추천하고 싶으신가요? <span class="required">*</span></label>
+                    <div class="rating-group">
+                        <label class="rating-option">
+                            <input type="radio" name="recommendation" value="매우비추천" required>
+                            <span class="rating-emoji">👎</span>
+                            <span>매우비추천</span>
+                        </label>
+                        <label class="rating-option">
+                            <input type="radio" name="recommendation" value="비추천" required>
+                            <span class="rating-emoji">🤔</span>
+                            <span>비추천</span>
+                        </label>
+                        <label class="rating-option">
+                            <input type="radio" name="recommendation" value="보통" required>
+                            <span class="rating-emoji">😐</span>
+                            <span>보통</span>
+                        </label>
+                        <label class="rating-option">
+                            <input type="radio" name="recommendation" value="추천" required>
+                            <span class="rating-emoji">👍</span>
+                            <span>추천</span>
+                        </label>
+                        <label class="rating-option">
+                            <input type="radio" name="recommendation" value="매우추천" required>
+                            <span class="rating-emoji">🙌</span>
+                            <span>매우추천</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 4: 의견 작성 -->
+            <div class="form-step" id="step4">
+                <h2 class="step-title">✍️ 소중한 의견</h2>
+                
+                <div class="form-group">
+                    <label for="improvements">개선이 필요한 부분이 있다면 알려주세요</label>
+                    <textarea id="improvements" name="improvements" placeholder="더 나은 서비스를 위해 개선사항을 알려주세요..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="additional_comments">추가로 전하고 싶은 말씀이 있으시면 자유롭게 작성해주세요</label>
+                    <textarea id="additional_comments" name="additional_comments" placeholder="감사 인사, 건의사항, 기타 의견 등을 자유롭게 작성해주세요..."></textarea>
+                </div>
+            </div>
+
+            <!-- 메시지 영역 -->
+            <div id="message" class="message"></div>
+
+            <!-- 네비게이션 버튼 -->
+            <div class="form-navigation">
+                <button type="button" class="btn btn-secondary" id="prevBtn" onclick="changeStep(-1)">이전</button>
+                <button type="button" class="btn btn-primary" id="nextBtn" onclick="changeStep(1)">다음</button>
+                <button type="submit" class="btn btn-primary" id="submitBtn" style="display: none;">
+                    제출하기
+                    <div class="loading" id="loading"></div>
+                </button>
+            </div>
+        </form>
+
+        <!-- 완료 페이지 -->
+        <div class="completion-page" id="completionPage" style="display: none;">
+            <div class="completion-icon">🎉</div>
+            <h2 class="completion-title">설문 완료!</h2>
+            <div class="completion-message">
+                소중한 의견을 주셔서 감사합니다.<br>
+                더 나은 서비스로 보답하겠습니다.
+            </div>
+            <a href="index.html" class="btn btn-primary">홈으로 돌아가기</a>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        const totalSteps = 4;
+        
+        // 진행률 업데이트
+        function updateProgress() {
+            const progress = (currentStep / totalSteps) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+            document.getElementById('progressText').textContent = `${currentStep}단계 / ${totalSteps}단계`;
+        }
+        
+        // 단계 변경
+        function changeStep(direction) {
+            const currentStepEl = document.getElementById(`step${currentStep}`);
+            
+            // 다음 단계로 가는 경우 유효성 검사
+            if (direction === 1 && !validateCurrentStep()) {
+                return;
+            }
+            
+            // 현재 단계 숨기기
+            currentStepEl.classList.remove('active');
+            
+            // 단계 업데이트
+            currentStep += direction;
+            
+            // 새 단계 표시
+            const newStepEl = document.getElementById(`step${currentStep}`);
+            if (newStepEl) {
+                newStepEl.classList.add('active');
+            }
+            
+            // 버튼 상태 업데이트
+            updateButtons();
+            updateProgress();
+        }
+        
+        // 현재 단계 유효성 검사
+        function validateCurrentStep() {
+            const currentStepEl = document.getElementById(`step${currentStep}`);
+            const requiredInputs = currentStepEl.querySelectorAll('[required]');
+            
+            for (let input of requiredInputs) {
+                if (input.type === 'radio') {
+                    const name = input.name;
+                    const radioGroup = currentStepEl.querySelectorAll(`input[name="${name}"]`);
+                    let checked = false;
+                    
+                    for (let radio of radioGroup) {
+                        if (radio.checked) {
+                            checked = true;
+                            break;
+                        }
+                    }
+                    
+                    if (!checked) {
+                        showMessage('모든 필수 항목을 선택해주세요.', 'error');
+                        return false;
+                    }
+                } else {
+                    if (!input.value.trim()) {
+                        showMessage('모든 필수 항목을 입력해주세요.', 'error');
+                        input.focus();
+                        return false;
+                    }
+                }
+            }
+            
+            // 이메일 유효성 검사
+            if (currentStep === 1) {
+                const email = document.getElementById('email').value;
+                if (!isValidEmail(email)) {
+                    showMessage('유효한 이메일 주소를 입력해주세요.', 'error');
+                    return false;
+                }
+            }
+            
+            return true;
+        }
+        
+        // 이메일 유효성 검사
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+        
+        // 버튼 상태 업데이트
+        function updateButtons() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const submitBtn = document.getElementById('submitBtn');
+            
+            // 이전 버튼
+            prevBtn.style.display = currentStep === 1 ? 'none' : 'block';
+            
+            // 다음/제출 버튼
+            if (currentStep === totalSteps) {
+                nextBtn.style.display = 'none';
+                submitBtn.style.display = 'block';
+            } else {
+                nextBtn.style.display = 'block';
+                submitBtn.style.display = 'none';
+            }
+        }
+        
+        // 별점 선택 처리
+        document.querySelectorAll('.rating-option').forEach(option => {
+            option.addEventListener('click', function() {
+                const input = this.querySelector('input');
+                const name = input.name;
+                
+                // 같은 그룹의 다른 선택 해제
+                document.querySelectorAll(`input[name="${name}"]`).forEach(radio => {
+                    radio.closest('.rating-option').classList.remove('selected');
+                });
+                
+                // 현재 선택 활성화
+                this.classList.add('selected');
+                input.checked = true;
+            });
+        });
+        
+        // 전화번호 포맷팅
+        document.getElementById('phone').addEventListener('input', function() {
+            let value = this.value.replace(/[^\d]/g, '');
+            if (value.length >= 11) {
+                value = value.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
+            } else if (value.length >= 7) {
+                value = value.replace(/(\d{3})(\d{3,4})(\d*)/, '$1-$2-$3');
+            } else if (value.length >= 4) {
+                value = value.replace(/(\d{3})(\d*)/, '$1-$2');
+            }
+            this.value = value;
+        });
+        
+        // 메시지 표시
+        function showMessage(text, type) {
+            const message = document.getElementById('message');
+            message.textContent = text;
+            message.className = `message ${type}`;
+            message.style.display = 'block';
+            
+            // 3초 후 자동 숨김
+            setTimeout(() => {
+                message.style.display = 'none';
+            }, 3000);
+        }
+        
+        // 폼 제출 처리
+        document.getElementById('surveyForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            if (!validateCurrentStep()) {
+                return;
+            }
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const loading = document.getElementById('loading');
+            
+            // 로딩 상태 시작
+            submitBtn.disabled = true;
+            loading.style.display = 'inline-block';
+            
+            // 폼 데이터 수집
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData.entries());
+            
+            try {
+                const response = await fetch('api/survey-submission.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    // 설문 완료 페이지 표시
+                    document.querySelector('.survey-form').style.display = 'none';
+                    document.querySelector('.form-header').style.display = 'none';
+                    document.getElementById('completionPage').style.display = 'block';
+                } else {
+                    throw new Error(result.error || '설문 제출 중 오류가 발생했습니다.');
+                }
+                
+            } catch (error) {
+                showMessage(error.message, 'error');
+            }
+            
+            // 로딩 상태 종료
+            submitBtn.disabled = false;
+            loading.style.display = 'none';
+        });
+        
+        // 초기 설정
+        updateButtons();
+        updateProgress();
+    </script>
+</body>
+</html>

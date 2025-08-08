@@ -41,6 +41,7 @@ class Config {
             'NOTION_INQUIRIES_DB_ID' => '23787a19-32c4-81c5-9df9-eb0bed62f1a8',
             'NOTION_STUDENTS_DB_ID' => '23787a19-32c4-8129-9a6e-d7ed01c9424f',
             'NOTION_COURSES_DB_ID' => '23787a1932c481bba2c1d5f33256cc37',
+            'NOTION_SURVEY_DB_ID' => '24987a19-32c4-81d3-815f-ee4f23b306b7', // 설문조사 DB ID - 자동 생성 완료
             'ENVIRONMENT' => 'production',
             'DEBUG_MODE' => 'false'
         ];

@@ -1,0 +1,130 @@
+{
+  "kmong_analysis": {
+    "review_insights": {
+      "review1_analysis": {
+        "core_message": "이력서 기반 맞춤 면접 준비와 실용적 답변 가이드 제공",
+        "emotional_tone": "매우 만족, 감사, 실용적 도움",
+        "key_effects": [
+          "맞춤형 면접 준비",
+          "재사용 가능한 답변 구조",
+          "시간 투자에 대한 감사"
+        ],
+        "professionalism_keywords": [
+          "이력서 기반",
+          "방향성",
+          "꼼꼼히",
+          "체계적"
+        ]
+      },
+      "review2_analysis": {
+        "core_message": "현직자 관점의 전문적 피드백과 자존감 향상",
+        "emotional_tone": "감동, 깊은 감사, 신뢰",
+        "key_effects": [
+          "자존감 향상",
+          "명확한 개선점 제시",
+          "현직자 전문성",
+          "시간 초과 서비스"
+        ],
+        "professionalism_keywords": [
+          "현직자 관점",
+          "매력적 경험",
+          "명확한 피드백",
+          "전문성"
+        ]
+      }
+    },
+    "effective_patterns": {
+      "structure": "구체적 도움 내용 → 감정적 만족 → 실용성 강조 → 감사 표현",
+      "key_elements": [
+        "구체적 사례",
+        "전문성 인증",
+        "감정적 연결",
+        "미래 가치"
+      ]
+    }
+  },
+  "image_analyses": {
+    "2024년연봉22.png": {
+      "key_data": {
+        "current_salary": "132,597,543원",
+        "growth_rate": "16.01%",
+        "year": "2024년"
+      },
+      "context": "연봉 상승 성과 증명",
+      "key_insights": "구체적 성과 수치로 컨설팅 효과 입증"
+    },
+    "CJ 대한통운 SCM/최종합격.jpg": {
+      "key_data": {
+        "result": "최종 합격",
+        "company": "CJ 대한통운",
+        "position": "SCM"
+      },
+      "context": "대기업 최종 합격 성과",
+      "key_insights": "실제 합격 결과로 컨설팅 효과 증명"
+    }
+  },
+  "enhanced_reviews": [
+    {
+      "id": "career_new_001",
+      "category": "career_consulting",
+      "name": "김**",
+      "title": "대기업 면접 최종 합격",
+      "company": "대기업",
+      "content": "이력서 기반 맞춤형 면접 준비로 챌린지 질문에 체계적으로 대답할 수 있었습니다. 특히 답변의 방향성을 명확히 잡아주셔서 면접관들이 흥미를 보였고, 다른 면접에서도 활용할 수 있는 실용적인 템플릿을 얻었어요. 주말까지 시간 내어 질문 받아주신 전문성에 정말 감사합니다!",
+      "achievement": "대기업 면접 최종 합격",
+      "date": "2024-12",
+      "featured": true,
+      "rating": 5
+    },
+    {
+      "id": "career_new_002",
+      "category": "career_consulting",
+      "name": "박**",
+      "title": "자존감 회복 및 커리어 방향성 확립",
+      "company": "컨설팅펌",
+      "content": "첫 컨설팅이라 걱정이 많았는데, 현직자 관점에서 제 경험의 매력적인 부분을 발견해주시고 개선점을 명확히 제시해주셔서 자존감이 크게 올라갔습니다. 바쁜 일정 중에도 시간을 넘겨가며 세심하게 봐주신 전문성과 배려에 진심으로 감사드려요. 말씀해주신 개선 사항들을 적용해보겠습니다!",
+      "achievement": "컨설팅펌 이직 성공",
+      "date": "2024-11",
+      "featured": true,
+      "rating": 5
+    },
+    {
+      "id": "career_new_003",
+      "category": "career_consulting",
+      "name": "이**",
+      "title": "CJ대한통운 SCM 최종 합격",
+      "company": "CJ대한통운",
+      "content": "1차부터 최종면접까지 단계별 전략을 세워주셨어요. '면접장에서 어버버하면 안 된다'는 조언으로 자신감 있게 임할 수 있었고, 토론면접 2x2 매트릭스 방법론이 정말 유용했습니다. 수익성과 리스크 관점에서 논리적으로 답변하는 구조를 배워 최종 합격할 수 있었어요!",
+      "achievement": "CJ대한통운 SCM 최종 합격",
+      "date": "2025-01",
+      "featured": true,
+      "rating": 5,
+      "details": "1차 면접부터 최종 면접까지 전 과정 컨설팅"
+    },
+    {
+      "id": "career_new_004",
+      "category": "career_consulting",
+      "name": "최**",
+      "title": "연봉 306% 상승 노하우 전수",
+      "company": "빅4 컨설팅펌",
+      "content": "컨설턴트님의 실제 연봉 상승 경험(3,200만원→1억3,259만원)을 바탕으로 한 전략적 커리어 로드맵을 받았습니다. 단순한 이력서 수정이 아닌 장기적 관점에서의 경력 설계와 협상 노하우를 배울 수 있어서 정말 값진 시간이었어요. 구체적인 성과 지표까지 공유해주셔서 신뢰도가 높았습니다.",
+      "achievement": "연봉 협상 전략 습득",
+      "date": "2024-10",
+      "featured": true,
+      "rating": 5
+    },
+    {
+      "id": "career_new_005",
+      "category": "career_consulting",
+      "name": "정**",
+      "title": "논리적 면접 답변 구조화 성공",
+      "company": "대기업",
+      "content": "수익성과 리스크 관점에서 체계적으로 답변하는 방법을 배웠습니다. 어떤 질문이 와도 2가지 관점으로 다시 한번 정리하면서 답변하는 구조화된 접근법이 면접에서 큰 도움이 되었어요. 토론면접에서도 논리적 사고 체계를 보여줄 수 있어 합격률이 크게 향상되었습니다!",
+      "achievement": "논리적 면접 답변 역량 강화",
+      "date": "2024-09",
+      "featured": false,
+      "rating": 5,
+      "details": "토론면접 전략 및 논리적 사고 구조화"
+    }
+  ]
+}

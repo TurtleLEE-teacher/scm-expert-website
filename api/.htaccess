@@ -1,0 +1,21 @@
+# API 엔드포인트 보안 설정
+
+# PHP 파일만 실행 허용
+<FilesMatch "\.(php)$">
+    Order allow,deny
+    Allow from all
+</FilesMatch>
+
+# 다른 파일 타입 접근 차단
+<FilesMatch "^(?!.*\.php$).*$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# 디렉토리 브라우징 차단
+Options -Indexes
+
+# CORS 헤더 설정 (필요시)
+Header always set Access-Control-Allow-Origin "*"
+Header always set Access-Control-Allow-Methods "POST, GET, OPTIONS"
+Header always set Access-Control-Allow-Headers "Content-Type"
