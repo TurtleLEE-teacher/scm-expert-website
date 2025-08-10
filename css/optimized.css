@@ -46,6 +46,8 @@
 html {
     scroll-behavior: smooth;
     scroll-padding-top: var(--header-height);
+    /* 모바일 뷰포트 개선 */
+    height: 100%;
 }
 
 body {
@@ -56,9 +58,39 @@ body {
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    /* 가상 키보드 대응 */
+    min-height: 100vh;
+    min-height: 100dvh; /* Dynamic Viewport Height */
 }
 
-/* ==== 스크롤바 스타일링 ==== */
+/* 가상 키보드 대응 개선 */
+@supports (padding: env(keyboard-inset-height)) {
+    body {
+        padding-bottom: env(keyboard-inset-height);
+    }
+}
+
+/* iOS Safari 주소창 대응 */
+.hero-section, .main-container {
+    min-height: 100vh;
+    min-height: 100dvh; /* Dynamic Viewport Height */
+}
+
+/* 폼 컨테이너 가상 키보드 대응 */
+.form-container, .survey-container, .application-form {
+    padding-bottom: 2rem;
+    transition: padding-bottom 0.3s ease;
+}
+
+/* 키보드 활성화 시 스크롤 개선 */
+input:focus, 
+textarea:focus, 
+select:focus {
+    scroll-margin-top: 120px;
+    scroll-margin-bottom: 120px;
+}
+
+/* ==== 스크롤바 스타일링 및 성능 최적화 ==== */
 ::-webkit-scrollbar { width: 8px; }
 ::-webkit-scrollbar-track { background: var(--bg-secondary); }
 ::-webkit-scrollbar-thumb { 
@@ -66,6 +98,38 @@ body {
     border-radius: 4px; 
 }
 ::-webkit-scrollbar-thumb:hover { background: var(--secondary); }
+
+/* 스크롤 성능 최적화 */
+* {
+    -webkit-overflow-scrolling: touch; /* iOS 관성 스크롤 */
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: var(--header-height);
+    height: 100%;
+    /* 스크롤 성능 향상 */
+    overscroll-behavior: contain;
+}
+
+/* 스크롤 가능한 컨테이너 최적화 */
+.scrollable-content,
+.testimonials-container,
+.calendar-container,
+.form-container {
+    -webkit-overflow-scrolling: touch;
+    overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    will-change: scroll-position;
+}
+
+/* 모바일에서 스크롤 바운스 제어 */
+@media (max-width: 768px) {
+    body {
+        overscroll-behavior-y: none; /* iOS 바운스 제거 */
+        -webkit-overflow-scrolling: touch;
+    }
+}
 
 /* ==== 프리로더 ==== */
 .preloader {
@@ -358,20 +422,42 @@ body {
     animation: fadeInUp 1s ease-out 0.4s both;
 }
 
-/* ==== 버튼 스타일 ==== */
+/* ==== 버튼 스타일 (모바일 터치 최적화) ==== */
 .btn {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
     padding: 12px 24px;
+    min-height: 48px; /* 터치 최적화 */
     border: none;
     border-radius: var(--border-radius);
     text-decoration: none;
     font-weight: 600;
+    font-size: 16px; /* iOS 확대 방지 */
     transition: var(--transition);
     cursor: pointer;
     position: relative;
     overflow: hidden;
+    touch-action: manipulation; /* 터치 지연 최소화 */
+    -webkit-tap-highlight-color: transparent; /* 기본 하이라이트 제거 */
+}
+
+/* 터치 피드백 강화 */
+.btn:active {
+    transform: scale(0.95) translateY(1px);
+    transition: all 0.1s ease;
+}
+
+/* 터치 장치에서 호버 비활성화 */
+@media (pointer: coarse) {
+    .btn:hover {
+        transform: none;
+    }
+    
+    .btn:active {
+        transform: scale(0.95);
+        filter: brightness(0.9);
+    }
 }
 
 .btn-primary {
@@ -385,6 +471,12 @@ body {
     box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
 }
 
+.btn-primary:active {
+    background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.6);
+    transform: scale(0.95);
+}
+
 .btn-outline {
     background: transparent;
     color: var(--primary);
@@ -395,6 +487,13 @@ body {
     background: var(--primary);
     color: white;
     transform: translateY(-2px);
+}
+
+.btn-outline:active {
+    background: var(--secondary);
+    border-color: var(--secondary);
+    color: white;
+    transform: scale(0.95);
 }
 
 /* ==== 카드 컴포넌트 ==== */
