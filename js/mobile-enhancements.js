@@ -108,30 +108,33 @@ class MobileEnhancer {
         }, 3000);
     }
 
-    // 가상 키보드 핸들링
+    // 가상 키보드 핸들링 (스크롤 간섭 최소화)
     addKeyboardHandling() {
         const inputs = document.querySelectorAll('input, textarea, select');
         
         inputs.forEach(input => {
-            input.addEventListener('focus', (e) => {
-                setTimeout(() => {
-                    e.target.scrollIntoView({ 
-                        behavior: 'smooth', 
-                        block: 'center',
-                        inline: 'nearest'
-                    });
-                }, 300); // 키보드 애니메이션 고려
-            });
+            // 포커스 시 자동 스크롤 제거 (사용자가 직접 스크롤하도록)
+            // input.addEventListener('focus', (e) => {
+            //     setTimeout(() => {
+            //         e.target.scrollIntoView({ 
+            //             behavior: 'smooth', 
+            //             block: 'center',
+            //             inline: 'nearest'
+            //         });
+            //     }, 300);
+            // });
 
-            // iOS에서 확대 방지
+            // iOS에서 확대 방지만 유지
             input.addEventListener('touchstart', (e) => {
                 if (input.style.fontSize !== '16px') {
                     input.style.fontSize = '16px';
                 }
-            });
+            }, { passive: true });
         });
 
-        // 뷰포트 변화 감지 (키보드 표시/숨김)
+        // 뷰포트 변화 감지 비활성화 (스크롤 위치 간섭 방지)
+        // 대신 CSS의 100dvh와 env(keyboard-inset-height) 사용
+        /*
         let initialViewportHeight = window.visualViewport ? window.visualViewport.height : window.innerHeight;
         
         if (window.visualViewport) {
@@ -139,13 +142,14 @@ class MobileEnhancer {
                 const currentHeight = window.visualViewport.height;
                 const heightDiff = initialViewportHeight - currentHeight;
                 
-                if (heightDiff > 150) { // 키보드가 올라옴
+                if (heightDiff > 150) {
                     document.body.style.paddingBottom = `${heightDiff}px`;
-                } else { // 키보드가 내려감
+                } else {
                     document.body.style.paddingBottom = '0';
                 }
             });
         }
+        */
     }
 
     // 스와이프 제스처 추가
