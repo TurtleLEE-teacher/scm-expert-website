@@ -12,8 +12,8 @@ class MobileEnhancer {
         this.addTouchFeedback();
         this.addHapticFeedback();
         this.addLoadingStates();
-        this.addKeyboardHandling();
-        this.addSwipeGestures();
+        // this.addKeyboardHandling(); // 스크롤 간섭 방지 위해 비활성화
+        // this.addSwipeGestures(); // 스크롤 간섭 방지 위해 비활성화
     }
 
     // 터치 피드백 개선
