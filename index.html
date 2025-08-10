@@ -19,41 +19,650 @@
     <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
     <link rel="apple-touch-icon" href="./images/apple-touch-icon.png">
     
-    <!-- Critical CSS 인라인 (첫 화면 렌더링 최적화) -->
+    <!-- 모던 CSS 통합 스타일 -->
     <style>
-        /* Critical CSS - 첫 화면 렌더링용 */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: #0f0f0f; 
-            color: #ffffff; 
+        /* 기본 리셋 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+            background: #0f0f0f;
+            color: #ffffff;
             overflow-x: hidden;
         }
+        
+        /* 프리로더 */
         .preloader {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #0f0f0f; display: flex; justify-content: center; align-items: center;
-            z-index: 9999; transition: opacity 0.5s;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0f0f0f;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s;
         }
+        
         .loader-modern {
-            width: 60px; height: 60px; border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
             background: conic-gradient(transparent, #667eea);
-            animation: spin 1s linear infinite; position: relative;
+            animation: spin 1s linear infinite;
+            position: relative;
         }
+        
         .loader-modern::before {
-            content: ''; position: absolute; width: 48px; height: 48px;
-            border-radius: 50%; background: #0f0f0f; top: 6px; left: 6px;
+            content: '';
+            position: absolute;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #0f0f0f;
+            top: 6px;
+            left: 6px;
         }
-        @keyframes spin { to { transform: rotate(360deg); } }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* 파티클 배경 */
+        .particle-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(240, 147, 251, 0.4);
+            border-radius: 50%;
+            animation: float 15s infinite linear;
+        }
+        
+        @keyframes float {
+            from {
+                transform: translateY(100vh) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            to {
+                transform: translateY(-10vh) translateX(100px);
+                opacity: 0;
+            }
+        }
+        
+        /* 그라데이션 애니메이션 */
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        /* 헤더 */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 20px 0;
+            background: rgba(15, 15, 15, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .navbar {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-brand h1 {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+        
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover, .nav-links a.active {
+            color: #f093fb;
+        }
+        
+        /* 히어로 섹션 */
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 120px 20px 50px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero-content {
+            text-align: center;
+            max-width: 900px;
+        }
+        
+        .badge {
+            display: inline-block;
+            background: rgba(240, 147, 251, 0.2);
+            border: 1px solid rgba(240, 147, 251, 0.5);
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: #f093fb;
+            margin-bottom: 30px;
+        }
+        
+        .hero-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            background-size: 200% 200%;
+            animation: gradientShift 5s ease infinite;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 2px 10px rgba(102, 126, 234, 0.3));
+        }
+        
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+        
+        /* 버튼 스타일 */
+        .btn {
+            padding: 15px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            margin: 0 10px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            color: #f093fb;
+            border: 2px solid rgba(240, 147, 251, 0.5);
+        }
+        
+        .btn-outline:hover {
+            background: rgba(240, 147, 251, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        /* 섹션 스타일 */
+        .section {
+            padding: 80px 20px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            text-align: center;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 50px;
+            font-size: 1.1rem;
+        }
+        
+        /* 카드 스타일 */
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.2);
+        }
+        
+        /* 그리드 레이아웃 */
+        .grid {
+            display: grid;
+            gap: 30px;
+        }
+        
+        .grid-2 {
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        }
+        
+        .grid-3 {
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        }
+        
+        .grid-4 {
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        }
+        
+        /* 카드 아이콘 */
+        .card-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        /* 서비스 카드 */
+        .service-card {
+            position: relative;
+        }
+        
+        .service-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .service-badge {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .service-badge.popular {
+            background: #f093fb;
+            color: white;
+        }
+        
+        .service-badge.new {
+            background: #667eea;
+            color: white;
+        }
+        
+        .service-features {
+            list-style: none;
+            margin: 20px 0;
+        }
+        
+        .service-features li {
+            padding: 8px 0;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        /* 강사 프로필 */
+        .instructor-profile {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .profile-content {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 50px;
+            align-items: center;
+        }
+        
+        .profile-text h3 {
+            font-size: 2rem;
+            color: #f093fb;
+            margin-bottom: 20px;
+        }
+        
+        .profile-badges {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .badge-small {
+            padding: 5px 15px;
+            background: rgba(102, 126, 234, 0.2);
+            border: 1px solid rgba(102, 126, 234, 0.5);
+            border-radius: 15px;
+            font-size: 0.85rem;
+            color: #667eea;
+        }
+        
+        .profile-description p {
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 25px;
+        }
+        
+        .expertise-list h4 {
+            color: #f093fb;
+            margin-bottom: 15px;
+        }
+        
+        .expertise-list ul {
+            list-style: none;
+        }
+        
+        .expertise-list li {
+            padding: 5px 0;
+            color: rgba(255, 255, 255, 0.7);
+            position: relative;
+            padding-left: 20px;
+        }
+        
+        .expertise-list li::before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+        }
+        
+        .profile-stats {
+            display: flex;
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            display: block;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #f093fb;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .profile-image-container {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid rgba(240, 147, 251, 0.5);
+            position: relative;
+        }
+        
+        .profile-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* 문의 폼 */
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 50px;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .contact-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(102, 126, 234, 0.2);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            color: #667eea;
+        }
+        
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: white;
+            font-size: 1rem;
+        }
+        
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        /* 푸터 */
+        .footer {
+            padding: 60px 20px 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.3);
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-section h3,
+        .footer-section h4 {
+            color: #f093fb;
+            margin-bottom: 20px;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-section a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-section a:hover {
+            color: #f093fb;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        /* 스크롤 애니메이션 */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.23, 1, 0.320, 1);
+        }
+        
+        .scroll-reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* 반응형 디자인 - 모바일 최적화 */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 20px;
+            }
+            
+            .hero-section {
+                padding: 150px 20px 50px;
+                text-align: center;
+            }
+            
+            .hero-title {
+                font-size: clamp(2rem, 8vw, 3rem);
+            }
+            
+            .profile-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 30px;
+            }
+            
+            .profile-image-container {
+                width: 200px;
+                height: 200px;
+                margin: 0 auto;
+            }
+            
+            .profile-stats {
+                justify-content: center;
+            }
+            
+            .contact-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 30px;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 300px;
+                margin: 10px 0;
+            }
+            
+            /* 터치 최적화 */
+            * {
+                -webkit-tap-highlight-color: transparent;
+            }
+            
+            *:focus {
+                outline: 2px solid #f093fb;
+                outline-offset: 2px;
+            }
+            
+            body {
+                -webkit-overflow-scrolling: touch;
+            }
+        }
+        
+        /* 작은 모바일 */
+        @media (max-width: 480px) {
+            .section {
+                padding: 60px 15px;
+            }
+            
+            .card {
+                padding: 25px;
+            }
+            
+            .hero-section {
+                padding: 120px 15px 40px;
+            }
+        }
     </style>
-    
-    <!-- 최적화된 CSS 로드 (non-blocking) -->
-    <link rel="preload" href="./css/optimized.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="./css/optimized.css"></noscript>
-    
-    <!-- 웹폰트 최적화 -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     
     <!-- JSON-LD 구조화 데이터 -->
     <script type="application/ld+json">
@@ -87,155 +696,145 @@
     <div class="preloader" id="preloader">
         <div class="loader-modern"></div>
     </div>
-
+    
     <!-- 파티클 배경 -->
     <div class="particle-bg" id="particleBg"></div>
-
+    
     <!-- 헤더 -->
-    <header class="navbar" id="navbar">
-        <nav class="nav-container">
-            <a href="#" class="logo">SCM Expert</a>
-            <ul class="nav-menu" id="navMenu">
-                <li><a href="#home" class="nav-link active">홈</a></li>
-                <li><a href="#about" class="nav-link">소개</a></li>
-                <li><a href="#services" class="nav-link">서비스</a></li>
-                <li><a href="#courses" class="nav-link">강의</a></li>
-                <!-- <li><a href="#survey" class="nav-link">만족도조사</a></li> -->
-                <li><a href="#contact" class="nav-link">문의</a></li>
-            </ul>
-            <div class="nav-toggle" id="navToggle">
-                <span></span>
-                <span></span>
-                <span></span>
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <h1>이선생</h1>
+                </div>
+                <div class="nav-links">
+                    <a href="#home" class="active">홈</a>
+                    <a href="#about">소개</a>
+                    <a href="#services">서비스</a>
+                    <a href="#contact">문의</a>
+                    <a href="#contact" class="btn btn-primary">상담 신청</a>
+                </div>
             </div>
         </nav>
     </header>
+    
+    <!-- 히어로 섹션 -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <div class="badge">글로벌 전문가의 실무 교육</div>
+            <h1 class="hero-title">
+                글로벌 SCM 전문가가 되는<br>
+                확실한 방법
+            </h1>
+            <p class="hero-subtitle">
+                현직 글로벌 컨설팅펌 컨설턴트가 직접 제공하는<br>
+                실무 중심의 SCM 강의와 커리어 컨설팅
+            </p>
+            <div>
+                <a href="#services" class="btn btn-primary">서비스 둘러보기</a>
+                <a href="#about" class="btn btn-outline">자세히 알아보기</a>
+            </div>
+        </div>
+    </section>
 
-    <!-- 메인 콘텐츠 -->
-    <main class="main-content">
-        <!-- 히어로 섹션 -->
-        <section id="home" class="hero">
-            <div class="hero-container">
-                <h1 class="fade-in-up">
-                    글로벌 SCM 전문가가 되는<br>
-                    <span class="gradient-text">확실한 방법</span>
-                </h1>
-                <p class="fade-in-up">
-                    현직 글로벌 컨설팅펌 컨설턴트가 직접 제공하는<br>
-                    실무 중심의 SCM 강의와 커리어 컨설팅
-                </p>
-                <div class="hero-buttons fade-in-up">
-                    <a href="#services" class="btn btn-primary">
-                        서비스 둘러보기
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                            <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" stroke-width="2"/>
+    <!-- 특징 섹션 -->
+    <section id="features" class="section">
+        <div class="container">
+            <h2 class="section-title">왜 이선생을 선택해야 할까요?</h2>
+            <p class="section-subtitle">실무 경험과 검증된 교육 방법론을 바탕으로 한 차별화된 서비스</p>
+            
+            <div class="grid grid-3">
+                <div class="card scroll-reveal">
+                    <div class="card-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
+                            <path d="M12 2L15.09 8.26L22 9L17 14L18.18 21L12 17.77L5.82 21L7 14L2 9L8.91 8.26L12 2Z" fill="currentColor"/>
                         </svg>
-                    </a>
-                    <a href="#about" class="btn btn-outline">자세히 알아보기</a>
+                    </div>
+                    <h3>현직 전문가</h3>
+                    <p>글로벌 컨설팅펌에서 활동 중인 현직 SCM 컨설턴트가 직접 강의합니다.</p>
+                </div>
+                <div class="card scroll-reveal">
+                    <div class="card-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
+                            <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <h3>실무 중심</h3>
+                    <p>이론뿐만 아니라 실제 프로젝트 사례를 통한 실무 역량 강화에 집중합니다.</p>
+                </div>
+                <div class="card scroll-reveal">
+                    <div class="card-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
+                            <path d="M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z" stroke="currentColor" stroke-width="2"/>
+                            <path d="M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <h3>개인 맞춤</h3>
+                    <p>개인의 목표와 수준에 맞춘 1:1 맞춤형 컨설팅을 제공합니다.</p>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- 특징 섹션 -->
-        <section id="features" class="section">
-            <div class="container">
-                <div class="section-title">
-                    <h2>왜 SCM Expert를 선택해야 할까요?</h2>
-                    <p>실무 경험과 검증된 교육 방법론을 바탕으로 한 차별화된 서비스</p>
+    <!-- 서비스 섹션 -->
+    <section id="services" class="section" style="background: rgba(102, 126, 234, 0.05);">
+        <div class="container">
+            <h2 class="section-title">제공 서비스</h2>
+            <p class="section-subtitle">SCM 전문가로 성장하기 위한 종합 솔루션</p>
+            
+            <div class="grid grid-2">
+                <div class="card service-card scroll-reveal">
+                    <div class="service-header">
+                        <h3>SCM 기초 완성 강의</h3>
+                        <span class="service-badge popular">인기</span>
+                    </div>
+                    <p>공급망 관리의 기초부터 고급 전략까지 체계적으로 학습할 수 있는 온라인 강의입니다.</p>
+                    <ul class="service-features">
+                        <li>✓ 20시간 분량의 고품질 동영상 강의</li>
+                        <li>✓ 실무 사례 중심의 커리큘럼</li>
+                        <li>✓ 1:1 질의응답 및 피드백</li>
+                        <li>✓ 수료증 발급</li>
+                    </ul>
+                    <a href="scm-basic.html" class="btn btn-primary">자세히 보기</a>
                 </div>
-                <div class="grid grid-3">
-                    <div class="card">
-                        <div class="card-icon">
-                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
-                                <path d="M12 2L15.09 8.26L22 9L17 14L18.18 21L12 17.77L5.82 21L7 14L2 9L8.91 8.26L12 2Z" fill="currentColor"/>
-                            </svg>
-                        </div>
-                        <h3>현직 전문가</h3>
-                        <p>글로벌 컨설팅펌에서 활동 중인 현직 SCM 컨설턴트가 직접 강의합니다.</p>
+                <div class="card service-card scroll-reveal">
+                    <div class="service-header">
+                        <h3>커리어 컨설팅</h3>
+                        <span class="service-badge new">신규</span>
                     </div>
-                    <div class="card">
-                        <div class="card-icon">
-                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
-                                <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2"/>
-                            </svg>
-                        </div>
-                        <h3>실무 중심</h3>
-                        <p>이론뿐만 아니라 실제 프로젝트 사례를 통한 실무 역량 강화에 집중합니다.</p>
-                    </div>
-                    <div class="card">
-                        <div class="card-icon">
-                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
-                                <path d="M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z" stroke="currentColor" stroke-width="2"/>
-                                <path d="M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z" stroke="currentColor" stroke-width="2"/>
-                            </svg>
-                        </div>
-                        <h3>개인 맞춤</h3>
-                        <p>개인의 목표와 수준에 맞춘 1:1 맞춤형 컨설팅을 제공합니다.</p>
-                    </div>
+                    <p>SCM 분야 취업과 커리어 발전을 위한 전문적인 1:1 컨설팅 서비스입니다.</p>
+                    <ul class="service-features">
+                        <li>✓ 이력서 작성 및 첨삭</li>
+                        <li>✓ 면접 준비 및 모의 면접</li>
+                        <li>✓ 커리어 로드맵 설계</li>
+                        <li>✓ 네트워킹 지원</li>
+                    </ul>
+                    <a href="career-consulting.html" class="btn btn-primary">자세히 보기</a>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- 서비스 섹션 -->
-        <section id="services" class="section">
-            <div class="container">
-                <div class="section-title">
-                    <h2>제공 서비스</h2>
-                    <p>SCM 전문가로 성장하기 위한 종합 솔루션</p>
-                </div>
-                <div class="grid grid-2">
-                    <div class="card service-card">
-                        <div class="service-header">
-                            <h3>SCM 기초 완성 강의</h3>
-                            <span class="service-badge">인기</span>
-                        </div>
-                        <p>공급망 관리의 기초부터 고급 전략까지 체계적으로 학습할 수 있는 온라인 강의입니다.</p>
-                        <ul class="service-features">
-                            <li>✓ 20시간 분량의 고품질 동영상 강의</li>
-                            <li>✓ 실무 사례 중심의 커리큘럼</li>
-                            <li>✓ 1:1 질의응답 및 피드백</li>
-                            <li>✓ 수료증 발급</li>
-                        </ul>
-                        <a href="scm-basic.html" class="btn btn-primary">자세히 보기</a>
-                    </div>
-                    <div class="card service-card">
-                        <div class="service-header">
-                            <h3>커리어 컨설팅</h3>
-                            <span class="service-badge new">신규</span>
-                        </div>
-                        <p>SCM 분야 취업과 커리어 발전을 위한 전문적인 1:1 컨설팅 서비스입니다.</p>
-                        <ul class="service-features">
-                            <li>✓ 이력서 작성 및 첨삭</li>
-                            <li>✓ 면접 준비 및 모의 면접</li>
-                            <li>✓ 커리어 로드맵 설계</li>
-                            <li>✓ 네트워킹 지원</li>
-                        </ul>
-                        <a href="career-consulting.html" class="btn btn-primary">자세히 보기</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 강사 소개 섹션 -->
-        <section id="about" class="section">
-            <div class="container">
-                <div class="section-title">
-                    <h2>강사 소개</h2>
-                    <p>현장 경험과 전문성을 갖춘 SCM 전문가</p>
-                </div>
-                <div class="instructor-profile">
+    <!-- 강사 소개 섹션 -->
+    <section id="about" class="section">
+        <div class="container">
+            <h2 class="section-title">강사 소개</h2>
+            <p class="section-subtitle">현장 경험과 전문성을 갖춘 SCM 전문가</p>
+            
+            <div class="instructor-profile">
+                <div class="card scroll-reveal">
                     <div class="profile-content">
                         <div class="profile-text">
-                            <h3>이현우 컨설턴트</h3>
+                            <h3>이선생</h3>
                             <div class="profile-badges">
-                                <span class="badge">현직 컨설턴트</span>
-                                <span class="badge">10년+ 경력</span>
-                                <span class="badge">글로벌 프로젝트</span>
+                                <span class="badge-small">현직 컨설턴트</span>
+                                <span class="badge-small">306% 연봉 상승</span>
+                                <span class="badge-small">글로벌 프로젝트</span>
                             </div>
                             <div class="profile-description">
                                 <p>
-                                    현재 글로벌 컨설팅펌에서 SCM(공급망관리) 전문 컨설턴트로 활동하며, 
-                                    다양한 산업 분야의 기업들에게 공급망 최적화 솔루션을 제공하고 있습니다.
+                                    현재 글로벌 Big4 컨설팅펌에서 SCM(공급망관리) 전문 컨설턴트로 활동하며, 
+                                    2015년 대비 306% 연봉 상승을 달성한 실무 전문가입니다.
                                 </p>
                                 <div class="expertise-list">
                                     <h4>전문 분야</h4>
@@ -251,27 +850,28 @@
                             <div class="profile-stats">
                                 <div class="stat-item">
                                     <span class="stat-number">100+</span>
-                                    <span class="stat-label">프로젝트 완료</span>
+                                    <span class="stat-label">멘토링 진행</span>
                                 </div>
                                 <div class="stat-item">
-                                    <span class="stat-number">50+</span>
-                                    <span class="stat-label">글로벌 기업</span>
+                                    <span class="stat-number">306%</span>
+                                    <span class="stat-label">연봉 상승률</span>
                                 </div>
                                 <div class="stat-item">
-                                    <span class="stat-number">95%</span>
-                                    <span class="stat-label">만족도</span>
+                                    <span class="stat-number">Big4</span>
+                                    <span class="stat-label">컨설팅펌 재직</span>
                                 </div>
                             </div>
                         </div>
                         <div class="profile-image">
                             <div class="profile-image-container">
-                                <img src="./images/instructor-profile.jpg" alt="이현우 컨설턴트" loading="lazy">
+                                <img src="./images/portfolio/teacher.png" alt="이선생 프로필" loading="lazy">
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
         <!-- 고객 만족도 조사 섹션 제거됨 -->
         <!--
@@ -311,69 +911,68 @@
         </section>
         -->
 
-        <!-- 문의 섹션 -->
-        <section id="contact" class="section">
-            <div class="container">
-                <div class="section-title">
-                    <h2>문의하기</h2>
-                    <p>궁금한 점이 있으시면 언제든 연락해 주세요</p>
-                </div>
-                <div class="contact-content">
-                    <div class="contact-info">
-                        <div class="contact-item">
-                            <div class="contact-icon">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                    <path d="M3 8L10.89 13.26C11.2187 13.4793 11.6049 13.5963 12 13.5963C12.3951 13.5963 12.7813 13.4793 13.11 13.26L21 8M5 19H19C20.1046 19 21 18.1046 21 17V7C21 5.89543 20.1046 5 19 5H5C3.89543 5 3 5.89543 3 7V17C3 18.1046 3.89543 19 5 19Z" stroke="currentColor" stroke-width="2"/>
-                                </svg>
-                            </div>
-                            <div>
-                                <h4>이메일</h4>
-                                <p>contact@scmexpert.com</p>
-                            </div>
+    <!-- 문의 섹션 -->
+    <section id="contact" class="section" style="background: linear-gradient(135deg, rgba(240, 147, 251, 0.05), rgba(102, 126, 234, 0.05));">
+        <div class="container">
+            <h2 class="section-title">문의하기</h2>
+            <p class="section-subtitle">궁금한 점이 있으시면 언제든 연락해 주세요</p>
+            
+            <div class="contact-content">
+                <div class="contact-info scroll-reveal">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M3 8L10.89 13.26C11.2187 13.4793 11.6049 13.5963 12 13.5963C12.3951 13.5963 12.7813 13.4793 13.11 13.26L21 8M5 19H19C20.1046 19 21 18.1046 21 17V7C21 5.89543 20.1046 5 19 5H5C3.89543 5 3 5.89543 3 7V17C3 18.1046 3.89543 19 5 19Z" stroke="currentColor" stroke-width="2"/>
+                            </svg>
                         </div>
-                        <div class="contact-item">
-                            <div class="contact-icon">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                    <path d="M3 5C3 3.89543 3.89543 3 5 3H8.27924C8.70967 3 9.09181 3.27543 9.22792 3.68377L10.7257 8.17721C10.8831 8.64932 10.6694 9.16531 10.2243 9.38787L7.96701 10.5165C9.06925 12.9612 11.0388 14.9308 13.4835 16.033L14.6121 13.7757C14.8347 13.3306 15.3507 13.1169 15.8228 13.2743L20.3162 14.7721C20.7246 14.9082 21 15.2903 21 15.7208V19C21 20.1046 20.1046 21 19 21H18C9.71573 21 3 14.2843 3 6V5Z" stroke="currentColor" stroke-width="2"/>
-                                </svg>
-                            </div>
-                            <div>
-                                <h4>전화</h4>
-                                <p>010-1234-5678</p>
-                            </div>
+                        <div>
+                            <h4>이메일</h4>
+                            <p>contact@scmexpert.com</p>
                         </div>
                     </div>
-                    <form class="contact-form" id="contactForm">
-                        <div class="form-group">
-                            <input type="text" name="name" placeholder="이름" required>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M3 5C3 3.89543 3.89543 3 5 3H8.27924C8.70967 3 9.09181 3.27543 9.22792 3.68377L10.7257 8.17721C10.8831 8.64932 10.6694 9.16531 10.2243 9.38787L7.96701 10.5165C9.06925 12.9612 11.0388 14.9308 13.4835 16.033L14.6121 13.7757C14.8347 13.3306 15.3507 13.1169 15.8228 13.2743L20.3162 14.7721C20.7246 14.9082 21 15.2903 21 15.7208V19C21 20.1046 20.1046 21 19 21H18C9.71573 21 3 14.2843 3 6V5Z" stroke="currentColor" stroke-width="2"/>
+                            </svg>
                         </div>
-                        <div class="form-group">
-                            <input type="email" name="email" placeholder="이메일" required>
+                        <div>
+                            <h4>전화</h4>
+                            <p>010-1234-5678</p>
                         </div>
-                        <div class="form-group">
-                            <select name="service" required>
-                                <option value="">관심 서비스 선택</option>
-                                <option value="scm-course">SCM 기초 강의</option>
-                                <option value="career-consulting">커리어 컨설팅</option>
-                                <option value="other">기타 문의</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <textarea name="message" placeholder="문의 내용" rows="5" required></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary">문의 보내기</button>
-                    </form>
+                    </div>
                 </div>
+                
+                <form class="contact-form scroll-reveal" id="contactForm">
+                    <div class="form-group">
+                        <input type="text" name="name" placeholder="이름" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" name="email" placeholder="이메일" required>
+                    </div>
+                    <div class="form-group">
+                        <select name="service" required>
+                            <option value="">관심 서비스 선택</option>
+                            <option value="scm-course">SCM 기초 강의</option>
+                            <option value="career-consulting">커리어 컨설팅</option>
+                            <option value="other">기타 문의</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <textarea name="message" placeholder="문의 내용" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">문의 보내기</button>
+                </form>
             </div>
-        </section>
-    </main>
+        </div>
+    </section>
 
     <!-- 푸터 -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <h3>SCM Expert</h3>
+                    <h3>이선생</h3>
                     <p>글로벌 SCM 전문가 양성을 위한 최고의 교육 플랫폼</p>
                 </div>
                 <div class="footer-section">
@@ -392,93 +991,164 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2024 SCM Expert. All rights reserved.</p>
+                <p>&copy; 2025 이선생. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
-    <!-- JavaScript -->
     <script>
-        // Critical JavaScript - 인라인으로 성능 최적화
-        
-        // 프리로더 제거
-        window.addEventListener('load', function() {
-            const preloader = document.getElementById('preloader');
-            if (preloader) {
-                preloader.style.opacity = '0';
-                setTimeout(() => preloader.remove(), 500);
-            }
-        });
-
-        // 파티클 생성 (간소화)
+        // 파티클 생성
         function createParticles() {
             const particleBg = document.getElementById('particleBg');
             if (!particleBg) return;
             
-            for (let i = 0; i < 50; i++) {
+            // 모바일에서는 파티클 수 줄이기
+            const particleCount = window.innerWidth <= 768 ? 20 : 40;
+            
+            for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'particle';
                 particle.style.left = Math.random() * 100 + '%';
                 particle.style.animationDelay = Math.random() * 15 + 's';
-                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                particle.style.animationDuration = (15 + Math.random() * 10) + 's';
                 particleBg.appendChild(particle);
             }
         }
-
-        // 네비게이션 스크롤 효과
-        window.addEventListener('scroll', function() {
-            const navbar = document.getElementById('navbar');
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
-        });
-
-        // 모바일 메뉴 토글
-        const navToggle = document.getElementById('navToggle');
-        const navMenu = document.getElementById('navMenu');
         
-        if (navToggle && navMenu) {
-            navToggle.addEventListener('click', function() {
-                navMenu.classList.toggle('active');
-                navToggle.classList.toggle('active');
+        // 프리로더 숨기기
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const preloader = document.querySelector('.preloader');
+                if (preloader) {
+                    preloader.style.opacity = '0';
+                    setTimeout(() => {
+                        preloader.style.display = 'none';
+                    }, 500);
+                }
+            }, 1000);
+        });
+        
+        // 스크롤 애니메이션
+        function initScrollAnimations() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, observerOptions);
+            
+            // 모든 애니메이션 요소에 observer 적용
+            document.querySelectorAll('.scroll-reveal').forEach(el => {
+                observer.observe(el);
             });
         }
-
+        
         // 부드러운 스크롤 네비게이션
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
+        function initSmoothScroll() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
             });
-        });
-
+        }
+        
+        // 네비게이션 활성화
+        function initNavigation() {
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+            
+            window.addEventListener('scroll', () => {
+                let current = '';
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    if (scrollY >= sectionTop - 200) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === '#' + current) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+        }
+        
+        // 폼 제출 처리
+        function initContactForm() {
+            const form = document.getElementById('contactForm');
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // 폼 데이터 수집
+                    const formData = new FormData(form);
+                    const data = Object.fromEntries(formData);
+                    
+                    // 간단한 검증
+                    if (!data.name || !data.email || !data.message) {
+                        alert('모든 필드를 입력해주세요.');
+                        return;
+                    }
+                    
+                    // 제출 버튼 비활성화
+                    const submitBtn = form.querySelector('button[type="submit"]');
+                    const originalText = submitBtn.textContent;
+                    submitBtn.textContent = '전송 중...';
+                    submitBtn.disabled = true;
+                    
+                    // 실제 폼 제출 로직 (여기서는 시뮬레이션)
+                    setTimeout(() => {
+                        alert('문의가 성공적으로 전송되었습니다. 빠른 시일 내에 답변드리겠습니다.');
+                        form.reset();
+                        submitBtn.textContent = originalText;
+                        submitBtn.disabled = false;
+                    }, 2000);
+                });
+            }
+        }
+        
         // 초기화
         document.addEventListener('DOMContentLoaded', function() {
             createParticles();
+            initScrollAnimations();
+            initSmoothScroll();
+            initNavigation();
+            initContactForm();
+            
+            console.log('🚀 SCM Expert Website Loaded');
+        });
+        
+        // 리사이즈 이벤트 처리
+        window.addEventListener('resize', function() {
+            // 파티클 재생성 (필요시)
+            if (window.innerWidth <= 768) {
+                const particles = document.querySelectorAll('.particle');
+                if (particles.length > 20) {
+                    particles.forEach((particle, index) => {
+                        if (index >= 20) particle.remove();
+                    });
+                }
+            }
         });
     </script>
-
-    <!-- 비동기 CSS 로딩 스크립트 -->
-    <script>
-        // CSS 로딩 폴백
-        (function() {
-            var link = document.querySelector('link[rel="preload"][as="style"]');
-            if (link && !link.rel.includes('stylesheet')) {
-                setTimeout(function() {
-                    link.rel = 'stylesheet';
-                }, 100);
-            }
-        })();
-    </script>
-
+    
     <!-- 모바일 UI/UX 개선 스크립트 -->
     <script src="js/mobile-enhancements.js" defer></script>
 </body>
