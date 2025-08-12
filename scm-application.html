@@ -768,20 +768,86 @@
             data.marketing_optional = document.getElementById('marketing_optional').checked;
             
             try {
-                const response = await fetch('api/scm-application.php', {
+                // 과정 정보 준비
+                const courseTypes = {
+                    'beginner': 'SCM 초급반 (5주)',
+                    'advanced': 'SCM 심화반 (8주)'
+                };
+                
+                const priceInfo = {
+                    'beginner': { price: 299000, duration: '5주' },
+                    'advanced': { price: 499000, duration: '8주' }
+                };
+                
+                const selectedPrice = priceInfo[data.course_type];
+                const courseName = courseTypes[data.course_type];
+                
+                // Notion API 설정
+                const NOTION_API_KEY = 'secret_KaJcAIvtrwcPsFxvLXVNzzYDZ34zJb3cRLVb55K4U2f';
+                const STUDENTS_DB_ID = '23787a19-32c4-8129-9a6e-d7ed01c9424f';
+                
+                // Notion에 저장할 데이터 준비
+                const notionData = {
+                    parent: { database_id: STUDENTS_DB_ID },
+                    properties: {
+                        '이름': {
+                            title: [{ text: { content: data.name } }]
+                        },
+                        '이메일': {
+                            email: data.email
+                        },
+                        '전화번호': {
+                            phone_number: data.phone
+                        },
+                        '회사명': {
+                            rich_text: [{ text: { content: data.company || '' } }]
+                        },
+                        '직책': {
+                            rich_text: [{ text: { content: data.position || '' } }]
+                        },
+                        '수강강의': {
+                            rich_text: [{ 
+                                text: { 
+                                    content: `${courseName} (${selectedPrice.duration})` 
+                                } 
+                            }]
+                        },
+                        '결제금액': {
+                            number: selectedPrice.price
+                        },
+                        '등록일': {
+                            date: { start: new Date().toISOString().split('T')[0] }
+                        },
+                        '결제상태': {
+                            select: { name: '결제대기' }
+                        },
+                        '특이사항': {
+                            rich_text: [{ 
+                                text: { 
+                                    content: `경력수준: ${data.experience_level || '미입력'} | 학습목표: ${data.learning_goals || '미입력'} | 입금자명: ${data.depositor_name} | 마케팅 수신: ${data.marketing_optional ? '동의' : '거부'} | 신청일시: ${new Date().toLocaleString('ko-KR')}`
+                                } 
+                            }]
+                        }
+                    }
+                };
+                
+                // Notion API 직접 호출
+                const response = await fetch('https://api.notion.com/v1/pages', {
                     method: 'POST',
                     headers: {
+                        'Authorization': `Bearer ${NOTION_API_KEY}`,
                         'Content-Type': 'application/json',
+                        'Notion-Version': '2022-06-28'
                     },
-                    body: JSON.stringify(data)
+                    body: JSON.stringify(notionData)
                 });
                 
-                const result = await response.json();
-                
-                if (result.success) {
+                if (response.ok) {
+                    const result = await response.json();
+                    
                     // 성공 메시지
                     message.className = 'message success';
-                    message.textContent = result.message || '수강 신청이 성공적으로 접수되었습니다! 24시간 내에 연락드리겠습니다.';
+                    message.textContent = `🎉 SCM 부트캠프 수강 신청이 성공적으로 접수되었습니다!\n\n📧 24시간 내에 결제 안내 이메일을 발송해드립니다.\n💡 결제 완료 후 강의 자료 및 일정을 안내해드립니다.\n\n📋 신청 정보:\n- 과정: ${courseName}\n- 수강료: ${selectedPrice.price.toLocaleString()}원`;
                     message.style.display = 'block';
                     
                     // 폼 리셋
@@ -792,7 +858,8 @@
                     document.querySelector('.form-header').scrollIntoView({ behavior: 'smooth' });
                     
                 } else {
-                    throw new Error(result.error || '신청 처리 중 오류가 발생했습니다.');
+                    const errorData = await response.text();
+                    throw new Error(`신청서 저장에 실패했습니다: ${response.status} - ${errorData}`);
                 }
                 
             } catch (error) {
