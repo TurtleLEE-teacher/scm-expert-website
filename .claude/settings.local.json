@@ -53,7 +53,8 @@
       "mcp__notion-api__API-post-page",
       "mcp__notion-api__API-get-self",
       "mcp__notion-api__API-post-search",
-      "mcp__notion-api__API-delete-a-block"
+      "mcp__notion-api__API-delete-a-block",
+      "mcp__slack__slack_get_channel_history"
     ],
     "deny": []
   }

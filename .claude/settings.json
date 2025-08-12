@@ -13,7 +13,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node \"$CLAUDE_PROJECT_DIR/tools/hooks/task-completion-notifier.js\""
+            "command": "node \"C:/Users/ahfif/SuperClaude/Project_SCM_Site/tools/hooks/task-completion-notifier.js\""
           }
         ]
       },
@@ -22,7 +22,7 @@
         "hooks": [
           {
             "type": "command", 
-            "command": "node \"$CLAUDE_PROJECT_DIR/tools/hooks/task-completion-notifier.js\""
+            "command": "node \"C:/Users/ahfif/SuperClaude/Project_SCM_Site/tools/hooks/task-completion-notifier.js\""
           }
         ]
       }
