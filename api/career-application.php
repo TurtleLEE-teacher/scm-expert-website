@@ -24,8 +24,8 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-require_once '../includes/config.php';
-require_once '../includes/notion-api.php';
+require_once __DIR__ . '/../includes/config.php';
+require_once __DIR__ . '/../includes/notion-api.php';
 
 try {
     // 입력 데이터 검증 (multipart/form-data 처리)

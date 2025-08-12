@@ -24,8 +24,21 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-require_once '../includes/config.php';
-require_once '../includes/notion-api.php';
+// 에러를 JSON으로 출력하기 위한 설정
+ini_set('display_errors', 0);
+error_reporting(0);
+
+try {
+    require_once __DIR__ . '/../includes/config.php';
+    require_once __DIR__ . '/../includes/notion-api.php';
+} catch (Exception $e) {
+    http_response_code(500);
+    echo json_encode([
+        'error' => '서버 설정 오류: ' . $e->getMessage(),
+        'debug_info' => 'Include 파일 로드 실패'
+    ], JSON_UNESCAPED_UNICODE);
+    exit;
+}
 
 try {
     // 입력 데이터 검증
