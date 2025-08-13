@@ -2,19 +2,15 @@
   "name": "scm-expert-website",
   "version": "1.0.0",
   "description": "SCM Expert Website with Vercel Functions",
-  "main": "index.js",
   "scripts": {
     "dev": "vercel dev",
-    "build": "echo 'No build step required for static site'",
+    "build": "echo 'Static site - no build required'",
     "deploy": "vercel --prod"
-  },
-  "dependencies": {
-    "node-fetch": "^3.3.2"
   },
   "devDependencies": {
     "vercel": "^28.16.0"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   }
 }
