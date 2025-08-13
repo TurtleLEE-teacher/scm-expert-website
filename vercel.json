@@ -1,16 +1,29 @@
 {
+  "version": 2,
   "functions": {
-    "api/scm-application.js": {
-      "runtime": "nodejs18.x"
-    },
-    "api/career-application.js": {
-      "runtime": "nodejs18.x"
+    "api/**/*.js": {
+      "runtime": "nodejs18.x",
+      "maxDuration": 30
     }
   },
-  "rewrites": [
+  "routes": [
     {
-      "source": "/api/(.*)",
-      "destination": "/api/$1"
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
+    },
+    {
+      "src": "/(.*\\.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot|pdf))$",
+      "dest": "/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
     }
-  ]
+  ],
+  "env": {
+    "NOTION_API_KEY": "@notion_api_key",
+    "NOTION_STUDENTS_DB_ID": "@notion_students_db_id",
+    "NOTION_INQUIRIES_DB_ID": "@notion_inquiries_db_id",
+    "NOTION_COURSES_DB_ID": "@notion_courses_db_id"
+  }
 }
