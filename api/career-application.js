@@ -25,7 +25,7 @@ export default async function handler(req, res) {
     const data = req.body;
     
     // 필수 필드 검증
-    const requiredFields = ['name', 'email', 'phone', 'consulting_type', 'privacy_required'];
+    const requiredFields = ['name', 'email', 'phone', 'consulting_type', 'depositor_name', 'privacy_required'];
     for (const field of requiredFields) {
       if (field !== 'privacy_required' && !data[field]) {
         throw new Error(`필수 필드가 누락되었습니다: ${field}`);
@@ -62,9 +62,16 @@ export default async function handler(req, res) {
     const consultingType = consultingTypes[data.consulting_type];
     const consultingPrice = priceInfo[data.consulting_type];
     
-    // Notion API 키 확인
-    const notionApiKey = process.env.NOTION_API_KEY;
-    const inquiriesDbId = process.env.NOTION_INQUIRIES_DB_ID;
+    // Notion API 키 확인 - 강화된 정리
+    const notionApiKey = (process.env.NOTION_API_KEY || '')
+      .replace(/\s+/g, '') // 모든 공백 문자 제거
+      .trim();
+    
+    const inquiriesDbId = (process.env.NOTION_INQUIRIES_DB_ID || '')
+      .replace(/\s+/g, '') // 모든 공백 문자 제거
+      .trim()
+      .replace(/-/g, '') // 하이픈 제거
+      .replace(/(.{8})(.{4})(.{4})(.{4})(.{12})/, '$1-$2-$3-$4-$5'); // UUID 형식으로 재구성
     
     if (!notionApiKey || notionApiKey === 'your_notion_api_key_here') {
       throw new Error('Notion API 키가 설정되지 않았습니다.');
@@ -73,6 +80,20 @@ export default async function handler(req, res) {
     if (!inquiriesDbId) {
       throw new Error('문의 데이터베이스 ID가 설정되지 않았습니다.');
     }
+    
+    // 현재 상황 매핑
+    const statusMap = {
+      'employed': '재직중',
+      'job_seeking': '구직중',
+      'preparing_transition': '이직 준비중'
+    };
+    
+    const experienceMap = {
+      'entry': '신입 (1년 미만)',
+      'junior': '주니어 (1-3년)',
+      'mid': '미드 (3-5년)',
+      'senior': '시니어 (5년 이상)'
+    };
     
     // Notion에 저장할 데이터 준비
     const notionData = {
@@ -93,7 +114,15 @@ export default async function handler(req, res) {
         '문의내용': {
           rich_text: [{ 
             text: { 
-              content: `컨설팅 유형: ${consultingType}\n현재 직책: ${data.current_position || '미입력'}\n희망 분야: ${data.target_field || '미입력'}\n경력 년수: ${data.experience_years || '미입력'}년\n상세 요청사항: ${data.detailed_request || '미입력'}`
+              content: `컨설팅 유형: ${consultingType}
+현재 회사: ${data.current_company || '미입력'}
+현재 직책: ${data.current_position || '미입력'}
+목표 업계/기업: ${data.target_company || '미입력'}
+현재 상황: ${statusMap[data.current_status] || data.current_status || '미입력'}
+경력 년수: ${experienceMap[data.experience_years] || data.experience_years || '미입력'}
+입금자명: ${data.depositor_name || '미입력'}
+추가 요청사항: ${data.additional_requests || '미입력'}
+마케팅 수신동의: ${data.marketing_optional ? '동의' : '거부'}`
             } 
           }]
         },
@@ -127,7 +156,14 @@ export default async function handler(req, res) {
     // 성공 응답
     const response = {
       success: true,
-      message: `🎉 커리어 컨설팅 신청이 성공적으로 접수되었습니다!\n\n📧 24시간 내에 담당자가 연락드립니다.\n💼 상세한 컨설팅 일정을 안내해드리겠습니다.\n\n📋 신청 정보:\n- 컨설팅 유형: ${consultingType}\n- 상담료: ${consultingPrice.toLocaleString()}원`,
+      message: `🎉 커리어 컨설팅 신청이 성공적으로 접수되었습니다!
+
+📧 24시간 내에 담당자가 연락드립니다.
+💼 상세한 컨설팅 일정을 안내해드리겠습니다.
+
+📋 신청 정보:
+- 컨설팅 유형: ${consultingType}
+- 상담료: ${consultingPrice.toLocaleString()}원`,
       application_id: result.id,
       consulting_info: {
         type: consultingType,
