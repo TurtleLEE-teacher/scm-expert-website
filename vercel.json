@@ -1,6 +1,8 @@
 {
   "version": 2,
-  "buildCommand": "echo 'Static site - no build required'",
+  "framework": null,
+  "buildCommand": null,
+  "installCommand": null,
   "outputDirectory": ".",
   "functions": {
     "api/**/*.js": {
@@ -8,21 +10,21 @@
       "maxDuration": 30
     }
   },
-  "headers": [
+  "routes": [
     {
-      "source": "/api/(.*)",
-      "headers": [
-        {
-          "key": "Content-Type",
-          "value": "application/json"
-        }
-      ]
-    }
-  ],
-  "rewrites": [
+      "src": "/api/(.*)",
+      "dest": "/api/$1",
+      "headers": {
+        "Content-Type": "application/json"
+      }
+    },
     {
-      "source": "/((?!api/)(?!.*\\.).*)",
-      "destination": "/index.html"
+      "src": "/(.*\\.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot|pdf|html))$",
+      "dest": "/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
     }
   ],
   "env": {

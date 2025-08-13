@@ -1,0 +1,14 @@
+# 배포에서 제외할 파일들
+old/
+tools/
+logs/
+uploads/
+*.md
+*.log
+*.json
+!package.json
+!vercel.json
+docs/
+data/
+setup-global-hooks.js
+verify-api-setup.bat
