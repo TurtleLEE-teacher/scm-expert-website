@@ -54,3 +54,4 @@ images/originals/
 # 캐시 파일
 cache/
 *.cache
+.vercel

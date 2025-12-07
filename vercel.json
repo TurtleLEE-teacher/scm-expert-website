@@ -1,16 +1,12 @@
 {
-  "functions": {
-    "api/scm-application.js": {
-      "runtime": "nodejs18.x"
-    },
-    "api/career-application.js": {
-      "runtime": "nodejs18.x"
-    }
-  },
   "rewrites": [
     {
-      "source": "/api/(.*)",
-      "destination": "/api/$1"
+      "source": "/api/scm-application",
+      "destination": "/api/scm-application.js"
+    },
+    {
+      "source": "/api/career-application",
+      "destination": "/api/career-application.js"
     }
   ]
 }

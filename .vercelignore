@@ -1,0 +1,20 @@
+# Ignore ALL PHP files
+**/*.php
+*.php
+
+# Ignore PHP directories
+includes/
+docs/
+tools/
+api-php/
+
+# Ignore development files
+old/
+logs/
+uploads/
+database/
+
+# Ignore local config
+.env
+.env.local
+*.log
