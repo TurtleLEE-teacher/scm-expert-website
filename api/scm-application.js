@@ -44,18 +44,16 @@ export default async function handler(req, res) {
     
     // 과정 타입 검증
     const courseTypes = {
-      'beginner': 'SCM 초급반 (5주)',
-      'advanced': 'SCM 심화반 (8주)'
+      'beginner': 'SCM 기초 완성 (5주)'
     };
-    
+
     if (!courseTypes[input.course_type]) {
       throw new Error('유효하지 않은 과정입니다.');
     }
-    
+
     // 가격 정보
     const priceInfo = {
-      'beginner': { price: 299000, duration: '5주' },
-      'advanced': { price: 499000, duration: '8주' }
+      'beginner': { price: 169000, duration: '5주' }
     };
     
     const selectedPrice = priceInfo[input.course_type];
@@ -134,11 +132,60 @@ export default async function handler(req, res) {
     }
     
     const result = await notionResponse.json();
-    
+
+    // 이메일 발송
+    const resendApiKey = process.env.RESEND_API_KEY;
+    if (resendApiKey) {
+      try {
+        await fetch('https://api.resend.com/emails', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${resendApiKey}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            from: 'SCM Expert <onboarding@resend.dev>',
+            to: input.email.trim(),
+            subject: `[SCM Expert] SCM 기초 완성 수강 신청이 접수되었습니다`,
+            html: `
+              <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+                <h2 style="color: #0071e3;">SCM 기초 완성 수강 신청 완료</h2>
+                <p>${input.name}님, 안녕하세요!</p>
+                <p>SCM 기초 완성 과정 수강 신청이 정상적으로 접수되었습니다.</p>
+
+                <div style="background: #f5f5f7; padding: 20px; border-radius: 12px; margin: 20px 0;">
+                  <h3 style="margin-top: 0; color: #1d1d1f;">신청 내역</h3>
+                  <p><strong>과정:</strong> ${courseTypes[input.course_type]}</p>
+                  <p><strong>금액:</strong> ${selectedPrice.price.toLocaleString()}원</p>
+                  <p><strong>일정:</strong> 매주 금요일 오후 8시-10시</p>
+                </div>
+
+                <div style="background: #fff3cd; padding: 20px; border-radius: 12px; margin: 20px 0; border: 1px solid #ffc107;">
+                  <h3 style="margin-top: 0; color: #856404;">입금 안내</h3>
+                  <p><strong>은행:</strong> 우리은행</p>
+                  <p><strong>계좌번호:</strong> 1002-383-122220</p>
+                  <p><strong>예금주:</strong> 이민석</p>
+                  <p><strong>입금자명:</strong> ${input.depositor_name}</p>
+                </div>
+
+                <p>입금 확인 후 강의 자료 및 상세 일정을 안내해드리겠습니다.</p>
+                <p>문의사항이 있으시면 이 이메일로 회신해 주세요.</p>
+
+                <hr style="border: none; border-top: 1px solid #e5e5e5; margin: 30px 0;">
+                <p style="color: #86868b; font-size: 12px;">SCM Expert | scmmaster2030@gmail.com</p>
+              </div>
+            `
+          })
+        });
+      } catch (emailError) {
+        console.error('이메일 발송 실패:', emailError);
+      }
+    }
+
     // 성공 응답
     const response = {
       success: true,
-      message: '🎉 SCM 부트캠프 수강 신청이 성공적으로 접수되었습니다!\n\n📧 24시간 내에 결제 안내 이메일을 발송해드립니다.\n💡 결제 완료 후 강의 자료 및 일정을 안내해드립니다.',
+      message: '🎉 SCM 기초 완성 수강 신청이 성공적으로 접수되었습니다!\n\n📧 입금 안내 이메일을 발송해드렸습니다.\n💡 결제 완료 후 강의 자료 및 일정을 안내해드립니다.',
       application_id: result.id,
       course_info: {
         name: courseTypes[input.course_type],
@@ -146,7 +193,7 @@ export default async function handler(req, res) {
         duration: selectedPrice.duration
       }
     };
-    
+
     res.status(200).json(response);
     
   } catch (error) {

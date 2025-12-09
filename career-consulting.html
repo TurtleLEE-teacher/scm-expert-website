@@ -3,795 +3,658 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>커리어 컨설팅 - 이력서, 자소서, 면접 전문 컨설팅</title>
-    <meta name="description" content="글로벌 Big4 컨설팅펌 시니어 매니저의 1:1 커리어 컨설팅">
-    
+    <title>커리어 컨설팅 - 1:1 맞춤 취업/이직 컨설팅 | SCM Expert</title>
+    <meta name="description" content="글로벌 Big4 컨설팅펌 시니어 매니저의 1:1 커리어 컨설팅. 이력서, 자소서, 면접까지 완벽 준비.">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="커리어 컨설팅 - 1:1 맞춤 취업/이직 컨설팅">
+    <meta property="og:description" content="글로벌 Big4 컨설팅펌 시니어 매니저가 이력서부터 면접까지 완벽하게 준비해드립니다">
+    <meta property="og:type" content="website">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
+    <link rel="apple-touch-icon" href="./images/apple-touch-icon.png">
+
+    <!-- Design System CSS -->
+    <link rel="stylesheet" href="css/design-system.css">
+
     <style>
-        /* 기본 리셋 */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        /* Page-specific styles */
+
+        /* Logo */
+        .logo {
+            font-size: 1.25rem;
+            font-weight: var(--font-semibold);
+            color: var(--text-primary);
+            text-decoration: none;
         }
-        
-        html {
-            scroll-behavior: smooth;
+        .logo:hover {
+            text-decoration: none;
         }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
-            background: #0f0f0f;
-            color: #ffffff;
-            overflow-x: hidden;
-        }
-        
-        /* 프리로더 */
-        .preloader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #0f0f0f;
+
+        /* Navigation Links */
+        .nav-links {
             display: flex;
-            justify-content: center;
             align-items: center;
-            z-index: 9999;
-            transition: opacity 0.5s;
+            gap: var(--space-6);
         }
-        
-        .loader-modern {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: conic-gradient(transparent, #667eea);
-            animation: spin 1s linear infinite;
-            position: relative;
+        .nav-links a {
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color var(--transition-fast);
         }
-        
-        .loader-modern::before {
-            content: '';
-            position: absolute;
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background: #0f0f0f;
-            top: 6px;
-            left: 6px;
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--text-primary);
         }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+
+        /* Mobile menu toggle */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            padding: var(--space-2);
+            cursor: pointer;
         }
-        
-        /* 파티클 배경 */
-        .particle-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-            overflow: hidden;
+        .menu-toggle span {
+            display: block;
+            width: 18px;
+            height: 2px;
+            background-color: var(--text-primary);
+            margin: 4px 0;
+            transition: var(--transition-fast);
         }
-        
-        .particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: rgba(240, 147, 251, 0.4);
-            border-radius: 50%;
-            animation: float 15s infinite linear;
-        }
-        
-        @keyframes float {
-            from {
-                transform: translateY(100vh) translateX(0);
-                opacity: 0;
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
             }
-            10% {
-                opacity: 1;
+            .nav-links {
+                display: none;
             }
-            90% {
-                opacity: 1;
-            }
-            to {
-                transform: translateY(-10vh) translateX(100px);
-                opacity: 0;
+            .nav-links.active {
+                display: flex;
+                flex-direction: column;
+                position: fixed;
+                top: var(--header-height);
+                left: 0;
+                right: 0;
+                background: var(--bg-primary);
+                padding: var(--space-6);
+                border-bottom: 1px solid var(--border-color);
             }
         }
-        
-        /* 헤더 */
-        .header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            padding: 20px 0;
-            background: rgba(15, 15, 15, 0.8);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .navbar {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        
-        .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .nav-brand h1 {
-            font-size: 24px;
-            font-weight: 700;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        /* 그라데이션 애니메이션 */
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        
-        /* 히어로 섹션 */
-        .hero-section {
+
+        /* Hero Section */
+        .hero {
             min-height: 100vh;
             display: flex;
-            align-items: center;
+            flex-direction: column;
             justify-content: center;
-            padding: 100px 20px 50px;
-            position: relative;
-            z-index: 2;
-        }
-        
-        .hero-content {
+            align-items: center;
             text-align: center;
-            max-width: 900px;
+            padding: calc(var(--header-height) + var(--space-16)) var(--space-6) var(--space-16);
         }
-        
-        .badge {
-            display: inline-block;
-            background: rgba(240, 147, 251, 0.2);
-            border: 1px solid rgba(240, 147, 251, 0.5);
-            padding: 8px 20px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            color: #f093fb;
-            margin-bottom: 20px;
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-2) var(--space-4);
+            background-color: var(--bg-secondary);
+            border-radius: var(--radius-full);
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+            margin-bottom: var(--space-6);
         }
-        
+        .hero-badge-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--blue);
+            border-radius: 50%;
+        }
         .hero-title {
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            font-weight: 800;
-            line-height: 1.2;
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-            background-size: 200% 200%;
-            animation: gradientShift 5s ease infinite;
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 2px 10px rgba(102, 126, 234, 0.3));
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            font-weight: var(--font-bold);
+            letter-spacing: var(--tracking-tighter);
+            line-height: 1.1;
+            margin-bottom: var(--space-6);
+            max-width: 800px;
         }
-        
         .hero-subtitle {
-            font-size: 1.25rem;
-            color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 40px;
-            line-height: 1.6;
+            font-size: clamp(1rem, 2.5vw, 1.25rem);
+            color: var(--text-secondary);
+            margin-bottom: var(--space-8);
+            max-width: 600px;
+            line-height: var(--leading-relaxed);
         }
-        
-        /* 버튼 스타일 */
-        .btn {
-            padding: 15px 40px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
-            position: relative;
-            overflow: hidden;
-            display: inline-block;
+
+        /* Section Styles */
+        .page-section {
+            padding: var(--space-24) var(--space-6);
         }
-        
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        .page-section.alt {
+            background-color: var(--bg-secondary);
         }
-        
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+        .section-header {
+            text-align: center;
+            margin-bottom: var(--space-16);
         }
-        
-        /* 섹션 스타일 */
-        .section {
-            padding: 80px 20px;
-            position: relative;
-            z-index: 2;
+        .section-header h2 {
+            font-size: var(--text-3xl);
+            font-weight: var(--font-bold);
+            margin-bottom: var(--space-4);
         }
-        
-        .container {
-            max-width: 1200px;
+        .section-header p {
+            font-size: var(--text-lg);
+            color: var(--text-secondary);
+            max-width: 600px;
             margin: 0 auto;
         }
-        
-        .section-title {
-            font-size: clamp(2rem, 4vw, 3rem);
-            text-align: center;
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .section-subtitle {
-            text-align: center;
-            color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 50px;
-            font-size: 1.1rem;
-        }
-        
-        /* 카드 스타일 */
-        .card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 40px;
-            transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.2);
-        }
-        
-        /* 프로세스 스텝 */
-        .process-grid {
+
+        /* Instructor Card */
+        .instructor-card {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 50px;
+            grid-template-columns: 220px 1fr;
+            gap: var(--space-10);
+            align-items: start;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: var(--space-8);
+            background-color: var(--bg-tertiary);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
         }
-        
-        .process-card {
+        .instructor-image-wrapper {
             text-align: center;
-            padding: 30px;
         }
-        
+        .instructor-image {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid var(--blue);
+            margin: 0 auto var(--space-4);
+        }
+        .instructor-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .instructor-name {
+            font-size: var(--text-lg);
+            font-weight: var(--font-semibold);
+            color: var(--blue);
+        }
+        .instructor-title {
+            font-size: var(--text-sm);
+            color: var(--text-tertiary);
+        }
+        .instructor-info h3 {
+            font-size: var(--text-xl);
+            font-weight: var(--font-bold);
+            margin-bottom: var(--space-4);
+        }
+        .salary-highlight {
+            padding: var(--space-4);
+            background-color: rgba(0, 113, 227, 0.1);
+            border-radius: var(--radius-md);
+            margin-bottom: var(--space-6);
+        }
+        .salary-highlight p {
+            font-size: var(--text-lg);
+            color: var(--blue);
+            margin: 0;
+            font-weight: var(--font-semibold);
+        }
+        .instructor-info ul {
+            list-style: none;
+        }
+        .instructor-info li {
+            padding: var(--space-2) 0;
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+        .instructor-info li::before {
+            content: "";
+            width: 6px;
+            height: 6px;
+            background-color: var(--blue);
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        .salary-proof {
+            margin-top: var(--space-6);
+            padding: var(--space-4);
+            background-color: var(--bg-secondary);
+            border-radius: var(--radius-md);
+        }
+        .salary-proof h4 {
+            font-size: var(--text-sm);
+            color: var(--blue);
+            margin-bottom: var(--space-4);
+            text-align: center;
+        }
+        .salary-images {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-4);
+        }
+        .salary-images > div {
+            text-align: center;
+        }
+        .salary-images img {
+            width: 100%;
+            border-radius: var(--radius-sm);
+            margin-bottom: var(--space-2);
+        }
+        .salary-images p {
+            font-size: var(--text-xs);
+            color: var(--text-tertiary);
+        }
+        @media (max-width: 768px) {
+            .instructor-card {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .instructor-info li {
+                justify-content: center;
+            }
+        }
+
+        /* Process Section */
+        .process-grid {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: var(--space-4);
+            max-width: 1000px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+        }
+        .process-step {
+            flex: 1;
+            min-width: 200px;
+            max-width: 280px;
+            text-align: center;
+            position: relative;
+        }
         .process-number {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--blue) 0%, #00c6ff 100%);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2rem;
-            font-weight: bold;
-            margin: 0 auto 20px;
-        }
-        
-        .process-title {
+            margin: 0 auto var(--space-4);
+            font-size: var(--text-xl);
+            font-weight: var(--font-bold);
             color: #fff;
-            margin-bottom: 15px;
-            font-size: 1.3rem;
         }
-        
-        .process-desc {
-            color: rgba(255, 255, 255, 0.7);
-            line-height: 1.6;
+        .process-step h3 {
+            font-size: var(--text-lg);
+            font-weight: var(--font-bold);
+            margin-bottom: var(--space-2);
+            color: var(--text-primary);
         }
-        
-        /* 특징 그리드 */
-        .features-grid {
+        .process-step p {
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+            line-height: var(--leading-relaxed);
+        }
+        .process-arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-top: 20px;
+            color: var(--blue);
+        }
+        @media (max-width: 768px) {
+            .process-grid {
+                flex-direction: column;
+                align-items: center;
+            }
+            .process-arrow {
+                transform: rotate(90deg);
+                padding: var(--space-2) 0;
+            }
+        }
+
+        /* Target Grid */
+        .target-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-            margin-top: 50px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-6);
+            max-width: 1000px;
+            margin: 0 auto;
         }
-        
-        .feature-card {
+        @media (max-width: 768px) {
+            .target-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .target-card {
+            padding: var(--space-8);
+            background-color: var(--bg-tertiary);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
             text-align: center;
-            padding: 30px;
+            transition: transform var(--transition-base), border-color var(--transition-base);
         }
-        
-        .feature-icon {
-            font-size: 3rem;
-            margin-bottom: 20px;
+        .target-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--blue);
         }
-        
-        .feature-title {
-            color: #fff;
-            margin-bottom: 10px;
-            font-size: 1.2rem;
+        .target-icon {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--blue) 0%, #00c6ff 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto var(--space-5);
         }
-        
-        .feature-desc {
-            color: rgba(255, 255, 255, 0.7);
-            line-height: 1.6;
+        .target-icon svg {
+            width: 24px;
+            height: 24px;
+            stroke: #fff;
+            fill: none;
+            stroke-width: 2;
         }
-        
-        /* 가격 카드 */
+        .target-card h3 {
+            font-size: var(--text-lg);
+            font-weight: var(--font-semibold);
+            margin-bottom: var(--space-4);
+        }
+        .target-card p {
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+            line-height: var(--leading-relaxed);
+        }
+
+        /* Achievement Grid */
+        .achievement-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-6);
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        @media (max-width: 768px) {
+            .achievement-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        .achievement-card {
+            text-align: center;
+            padding: var(--space-6);
+            background-color: var(--bg-tertiary);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+        }
+        .achievement-number {
+            font-size: var(--text-3xl);
+            font-weight: var(--font-bold);
+            color: var(--blue);
+            margin-bottom: var(--space-2);
+        }
+        .achievement-label {
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+        }
+
+        /* Pricing Grid */
         .pricing-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 50px;
-            max-width: 1000px;
-            margin-left: auto;
-            margin-right: auto;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-6);
+            max-width: 800px;
+            margin: 0 auto;
         }
-        
+        @media (max-width: 768px) {
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+        }
         .price-card {
+            padding: var(--space-8);
+            background-color: var(--bg-tertiary);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
             text-align: center;
-            padding: 40px;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
             position: relative;
+            transition: transform var(--transition-base), border-color var(--transition-base);
         }
-        
+        .price-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--blue);
+        }
         .price-card.featured {
-            transform: scale(1.05);
-            border: 2px solid #667eea;
+            border: 2px solid var(--blue);
         }
-        
-        .price-title {
-            font-size: 1.5rem;
-            color: #667eea;
-            margin-bottom: 20px;
-        }
-        
-        .price-amount {
-            font-size: 2.5rem;
-            font-weight: bold;
+        .price-badge {
+            position: absolute;
+            top: -12px;
+            right: 20px;
+            background: var(--blue);
             color: #fff;
-            margin-bottom: 10px;
+            padding: var(--space-1) var(--space-4);
+            border-radius: var(--radius-full);
+            font-size: var(--text-xs);
+            font-weight: var(--font-medium);
         }
-        
-        .price-desc {
-            color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 30px;
-            font-size: 0.9rem;
+        .price-title {
+            font-size: var(--text-xl);
+            font-weight: var(--font-bold);
+            color: var(--blue);
+            margin-bottom: var(--space-2);
         }
-        
+        .price-sessions {
+            font-size: var(--text-sm);
+            color: var(--text-tertiary);
+            margin-bottom: var(--space-4);
+        }
+        .price-amount {
+            font-size: var(--text-4xl);
+            font-weight: var(--font-bold);
+            color: var(--text-primary);
+            margin-bottom: var(--space-2);
+        }
+        .price-per {
+            font-size: var(--text-sm);
+            color: var(--text-tertiary);
+            margin-bottom: var(--space-6);
+        }
         .price-features {
             list-style: none;
             text-align: left;
-            margin-bottom: 30px;
+            margin-bottom: var(--space-6);
         }
-        
         .price-features li {
-            color: rgba(255, 255, 255, 0.8);
-            padding: 10px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: var(--space-2) 0;
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            border-bottom: 1px solid var(--border-color-light);
         }
-        
-        .price-features li:before {
-            content: "✓ ";
-            color: #667eea;
-            font-weight: bold;
+        .price-features li:last-child {
+            border-bottom: none;
         }
-        
-        /* 성과 섹션 */
-        .achievement-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 30px;
-            margin-top: 50px;
+        .price-features li::before {
+            content: "";
+            width: 6px;
+            height: 6px;
+            background-color: var(--blue);
+            border-radius: 50%;
+            flex-shrink: 0;
         }
-        
-        .achievement-card {
+        .price-benefit-box {
+            margin-top: var(--space-8);
+            padding: var(--space-4);
+            background-color: rgba(0, 113, 227, 0.1);
+            border-radius: var(--radius-md);
             text-align: center;
-            padding: 30px;
-            background: rgba(102, 126, 234, 0.1);
-            border-radius: 20px;
         }
-        
-        .achievement-number {
-            font-size: 3rem;
-            font-weight: bold;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .price-benefit-box p {
+            font-size: var(--text-sm);
+            color: var(--blue);
+            margin: 0;
         }
-        
-        .achievement-label {
-            color: rgba(255, 255, 255, 0.7);
-            margin-top: 10px;
-        }
-        
-        /* 후기 */
-        .review-card {
+
+        /* FAQ Section */
+        .faq-list {
             max-width: 800px;
-            margin: 30px auto;
-            padding: 40px;
-            background: rgba(255, 255, 255, 0.03);
-            border-left: 4px solid #667eea;
+            margin: 0 auto;
         }
-        
-        .review-text {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: rgba(255, 255, 255, 0.9);
-            margin-bottom: 20px;
-            font-style: italic;
+        .faq-item {
+            padding: var(--space-6);
+            background-color: var(--bg-tertiary);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            margin-bottom: var(--space-4);
         }
-        
-        .review-author {
-            color: rgba(255, 255, 255, 0.5);
-            text-align: right;
+        .faq-item h3 {
+            font-size: var(--text-base);
+            font-weight: var(--font-semibold);
+            color: var(--blue);
+            margin-bottom: var(--space-3);
         }
-        
-        /* 푸터 */
-        .footer {
-            padding: 40px 20px;
+        .faq-item p {
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+            line-height: var(--leading-relaxed);
+        }
+
+        /* CTA Section */
+        .cta-section {
             text-align: center;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: rgba(255, 255, 255, 0.5);
+            padding: var(--space-24) var(--space-6);
+            background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
         }
-        
-        /* 스크롤 애니메이션 */
-        .scroll-reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s cubic-bezier(0.23, 1, 0.320, 1);
+        .cta-section h2 {
+            font-size: var(--text-3xl);
+            font-weight: var(--font-bold);
+            margin-bottom: var(--space-4);
         }
-        
-        .scroll-reveal.active {
-            opacity: 1;
-            transform: translateY(0);
+        .cta-section p {
+            font-size: var(--text-lg);
+            color: var(--text-secondary);
+            margin-bottom: var(--space-8);
         }
-        
-        /* 반응형 - 모바일 최적화 강화 */
-        @media (max-width: 768px) {
-            /* 네비게이션 모바일 최적화 */
-            .nav-container {
-                flex-direction: column;
-                gap: 1rem;
-                padding: 1rem;
-            }
-            
-            .nav-container > div:last-child {
-                flex-direction: column;
-                gap: 1rem;
-                width: 100%;
-            }
-            
-            .nav-container > div:last-child a,
-            .nav-container > div:last-child span {
-                display: none;
-            }
-            
-            .nav-container .btn {
-                width: 100%;
-                justify-content: center;
-                padding: 16px 24px;
-                font-size: 1rem;
-                min-height: 52px;
-                touch-action: manipulation;
-            }
-            
-            /* 히어로 섹션 모바일 최적화 */
-            .hero-section {
-                padding: calc(120px + 2rem) 1rem 3rem 1rem;
-                min-height: 100vh;
-                display: flex;
-                align-items: center;
-            }
-            
-            .hero-content {
-                text-align: center;
-                max-width: 100%;
-            }
-            
-            .hero-title {
-                font-size: clamp(1.8rem, 8vw, 2.5rem);
-                line-height: 1.2;
-                margin-bottom: 1.5rem;
-                word-break: keep-all;
-            }
-            
-            .hero-title br {
-                display: none;
-            }
-            
-            .hero-subtitle {
-                font-size: clamp(0.9rem, 4vw, 1.1rem);
-                line-height: 1.6;
-                margin-bottom: 2.5rem;
-                max-width: 90%;
-                margin-left: auto;
-                margin-right: auto;
-            }
-            
-            .hero-subtitle br {
-                display: none;
-            }
-            
-            .badge {
-                font-size: 0.85rem;
-                padding: 8px 16px;
-                margin-bottom: 1.5rem;
-            }
-            
-            /* 카드 섹션 모바일 최적화 */
-            .card {
-                margin: 2rem auto !important;
-                padding: 2rem 1.5rem !important;
-            }
-            
-            .card > div[style*="grid-template-columns"] {
-                display: block !important;
-                text-align: center;
-            }
-            
-            .card img {
-                width: 150px !important;
-                height: 150px !important;
-                margin: 0 auto 1.5rem auto !important;
-            }
-            
-            .card h3[style*="font-size"] {
-                font-size: 1.3rem !important;
-                margin-bottom: 1rem !important;
-            }
-            
-            .card div[style*="background: rgba(240, 147, 251, 0.1)"] {
-                margin: 1.5rem 0 !important;
-                padding: 1.5rem !important;
-            }
-            
-            /* 가격 섹션 모바일 최적화 */
-            .pricing-grid {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-                padding: 0 1rem;
-            }
-            
-            .price-card {
-                padding: 2rem 1.5rem;
-                margin-bottom: 1.5rem;
-            }
-            
-            .price-card.featured {
-                transform: scale(1);
-                order: -1;
-            }
-            
-            .price-card h3 {
-                font-size: 1.3rem;
-                margin-bottom: 1rem;
-            }
-            
-            .price-card .price {
-                font-size: 2rem;
-                margin: 1.5rem 0;
-            }
-            
-            .price-card ul {
-                margin: 1.5rem 0;
-            }
-            
-            .price-card li {
-                padding: 0.5rem 0;
-                font-size: 0.95rem;
-            }
-            
-            /* 버튼 모바일 최적화 */
-            .btn {
-                width: 100%;
-                max-width: 300px;
-                padding: 16px 24px;
-                font-size: 1rem;
-                min-height: 52px;
-                touch-action: manipulation;
-                -webkit-tap-highlight-color: transparent;
-                border-radius: 12px;
-                font-weight: 500;
-                margin: 0 auto;
-                display: block;
-            }
-            
-            .btn:active {
-                transform: translateY(1px);
-            }
-            
-            /* 섹션 간격 조정 */
-            .section {
-                padding: 3rem 0;
-            }
-            
-            .section-title {
-                font-size: clamp(1.5rem, 6vw, 2rem);
-                margin-bottom: 2rem;
-                text-align: center;
-            }
-            
-            /* 플로팅 버튼 모바일 최적화 */
-            .floating-btn {
-                bottom: max(env(safe-area-inset-bottom), 2rem);
-                right: max(env(safe-area-inset-right), 1.5rem);
-                padding: 12px 20px;
-                font-size: 0.9rem;
-                border-radius: 25px;
-                min-width: auto;
-            }
-            
-            /* 터치 최적화 */
-            * {
-                -webkit-tap-highlight-color: transparent;
-            }
-            
-            *:focus {
-                outline: 2px solid #f093fb;
-                outline-offset: 2px;
-            }
-            
-            /* 스크롤 최적화 */
-            body {
-                -webkit-overflow-scrolling: touch;
-                overscroll-behavior: contain;
-            }
-        }
-        
-        /* 작은 모바일 (최대 480px) */
-        @media (max-width: 480px) {
-            .hero-section {
-                padding: calc(100px + 1rem) 0.5rem 2rem 0.5rem;
-            }
-            
-            .hero-title {
-                font-size: clamp(1.5rem, 9vw, 2rem);
-                margin-bottom: 1rem;
-            }
-            
-            .hero-subtitle {
-                font-size: clamp(0.85rem, 4.5vw, 1rem);
-                margin-bottom: 2rem;
-            }
-            
-            .card {
-                padding: 1.5rem 1rem !important;
-                margin: 1.5rem auto !important;
-            }
-            
-            .price-card {
-                padding: 1.5rem 1rem;
-            }
-            
-            .btn {
-                padding: 14px 20px;
-                font-size: 0.95rem;
-                min-height: 48px;
-            }
-            
-            .floating-btn {
-                padding: 10px 16px;
-                font-size: 0.85rem;
-                bottom: 1rem;
-                right: 1rem;
-            }
-        }
-        
-        /* 플로팅 버튼 */
+
+        /* Floating Button */
         .floating-btn {
             position: fixed;
             bottom: 30px;
             right: 30px;
-            background: linear-gradient(135deg, #f093fb, #764ba2);
-            color: white;
-            padding: 15px 30px;
-            border-radius: 50px;
-            text-decoration: none;
-            box-shadow: 0 10px 30px rgba(240, 147, 251, 0.5);
-            z-index: 999;
-            transition: all 0.3s;
-            font-weight: 600;
+            z-index: var(--z-fixed);
         }
-        
-        .floating-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(240, 147, 251, 0.7);
+        @media (max-width: 768px) {
+            .floating-btn {
+                bottom: 20px;
+                right: 20px;
+            }
+        }
+
+        /* Footer */
+        .footer {
+            padding: var(--space-10) var(--space-6);
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+        }
+        .footer p {
+            font-size: var(--text-sm);
+            color: var(--text-tertiary);
+        }
+
+        /* Scroll Animation */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 </head>
 <body>
-    <!-- 프리로더 -->
-    <div class="preloader">
-        <div class="loader-modern"></div>
-    </div>
-    
-    <!-- 파티클 배경 -->
-    <div class="particle-bg" id="particleBg"></div>
-    
-    <!-- 헤더 -->
+    <!-- Header -->
     <header class="header">
-        <nav class="navbar">
-            <div class="nav-container">
-                <div class="nav-brand">
-                    <h1>이선생</h1>
-                </div>
-                <div class="nav-links">
-                    <a href="index.html">홈</a>
-                    <a href="scm-basic.html">SCM 교육</a>
-                    <a href="career-consulting.html" class="active">커리어 컨설팅</a>
-                    <a href="#pricing" class="btn btn-primary">상담 신청</a>
-                </div>
-            </div>
-        </nav>
-    </header>
-    
-    <!-- 히어로 섹션 -->
-    <section class="hero-section">
-        <div class="hero-content">
-            <div class="badge">1:1 맞춤형 커리어 컨설팅</div>
-            <h1 class="hero-title">당신의 커리어,<br>다음 단계로</h1>
-            <p class="hero-subtitle">
-                글로벌 Big4 컨설팅펌 시니어 매니저가<br>
-                이력서부터 면접까지 완벽하게 준비해드립니다
-            </p>
-            <a href="career-application.html" class="btn btn-primary" target="_blank">지금 신청하기</a>
+        <div class="header-content">
+            <a href="index.html" class="logo">SCM Expert</a>
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="scm-basic.html">SCM 교육</a>
+                <a href="career-consulting.html" class="active">커리어 컨설팅</a>
+                <a href="#pricing" class="btn btn-primary btn-sm">상담 신청</a>
+            </nav>
+            <button class="menu-toggle" onclick="document.querySelector('.nav-links').classList.toggle('active')">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-badge">
+            <span class="hero-badge-dot"></span>
+            <span>1:1 맞춤형 커리어 컨설팅</span>
+        </div>
+        <h1 class="hero-title">당신의 커리어,<br>다음 단계로</h1>
+        <p class="hero-subtitle">
+            글로벌 Big4 컨설팅펌 시니어 매니저가<br>
+            이력서부터 면접까지 완벽하게 준비해드립니다
+        </p>
+        <a href="#" class="btn btn-primary btn-lg" onclick="alert('결제 시스템 준비 중입니다. 곧 오픈 예정!'); return false;">지금 신청하기</a>
     </section>
-    
-    <!-- 전문가 소개 섹션 -->
-    <section class="section">
+
+    <!-- Instructor Section -->
+    <section class="page-section alt">
         <div class="container">
-            <h2 class="section-title">함께하는 전문가</h2>
-            
-            <div class="card" style="max-width: 900px; margin: 50px auto;">
-                <div style="display: grid; grid-template-columns: 250px 1fr; gap: 50px; align-items: center;">
-                    <div style="text-align: center;">
-                        <div style="width: 200px; height: 200px; margin: 0 auto; overflow: hidden; border-radius: 50%; border: 3px solid #f093fb;">
-                            <img src="images/portfolio/teacher.png" alt="이선생 프로필" style="width: 100%; height: 100%; object-fit: cover;">
-                        </div>
-                        <h3 style="color: #f093fb; margin-top: 20px;">이선생</h3>
-                        <p style="color: rgba(255,255,255,0.6);">글로벌 Big4 컨설팅펌 시니어 매니저</p>
+            <div class="section-header fade-up">
+                <h2>함께하는 전문가</h2>
+            </div>
+
+            <div class="instructor-card fade-up">
+                <div class="instructor-image-wrapper">
+                    <div class="instructor-image">
+                        <img src="images/portfolio/teacher.png" alt="강사 프로필">
                     </div>
-                    <div>
-                        <h3 style="color: #fff; margin-bottom: 20px; font-size: 1.5rem;">
-                            연봉 306% 상승의 주인공
-                        </h3>
-                        <div style="background: rgba(240, 147, 251, 0.1); padding: 20px; border-radius: 10px; margin-bottom: 20px;">
-                            <p style="font-size: 1.2rem; color: #f093fb; margin: 0;">
-                                2015년 2,983만원 → 2024년 1억 3,259만원
-                            </p>
-                        </div>
-                        <ul style="list-style: none; color: rgba(255,255,255,0.8); line-height: 2.2;">
-                            <li>✓ 현) 글로벌 Big4 컨설팅펌 시니어 매니저</li>
-                            <li>✓ 전) 대기업 전자산업 구매/SCM 담당자</li>
-                            <li>✓ 한국생산성본부 SCM 부문 최연소 전문위원</li>
-                            <li>✓ 기업 신입/경력 면접관 실무 경험 보유</li>
-                            <li>✓ 2019년~ 현재 직무 멘토링 100회 이상 진행</li>
-                        </ul>
-                        
-                        <!-- 연봉 증명 이미지 -->
-                        <div style="margin-top: 30px; padding: 20px; background: rgba(255,255,255,0.05); border-radius: 10px;">
-                            <h4 style="color: #f093fb; margin-bottom: 15px; text-align: center;">연봉 상승 기록</h4>
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                                <div style="text-align: center;">
-                                    <img src="images/portfolio/salary_2015.png" alt="2015년 연봉" style="max-width: 100%; height: auto; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
-                                    <p style="color: rgba(255,255,255,0.7); margin-top: 10px; font-size: 0.9rem;">2015년 시작</p>
-                                </div>
-                                <div style="text-align: center;">
-                                    <img src="images/portfolio/2024년연봉22.png" alt="2024년 연봉" style="max-width: 100%; height: auto; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
-                                    <p style="color: rgba(255,255,255,0.7); margin-top: 10px; font-size: 0.9rem;">2024년 현재</p>
-                                </div>
+                    <p class="instructor-name">이선생</p>
+                    <p class="instructor-title">Big4 컨설팅펌 시니어 매니저</p>
+                </div>
+                <div class="instructor-info">
+                    <h3>연봉 306% 상승의 주인공</h3>
+                    <div class="salary-highlight">
+                        <p>2015년 2,983만원 → 2024년 1억 3,259만원</p>
+                    </div>
+                    <ul>
+                        <li>현) 글로벌 Big4 컨설팅펌 시니어 매니저</li>
+                        <li>전) 대기업 전자산업 구매/SCM 담당자</li>
+                        <li>한국생산성본부 SCM 부문 최연소 전문위원</li>
+                        <li>기업 신입/경력 면접관 실무 경험 보유</li>
+                        <li>2019년~ 현재 직무 멘토링 100회 이상 진행</li>
+                    </ul>
+                    <div class="salary-proof">
+                        <h4>연봉 상승 기록</h4>
+                        <div class="salary-images">
+                            <div>
+                                <img src="images/portfolio/salary_2015.png" alt="2015년 연봉">
+                                <p>2015년 시작</p>
+                            </div>
+                            <div>
+                                <img src="images/portfolio/2024년연봉22.png" alt="2024년 연봉">
+                                <p>2024년 현재</p>
                             </div>
                         </div>
                     </div>
@@ -799,319 +662,233 @@
             </div>
         </div>
     </section>
-    
-    <!-- 서비스 프로세스 -->
-    <section class="section" style="background: rgba(102, 126, 234, 0.05);">
+
+    <!-- Process Section -->
+    <section class="page-section">
         <div class="container">
-            <h2 class="section-title">컨설팅 프로세스</h2>
-            <p class="section-subtitle">
-                체계적인 3단계 프로세스로 당신의 취업/이직을 성공으로 이끕니다
-            </p>
-            
+            <div class="section-header fade-up">
+                <h2>컨설팅 프로세스</h2>
+                <p>체계적인 3단계 프로세스로 당신의 취업/이직을 성공으로 이끕니다</p>
+            </div>
+
             <div class="process-grid">
-                <div class="process-card card">
+                <div class="process-step fade-up">
                     <div class="process-number">1</div>
-                    <h3 class="process-title">서류 분석 & 전략 수립</h3>
-                    <p class="process-desc">
-                        제출된 이력서와 자기소개서를 면밀히 분석하여
-                        지원 기업과 직무에 최적화된 개선 방향을 제시합니다
-                    </p>
+                    <h3>서류 분석 & 전략</h3>
+                    <p>이력서와 자기소개서를 면밀히 분석하여 지원 기업과 직무에 최적화된 개선 방향을 제시합니다</p>
                 </div>
-                
-                <div class="process-card card">
+
+                <div class="process-arrow">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </div>
+
+                <div class="process-step fade-up">
                     <div class="process-number">2</div>
-                    <h3 class="process-title">1:1 맞춤형 피드백</h3>
-                    <p class="process-desc">
-                        온라인 화상 미팅을 통해 구체적인 피드백을 제공하고
-                        실제 면접관 관점에서의 조언을 전달합니다
-                    </p>
+                    <h3>1:1 맞춤 피드백</h3>
+                    <p>온라인 화상 미팅을 통해 구체적인 피드백을 제공하고 실제 면접관 관점에서의 조언을 전달합니다</p>
                 </div>
-                
-                <div class="process-card card">
+
+                <div class="process-arrow">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </div>
+
+                <div class="process-step fade-up">
                     <div class="process-number">3</div>
-                    <h3 class="process-title">실전 모의면접</h3>
-                    <p class="process-desc">
-                        실제 면접과 동일한 환경에서 모의면접을 진행하고
-                        즉각적인 피드백으로 면접 스킬을 향상시킵니다
-                    </p>
+                    <h3>실전 모의면접</h3>
+                    <p>실제 면접과 동일한 환경에서 모의면접을 진행하고 즉각적인 피드백으로 면접 스킬을 향상시킵니다</p>
                 </div>
             </div>
         </div>
     </section>
-    
-    <!-- 이런 분들께 추천 -->
-    <section class="section">
+
+    <!-- Target Section -->
+    <section class="page-section alt">
         <div class="container">
-            <h2 class="section-title">이런 분들께 추천합니다</h2>
-            
-            <div class="features-grid">
-                <div class="feature-card card">
-                    <div class="feature-icon">🎓</div>
-                    <h3 class="feature-title">신입 취업 준비생</h3>
-                    <p class="feature-desc">
-                        "첫 취업이 막막해요"<br>
-                        "서류는 어떻게 써야 할까요?"<br>
-                        처음부터 올바른 방향으로 준비하세요
-                    </p>
+            <div class="section-header fade-up">
+                <h2>이런 분들께 추천합니다</h2>
+            </div>
+
+            <div class="target-grid">
+                <div class="target-card fade-up">
+                    <div class="target-icon">
+                        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                            <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+                        </svg>
+                    </div>
+                    <h3>신입 취업 준비생</h3>
+                    <p>"첫 취업이 막막해요"<br>"서류는 어떻게 써야 할까요?"<br>처음부터 올바른 방향으로 준비하세요</p>
                 </div>
-                
-                <div class="feature-card card">
-                    <div class="feature-icon">💼</div>
-                    <h3 class="feature-title">경력 이직 준비생</h3>
-                    <p class="feature-desc">
-                        "연봉을 더 높이고 싶어요"<br>
-                        "커리어 전환이 필요해요"<br>
-                        전략적인 이직으로 성장하세요
-                    </p>
+
+                <div class="target-card fade-up">
+                    <div class="target-icon">
+                        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                        </svg>
+                    </div>
+                    <h3>경력 이직 준비생</h3>
+                    <p>"연봉을 더 높이고 싶어요"<br>"커리어 전환이 필요해요"<br>전략적인 이직으로 성장하세요</p>
                 </div>
-                
-                <div class="feature-card card">
-                    <div class="feature-icon">🚀</div>
-                    <h3 class="feature-title">면접 준비가 필요한 분</h3>
-                    <p class="feature-desc">
-                        "면접에서 떨어져요"<br>
-                        "무엇을 준비해야 할지 모르겠어요"<br>
-                        실전 경험으로 자신감을 얻으세요
-                    </p>
+
+                <div class="target-card fade-up">
+                    <div class="target-icon">
+                        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                        </svg>
+                    </div>
+                    <h3>면접 준비가 필요한 분</h3>
+                    <p>"면접에서 떨어져요"<br>"무엇을 준비해야 할지 모르겠어요"<br>실전 경험으로 자신감을 얻으세요</p>
                 </div>
             </div>
         </div>
     </section>
-    
-    <!-- 성과 섹션 -->
-    <section class="section" style="background: linear-gradient(135deg, rgba(240, 147, 251, 0.05), rgba(102, 126, 234, 0.05));">
+
+    <!-- Achievement Section -->
+    <section class="page-section">
         <div class="container">
-            <h2 class="section-title">검증된 성과</h2>
-            
+            <div class="section-header fade-up">
+                <h2>검증된 성과</h2>
+            </div>
+
             <div class="achievement-grid">
-                <div class="achievement-card">
+                <div class="achievement-card fade-up">
                     <div class="achievement-number">100+</div>
                     <div class="achievement-label">멘토링 진행</div>
                 </div>
-                
-                <div class="achievement-card">
+                <div class="achievement-card fade-up">
                     <div class="achievement-number">306%</div>
                     <div class="achievement-label">연봉 상승률</div>
                 </div>
-                
-                <div class="achievement-card">
+                <div class="achievement-card fade-up">
                     <div class="achievement-number">Big4</div>
                     <div class="achievement-label">컨설팅펌 재직</div>
                 </div>
-                
-                <div class="achievement-card">
+                <div class="achievement-card fade-up">
                     <div class="achievement-number">100%</div>
                     <div class="achievement-label">만족도</div>
                 </div>
             </div>
         </div>
     </section>
-    
-    <!-- 가격 안내 -->
-    <section class="section" id="pricing">
+
+    <!-- Pricing Section -->
+    <section class="page-section alt" id="pricing">
         <div class="container">
-            <h2 class="section-title">컨설팅 패키지</h2>
-            <p class="section-subtitle">
-                목표와 상황에 맞는 최적의 패키지를 선택하세요
-            </p>
-            
+            <div class="section-header fade-up">
+                <h2>컨설팅 패키지</h2>
+                <p>목표와 상황에 맞는 최적의 패키지를 선택하세요</p>
+            </div>
+
             <div class="pricing-grid">
-                <div class="price-card card">
-                    <h3 class="price-title">STANDARD</h3>
-                    <p class="price-amount">150,000원</p>
-                    <p class="price-desc">이력서 검토 + 1:1 피드백</p>
+                <div class="price-card fade-up">
+                    <div class="price-title">STANDARD</div>
+                    <div class="price-sessions">3회 세션</div>
+                    <div class="price-amount">200,000원</div>
+                    <div class="price-per">회당 약 66,600원</div>
                     <ul class="price-features">
                         <li>이력서/자소서 상세 검토</li>
                         <li>맞춤형 커리어 방향성 수립</li>
-                        <li>1:1 온라인 피드백 (60분)</li>
-                        <li>작업일 3일</li>
+                        <li>1:1 온라인 피드백 (각 60분)</li>
+                        <li>서류 개선 후 재검토</li>
+                        <li>기본 모의면접 1회</li>
                     </ul>
-                    <a href="career-application.html" class="btn btn-primary" style="width: 100%;" target="_blank">신청하기</a>
+                    <a href="#" class="btn btn-primary" style="width: 100%;" onclick="alert('결제 시스템 준비 중입니다. 곧 오픈 예정!'); return false;">신청하기</a>
                 </div>
-                
-                <div class="price-card card featured">
-                    <div style="position: absolute; top: -15px; right: 20px; background: #f093fb; color: white; padding: 5px 20px; border-radius: 20px; font-size: 0.9rem;">
-                        인기
-                    </div>
-                    <h3 class="price-title">DELUXE</h3>
-                    <p class="price-amount">200,000원</p>
-                    <p class="price-desc">스탠다드 + 모의면접</p>
+
+                <div class="price-card featured fade-up">
+                    <div class="price-badge">추천</div>
+                    <div class="price-title">PREMIUM</div>
+                    <div class="price-sessions">5회 세션</div>
+                    <div class="price-amount">300,000원</div>
+                    <div class="price-per">회당 60,000원</div>
                     <ul class="price-features">
-                        <li>스탠다드 서비스 전체 포함</li>
-                        <li>1차 피드백 기반 서류 개선</li>
-                        <li>실전 모의면접 진행</li>
-                        <li>2회 코칭 (각 60분)</li>
+                        <li>STANDARD 서비스 전체 포함</li>
+                        <li>심화 모의면접 2회 추가</li>
+                        <li>면접 질문 예상 리스트 제공</li>
+                        <li>지원 기업별 맞춤 전략</li>
+                        <li>불합격 시 1회 추가 세션 무료</li>
                     </ul>
-                    <a href="career-application.html" class="btn btn-primary" style="width: 100%;" target="_blank">신청하기</a>
-                </div>
-                
-                <div class="price-card card">
-                    <h3 class="price-title">PREMIUM</h3>
-                    <p class="price-amount">250,000원</p>
-                    <p class="price-desc">디럭스 + 심화 모의면접</p>
-                    <ul class="price-features">
-                        <li>디럭스 서비스 전체 포함</li>
-                        <li>추가 모의면접 진행</li>
-                        <li>3회 코칭 (각 60분)</li>
-                        <li>작업일 5일</li>
-                        <li>불합격 시 1회 추가 면접</li>
-                    </ul>
-                    <a href="career-application.html" class="btn btn-primary" style="width: 100%;" target="_blank">신청하기</a>
+                    <a href="#" class="btn btn-primary" style="width: 100%;" onclick="alert('결제 시스템 준비 중입니다. 곧 오픈 예정!'); return false;">신청하기</a>
                 </div>
             </div>
-            
-            <div style="text-align: center; margin-top: 50px;">
-                <div style="display: inline-block; padding: 20px 40px; background: rgba(102, 126, 234, 0.1); border-radius: 10px;">
-                    <p style="color: #667eea; margin: 0; font-size: 1.1rem;">
-                        🎁 SCM 교육 수강생 특별 혜택<br>
-                        <span style="color: rgba(255,255,255,0.8);">모든 패키지 30% 할인</span>
-                    </p>
-                </div>
+
+            <div class="price-benefit-box fade-up">
+                <p>SCM 교육 수강생 특별 혜택: 모든 패키지 30% 할인</p>
             </div>
         </div>
     </section>
-    
-    
-    <!-- 수강생 후기 -->
-    <!-- 후기 섹션 제거됨 - 별도 페이지로 분리 예정 -->
-    <!--
-    <section class="section" style="background: rgba(102, 126, 234, 0.05);">
+
+    <!-- FAQ Section -->
+    <section class="page-section">
         <div class="container">
-            <h2 class="section-title">실제 수강생 후기</h2>
-            <div id="career-testimonials" class="testimonials-section">
+            <div class="section-header fade-up">
+                <h2>자주 묻는 질문</h2>
             </div>
-        </div>
-    </section>
-    -->
-    
-    <!-- FAQ -->
-    <section class="section">
-        <div class="container">
-            <h2 class="section-title">자주 묻는 질문</h2>
-            
-            <div style="max-width: 800px; margin: 50px auto;">
-                <div class="card" style="margin-bottom: 20px;">
-                    <h3 style="color: #f093fb; margin-bottom: 15px;">Q. 비대면으로도 효과가 있나요?</h3>
-                    <p style="color: rgba(255,255,255,0.8); line-height: 1.6;">
-                        네, 모든 컨설팅은 온라인 화상 미팅으로 진행되며, 
-                        대면 못지않은 상세한 피드백과 실전 연습이 가능합니다.
-                    </p>
+
+            <div class="faq-list">
+                <div class="faq-item fade-up">
+                    <h3>Q. 비대면으로도 효과가 있나요?</h3>
+                    <p>네, 모든 컨설팅은 온라인 화상 미팅으로 진행되며, 대면 못지않은 상세한 피드백과 실전 연습이 가능합니다.</p>
                 </div>
-                
-                <div class="card" style="margin-bottom: 20px;">
-                    <h3 style="color: #f093fb; margin-bottom: 15px;">Q. 어떤 직무에 특화되어 있나요?</h3>
-                    <p style="color: rgba(255,255,255,0.8); line-height: 1.6;">
-                        SCM, 구매/조달, 생산관리, 물류/유통, 경영컨설팅 분야에 특화되어 있으며,
-                        일반 경영지원 직무도 컨설팅 가능합니다.
-                    </p>
+
+                <div class="faq-item fade-up">
+                    <h3>Q. 어떤 직무에 특화되어 있나요?</h3>
+                    <p>SCM, 구매/조달, 생산관리, 물류/유통, 경영컨설팅 분야에 특화되어 있으며, 일반 경영지원 직무도 컨설팅 가능합니다.</p>
                 </div>
-                
-                <div class="card" style="margin-bottom: 20px;">
-                    <h3 style="color: #f093fb; margin-bottom: 15px;">Q. 서류 합격률이 얼마나 되나요?</h3>
-                    <p style="color: rgba(255,255,255,0.8); line-height: 1.6;">
-                        개인차가 있지만, 컨설팅을 받은 분들의 서류 합격률이 
-                        평균 3배 이상 향상되었습니다.
-                    </p>
+
+                <div class="faq-item fade-up">
+                    <h3>Q. 서류 합격률이 얼마나 되나요?</h3>
+                    <p>개인차가 있지만, 컨설팅을 받은 분들의 서류 합격률이 평균 3배 이상 향상되었습니다.</p>
                 </div>
-                
-                <div class="card">
-                    <h3 style="color: #f093fb; margin-bottom: 15px;">Q. 불합격하면 추가 컨설팅이 가능한가요?</h3>
-                    <p style="color: rgba(255,255,255,0.8); line-height: 1.6;">
-                        디럭스, 프리미엄 패키지는 1차 또는 최종 면접 불합격 시 
-                        1회 추가 면접/피드백을 무료로 제공합니다.
-                    </p>
+
+                <div class="faq-item fade-up">
+                    <h3>Q. 세션은 어떻게 진행되나요?</h3>
+                    <p>각 세션은 60분간 진행되며, Zoom 또는 Google Meet을 통해 1:1 화상으로 진행됩니다. 세션 간격은 1~2주 간격으로 조율 가능합니다.</p>
                 </div>
             </div>
         </div>
     </section>
-    
-    <!-- 마지막 CTA -->
-    <section class="section" style="background: linear-gradient(135deg, #f093fb 0%, #764ba2 100%); padding: 100px 20px;">
-        <div class="container" style="text-align: center;">
-            <h2 style="font-size: 2.5rem; margin-bottom: 20px; color: white;">
-                당신의 가치를 제대로 보여주세요
-            </h2>
-            <p style="font-size: 1.2rem; color: rgba(255,255,255,0.9); margin-bottom: 40px;">
-                이력서 한 장이 당신의 미래를 바꿀 수 있습니다
-            </p>
-            <a href="#pricing" class="btn" style="background: white; color: #764ba2; padding: 20px 50px; font-size: 1.1rem;">
-                지금 시작하기
-            </a>
-        </div>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <h2 class="fade-up">당신의 가치를 제대로 보여주세요</h2>
+        <p class="fade-up">이력서 한 장이 당신의 미래를 바꿀 수 있습니다</p>
+        <a href="#" class="btn btn-primary btn-lg fade-up" onclick="alert('결제 시스템 준비 중입니다. 곧 오픈 예정!'); return false;">지금 시작하기</a>
     </section>
-    
-    <!-- 푸터 -->
+
+    <!-- Footer -->
     <footer class="footer">
-        <p>&copy; 2025 이선생. All rights reserved.</p>
+        <p>&copy; 2025 SCM Expert. All rights reserved.</p>
     </footer>
-    
-    <!-- 플로팅 신청 버튼 -->
-    <a href="#pricing" class="floating-btn">상담 신청</a>
-    
+
+    <!-- Floating Button -->
+    <a href="#pricing" class="btn btn-primary floating-btn">상담 신청</a>
+
     <script>
-        // 파티클 생성
-        function createParticles() {
-            const particleBg = document.getElementById('particleBg');
-            
-            for (let i = 0; i < 30; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 15 + 's';
-                particle.style.animationDuration = (15 + Math.random() * 10) + 's';
-                particleBg.appendChild(particle);
-            }
-        }
-        
-        // 프리로더 숨기기
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.querySelector('.preloader').style.opacity = '0';
-                setTimeout(() => {
-                    document.querySelector('.preloader').style.display = 'none';
-                }, 500);
-            }, 1000);
-        });
-        
-        // 초기화
-        document.addEventListener('DOMContentLoaded', () => {
-            createParticles();
-            
-            // 스크롤 애니메이션
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            };
-            
-            const observer = new IntersectionObserver(function(entries) {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('active');
-                    }
-                });
-            }, observerOptions);
-            
-            // 모든 카드와 섹션에 애니메이션 적용
-            document.querySelectorAll('.card, .process-card, .feature-card, .price-card, .achievement-card, .review-card').forEach(el => {
-                el.classList.add('scroll-reveal');
-                observer.observe(el);
+        // Scroll Animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
             });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-up').forEach(el => {
+            observer.observe(el);
         });
     </script>
-    
-    <!-- 후기 시스템 JavaScript 제거됨 -->
-    <!-- <script src="./js/testimonials.js"></script> -->
-    <!-- <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            setTimeout(() => {
-                if (window.loadTestimonials) {
-                    loadTestimonials('career-testimonials', 'career_consulting', 3);
-                }
-            }, 1000);
-        });
-    </script> -->
-
-    <!-- 모바일 UI/UX 개선 스크립트 -->
-    <script src="js/mobile-enhancements.js" defer></script>
 </body>
 </html>
