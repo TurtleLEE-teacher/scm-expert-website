@@ -29,6 +29,10 @@
     <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
     <link rel="apple-touch-icon" href="./images/apple-touch-icon.png">
 
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#0071e3">
+
     <!-- Design System CSS -->
     <link rel="stylesheet" href="css/design-system.css">
 
@@ -642,7 +646,7 @@
             <div class="instructor-card fade-up">
                 <div class="instructor-image-wrapper">
                     <div class="instructor-image">
-                        <img src="images/portfolio/teacher.png" alt="강사 프로필">
+                        <img src="images/portfolio/teacher.png" alt="강사 프로필" loading="lazy">
                     </div>
                     <p class="instructor-name">이선생</p>
                     <p class="instructor-title">Big4 컨설팅펌 시니어 매니저</p>
@@ -663,11 +667,11 @@
                         <h4>연봉 상승 기록</h4>
                         <div class="salary-images">
                             <div>
-                                <img src="images/portfolio/salary_2015.png" alt="2015년 연봉">
+                                <img src="images/portfolio/salary_2015.png" alt="2015년 연봉" loading="lazy">
                                 <p>2015년 시작</p>
                             </div>
                             <div>
-                                <img src="images/portfolio/2024년연봉22.png" alt="2024년 연봉">
+                                <img src="images/portfolio/2024년연봉22.png" alt="2024년 연봉" loading="lazy">
                                 <p>2024년 현재</p>
                             </div>
                         </div>
@@ -903,6 +907,21 @@
         document.querySelectorAll('.fade-up').forEach(el => {
             observer.observe(el);
         });
+    </script>
+
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('SW registered:', registration.scope);
+                    })
+                    .catch(error => {
+                        console.log('SW registration failed:', error);
+                    });
+            });
+        }
     </script>
 </body>
 </html>

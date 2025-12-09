@@ -29,6 +29,10 @@
     <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
     <link rel="apple-touch-icon" href="./images/apple-touch-icon.png">
 
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#0071e3">
+
     <!-- Design System CSS -->
     <link rel="stylesheet" href="css/design-system.css">
 
@@ -898,7 +902,7 @@
 
             <div class="instructor-card fade-up">
                 <div class="instructor-image">
-                    <img src="images/portfolio/teacher.png" alt="강사 프로필">
+                    <img src="images/portfolio/teacher.png" alt="강사 프로필" loading="lazy">
                 </div>
                 <div class="instructor-info">
                     <h3>글로벌 Big4 컨설팅펌 SCM 컨설턴트</h3>
@@ -1363,6 +1367,21 @@
         document.addEventListener('DOMContentLoaded', () => {
             fetchNotionData();
         });
+    </script>
+
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('SW registered:', registration.scope);
+                    })
+                    .catch(error => {
+                        console.log('SW registration failed:', error);
+                    });
+            });
+        }
     </script>
 </body>
 </html>

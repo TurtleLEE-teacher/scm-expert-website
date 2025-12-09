@@ -23,9 +23,9 @@ logs/
 *.temp
 temp/
 
-# 백업 파일 (선택적 - 현재는 포함하되 나중에 정리)
-# old/
-# dd/backup/
+# 백업 파일
+old/
+dd/backup/
 
 # 시스템 파일
 .DS_Store

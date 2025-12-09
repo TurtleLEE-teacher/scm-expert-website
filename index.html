@@ -29,6 +29,10 @@
     <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
     <link rel="apple-touch-icon" href="./images/apple-touch-icon.png">
 
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#0071e3">
+
     <!-- Design System CSS -->
     <link rel="stylesheet" href="css/design-system.css">
 
@@ -1162,6 +1166,21 @@
                 }
             });
         });
+    </script>
+
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('SW registered:', registration.scope);
+                    })
+                    .catch(error => {
+                        console.log('SW registration failed:', error);
+                    });
+            });
+        }
     </script>
 </body>
 </html>
