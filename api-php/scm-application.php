@@ -1,15 +1,19 @@
 <?php
 /**
  * SCM 부트캠프 수강 신청 처리 - Notion API 연동
+ * 보안 강화 버전
  */
 
+// 에러를 JSON으로 출력하기 위한 설정
+ini_set('display_errors', 0);
+error_reporting(0);
+
+require_once __DIR__ . '/../includes/security.php';
+
+// 보안 헤더 설정
+Security::setCorsHeaders();
+Security::setSecurityHeaders();
 header('Content-Type: application/json; charset=utf-8');
-header('Access-Control-Allow-Origin: *'); // 운영 시에는 실제 도메인으로 변경
-header('Access-Control-Allow-Methods: POST, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type');
-header('X-Content-Type-Options: nosniff');
-header('X-Frame-Options: DENY');
-header('X-XSS-Protection: 1; mode=block');
 
 // CORS 프리플라이트 요청 처리
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
@@ -19,45 +23,53 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 // POST 요청만 허용
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    http_response_code(405);
-    echo json_encode(['error' => '허용되지 않은 메소드'], JSON_UNESCAPED_UNICODE);
-    exit;
+    Security::errorResponse('허용되지 않은 메소드', 405);
 }
 
-// 에러를 JSON으로 출력하기 위한 설정
-ini_set('display_errors', 0);
-error_reporting(0);
+// Rate Limiting 체크 (분당 5회 - 신청서는 더 엄격하게)
+if (!Security::checkRateLimit(5, 60)) {
+    Security::errorResponse('요청이 너무 많습니다. 잠시 후 다시 시도해주세요.', 429);
+}
 
 try {
     require_once __DIR__ . '/../includes/config.php';
     require_once __DIR__ . '/../includes/notion-api.php';
 } catch (Exception $e) {
-    http_response_code(500);
-    echo json_encode([
-        'error' => '서버 설정 오류: ' . $e->getMessage(),
-        'debug_info' => 'Include 파일 로드 실패'
-    ], JSON_UNESCAPED_UNICODE);
-    exit;
+    error_log("SCM Application include error: " . $e->getMessage());
+    Security::errorResponse('서버 설정 오류가 발생했습니다.', 500);
 }
 
 try {
     // 입력 데이터 검증
     $input = json_decode(file_get_contents('php://input'), true) ?: $_POST;
-    
-    $requiredFields = ['name', 'email', 'phone', 'course_type', 'depositor_name', 'privacy_required'];
-    foreach ($requiredFields as $field) {
-        if (empty($input[$field]) && $field !== 'privacy_required') {
-            throw new Exception("필수 필드가 누락되었습니다: $field");
-        }
-        
-        if ($field === 'privacy_required' && !$input[$field]) {
-            throw new Exception('개인정보 수집·이용 동의가 필요합니다.');
-        }
+
+    // 이름 검증
+    $nameResult = Security::validateName($input['name'] ?? '');
+    if (!$nameResult['valid']) {
+        throw new Exception($nameResult['error']);
     }
-    
-    // 이메일 유효성 검사
-    if (!filter_var($input['email'], FILTER_VALIDATE_EMAIL)) {
-        throw new Exception('유효하지 않은 이메일 주소입니다.');
+
+    // 이메일 검증
+    $emailResult = Security::validateEmail($input['email'] ?? '');
+    if (!$emailResult['valid']) {
+        throw new Exception($emailResult['error']);
+    }
+
+    // 전화번호 검증
+    $phoneResult = Security::validatePhone($input['phone'] ?? '');
+    if (!$phoneResult['valid']) {
+        throw new Exception($phoneResult['error']);
+    }
+
+    // 개인정보 동의 확인
+    if (empty($input['privacy_required']) || $input['privacy_required'] === 'false') {
+        throw new Exception('개인정보 수집·이용 동의가 필요합니다.');
+    }
+
+    // 입금자명 검증
+    $depositorResult = Security::validateName($input['depositor_name'] ?? '');
+    if (!$depositorResult['valid']) {
+        throw new Exception('입금자명: ' . $depositorResult['error']);
     }
     
     // 과정 타입 검증
@@ -93,18 +105,22 @@ try {
     
     $notionApi = new NotionAPI($notionApiKey);
     
-    // Notion에 저장할 데이터 준비 (필드 매핑 최적화)
+    // 회사명/직책 검증 (선택 필드)
+    $companyResult = Security::validateCompany($input['company'] ?? '');
+    $position = Security::sanitizeText($input['position'] ?? '', 50);
+
+    // Notion에 저장할 데이터 준비 (검증된 값 사용)
     $notionData = [
-        '이름' => trim($input['name']),
-        '이메일' => trim($input['email']),
-        '전화번호' => trim($input['phone']),
-        '회사명' => trim($input['company'] ?? ''),
-        '직책' => trim($input['position'] ?? ''),
+        '이름' => $nameResult['value'],
+        '이메일' => $emailResult['value'],
+        '전화번호' => $phoneResult['value'],
+        '회사명' => $companyResult['value'],
+        '직책' => $position,
         '수강강의' => $courseTypes[$input['course_type']] . ' (' . $selectedPrice['duration'] . ')',
-        '결제금액' => (int)$selectedPrice['price'], // 숫자 타입으로 변환
-        '등록일' => date('Y-m-d'), // 날짜 타입으로 매핑
+        '결제금액' => (int)$selectedPrice['price'],
+        '등록일' => date('Y-m-d'),
         '결제상태' => '결제대기',
-        '특이사항' => formatStudentDetails($input, $selectedPrice)
+        '특이사항' => formatStudentDetails($input, $selectedPrice, $nameResult['value'], $depositorResult['value'])
     ];
     
     // Notion에 페이지 생성
@@ -135,7 +151,7 @@ try {
         'application_id' => $result['id'] ?? null,
         'course' => $courseTypes[$input['course_type']],
         'price' => $selectedPrice['price'],
-        'ip' => $_SERVER['REMOTE_ADDR'] ?? 'unknown'
+        'ip' => Security::getClientIp()
     ];
     error_log(json_encode($successLog, JSON_UNESCAPED_UNICODE), 3, dirname(__DIR__) . '/logs/scm_application.log');
     
@@ -155,8 +171,8 @@ try {
         'error' => $e->getMessage(),
         'file' => $e->getFile(),
         'line' => $e->getLine(),
-        'ip' => $_SERVER['REMOTE_ADDR'] ?? 'unknown',
-        'user_agent' => $_SERVER['HTTP_USER_AGENT'] ?? 'unknown',
+        'ip' => Security::getClientIp(),
+        'user_agent' => Security::sanitizeText($_SERVER['HTTP_USER_AGENT'] ?? '', 500),
         'post_data' => json_encode($_POST, JSON_UNESCAPED_UNICODE)
     ];
     
@@ -204,33 +220,34 @@ function sendAdminNotification($data, $courseName, $priceInfo) {
 /**
  * 학생 상세 정보 포맷팅
  */
-function formatStudentDetails($input, $priceInfo) {
+function formatStudentDetails($input, $priceInfo, $validatedName = '', $validatedDepositor = '') {
     $details = [];
-    
+
     if (!empty($input['experience_level'])) {
         $experienceLevels = [
             'entry' => '신입 (1년 미만)',
             'junior' => '주니어 (1-3년)',
-            'mid' => '미드 (3-5년)', 
+            'mid' => '미드 (3-5년)',
             'senior' => '시니어 (5년 이상)'
         ];
-        $details[] = "경력수준: " . ($experienceLevels[$input['experience_level']] ?? $input['experience_level']);
+        $details[] = "경력수준: " . ($experienceLevels[$input['experience_level']] ?? Security::sanitizeText($input['experience_level'], 50));
     }
-    
+
     if (!empty($input['learning_goals'])) {
-        $details[] = "학습목표: " . trim($input['learning_goals']);
+        $details[] = "학습목표: " . Security::sanitizeText($input['learning_goals'], 500);
     }
-    
-    if (!empty($input['depositor_name']) && $input['depositor_name'] !== $input['name']) {
-        $details[] = "입금자명: " . trim($input['depositor_name']);
+
+    // 검증된 이름과 입금자명 비교
+    if (!empty($validatedDepositor) && $validatedDepositor !== $validatedName) {
+        $details[] = "입금자명: " . $validatedDepositor;
     }
-    
-    $marketingConsent = $input['marketing_optional'] ? '동의' : '거부';
+
+    $marketingConsent = !empty($input['marketing_optional']) && ($input['marketing_optional'] === true || $input['marketing_optional'] === 'true' || $input['marketing_optional'] === '1') ? '동의' : '거부';
     $details[] = "마케팅 수신: " . $marketingConsent;
-    
+
     $details[] = "신청일시: " . date('Y-m-d H:i:s');
-    $details[] = "IP: " . ($_SERVER['REMOTE_ADDR'] ?? 'N/A');
-    
+    $details[] = "IP: " . Security::getClientIp();
+
     return implode(' | ', $details);
 }
 ?>

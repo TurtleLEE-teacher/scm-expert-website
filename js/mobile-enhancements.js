@@ -190,8 +190,6 @@ class MobileEnhancer {
 
     handleRightSwipe() {
         // 이전 페이지나 메뉴 열기 등
-        console.log('Right swipe detected');
-        
         // 네비게이션이 닫혀있으면 열기
         const navMenu = document.querySelector('.nav-menu');
         const hamburger = document.querySelector('.hamburger');
@@ -203,8 +201,6 @@ class MobileEnhancer {
 
     handleLeftSwipe() {
         // 다음 페이지나 메뉴 닫기 등
-        console.log('Left swipe detected');
-        
         // 네비게이션이 열려있으면 닫기
         const navMenu = document.querySelector('.nav-menu');
         const hamburger = document.querySelector('.hamburger');
@@ -254,7 +250,6 @@ document.head.appendChild(style);
 // 모바일 향상 기능 초기화
 document.addEventListener('DOMContentLoaded', () => {
     new MobileEnhancer();
-    console.log('🚀 Mobile UI/UX Enhancements Loaded');
 });
 
 // 터치 스와이프를 위한 전역 변수

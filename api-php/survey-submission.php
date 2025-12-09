@@ -1,15 +1,17 @@
 <?php
 /**
  * 고객 만족도 조사 제출 처리 - Notion API 연동
+ * 보안 강화 버전
  */
 
+require_once __DIR__ . '/../includes/security.php';
+require_once __DIR__ . '/../includes/config.php';
+require_once __DIR__ . '/../includes/notion-api.php';
+
+// 보안 헤더 설정
+Security::setCorsHeaders();
+Security::setSecurityHeaders();
 header('Content-Type: application/json; charset=utf-8');
-header('Access-Control-Allow-Origin: *'); // 운영 시에는 실제 도메인으로 변경
-header('Access-Control-Allow-Methods: POST, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type');
-header('X-Content-Type-Options: nosniff');
-header('X-Frame-Options: DENY');
-header('X-XSS-Protection: 1; mode=block');
 
 // CORS 프리플라이트 요청 처리
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
@@ -19,28 +21,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 // POST 요청만 허용
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    http_response_code(405);
-    echo json_encode(['error' => '허용되지 않은 메소드'], JSON_UNESCAPED_UNICODE);
-    exit;
+    Security::errorResponse('허용되지 않은 메소드', 405);
 }
 
-require_once '../includes/config.php';
-require_once '../includes/notion-api.php';
+// Rate Limiting 체크 (분당 10회)
+if (!Security::checkRateLimit(10, 60)) {
+    Security::errorResponse('요청이 너무 많습니다. 잠시 후 다시 시도해주세요.', 429);
+}
 
 try {
     // 입력 데이터 검증
     $input = json_decode(file_get_contents('php://input'), true) ?: $_POST;
-    
-    $requiredFields = ['name', 'email', 'service_used', 'overall_satisfaction', 'instructor_satisfaction', 'content_satisfaction', 'recommendation'];
-    foreach ($requiredFields as $field) {
-        if (empty($input[$field])) {
-            throw new Exception("필수 필드가 누락되었습니다: $field");
-        }
+
+    // 이름 검증
+    $nameResult = Security::validateName($input['name'] ?? '');
+    if (!$nameResult['valid']) {
+        throw new Exception($nameResult['error']);
     }
-    
-    // 이메일 유효성 검사
-    if (!filter_var($input['email'], FILTER_VALIDATE_EMAIL)) {
-        throw new Exception('유효하지 않은 이메일 주소입니다.');
+
+    // 이메일 검증
+    $emailResult = Security::validateEmail($input['email'] ?? '');
+    if (!$emailResult['valid']) {
+        throw new Exception($emailResult['error']);
     }
     
     // 서비스 유형 검증
@@ -89,19 +91,28 @@ try {
     
     $notionApi = new NotionAPI($notionApiKey);
     
-    // Notion에 저장할 데이터 준비
+    // 전화번호 검증 (선택 필드)
+    $phone = '';
+    if (!empty($input['phone'])) {
+        $phoneResult = Security::validatePhone($input['phone']);
+        if ($phoneResult['valid']) {
+            $phone = $phoneResult['value'];
+        }
+    }
+
+    // Notion에 저장할 데이터 준비 (검증된 값 사용)
     $notionData = [
-        '이름' => trim($input['name']),
-        '이메일' => trim($input['email']),
-        '전화번호' => trim($input['phone'] ?? ''),
+        '이름' => $nameResult['value'],
+        '이메일' => $emailResult['value'],
+        '전화번호' => $phone,
         '참여서비스' => $serviceTypes[$input['service_used']],
         '전체만족도' => $input['overall_satisfaction'],
         '강사만족도' => $input['instructor_satisfaction'],
         '내용만족도' => $input['content_satisfaction'],
         '추천의향' => $input['recommendation'],
-        '개선사항' => trim($input['improvements'] ?? ''),
-        '추가의견' => trim($input['additional_comments'] ?? ''),
-        'IP주소' => $_SERVER['REMOTE_ADDR'] ?? ''
+        '개선사항' => Security::sanitizeText($input['improvements'] ?? '', 1000),
+        '추가의견' => Security::sanitizeText($input['additional_comments'] ?? '', 1000),
+        'IP주소' => Security::getClientIp()
     ];
     
     // Notion에 페이지 생성
@@ -128,7 +139,7 @@ try {
         'service_used' => $serviceTypes[$input['service_used']],
         'overall_satisfaction' => $input['overall_satisfaction'],
         'recommendation' => $input['recommendation'],
-        'ip' => $_SERVER['REMOTE_ADDR'] ?? 'unknown'
+        'ip' => Security::getClientIp()
     ];
     error_log(json_encode($successLog, JSON_UNESCAPED_UNICODE), 3, dirname(__DIR__) . '/logs/survey.log');
     
@@ -148,8 +159,8 @@ try {
         'error' => $e->getMessage(),
         'file' => $e->getFile(),
         'line' => $e->getLine(),
-        'ip' => $_SERVER['REMOTE_ADDR'] ?? 'unknown',
-        'user_agent' => $_SERVER['HTTP_USER_AGENT'] ?? 'unknown',
+        'ip' => Security::getClientIp(),
+        'user_agent' => Security::sanitizeText($_SERVER['HTTP_USER_AGENT'] ?? '', 500),
         'post_data' => json_encode($input ?? [], JSON_UNESCAPED_UNICODE)
     ];
     

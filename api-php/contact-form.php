@@ -1,13 +1,16 @@
 <?php
 /**
  * 문의 폼 처리 - Notion 통합
- * 기존 SQL 대신 Notion MCP 사용
+ * 보안 강화 버전
  */
 
+require_once __DIR__ . '/../includes/security.php';
+require_once __DIR__ . '/../includes/notion-integration.php';
+
+// 보안 헤더 설정
+Security::setCorsHeaders();
+Security::setSecurityHeaders();
 header('Content-Type: application/json; charset=utf-8');
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: POST');
-header('Access-Control-Allow-Headers: Content-Type');
 
 // CORS 프리플라이트 요청 처리
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
@@ -17,39 +20,67 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 // POST 요청만 허용
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    http_response_code(405);
-    echo json_encode(['error' => '허용되지 않은 메소드'], JSON_UNESCAPED_UNICODE);
-    exit;
+    Security::errorResponse('허용되지 않은 메소드', 405);
 }
 
-require_once '../includes/notion-integration.php';
+// Rate Limiting 체크 (분당 10회)
+if (!Security::checkRateLimit(10, 60)) {
+    Security::errorResponse('요청이 너무 많습니다. 잠시 후 다시 시도해주세요.', 429);
+}
 
 try {
     // 입력 데이터 검증
     $input = json_decode(file_get_contents('php://input'), true) ?: $_POST;
-    
-    $requiredFields = ['name', 'email', 'service', 'message'];
-    foreach ($requiredFields as $field) {
-        if (empty($input[$field])) {
-            throw new Exception("필수 필드가 누락되었습니다: $field");
+
+    // 이름 검증
+    $nameResult = Security::validateName($input['name'] ?? '');
+    if (!$nameResult['valid']) {
+        throw new Exception($nameResult['error']);
+    }
+
+    // 이메일 검증
+    $emailResult = Security::validateEmail($input['email'] ?? '');
+    if (!$emailResult['valid']) {
+        throw new Exception($emailResult['error']);
+    }
+
+    // 서비스 타입 검증
+    $validServices = ['scm-basic', 'career-consulting', 'corporate', 'general'];
+    if (empty($input['service']) || !in_array($input['service'], $validServices)) {
+        throw new Exception('올바른 서비스 유형을 선택해주세요.');
+    }
+
+    // 메시지 검증
+    if (empty($input['message']) || mb_strlen(trim($input['message'])) < 10) {
+        throw new Exception('문의 내용을 10자 이상 입력해주세요.');
+    }
+
+    // 전화번호 검증 (선택 필드)
+    $phone = '';
+    if (!empty($input['phone'])) {
+        $phoneResult = Security::validatePhone($input['phone']);
+        if (!$phoneResult['valid']) {
+            throw new Exception($phoneResult['error']);
         }
+        $phone = $phoneResult['value'];
     }
-    
-    // 이메일 유효성 검사
-    if (!filter_var($input['email'], FILTER_VALIDATE_EMAIL)) {
-        throw new Exception('유효하지 않은 이메일 주소입니다.');
+
+    // 회사명 검증 (선택 필드)
+    $companyResult = Security::validateCompany($input['company'] ?? '');
+    if (!$companyResult['valid']) {
+        throw new Exception($companyResult['error']);
     }
-    
-    // 데이터 준비
+
+    // 데이터 준비 (살균 처리)
     $inquiryData = [
-        'name' => trim($input['name']),
-        'email' => trim($input['email']),
-        'phone' => trim($input['phone'] ?? ''),
-        'company' => trim($input['company'] ?? ''),
+        'name' => $nameResult['value'],
+        'email' => $emailResult['value'],
+        'phone' => $phone,
+        'company' => $companyResult['value'],
         'inquiry_type' => $input['service'],
-        'message' => trim($input['message']),
-        'ip_address' => $_SERVER['REMOTE_ADDR'] ?? '',
-        'user_agent' => $_SERVER['HTTP_USER_AGENT'] ?? ''
+        'message' => Security::sanitizeText($input['message'], 2000),
+        'ip_address' => Security::getClientIp(),
+        'user_agent' => Security::sanitizeText($_SERVER['HTTP_USER_AGENT'] ?? '', 500)
     ];
     
     // Notion에 저장

@@ -1,15 +1,17 @@
 <?php
 /**
  * 커리어 컨설팅 서비스 신청 처리 - Notion API 연동 + 파일 업로드
+ * 보안 강화 버전
  */
 
+require_once __DIR__ . '/../includes/security.php';
+require_once __DIR__ . '/../includes/config.php';
+require_once __DIR__ . '/../includes/notion-api.php';
+
+// 보안 헤더 설정
+Security::setCorsHeaders();
+Security::setSecurityHeaders();
 header('Content-Type: application/json; charset=utf-8');
-header('Access-Control-Allow-Origin: *'); // 운영 시에는 실제 도메인으로 변경
-header('Access-Control-Allow-Methods: POST, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type');
-header('X-Content-Type-Options: nosniff');
-header('X-Frame-Options: DENY');
-header('X-XSS-Protection: 1; mode=block');
 
 // CORS 프리플라이트 요청 처리
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
@@ -19,32 +21,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 // POST 요청만 허용
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    http_response_code(405);
-    echo json_encode(['error' => '허용되지 않은 메소드'], JSON_UNESCAPED_UNICODE);
-    exit;
+    Security::errorResponse('허용되지 않은 메소드', 405);
 }
 
-require_once __DIR__ . '/../includes/config.php';
-require_once __DIR__ . '/../includes/notion-api.php';
+// Rate Limiting 체크 (분당 5회)
+if (!Security::checkRateLimit(5, 60)) {
+    Security::errorResponse('요청이 너무 많습니다. 잠시 후 다시 시도해주세요.', 429);
+}
 
 try {
     // 입력 데이터 검증 (multipart/form-data 처리)
     $input = $_POST;
-    
-    $requiredFields = ['name', 'email', 'phone', 'consulting_type', 'depositor_name', 'privacy_required'];
-    foreach ($requiredFields as $field) {
-        if (empty($input[$field]) && $field !== 'privacy_required') {
-            throw new Exception("필수 필드가 누락되었습니다: $field");
-        }
-        
-        if ($field === 'privacy_required' && $input[$field] !== 'true' && $input[$field] !== '1') {
-            throw new Exception('개인정보 수집·이용 동의가 필요합니다.');
-        }
+
+    // 이름 검증
+    $nameResult = Security::validateName($input['name'] ?? '');
+    if (!$nameResult['valid']) {
+        throw new Exception($nameResult['error']);
     }
-    
-    // 이메일 유효성 검사
-    if (!filter_var($input['email'], FILTER_VALIDATE_EMAIL)) {
-        throw new Exception('유효하지 않은 이메일 주소입니다.');
+
+    // 이메일 검증
+    $emailResult = Security::validateEmail($input['email'] ?? '');
+    if (!$emailResult['valid']) {
+        throw new Exception($emailResult['error']);
+    }
+
+    // 전화번호 검증
+    $phoneResult = Security::validatePhone($input['phone'] ?? '');
+    if (!$phoneResult['valid']) {
+        throw new Exception($phoneResult['error']);
+    }
+
+    // 개인정보 동의 확인
+    if (empty($input['privacy_required']) || ($input['privacy_required'] !== 'true' && $input['privacy_required'] !== '1')) {
+        throw new Exception('개인정보 수집·이용 동의가 필요합니다.');
+    }
+
+    // 입금자명 검증
+    $depositorResult = Security::validateName($input['depositor_name'] ?? '');
+    if (!$depositorResult['valid']) {
+        throw new Exception('입금자명: ' . $depositorResult['error']);
     }
     
     // 컨설팅 타입 검증
@@ -91,17 +106,20 @@ try {
     
     $notionApi = new NotionAPI($notionApiKey);
     
-    // Notion에 저장할 데이터 준비 (문의사항 DB 최적화)
+    // 회사명 검증 (선택 필드)
+    $companyResult = Security::validateCompany($input['current_company'] ?? '');
+
+    // Notion에 저장할 데이터 준비 (검증된 값 사용)
     $notionData = [
-        '이름' => trim($input['name']),
-        '이메일' => trim($input['email']),
-        '전화번호' => trim($input['phone']),
-        '회사명' => trim($input['current_company'] ?? ''),
+        '이름' => $nameResult['value'],
+        '이메일' => $emailResult['value'],
+        '전화번호' => $phoneResult['value'],
+        '회사명' => $companyResult['value'],
         '문의유형' => '커리어 컨설팅',
         '상태' => '새 문의',
         '우선순위' => '보통',
-        '문의내용' => formatConsultingDetails($input, $consultingTypes[$input['consulting_type']], $selectedPrice, $uploadedFileInfo),
-        'IP주소' => $_SERVER['REMOTE_ADDR'] ?? ''
+        '문의내용' => formatConsultingDetails($input, $consultingTypes[$input['consulting_type']], $selectedPrice, $uploadedFileInfo, $depositorResult['value']),
+        'IP주소' => Security::getClientIp()
     ];
     
     // Notion에 페이지 생성
@@ -134,7 +152,7 @@ try {
         'consulting_type' => $consultingTypes[$input['consulting_type']],
         'price' => $selectedPrice['price'],
         'file_uploaded' => $uploadedFileInfo ? true : false,
-        'ip' => $_SERVER['REMOTE_ADDR'] ?? 'unknown'
+        'ip' => Security::getClientIp()
     ];
     error_log(json_encode($successLog, JSON_UNESCAPED_UNICODE), 3, dirname(__DIR__) . '/logs/career_application.log');
     
@@ -154,8 +172,8 @@ try {
         'error' => $e->getMessage(),
         'file' => $e->getFile(),
         'line' => $e->getLine(),
-        'ip' => $_SERVER['REMOTE_ADDR'] ?? 'unknown',
-        'user_agent' => $_SERVER['HTTP_USER_AGENT'] ?? 'unknown',
+        'ip' => Security::getClientIp(),
+        'user_agent' => Security::sanitizeText($_SERVER['HTTP_USER_AGENT'] ?? '', 500),
         'post_data' => array_filter($_POST, function($key) {
             return !in_array($key, ['resume_file']);
         }, ARRAY_FILTER_USE_KEY),
@@ -307,25 +325,25 @@ function sendAdminNotification($data, $consultingType, $priceInfo, $fileInfo) {
 /**
  * 커리어 컨설팅 세부 정보 포맷팅
  */
-function formatConsultingDetails($input, $consultingType, $priceInfo, $fileInfo) {
+function formatConsultingDetails($input, $consultingType, $priceInfo, $fileInfo, $validatedDepositor = '') {
     $details = [];
-    
+
     // 기본 컨설팅 정보
     $details[] = "=== 컨설팅 정보 ===";
     $details[] = "유형: " . $consultingType;
     $details[] = "비용: " . number_format($priceInfo['price']) . "원";
     $details[] = "기간: " . $priceInfo['duration'];
     $details[] = "";
-    
+
     // 신청자 상세 정보
     $details[] = "=== 신청자 정보 ===";
     if (!empty($input['current_company'])) {
-        $details[] = "현재 회사: " . trim($input['current_company']);
+        $details[] = "현재 회사: " . Security::sanitizeText($input['current_company'], 100);
     }
     if (!empty($input['current_position'])) {
-        $details[] = "현재 직책: " . trim($input['current_position']);
+        $details[] = "현재 직책: " . Security::sanitizeText($input['current_position'], 50);
     }
-    
+
     // 현재 상황
     if (!empty($input['current_status'])) {
         $statusLabels = [
@@ -333,12 +351,12 @@ function formatConsultingDetails($input, $consultingType, $priceInfo, $fileInfo)
             'job_seeking' => '구직중',
             'preparing_transition' => '이직 준비중'
         ];
-        $details[] = "현재 상황: " . ($statusLabels[$input['current_status']] ?? $input['current_status']);
+        $details[] = "현재 상황: " . ($statusLabels[$input['current_status']] ?? Security::sanitizeText($input['current_status'], 50));
     }
-    
+
     // 목표 및 경력
     if (!empty($input['target_company'])) {
-        $details[] = "목표 업계/기업: " . trim($input['target_company']);
+        $details[] = "목표 업계/기업: " . Security::sanitizeText($input['target_company'], 200);
     }
     if (!empty($input['experience_years'])) {
         $experienceLabels = [
@@ -347,18 +365,18 @@ function formatConsultingDetails($input, $consultingType, $priceInfo, $fileInfo)
             'mid' => '미드 (3-5년)',
             'senior' => '시니어 (5년 이상)'
         ];
-        $details[] = "경력 년수: " . ($experienceLabels[$input['experience_years']] ?? $input['experience_years']);
+        $details[] = "경력 년수: " . ($experienceLabels[$input['experience_years']] ?? Security::sanitizeText($input['experience_years'], 50));
     }
-    
+
     $details[] = "";
-    
+
     // 추가 요청사항
     if (!empty($input['additional_requests'])) {
         $details[] = "=== 추가 요청사항 ===";
-        $details[] = trim($input['additional_requests']);
+        $details[] = Security::sanitizeText($input['additional_requests'], 1000);
         $details[] = "";
     }
-    
+
     // 파일 업로드 정보
     if ($fileInfo) {
         $details[] = "=== 첨부 파일 ===";
@@ -367,16 +385,16 @@ function formatConsultingDetails($input, $consultingType, $priceInfo, $fileInfo)
         $details[] = "경로: " . $fileInfo['file_path'];
         $details[] = "";
     }
-    
+
     // 결제 정보
     $details[] = "=== 결제 정보 ===";
-    $details[] = "입금자명: " . trim($input['depositor_name']);
-    
+    $details[] = "입금자명: " . ($validatedDepositor ?: Security::sanitizeText($input['depositor_name'] ?? '', 50));
+
     // 추가 정보
-    $marketingConsent = ($input['marketing_optional'] === 'true' || $input['marketing_optional'] === '1') ? '동의' : '거부';
+    $marketingConsent = (!empty($input['marketing_optional']) && ($input['marketing_optional'] === 'true' || $input['marketing_optional'] === '1')) ? '동의' : '거부';
     $details[] = "마케팅 수신: " . $marketingConsent;
     $details[] = "신청일시: " . date('Y-m-d H:i:s');
-    
+
     return implode("\n", $details);
 }
 ?>
