@@ -508,6 +508,155 @@
             margin-bottom: var(--space-8);
         }
 
+        /* SCM Functions Grid */
+        .functions-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-4);
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        @media (max-width: 992px) {
+            .functions-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 576px) {
+            .functions-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .function-card {
+            padding: var(--space-6);
+            background-color: var(--bg-tertiary);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            text-align: center;
+            transition: all var(--transition-base);
+        }
+        .function-card:hover {
+            border-color: var(--blue);
+            transform: translateY(-4px);
+        }
+        .function-icon {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, var(--blue) 0%, #00c6ff 100%);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto var(--space-4);
+        }
+        .function-icon svg {
+            width: 32px;
+            height: 32px;
+            color: #fff;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+        }
+        .function-card h3 {
+            font-size: var(--text-base);
+            font-weight: var(--font-semibold);
+            color: var(--blue);
+            margin-bottom: var(--space-2);
+        }
+        .function-card h4 {
+            font-size: var(--text-sm);
+            font-weight: var(--font-medium);
+            margin-bottom: var(--space-3);
+        }
+        .function-card p {
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+            line-height: var(--leading-relaxed);
+        }
+
+        /* How It Works Section */
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-6);
+            max-width: 1000px;
+            margin: 0 auto var(--space-10);
+        }
+        @media (max-width: 768px) {
+            .process-steps {
+                grid-template-columns: 1fr;
+            }
+        }
+        .process-step {
+            text-align: center;
+            padding: var(--space-6);
+        }
+        .step-number {
+            width: 48px;
+            height: 48px;
+            background: var(--blue);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto var(--space-4);
+            font-size: var(--text-xl);
+            font-weight: var(--font-bold);
+            color: #fff;
+        }
+        .process-step h3 {
+            font-size: var(--text-lg);
+            font-weight: var(--font-semibold);
+            margin-bottom: var(--space-3);
+        }
+        .process-step p {
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+            line-height: var(--leading-relaxed);
+        }
+        .process-features {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-8);
+            flex-wrap: wrap;
+            padding: var(--space-6);
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-lg);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .process-feature {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+        }
+        .process-feature svg {
+            width: 24px;
+            height: 24px;
+            color: var(--blue);
+        }
+        .process-feature span {
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+        }
+
+        /* Enhanced Week Card */
+        .week-tasks {
+            margin-top: var(--space-4);
+            padding-top: var(--space-4);
+            border-top: 1px solid var(--border-color);
+        }
+        .week-tasks h4 {
+            font-size: var(--text-sm);
+            font-weight: var(--font-semibold);
+            color: var(--blue);
+            margin-bottom: var(--space-2);
+        }
+        .week-tasks p {
+            font-size: var(--text-xs);
+            color: var(--text-tertiary);
+            margin-bottom: 0;
+        }
+
         /* Floating Button */
         .floating-btn {
             position: fixed;
@@ -806,6 +955,129 @@
         </div>
     </section>
 
+    <!-- SCM Functions Section -->
+    <section class="page-section">
+        <div class="container">
+            <div class="section-header fade-up">
+                <h2>학습하는 SCM 영역</h2>
+                <p>SCM의 핵심 Function 4가지를 체계적으로 학습합니다</p>
+            </div>
+
+            <div class="functions-grid">
+                <div class="function-card fade-up">
+                    <div class="function-icon">
+                        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                            <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                            <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                        </svg>
+                    </div>
+                    <h3>Planning</h3>
+                    <h4>계획 파트</h4>
+                    <p>S&OP Meeting, 운영기획, 수요예측(Forecasting), 생산계획 수립</p>
+                </div>
+
+                <div class="function-card fade-up">
+                    <div class="function-icon">
+                        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                            <path d="M16 10a4 4 0 0 1-8 0"></path>
+                        </svg>
+                    </div>
+                    <h3>Purchasing</h3>
+                    <h4>구매 파트</h4>
+                    <p>구매관리, 발주계획, 공급업체 커뮤니케이션, 원가분석</p>
+                </div>
+
+                <div class="function-card fade-up">
+                    <div class="function-icon">
+                        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="1" y="3" width="15" height="13"></rect>
+                            <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+                            <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                            <circle cx="18.5" cy="18.5" r="2.5"></circle>
+                        </svg>
+                    </div>
+                    <h3>Logistics</h3>
+                    <h4>물류운영 파트</h4>
+                    <p>창고관리(WMS), 배송관리, 운영효율화, 비용절감 전략</p>
+                </div>
+
+                <div class="function-card fade-up">
+                    <div class="function-icon">
+                        <svg viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                    </div>
+                    <h3>Customer Service</h3>
+                    <h4>고객서비스 파트</h4>
+                    <p>주문관리, 고객만족도 향상, 신제품 런칭 프로젝트</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="page-section alt">
+        <div class="container">
+            <div class="section-header fade-up">
+                <h2>진행 방식</h2>
+                <p>3회 라이브 세션 + 4회 실무 과제로 현업자 수준의 직무 이해도를 얻습니다</p>
+            </div>
+
+            <div class="process-steps">
+                <div class="process-step fade-up">
+                    <div class="step-number">1</div>
+                    <h3>라이브 세션</h3>
+                    <p>Zoom 온라인 라이브로 이론 학습과 현직자 노하우를 배웁니다. 실시간 질의응답으로 궁금증을 해결하세요.</p>
+                </div>
+
+                <div class="process-step fade-up">
+                    <div class="step-number">2</div>
+                    <h3>실무 과제</h3>
+                    <p>실제 기업 데이터를 기반으로 한 과제를 수행합니다. 매주 1:1 피드백으로 실력을 키워갑니다.</p>
+                </div>
+
+                <div class="process-step fade-up">
+                    <div class="step-number">3</div>
+                    <h3>복습 VOD</h3>
+                    <p>라이브 세션을 녹화한 복습 VOD가 제공됩니다. 영업일 기준 다음날 업로드되어 언제든 복습 가능합니다.</p>
+                </div>
+            </div>
+
+            <div class="process-features fade-up">
+                <div class="process-feature">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    <span>Zoom 온라인 라이브</span>
+                </div>
+                <div class="process-feature">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    <span>복습 VOD 무제한 제공</span>
+                </div>
+                <div class="process-feature">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    <span>1:1 상세 피드백</span>
+                </div>
+                <div class="process-feature">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    <span>수료증 발급</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Curriculum Section -->
     <section class="page-section">
         <div class="container">
@@ -818,36 +1090,65 @@
                 <div class="week-card fade-up">
                     <div class="week-number">1</div>
                     <div class="week-content">
-                        <h3>SCM 프로세스 & ERP 이해하기</h3>
-                        <p>SCM 표준 프로세스를 도식화하여 전체 공급망의 흐름을 이해합니다. 생산/출하/구매 등 주요 영역별 프로세스와 상호 연계성을 파악하고, SAP ERP 시스템에서 실제로 어떻게 구현되는지 실습합니다.</p>
-                        <span class="deliverable">결과물: SCM 프로세스 흐름도 (PPT)</span>
+                        <h3>수요예측(Forecasting) & S&OP</h3>
+                        <p>과거 판매 이력을 분석하여 트렌드를 파악하고, 향후 2년간의 월별 수요 예측(Forecast)을 직접 만들어봅니다. 실제 기업에서 어떤 변수들이 영향을 미치는지, S&OP 프로세스와 KPI가 어떻게 관리되는지 살펴봅니다.</p>
+                        <span class="deliverable">결과물: 월별 Forecast 보고서</span>
+                        <div class="week-tasks">
+                            <h4>실습 과제</h4>
+                            <p>실제 판매 데이터 기반 수요예측 모델 수립, 시즌성/트렌드 분석, 예측 정확도 검증</p>
+                        </div>
                     </div>
                 </div>
 
                 <div class="week-card fade-up">
                     <div class="week-number">2</div>
                     <div class="week-content">
-                        <h3>SCM 이슈 분석 & 개선안 도출</h3>
-                        <p>실제 기업에서 발생하는 SCM 이슈들을 분석하고 원인을 파악합니다. PI(Process Innovation) 방법론을 활용하여 문제점을 구조화하고, 실행 가능한 개선방안을 도출하는 방법을 학습합니다.</p>
-                        <span class="deliverable">결과물: 이슈-원인-해결방안 마인드맵</span>
+                        <h3>구매계획 수립 & 발주 실습</h3>
+                        <p>월별 예측 수량과 제한된 데이터를 기초로 구매계획을 수립합니다. 실제 발주를 작성하고 공급업체와의 커뮤니케이션을 시뮬레이션하면서 구매 업무의 핵심을 이해합니다.</p>
+                        <span class="deliverable">결과물: 구매계획서 & 발주서</span>
+                        <div class="week-tasks">
+                            <h4>실습 과제</h4>
+                            <p>MRP 기반 구매계획 수립, 발주서 작성, 리드타임/안전재고 계산, 공급업체 협상 시뮬레이션</p>
+                        </div>
                     </div>
                 </div>
 
                 <div class="week-card fade-up">
                     <div class="week-number">3</div>
                     <div class="week-content">
-                        <h3>SCM-재무 Integration 실습</h3>
-                        <p>SCM 활동이 기업의 재무성과에 미치는 영향을 분석합니다. 매출, 원가, 이익률 데이터를 Excel로 분석하고 시각화하며, 자동화된 대시보드를 구축하는 실무 스킬을 익힙니다.</p>
-                        <span class="deliverable">결과물: Excel 분석 대시보드</span>
+                        <h3>물류운영 효율화 & 비용절감</h3>
+                        <p>창고 및 배송 관련 데이터를 분석하여 운영 효율화를 위한 비용절감 전략을 도출합니다. 실제 물류 현장에서 사용하는 운영 기법과 필요 데이터를 학습하고, 개선안을 제안합니다.</p>
+                        <span class="deliverable">결과물: 물류 효율화 제안서</span>
+                        <div class="week-tasks">
+                            <h4>실습 과제</h4>
+                            <p>창고 레이아웃 최적화, 배송 루트 효율화, 물류비용 분석 및 절감 방안 수립</p>
+                        </div>
                     </div>
                 </div>
 
                 <div class="week-card fade-up">
-                    <div class="week-number">4-5</div>
+                    <div class="week-number">4</div>
+                    <div class="week-content">
+                        <h3>신제품 런칭 & 프로젝트 관리</h3>
+                        <p>신제품 발매 시 필요한 준비 사항과 고려해야 할 이슈들을 분석합니다. 프로젝트 일정을 수립하고, 까다로운 케이스에서 생산성과 고객만족을 동시에 달성하는 방안을 제안합니다.</p>
+                        <span class="deliverable">결과물: 신제품 런칭 프로젝트 계획서</span>
+                        <div class="week-tasks">
+                            <h4>실습 과제</h4>
+                            <p>런칭 체크리스트 작성, 공급망 준비도 검증, 리스크 분석 및 대응 계획 수립</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="week-card fade-up">
+                    <div class="week-number">5</div>
                     <div class="week-content">
                         <h3>SCM PI 포트폴리오 완성</h3>
                         <p>지금까지 수행한 모든 과제를 통합하여 종합 보고서를 작성합니다. 실제 컨설팅 프로젝트처럼 문제 정의부터 해결방안까지 전 과정을 담은 프로페셔널한 SCM PI 포트폴리오를 완성합니다.</p>
                         <span class="deliverable">결과물: SCM PI 최종 보고서</span>
+                        <div class="week-tasks">
+                            <h4>최종 발표</h4>
+                            <p>5주간의 학습 내용 종합, 포트폴리오 완성, 1:1 최종 피드백 및 커리어 조언</p>
+                        </div>
                     </div>
                 </div>
             </div>
