@@ -601,16 +601,16 @@
 </head>
 <body>
     <!-- Header -->
-    <header class="header">
+    <header class="header" role="banner">
         <div class="header-content">
-            <a href="index.html" class="logo">SCM Expert</a>
-            <nav class="nav-links">
+            <a href="index.html" class="logo" aria-label="SCM Expert 홈으로 이동">SCM Expert</a>
+            <nav class="nav-links" id="navLinks" aria-label="주요 메뉴">
                 <a href="index.html">Home</a>
                 <a href="scm-basic.html">SCM 교육</a>
-                <a href="career-consulting.html" class="active">커리어 컨설팅</a>
+                <a href="career-consulting.html" class="active" aria-current="page">커리어 컨설팅</a>
                 <a href="#pricing" class="btn btn-primary btn-sm">상담 신청</a>
             </nav>
-            <button class="menu-toggle" onclick="document.querySelector('.nav-links').classList.toggle('active')">
+            <button class="menu-toggle" id="menuToggle" aria-label="메뉴 열기" aria-expanded="false" aria-controls="navLinks">
                 <span></span>
                 <span></span>
                 <span></span>

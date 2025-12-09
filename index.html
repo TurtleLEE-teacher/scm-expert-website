@@ -630,22 +630,22 @@
 </head>
 <body>
     <!-- Header -->
-    <header class="header">
+    <header class="header" role="banner">
         <div class="header-content">
-            <a href="/" class="logo">SCM Expert</a>
+            <a href="/" class="logo" aria-label="SCM Expert 홈으로 이동">SCM Expert</a>
 
-            <nav>
-                <ul class="nav-menu" id="navMenu">
-                    <li><a href="#process" class="nav-link">프로세스</a></li>
-                    <li><a href="#solution" class="nav-link">서비스</a></li>
-                    <li><a href="#reviews" class="nav-link">후기</a></li>
-                    <li><a href="#instructor" class="nav-link">강사</a></li>
+            <nav aria-label="주요 메뉴">
+                <ul class="nav-menu" id="navMenu" role="menubar">
+                    <li role="none"><a href="#process" class="nav-link" role="menuitem">프로세스</a></li>
+                    <li role="none"><a href="#solution" class="nav-link" role="menuitem">서비스</a></li>
+                    <li role="none"><a href="#reviews" class="nav-link" role="menuitem">후기</a></li>
+                    <li role="none"><a href="#instructor" class="nav-link" role="menuitem">강사</a></li>
                 </ul>
             </nav>
 
             <a href="#cta" class="btn btn-sm btn-primary">상담 신청</a>
 
-            <button class="menu-toggle" id="menuToggle" aria-label="메뉴 열기">
+            <button class="menu-toggle" id="menuToggle" aria-label="메뉴 열기" aria-expanded="false" aria-controls="navMenu">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -653,7 +653,7 @@
         </div>
     </header>
 
-    <main>
+    <main id="main-content" role="main">
         <!-- Hero Section -->
         <section class="hero">
             <div class="hero-trust fade-up">
@@ -1105,8 +1105,9 @@
     </main>
 
     <!-- Footer -->
-    <footer class="footer">
+    <footer class="footer" role="contentinfo">
         <p>&copy; 2025 SCM Expert. All rights reserved.</p>
+        <p style="margin-top: var(--space-2);"><a href="privacy-policy.html" style="color: var(--text-tertiary); font-size: var(--text-sm);">개인정보처리방침</a></p>
     </footer>
 
     <script>
