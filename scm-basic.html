@@ -808,6 +808,9 @@
             padding: var(--space-3);
             min-height: 80px;
             transition: all var(--transition-fast);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
         }
         .calendar-day:hover {
             border-color: var(--blue);
@@ -824,6 +827,7 @@
             font-size: var(--text-sm);
             color: var(--text-secondary);
             margin-bottom: var(--space-1);
+            flex-shrink: 0;
         }
         .calendar-day.class-day .calendar-day-number {
             color: var(--blue);
@@ -833,15 +837,22 @@
             font-size: var(--text-xs);
             background: var(--blue);
             color: #fff;
-            padding: 2px 6px;
+            padding: 3px 6px;
             border-radius: var(--radius-sm);
-            display: inline-block;
+            display: block;
             margin-bottom: var(--space-1);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
         }
         .calendar-assignment {
             font-size: 10px;
             color: var(--blue);
             display: block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         .schedule-legend {
             display: flex;
@@ -1627,10 +1638,17 @@
                 const classData = data.find(item => item.date === dateString);
 
                 if (classData) {
+                    // 강의명 짧게 표시 (카테고리 또는 축약형)
+                    const shortName = classData.notionData?.category ||
+                                      classData.name.split(' ').slice(0, 2).join(' ') ||
+                                      '강의';
+                    const statusBadge = classData.status === '모집중' ? '🟢' :
+                                        classData.status === '진행중' ? '🔵' : '';
+
                     calendarHTML += `
                         <div class="calendar-day class-day">
                             <div class="calendar-day-number">${day}</div>
-                            <div class="calendar-event">${classData.name}</div>
+                            <div class="calendar-event" title="${classData.name}">${statusBadge} ${shortName}</div>
                             ${classData.tags.map(tag => {
                                 if (tag.includes('과제')) {
                                     const parts = tag.split(': ');
