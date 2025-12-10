@@ -37,7 +37,7 @@ jobs:
           -d '{
             "page_size": 50,
             "sorts": [
-              {"property": "개강일", "direction": "ascending"}
+              {"property": "강의시작일", "direction": "ascending"}
             ]
           }')
 
@@ -84,13 +84,17 @@ jobs:
 
         rawData.results.forEach((course, index) => {
           const props = course.properties;
-          const title = props.강의명?.title?.[0]?.text?.content || \`강의 \${index + 1}\`;
-          const category = props.카테고리?.select?.name || 'SCM 기초';
-          const status = props.상태?.select?.name || '준비중';
-          const startDate = props.개강일?.date?.start;
-          const description = props.강의설명?.rich_text?.[0]?.text?.content || '';
 
-          // 개강일이 있는 항목만 포함
+          // 새로운 스키마에 맞게 필드 추출
+          const title = props.기수명?.title?.[0]?.text?.content || \`강의 \${index + 1}\`;
+          const category = props.강의종류?.select?.name || 'SCM 기초';
+          const status = props.상태?.select?.name || '준비중';
+          const startDate = props.강의시작일?.date?.start;
+          const description = props.비고?.rich_text?.[0]?.text?.content || '';
+          const price = props.수강료?.number || 0;
+          const maxStudents = props.최대인원?.number || 20;
+
+          // 강의시작일이 있는 항목만 포함
           if (!course.archived && !course.in_trash && startDate) {
             calendarData.push({
               name: title,
@@ -107,7 +111,9 @@ jobs:
                 category,
                 status,
                 startDate,
-                description
+                description,
+                price,
+                maxStudents
               }
             });
           }
