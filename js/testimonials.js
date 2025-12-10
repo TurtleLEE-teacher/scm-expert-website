@@ -16,9 +16,8 @@ class TestimonialSystem {
         try {
             await this.loadTestimonials();
             this.setupEventListeners();
-            console.log('후기 시스템 초기화 완료');
         } catch (error) {
-            console.error('후기 시스템 초기화 오류:', error);
+            // 에러 발생 시 조용히 실패 (사용자 경험 유지)
         }
     }
 
@@ -34,10 +33,8 @@ class TestimonialSystem {
             
             const data = await response.json();
             this.testimonials = data.testimonials || [];
-            
-            console.log(`후기 ${this.testimonials.length}개 로드 완료`);
         } catch (error) {
-            console.error('후기 데이터 로드 실패:', error);
+            // 데이터 로드 실패 시 빈 배열로 초기화
             this.testimonials = [];
         }
     }

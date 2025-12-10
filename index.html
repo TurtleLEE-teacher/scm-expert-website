@@ -4,19 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SCM Expert - 글로벌 SCM 전문가 양성</title>
-    <meta name="description" content="글로벌 컨설팅펌 현직 컨설턴트가 제공하는 SCM 전문 강의와 커리어 컨설팅 서비스">
-    <meta name="keywords" content="SCM, 공급망관리, 컨설팅, 강의, 커리어">
+    <meta name="description" content="글로벌 컨설팅펌 현직 컨설턴트가 제공하는 SCM 전문 강의와 커리어 컨설팅 서비스. 공급망관리, S&OP, 수요예측, SAP 실무 교육.">
+    <meta name="keywords" content="SCM, 공급망관리, 컨설팅, 강의, 커리어, S&OP, 수요예측, SAP, 물류관리">
     <meta name="author" content="SCM Expert">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://scm-expert-site.vercel.app/">
 
     <!-- Open Graph -->
     <meta property="og:title" content="SCM Expert - 글로벌 SCM 전문가 양성">
     <meta property="og:description" content="글로벌 컨설팅펌 현직 컨설턴트가 제공하는 SCM 전문 강의와 커리어 컨설팅">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://scm-expert-site.vercel.app">
+    <meta property="og:url" content="https://scm-expert-site.vercel.app/">
+    <meta property="og:image" content="https://scm-expert-site.vercel.app/images/og-image.png">
+    <meta property="og:locale" content="ko_KR">
+    <meta property="og:site_name" content="SCM Expert">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="SCM Expert - 글로벌 SCM 전문가 양성">
+    <meta name="twitter:description" content="글로벌 컨설팅펌 현직 컨설턴트가 제공하는 SCM 전문 강의와 커리어 컨설팅">
+    <meta name="twitter:image" content="https://scm-expert-site.vercel.app/images/og-image.png">
 
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
     <link rel="apple-touch-icon" href="./images/apple-touch-icon.png">
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#0071e3">
 
     <!-- Design System CSS -->
     <link rel="stylesheet" href="css/design-system.css">
@@ -619,22 +634,22 @@
 </head>
 <body>
     <!-- Header -->
-    <header class="header">
+    <header class="header" role="banner">
         <div class="header-content">
-            <a href="/" class="logo">SCM Expert</a>
+            <a href="/" class="logo" aria-label="SCM Expert 홈으로 이동">SCM Expert</a>
 
-            <nav>
-                <ul class="nav-menu" id="navMenu">
-                    <li><a href="#process" class="nav-link">프로세스</a></li>
-                    <li><a href="#solution" class="nav-link">서비스</a></li>
-                    <li><a href="#reviews" class="nav-link">후기</a></li>
-                    <li><a href="#instructor" class="nav-link">강사</a></li>
+            <nav aria-label="주요 메뉴">
+                <ul class="nav-menu" id="navMenu" role="menubar">
+                    <li role="none"><a href="#process" class="nav-link" role="menuitem">프로세스</a></li>
+                    <li role="none"><a href="#solution" class="nav-link" role="menuitem">서비스</a></li>
+                    <li role="none"><a href="#reviews" class="nav-link" role="menuitem">후기</a></li>
+                    <li role="none"><a href="#instructor" class="nav-link" role="menuitem">강사</a></li>
                 </ul>
             </nav>
 
             <a href="#cta" class="btn btn-sm btn-primary">상담 신청</a>
 
-            <button class="menu-toggle" id="menuToggle" aria-label="메뉴 열기">
+            <button class="menu-toggle" id="menuToggle" aria-label="메뉴 열기" aria-expanded="false" aria-controls="navMenu">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -642,7 +657,7 @@
         </div>
     </header>
 
-    <main>
+    <main id="main-content" role="main">
         <!-- Hero Section -->
         <section class="hero">
             <div class="hero-trust fade-up">
@@ -1094,8 +1109,9 @@
     </main>
 
     <!-- Footer -->
-    <footer class="footer">
+    <footer class="footer" role="contentinfo">
         <p>&copy; 2025 SCM Expert. All rights reserved.</p>
+        <p style="margin-top: var(--space-2);"><a href="privacy-policy.html" style="color: var(--text-tertiary); font-size: var(--text-sm);">개인정보처리방침</a></p>
     </footer>
 
     <script>
@@ -1150,6 +1166,21 @@
                 }
             });
         });
+    </script>
+
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('SW registered:', registration.scope);
+                    })
+                    .catch(error => {
+                        console.log('SW registration failed:', error);
+                    });
+            });
+        }
     </script>
 </body>
 </html>

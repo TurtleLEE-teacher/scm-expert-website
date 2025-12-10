@@ -1,0 +1,15 @@
+# SCM Expert Website Robots.txt
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://scm-expert-site.vercel.app/sitemap.xml
+
+# Block sensitive directories
+Disallow: /api-php/
+Disallow: /includes/
+Disallow: /logs/
+Disallow: /old/
+Disallow: /uploads/
+Disallow: /tools/
+Disallow: /.env

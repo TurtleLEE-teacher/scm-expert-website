@@ -4,16 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>커리어 컨설팅 - 1:1 맞춤 취업/이직 컨설팅 | SCM Expert</title>
-    <meta name="description" content="글로벌 Big4 컨설팅펌 시니어 매니저의 1:1 커리어 컨설팅. 이력서, 자소서, 면접까지 완벽 준비.">
+    <meta name="description" content="글로벌 Big4 컨설팅펌 시니어 매니저의 1:1 커리어 컨설팅. 이력서, 자소서, 면접까지 완벽 준비. 합격률 95% 이상 검증된 컨설팅.">
+    <meta name="keywords" content="커리어 컨설팅, 이력서 컨설팅, 면접 코칭, 취업 컨설팅, 이직 컨설팅, Big4, 컨설팅펌">
+    <meta name="author" content="SCM Expert">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://scm-expert-site.vercel.app/career-consulting.html">
 
     <!-- Open Graph -->
-    <meta property="og:title" content="커리어 컨설팅 - 1:1 맞춤 취업/이직 컨설팅">
+    <meta property="og:title" content="커리어 컨설팅 - 1:1 맞춤 취업/이직 컨설팅 | SCM Expert">
     <meta property="og:description" content="글로벌 Big4 컨설팅펌 시니어 매니저가 이력서부터 면접까지 완벽하게 준비해드립니다">
     <meta property="og:type" content="website">
+    <meta property="og:url" content="https://scm-expert-site.vercel.app/career-consulting.html">
+    <meta property="og:image" content="https://scm-expert-site.vercel.app/images/og-image.png">
+    <meta property="og:locale" content="ko_KR">
+    <meta property="og:site_name" content="SCM Expert">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="커리어 컨설팅 - 1:1 맞춤 취업/이직 컨설팅">
+    <meta name="twitter:description" content="글로벌 Big4 컨설팅펌 시니어 매니저가 이력서부터 면접까지 완벽하게 준비해드립니다">
+    <meta name="twitter:image" content="https://scm-expert-site.vercel.app/images/og-image.png">
 
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
     <link rel="apple-touch-icon" href="./images/apple-touch-icon.png">
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#0071e3">
 
     <!-- Design System CSS -->
     <link rel="stylesheet" href="css/design-system.css">
@@ -587,16 +605,16 @@
 </head>
 <body>
     <!-- Header -->
-    <header class="header">
+    <header class="header" role="banner">
         <div class="header-content">
-            <a href="index.html" class="logo">SCM Expert</a>
-            <nav class="nav-links">
+            <a href="index.html" class="logo" aria-label="SCM Expert 홈으로 이동">SCM Expert</a>
+            <nav class="nav-links" id="navLinks" aria-label="주요 메뉴">
                 <a href="index.html">Home</a>
                 <a href="scm-basic.html">SCM 교육</a>
-                <a href="career-consulting.html" class="active">커리어 컨설팅</a>
+                <a href="career-consulting.html" class="active" aria-current="page">커리어 컨설팅</a>
                 <a href="#pricing" class="btn btn-primary btn-sm">상담 신청</a>
             </nav>
-            <button class="menu-toggle" onclick="document.querySelector('.nav-links').classList.toggle('active')">
+            <button class="menu-toggle" id="menuToggle" aria-label="메뉴 열기" aria-expanded="false" aria-controls="navLinks">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -628,7 +646,7 @@
             <div class="instructor-card fade-up">
                 <div class="instructor-image-wrapper">
                     <div class="instructor-image">
-                        <img src="images/portfolio/teacher.png" alt="강사 프로필">
+                        <img src="images/portfolio/teacher.png" alt="강사 프로필" loading="lazy">
                     </div>
                     <p class="instructor-name">이선생</p>
                     <p class="instructor-title">Big4 컨설팅펌 시니어 매니저</p>
@@ -649,11 +667,11 @@
                         <h4>연봉 상승 기록</h4>
                         <div class="salary-images">
                             <div>
-                                <img src="images/portfolio/salary_2015.png" alt="2015년 연봉">
+                                <img src="images/portfolio/salary_2015.png" alt="2015년 연봉" loading="lazy">
                                 <p>2015년 시작</p>
                             </div>
                             <div>
-                                <img src="images/portfolio/2024년연봉22.png" alt="2024년 연봉">
+                                <img src="images/portfolio/2024년연봉22.png" alt="2024년 연봉" loading="lazy">
                                 <p>2024년 현재</p>
                             </div>
                         </div>
@@ -889,6 +907,21 @@
         document.querySelectorAll('.fade-up').forEach(el => {
             observer.observe(el);
         });
+    </script>
+
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('SW registered:', registration.scope);
+                    })
+                    .catch(error => {
+                        console.log('SW registration failed:', error);
+                    });
+            });
+        }
     </script>
 </body>
 </html>
