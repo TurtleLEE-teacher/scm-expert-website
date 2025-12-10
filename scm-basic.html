@@ -846,6 +846,11 @@
             text-overflow: ellipsis;
             max-width: 100%;
         }
+        .calendar-session-type {
+            font-size: 10px;
+            color: var(--text-secondary);
+            margin-bottom: 2px;
+        }
         .calendar-assignment {
             font-size: 10px;
             color: var(--blue);
@@ -1274,12 +1279,13 @@
 
                 <div class="schedule-legend">
                     <div class="legend-item">
-                        <div class="legend-color legend-class"></div>
-                        <span class="legend-text">수업일 (금요일 오후 8-10시)</span>
+                        <span class="legend-text">📚 수업 (금 오후 8-10시)</span>
                     </div>
                     <div class="legend-item">
-                        <div class="legend-color legend-assignment"></div>
-                        <span class="legend-text">과제 및 프로젝트</span>
+                        <span class="legend-text">📝 피드백 세션</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-text">• 과제 및 프로젝트</span>
                     </div>
                 </div>
             </div>
@@ -1537,11 +1543,11 @@
         // Default Data (Fallback when API/JSON fails)
         function loadDefaultData() {
             notionData = [
-                { "name": "SCM 기초 완성 강의", "date": "2025-02-07", "tags": ["1주차: 현직자 직무 에센스 강의", "과제: SCM 프로세스 도식화"], "status": "모집중" },
-                { "name": "SCM 기초 완성 강의", "date": "2025-02-14", "tags": ["2주차: 1:1 피드백", "과제: SCM 이슈 분석 (마인드맵)"], "status": "모집중" },
-                { "name": "SCM 기초 완성 강의", "date": "2025-02-21", "tags": ["3주차: SAP ERP 연결고리 이해", "과제: 재무 Integration"], "status": "모집중" },
-                { "name": "SCM 기초 완성 강의", "date": "2025-02-28", "tags": ["4주차: 1:1 피드백", "과제: 프로세스 개선 포트폴리오"], "status": "모집중" },
-                { "name": "SCM 기초 완성 강의", "date": "2025-03-07", "tags": ["5주차: 업무 발표 및 최종 피드백"], "status": "모집중" }
+                { "name": "SCM 기초 완성 강의 1기", "date": "2025-02-07", "type": "lecture", "week": 1, "label": "1주차 강의", "hasAssignment": true, "status": "모집중", "notionData": { "category": "SCM 기초" } },
+                { "name": "SCM 기초 완성 강의 1기", "date": "2025-02-14", "type": "assignment", "week": 2, "label": "2주차 피드백", "hasAssignment": true, "status": "모집중", "notionData": { "category": "SCM 기초" } },
+                { "name": "SCM 기초 완성 강의 1기", "date": "2025-02-21", "type": "lecture", "week": 3, "label": "3주차 강의", "hasAssignment": true, "status": "모집중", "notionData": { "category": "SCM 기초" } },
+                { "name": "SCM 기초 완성 강의 1기", "date": "2025-02-28", "type": "assignment", "week": 4, "label": "4주차 피드백", "hasAssignment": true, "status": "모집중", "notionData": { "category": "SCM 기초" } },
+                { "name": "SCM 기초 완성 강의 1기", "date": "2025-03-07", "type": "lecture", "week": 5, "label": "5주차 최종발표", "hasAssignment": false, "status": "모집중", "notionData": { "category": "SCM 기초" } }
             ];
 
             generateMonthTabs();
@@ -1554,7 +1560,7 @@
             // Update batch info for default data
             const batchInfo = document.getElementById('batchInfo');
             if (batchInfo) {
-                batchInfo.textContent = 'SCM 기초 완성 강의 - 2월 (모집중)';
+                batchInfo.textContent = 'SCM 기초 완성 강의 1기 - 2월 (모집중)';
             }
         }
 
@@ -1635,28 +1641,30 @@
 
             for (let day = 1; day <= daysInMonth; day++) {
                 const dateString = `${targetYear}-${String(targetMonth).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-                const classData = data.find(item => item.date === dateString);
+                const sessionData = data.find(item => item.date === dateString);
 
-                if (classData) {
-                    // 강의명 짧게 표시 (카테고리 또는 축약형)
-                    const shortName = classData.notionData?.category ||
-                                      classData.name.split(' ').slice(0, 2).join(' ') ||
-                                      '강의';
-                    const statusBadge = classData.status === '모집중' ? '🟢' :
-                                        classData.status === '진행중' ? '🔵' : '';
+                if (sessionData) {
+                    // 세션 타입에 따른 표시
+                    const isLecture = sessionData.type === 'lecture';
+                    const weekLabel = sessionData.label || `${sessionData.week}주차`;
+                    const statusBadge = sessionData.status === '모집중' ? '🟢' :
+                                        sessionData.status === '진행중' ? '🔵' : '';
+
+                    // 타입별 아이콘
+                    const typeIcon = isLecture ? '📚' : '📝';
+                    const typeLabel = isLecture ? '수업' : '피드백';
+
+                    // 과제 여부 (5주차 제외하고 모두 과제 있음)
+                    const assignmentDot = sessionData.hasAssignment
+                        ? '<div class="calendar-assignment">• 과제 및 프로젝트</div>'
+                        : '';
 
                     calendarHTML += `
-                        <div class="calendar-day class-day">
+                        <div class="calendar-day class-day" title="${sessionData.name}">
                             <div class="calendar-day-number">${day}</div>
-                            <div class="calendar-event" title="${classData.name}">${statusBadge} ${shortName}</div>
-                            ${classData.tags.map(tag => {
-                                if (tag.includes('과제')) {
-                                    const parts = tag.split(': ');
-                                    const assignment = parts.length > 1 ? parts[1] : tag;
-                                    return `<div class="calendar-assignment">${assignment}</div>`;
-                                }
-                                return '';
-                            }).join('')}
+                            <div class="calendar-event">${statusBadge} ${weekLabel}</div>
+                            <div class="calendar-session-type">${typeIcon} ${typeLabel}</div>
+                            ${assignmentDot}
                         </div>
                     `;
                 } else {

@@ -35,10 +35,7 @@ jobs:
           -H "Notion-Version: 2022-06-28" \
           -H "Content-Type: application/json" \
           -d '{
-            "page_size": 50,
-            "sorts": [
-              {"property": "강의시작일", "direction": "ascending"}
-            ]
+            "page_size": 50
           }')
 
         echo "HTTP Status: $HTTP_STATUS"
@@ -78,56 +75,127 @@ jobs:
           process.exit(1);
         }
 
-        console.log('📊 총 ' + rawData.results.length + '개 항목 발견');
+        console.log('📊 총 ' + rawData.results.length + '개 기수 발견');
 
         const calendarData = [];
 
         rawData.results.forEach((course, index) => {
           const props = course.properties;
 
-          // 새로운 스키마에 맞게 필드 추출
+          // 기본 정보 추출
           const title = props.기수명?.title?.[0]?.text?.content || \`강의 \${index + 1}\`;
           const category = props.강의종류?.select?.name || 'SCM 기초';
           const status = props.상태?.select?.name || '준비중';
-          const startDate = props.강의시작일?.date?.start;
           const description = props.비고?.rich_text?.[0]?.text?.content || '';
           const price = props.수강료?.number || 0;
           const maxStudents = props.최대인원?.number || 20;
 
-          // 강의시작일이 있는 항목만 포함
-          if (!course.archived && !course.in_trash && startDate) {
+          // 강의 날짜 추출 (강의(1), 강의(2), 강의(3))
+          const lecture1 = props['강의(1)']?.date?.start;
+          const lecture2 = props['강의(2)']?.date?.start;
+          const lecture3 = props['강의(3)']?.date?.start;
+
+          // 과제세션 날짜 추출 (과제세션(1), 과제세션(2))
+          const assignment1 = props['과제세션(1)']?.date?.start;
+          const assignment2 = props['과제세션(2)']?.date?.start;
+
+          // 삭제되지 않은 기수만 처리
+          if (course.archived || course.in_trash) return;
+
+          // 공통 기수 정보
+          const courseInfo = {
+            id: course.id,
+            title,
+            category,
+            status,
+            description,
+            price,
+            maxStudents
+          };
+
+          // 강의(1) - 1주차: 강의 + 과제
+          if (lecture1) {
             calendarData.push({
               name: title,
-              date: startDate,
-              tags: [
-                title,
-                \`카테고리: \${category}\`,
-                description || '상세 설명 없음'
-              ],
+              date: lecture1,
+              type: 'lecture',
+              week: 1,
+              label: '1주차 강의',
+              hasAssignment: true,
               status: status,
-              notionData: {
-                id: course.id,
-                title,
-                category,
-                status,
-                startDate,
-                description,
-                price,
-                maxStudents
-              }
+              notionData: courseInfo
+            });
+          }
+
+          // 과제세션(1) - 2주차: 피드백 + 과제
+          if (assignment1) {
+            calendarData.push({
+              name: title,
+              date: assignment1,
+              type: 'assignment',
+              week: 2,
+              label: '2주차 피드백',
+              hasAssignment: true,
+              status: status,
+              notionData: courseInfo
+            });
+          }
+
+          // 강의(2) - 3주차: 강의 + 과제
+          if (lecture2) {
+            calendarData.push({
+              name: title,
+              date: lecture2,
+              type: 'lecture',
+              week: 3,
+              label: '3주차 강의',
+              hasAssignment: true,
+              status: status,
+              notionData: courseInfo
+            });
+          }
+
+          // 과제세션(2) - 4주차: 피드백 + 과제
+          if (assignment2) {
+            calendarData.push({
+              name: title,
+              date: assignment2,
+              type: 'assignment',
+              week: 4,
+              label: '4주차 피드백',
+              hasAssignment: true,
+              status: status,
+              notionData: courseInfo
+            });
+          }
+
+          // 강의(3) - 5주차: 최종 발표 (과제 없음)
+          if (lecture3) {
+            calendarData.push({
+              name: title,
+              date: lecture3,
+              type: 'lecture',
+              week: 5,
+              label: '5주차 최종발표',
+              hasAssignment: false,
+              status: status,
+              notionData: courseInfo
             });
           }
         });
+
+        // 날짜순 정렬
+        calendarData.sort((a, b) => new Date(a.date) - new Date(b.date));
 
         const output = {
           success: true,
           data: calendarData,
           lastUpdated: new Date().toISOString(),
-          totalCourses: calendarData.length
+          totalSessions: calendarData.length
         };
 
         fs.writeFileSync('data/schedule.json', JSON.stringify(output, null, 2));
-        console.log(\`✅ \${calendarData.length}개 강의 데이터 업데이트 완료\`);
+        console.log(\`✅ \${calendarData.length}개 세션 데이터 업데이트 완료\`);
         "
 
     - name: Commit and push if changed
