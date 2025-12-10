@@ -1245,7 +1245,7 @@
             </div>
 
             <div class="month-tabs" id="monthTabs"></div>
-            <div class="batch-info" id="batchInfo">초급반 4기 - 8월</div>
+            <div class="batch-info" id="batchInfo">강의 일정을 불러오는 중...</div>
 
             <div class="calendar-container fade-up">
                 <div class="calendar-header">
@@ -1523,14 +1523,14 @@
             }
         }
 
-        // Default Data
+        // Default Data (Fallback when API/JSON fails)
         function loadDefaultData() {
             notionData = [
-                { "name": "1주차", "date": "2025-08-01", "tags": ["1주차: SCM(ERP) Overview", "과제: SCM 프로세스 도식화"], "status": "모집중", "batch": "4기" },
-                { "name": "2주차", "date": "2025-08-08", "tags": ["2주차: SCM 이슈 분석", "과제: 재고 분석"], "status": "모집중", "batch": "4기" },
-                { "name": "3주차", "date": "2025-08-15", "tags": ["3주차: SCP", "과제: MRP 계산"], "status": "모집중", "batch": "4기" },
-                { "name": "4주차", "date": "2025-08-22", "tags": ["4주차: SCM-재무 Integration", "과제: OTD 개선안"], "status": "모집중", "batch": "4기" },
-                { "name": "5주차", "date": "2025-08-29", "tags": ["5주차: 최종 발표", "최종 프로젝트 발표"], "status": "모집중", "batch": "4기" }
+                { "name": "SCM 기초 완성 강의", "date": "2025-02-07", "tags": ["1주차: 현직자 직무 에센스 강의", "과제: SCM 프로세스 도식화"], "status": "모집중" },
+                { "name": "SCM 기초 완성 강의", "date": "2025-02-14", "tags": ["2주차: 1:1 피드백", "과제: SCM 이슈 분석 (마인드맵)"], "status": "모집중" },
+                { "name": "SCM 기초 완성 강의", "date": "2025-02-21", "tags": ["3주차: SAP ERP 연결고리 이해", "과제: 재무 Integration"], "status": "모집중" },
+                { "name": "SCM 기초 완성 강의", "date": "2025-02-28", "tags": ["4주차: 1:1 피드백", "과제: 프로세스 개선 포트폴리오"], "status": "모집중" },
+                { "name": "SCM 기초 완성 강의", "date": "2025-03-07", "tags": ["5주차: 업무 발표 및 최종 피드백"], "status": "모집중" }
             ];
 
             generateMonthTabs();
@@ -1539,6 +1539,12 @@
             const [year, month, day] = firstCourse.date.split('-').map(Number);
             const firstDate = new Date(year, month - 1, day);
             updateCalendar(firstDate.getMonth() + 1, firstDate.getFullYear());
+
+            // Update batch info for default data
+            const batchInfo = document.getElementById('batchInfo');
+            if (batchInfo) {
+                batchInfo.textContent = 'SCM 기초 완성 강의 - 2월 (모집중)';
+            }
         }
 
         // Generate Month Tabs
@@ -1663,10 +1669,11 @@
 
             const batchInfo = document.getElementById('batchInfo');
             if (monthData.length > 0) {
-                const batch = monthData[0].batch;
-                const status = monthData[0].status;
+                const courseName = monthData[0].name || monthData[0].notionData?.title || 'SCM 기초 과정';
+                const status = monthData[0].status || '준비중';
                 const monthNames = ['', '1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'];
-                batchInfo.textContent = `초급반 ${batch} - ${monthNames[month]} (${status.includes('종료') ? '완료' : status})`;
+                const statusText = status.includes('종료') ? '완료' : status;
+                batchInfo.textContent = `${courseName} - ${monthNames[month]} (${statusText})`;
             }
 
             // Update header

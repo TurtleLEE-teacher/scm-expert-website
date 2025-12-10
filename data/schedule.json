@@ -5,136 +5,22 @@
       "name": "SCM 기초 완성 강의 - 2025년 1분기",
       "date": "2025-02-03",
       "tags": [
-        "SCM 기초 완성 강의 - 2025년 1분기",
+        "SCM 기초 완성 강의",
         "카테고리: SCM 기초",
-        "글로벌 컨설팅펌 현직 컨설턴트가 직접 가르치는 SCM 실무 기초 강의입니다. 실제 프로젝트 경험을 바탕으로 한 사례 중심 교육으로 진행됩니다."
+        "글로벌 컨설팅펌 현직 컨설턴트가 직접 가르치는 SCM 실무 기초 강의입니다."
       ],
       "status": "모집중",
-      "batch": "실제 Notion 데이터",
       "notionData": {
         "id": "23787a19-32c4-81aa-9d40-fc4e9a6270c1",
         "title": "SCM 기초 완성 강의 - 2025년 1분기",
         "category": "SCM 기초",
         "status": "모집중",
         "startDate": "2025-02-03",
-        "description": "글로벌 컨설팅펌 현직 컨설턴트가 직접 가르치는 SCM 실무 기초 강의입니다. 실제 프로젝트 경험을 바탕으로 한 사례 중심 교육으로 진행됩니다."
-      }
-    },
-    {
-      "name": "SCM 기초 완성 강의 - 2025년 1분기",
-      "date": "2025-02-03",
-      "tags": [
-        "SCM 기초 완성 강의 - 2025년 1분기",
-        "카테고리: SCM 기초",
-        "글로벌 컨설팅펌 현직 컨설턴트가 직접 가르치는 SCM 실무 기초 강의입니다. 실제 프로젝트 경험을 바탕으로 한 사례 중심 교육으로 진행됩니다."
-      ],
-      "status": "모집중",
-      "batch": "실제 Notion 데이터",
-      "notionData": {
-        "id": "23787a19-32c4-8126-aa63-e813140292af",
-        "title": "SCM 기초 완성 강의 - 2025년 1분기",
-        "category": "SCM 기초",
-        "status": "모집중",
-        "startDate": "2025-02-03",
-        "description": "글로벌 컨설팅펌 현직 컨설턴트가 직접 가르치는 SCM 실무 기초 강의입니다. 실제 프로젝트 경험을 바탕으로 한 사례 중심 교육으로 진행됩니다."
-      }
-    },
-    {
-      "name": "test",
-      "date": "2025-07-25",
-      "tags": [
-        "test",
-        "카테고리: SAP ERP",
-        "상세 설명 없음"
-      ],
-      "status": "모집중",
-      "batch": "실제 Notion 데이터",
-      "notionData": {
-        "id": "23887a19-32c4-80fc-90be-dd72c145533a",
-        "title": "test",
-        "category": "SAP ERP",
-        "status": "모집중",
-        "startDate": "2025-07-25",
-        "description": ""
-      }
-    },
-    {
-      "name": "TEST2",
-      "date": "2025-08-14",
-      "tags": [
-        "TEST2",
-        "카테고리: 커리어 개발",
-        "상세 설명 없음"
-      ],
-      "status": "진행중",
-      "batch": "실제 Notion 데이터",
-      "notionData": {
-        "id": "23987a19-32c4-8003-8ff7-c0050946e7d4",
-        "title": "TEST2",
-        "category": "커리어 개발",
-        "status": "진행중",
-        "startDate": "2025-08-14",
-        "description": ""
-      }
-    },
-    {
-      "name": "컨타도얍얍얍",
-      "date": "2025-09-12",
-      "tags": [
-        "컨타도얍얍얍",
-        "카테고리: 컨설팅 도구",
-        "상세 설명 없음"
-      ],
-      "status": "모집중",
-      "batch": "실제 Notion 데이터",
-      "notionData": {
-        "id": "23987a19-32c4-8028-9e95-efeffc6d5f49",
-        "title": "컨타도얍얍얍",
-        "category": "컨설팅 도구",
-        "status": "모집중",
-        "startDate": "2025-09-12",
-        "description": ""
-      }
-    },
-    {
-      "name": "최종 테스트입니다",
-      "date": "2025-10-09",
-      "tags": [
-        "최종 테스트입니다",
-        "카테고리: SCM 기초",
-        "상세 설명 없음"
-      ],
-      "status": "준비중",
-      "batch": "실제 Notion 데이터",
-      "notionData": {
-        "id": "23987a19-32c4-80a7-9de5-f39150e6d05f",
-        "title": "최종 테스트입니다",
-        "category": "SCM 기초",
-        "status": "준비중",
-        "startDate": "2025-10-09",
-        "description": ""
-      }
-    },
-    {
-      "name": "SCM 심화 과정",
-      "date": "2026-01-21",
-      "tags": [
-        "SCM 심화 과정",
-        "카테고리: 실무 프로젝트",
-        "상세 설명 없음"
-      ],
-      "status": "종료",
-      "batch": "실제 Notion 데이터",
-      "notionData": {
-        "id": "23987a19-32c4-80dc-b3ce-cf953bfd1520",
-        "title": "SCM 심화 과정",
-        "category": "실무 프로젝트",
-        "status": "종료",
-        "startDate": "2026-01-21",
-        "description": ""
+        "description": "글로벌 컨설팅펌 현직 컨설턴트가 직접 가르치는 SCM 실무 기초 강의입니다."
       }
     }
   ],
-  "lastUpdated": "2025-07-28T18:31:19.123Z",
-  "totalCourses": 7
+  "lastUpdated": "2025-12-10T00:00:00.000Z",
+  "totalCourses": 1,
+  "note": "이 파일은 GitHub Actions에 의해 자동으로 Notion 데이터로 업데이트됩니다."
 }

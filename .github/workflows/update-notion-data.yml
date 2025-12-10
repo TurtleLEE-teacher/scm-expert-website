@@ -58,17 +58,16 @@ jobs:
           const description = props.강의설명?.rich_text?.[0]?.text?.content || '';
           
           // 삭제되지 않은 모든 강의 포함 (개강일 없어도 포함)
-          if (!course.archived && !course.in_trash) {
+          if (!course.archived && !course.in_trash && startDate) {
             calendarData.push({
               name: title,
-              date: startDate || null,
+              date: startDate,
               tags: [
                 title,
                 \`카테고리: \${category}\`,
                 description || '상세 설명 없음'
               ],
               status: status,
-              batch: '실제 Notion 데이터',
               notionData: {
                 id: course.id,
                 title,
