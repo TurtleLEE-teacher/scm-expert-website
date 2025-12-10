@@ -148,9 +148,30 @@
   --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.6);
 }
 
-/* Keep media query for compatibility but it matches default now */
+/* Light theme when data-theme="light" */
+[data-theme="light"] {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f5f5f7;
+  --bg-tertiary: #ffffff;
+  --bg-elevated: #ffffff;
+
+  --text-primary: #1d1d1f;
+  --text-secondary: #6e6e73;
+  --text-tertiary: #86868b;
+
+  --border-color: #d2d2d7;
+  --border-color-light: #e8e8ed;
+
+  /* Shadows - Light Mode */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.16);
+}
+
+/* Keep media query for system preference */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     /* Semantic Colors - Dark Mode */
     --bg-primary: #000000;
     --bg-secondary: #121212;
@@ -170,6 +191,40 @@
     --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
     --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.6);
   }
+}
+
+/* Theme Toggle Button Styles */
+.theme-toggle {
+  background: none;
+  border: none;
+  padding: var(--space-2);
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  transition: color var(--transition-fast), background-color var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.theme-toggle:hover {
+  color: var(--text-primary);
+  background-color: var(--bg-tertiary);
+}
+.theme-toggle svg {
+  width: 20px;
+  height: 20px;
+}
+.theme-toggle .icon-sun,
+.theme-toggle .icon-moon {
+  display: none;
+}
+/* Show sun icon in dark mode (to switch to light) */
+:root:not([data-theme="light"]) .theme-toggle .icon-sun {
+  display: block;
+}
+/* Show moon icon in light mode (to switch to dark) */
+[data-theme="light"] .theme-toggle .icon-moon {
+  display: block;
 }
 
 /* ============================================

@@ -657,6 +657,55 @@
             margin-bottom: 0;
         }
 
+        /* Assignment Showcase */
+        .showcase-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .showcase-image-wrapper {
+            position: relative;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-color);
+        }
+        .showcase-image-wrapper img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .showcase-caption {
+            text-align: center;
+            margin-top: var(--space-6);
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+        }
+        .showcase-badge {
+            display: inline-block;
+            padding: var(--space-2) var(--space-4);
+            background: linear-gradient(135deg, var(--blue) 0%, #00c6ff 100%);
+            color: #fff;
+            border-radius: var(--radius-full);
+            font-size: var(--text-sm);
+            font-weight: var(--font-medium);
+            margin-bottom: var(--space-6);
+        }
+
+        /* Header Theme Toggle */
+        .header-content {
+            display: flex;
+            align-items: center;
+            gap: var(--space-4);
+        }
+        .header-content .theme-toggle {
+            margin-left: auto;
+        }
+        @media (min-width: 769px) {
+            .header-content .theme-toggle {
+                margin-left: var(--space-4);
+            }
+        }
+
         /* Floating Button */
         .floating-btn {
             position: fixed;
@@ -887,6 +936,22 @@
                 <a href="career-consulting.html">커리어 컨설팅</a>
                 <a href="#register" class="btn btn-primary btn-sm">수강신청</a>
             </nav>
+            <button class="theme-toggle" id="themeToggle" aria-label="테마 변경" title="라이트/다크 모드 전환">
+                <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+                <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+            </button>
             <button class="menu-toggle" id="menuToggle" aria-label="메뉴 열기" aria-expanded="false" aria-controls="navLinks">
                 <span></span>
                 <span></span>
@@ -1146,6 +1211,27 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Assignment Showcase Section -->
+    <section class="page-section alt">
+        <div class="container">
+            <div class="section-header fade-up">
+                <h2>실제 과제 예시</h2>
+                <p>매주 이런 실무 과제를 수행하며 역량을 키웁니다</p>
+            </div>
+
+            <div class="showcase-container fade-up">
+                <div class="showcase-badge">초급반 과제 예시</div>
+                <div class="showcase-image-wrapper">
+                    <img src="images/초급반과제.png" alt="SCM 초급반 과제 예시 - 프로세스 도식화 및 이슈 분석" loading="lazy">
+                </div>
+                <p class="showcase-caption">
+                    실제 기업 데이터를 활용한 SCM 프로세스 도식화 및 이슈 분석 과제 예시입니다.<br>
+                    매주 피드백을 받으며 포트폴리오 수준의 결과물을 완성합니다.
+                </p>
             </div>
         </div>
     </section>
@@ -1663,6 +1749,36 @@
         document.addEventListener('DOMContentLoaded', () => {
             fetchNotionData();
         });
+    </script>
+
+    <!-- Theme Toggle -->
+    <script>
+        (function() {
+            const themeToggle = document.getElementById('themeToggle');
+            const html = document.documentElement;
+
+            // Check for saved theme preference or default to dark
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                html.setAttribute('data-theme', savedTheme);
+            }
+
+            // Toggle theme on button click
+            if (themeToggle) {
+                themeToggle.addEventListener('click', () => {
+                    const currentTheme = html.getAttribute('data-theme');
+                    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+
+                    if (newTheme === 'dark') {
+                        html.removeAttribute('data-theme');
+                    } else {
+                        html.setAttribute('data-theme', newTheme);
+                    }
+
+                    localStorage.setItem('theme', newTheme);
+                });
+            }
+        })();
     </script>
 
     <!-- Service Worker Registration -->
