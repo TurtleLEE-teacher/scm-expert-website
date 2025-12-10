@@ -2,25 +2,26 @@
   "success": true,
   "data": [
     {
-      "name": "SCM 기초 완성 강의 - 2025년 1분기",
-      "date": "2025-02-03",
+      "name": "SCM 기초 완성 강의 1기",
+      "date": "2026-03-02",
       "tags": [
-        "SCM 기초 완성 강의",
+        "SCM 기초 완성 강의 1기",
         "카테고리: SCM 기초",
-        "글로벌 컨설팅펌 현직 컨설턴트가 직접 가르치는 SCM 실무 기초 강의입니다."
+        "상세 설명 없음"
       ],
-      "status": "모집중",
+      "status": "준비중",
       "notionData": {
-        "id": "23787a19-32c4-81aa-9d40-fc4e9a6270c1",
-        "title": "SCM 기초 완성 강의 - 2025년 1분기",
+        "id": "b60d0727-ac12-4149-aff8-5117cc5042d0",
+        "title": "SCM 기초 완성 강의 1기",
         "category": "SCM 기초",
-        "status": "모집중",
-        "startDate": "2025-02-03",
-        "description": "글로벌 컨설팅펌 현직 컨설턴트가 직접 가르치는 SCM 실무 기초 강의입니다."
+        "status": "준비중",
+        "startDate": "2026-03-02",
+        "description": "",
+        "price": 169000,
+        "maxStudents": 10
       }
     }
   ],
-  "lastUpdated": "2025-12-10T00:00:00.000Z",
-  "totalCourses": 1,
-  "note": "이 파일은 GitHub Actions에 의해 자동으로 Notion 데이터로 업데이트됩니다."
+  "lastUpdated": "2025-12-10T07:41:04.833Z",
+  "totalCourses": 1
 }
