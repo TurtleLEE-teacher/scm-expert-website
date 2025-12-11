@@ -18,8 +18,80 @@
         "price": 169000,
         "maxStudents": 10
       }
+    },
+    {
+      "name": "SCM 기초 완성 강의 1기",
+      "date": "2026-03-09",
+      "type": "assignment",
+      "week": 2,
+      "label": "2주차 피드백",
+      "hasAssignment": true,
+      "status": "준비중",
+      "notionData": {
+        "id": "b60d0727-ac12-4149-aff8-5117cc5042d0",
+        "title": "SCM 기초 완성 강의 1기",
+        "category": "SCM 기초",
+        "status": "준비중",
+        "description": "",
+        "price": 169000,
+        "maxStudents": 10
+      }
+    },
+    {
+      "name": "SCM 기초 완성 강의 1기",
+      "date": "2026-03-16",
+      "type": "lecture",
+      "week": 3,
+      "label": "3주차 강의",
+      "hasAssignment": true,
+      "status": "준비중",
+      "notionData": {
+        "id": "b60d0727-ac12-4149-aff8-5117cc5042d0",
+        "title": "SCM 기초 완성 강의 1기",
+        "category": "SCM 기초",
+        "status": "준비중",
+        "description": "",
+        "price": 169000,
+        "maxStudents": 10
+      }
+    },
+    {
+      "name": "SCM 기초 완성 강의 1기",
+      "date": "2026-03-23",
+      "type": "assignment",
+      "week": 4,
+      "label": "4주차 피드백",
+      "hasAssignment": true,
+      "status": "준비중",
+      "notionData": {
+        "id": "b60d0727-ac12-4149-aff8-5117cc5042d0",
+        "title": "SCM 기초 완성 강의 1기",
+        "category": "SCM 기초",
+        "status": "준비중",
+        "description": "",
+        "price": 169000,
+        "maxStudents": 10
+      }
+    },
+    {
+      "name": "SCM 기초 완성 강의 1기",
+      "date": "2026-03-30",
+      "type": "lecture",
+      "week": 5,
+      "label": "5주차 최종발표",
+      "hasAssignment": false,
+      "status": "준비중",
+      "notionData": {
+        "id": "b60d0727-ac12-4149-aff8-5117cc5042d0",
+        "title": "SCM 기초 완성 강의 1기",
+        "category": "SCM 기초",
+        "status": "준비중",
+        "description": "",
+        "price": 169000,
+        "maxStudents": 10
+      }
     }
   ],
-  "lastUpdated": "2025-12-11T05:11:16.857Z",
-  "totalSessions": 1
+  "lastUpdated": "2025-12-11T05:19:59.188Z",
+  "totalSessions": 5
 }
