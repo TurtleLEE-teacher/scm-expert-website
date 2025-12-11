@@ -82,6 +82,17 @@ jobs:
         rawData.results.forEach((course, index) => {
           const props = course.properties;
 
+          // 디버깅: 사용 가능한 속성 출력
+          console.log(\`\\n📋 기수 \${index + 1} 속성 목록:\`);
+          Object.keys(props).forEach(key => {
+            const prop = props[key];
+            if (prop.type === 'date' && prop.date) {
+              console.log(\`  - \${key} (date): \${prop.date.start}\`);
+            } else if (prop.type === 'title' && prop.title?.[0]) {
+              console.log(\`  - \${key} (title): \${prop.title[0].text?.content}\`);
+            }
+          });
+
           // 기본 정보 추출
           const title = props.기수명?.title?.[0]?.text?.content || \`강의 \${index + 1}\`;
           const category = props.강의종류?.select?.name || 'SCM 기초';
@@ -98,6 +109,13 @@ jobs:
           // 과제세션 날짜 추출 (과제세션(1), 과제세션(2))
           const assignment1 = props['과제세션(1)']?.date?.start;
           const assignment2 = props['과제세션(2)']?.date?.start;
+
+          console.log(\`\\n📅 추출된 날짜:\`);
+          console.log(\`  강의(1): \${lecture1 || '없음'}\`);
+          console.log(\`  강의(2): \${lecture2 || '없음'}\`);
+          console.log(\`  강의(3): \${lecture3 || '없음'}\`);
+          console.log(\`  과제세션(1): \${assignment1 || '없음'}\`);
+          console.log(\`  과제세션(2): \${assignment2 || '없음'}\`);
 
           // 삭제되지 않은 기수만 처리
           if (course.archived || course.in_trash) return;
