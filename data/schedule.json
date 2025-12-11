@@ -3,7 +3,7 @@
   "data": [
     {
       "name": "SCM 기초 완성 강의 1기",
-      "date": "2026-03-02",
+      "date": "2026-03-06",
       "type": "lecture",
       "week": 1,
       "label": "1주차 강의",
@@ -21,7 +21,7 @@
     },
     {
       "name": "SCM 기초 완성 강의 1기",
-      "date": "2026-03-09",
+      "date": "2026-03-13",
       "type": "assignment",
       "week": 2,
       "label": "2주차 피드백",
@@ -39,7 +39,7 @@
     },
     {
       "name": "SCM 기초 완성 강의 1기",
-      "date": "2026-03-16",
+      "date": "2026-03-20",
       "type": "lecture",
       "week": 3,
       "label": "3주차 강의",
@@ -57,7 +57,7 @@
     },
     {
       "name": "SCM 기초 완성 강의 1기",
-      "date": "2026-03-23",
+      "date": "2026-03-27",
       "type": "assignment",
       "week": 4,
       "label": "4주차 피드백",
@@ -75,7 +75,7 @@
     },
     {
       "name": "SCM 기초 완성 강의 1기",
-      "date": "2026-03-30",
+      "date": "2026-04-03",
       "type": "lecture",
       "week": 5,
       "label": "5주차 최종발표",
@@ -92,6 +92,6 @@
       }
     }
   ],
-  "lastUpdated": "2025-12-11T05:19:59.188Z",
+  "lastUpdated": "2025-12-11T06:21:30.689Z",
   "totalSessions": 5
 }
