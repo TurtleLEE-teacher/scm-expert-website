@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>기본 패키지 - 직무 지식 + 취업 준비 완성 | SCM Expert</title>
+    <meta name="description" content="SCM 5주 캠프 + 자소서 2회 + 면접 1회. 직무 지식부터 취업 준비까지 한 번에 완성하세요. 취업준비생과 주니어 이직 준비생을 위한 완벽한 패키지.">
+    <meta name="keywords" content="SCM 교육, 취업 준비, 자소서, 면접, 커리어 컨설팅, 직무 부트캠프">
+    <meta name="author" content="SCM Expert">
+    <meta name="robots" content="index, follow">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
+    <link rel="apple-touch-icon" href="./images/apple-touch-icon.png">
+
+    <!-- Design System CSS -->
+    <link rel="stylesheet" href="css/design-system.css">
+
+    <style>
+        /* Logo */
+        .logo {
+            font-size: 1.25rem;
+            font-weight: var(--font-semibold);
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        /* Navigation */
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: var(--space-6);
+        }
+        .nav-links a {
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color var(--transition-fast);
+        }
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: calc(var(--header-height) + var(--space-16)) var(--space-6) var(--space-16);
+        }
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-2) var(--space-4);
+            background-color: var(--bg-secondary);
+            border-radius: var(--radius-full);
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+            margin-bottom: var(--space-6);
+        }
+        .hero-badge-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--blue);
+            border-radius: 50%;
+        }
+        .hero-title {
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            font-weight: var(--font-bold);
+            letter-spacing: var(--tracking-tighter);
+            line-height: 1.1;
+            margin-bottom: var(--space-6);
+            max-width: 800px;
+        }
+        .hero-subtitle {
+            font-size: clamp(1rem, 2.5vw, 1.25rem);
+            color: var(--text-secondary);
+            margin-bottom: var(--space-8);
+            max-width: 700px;
+            line-height: var(--leading-relaxed);
+        }
+
+        /* Section */
+        .page-section {
+            padding: var(--space-24) var(--space-6);
+        }
+        .page-section.alt {
+            background-color: var(--bg-secondary);
+        }
+        .section-header {
+            text-align: center;
+            margin-bottom: var(--space-16);
+        }
+        .section-header h2 {
+            font-size: var(--text-3xl);
+            font-weight: var(--font-bold);
+            margin-bottom: var(--space-4);
+        }
+        .section-header p {
+            font-size: var(--text-lg);
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Package Overview */
+        .package-overview {
+            max-width: 900px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-8);
+        }
+        @media (max-width: 768px) {
+            .package-overview {
+                grid-template-columns: 1fr;
+            }
+        }
+        .package-part {
+            padding: var(--space-8);
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-lg);
+            border: 2px solid var(--border-color);
+        }
+        .package-part h3 {
+            font-size: var(--text-xl);
+            font-weight: var(--font-bold);
+            color: var(--blue);
+            margin-bottom: var(--space-4);
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+        .package-part ul {
+            list-style: none;
+        }
+        .package-part li {
+            padding: var(--space-2) 0;
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+        .package-part li::before {
+            content: "✓";
+            color: var(--blue);
+            font-weight: var(--font-bold);
+        }
+
+        /* Curriculum Week Card */
+        .curriculum-grid {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .week-card {
+            display: flex;
+            gap: var(--space-6);
+            padding: var(--space-6);
+            margin-bottom: var(--space-4);
+            background-color: var(--bg-tertiary);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            transition: transform var(--transition-base), border-color var(--transition-base);
+        }
+        .week-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--blue);
+        }
+        .week-number {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, var(--blue) 0%, #00c6ff 100%);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--text-2xl);
+            font-weight: var(--font-bold);
+            color: #fff;
+            flex-shrink: 0;
+        }
+        .week-content h3 {
+            font-size: var(--text-lg);
+            font-weight: var(--font-semibold);
+            margin-bottom: var(--space-2);
+        }
+        .week-content p {
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+            line-height: var(--leading-relaxed);
+        }
+        @media (max-width: 768px) {
+            .week-card {
+                flex-direction: column;
+                text-align: center;
+            }
+            .week-number {
+                margin: 0 auto;
+            }
+        }
+
+        /* Process Steps */
+        .process-grid {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-6);
+            max-width: 1000px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+        }
+        .process-step {
+            flex: 1;
+            min-width: 250px;
+            text-align: center;
+            padding: var(--space-6);
+        }
+        .process-number {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--blue) 0%, #00c6ff 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto var(--space-4);
+            font-size: var(--text-xl);
+            font-weight: var(--font-bold);
+            color: #fff;
+        }
+        .process-step h3 {
+            font-size: var(--text-lg);
+            font-weight: var(--font-bold);
+            margin-bottom: var(--space-2);
+        }
+        .process-step p {
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+            line-height: var(--leading-relaxed);
+        }
+
+        /* Price Card */
+        .price-card {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: var(--space-10);
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-lg);
+            border: 2px solid var(--blue);
+            text-align: center;
+        }
+        .price-badge {
+            display: inline-block;
+            padding: var(--space-2) var(--space-4);
+            background: var(--blue);
+            color: white;
+            border-radius: var(--radius-full);
+            font-size: var(--text-sm);
+            font-weight: var(--font-semibold);
+            margin-bottom: var(--space-6);
+        }
+        .price-amount {
+            font-size: var(--text-5xl);
+            font-weight: var(--font-bold);
+            color: var(--blue);
+            margin-bottom: var(--space-2);
+        }
+        .price-desc {
+            font-size: var(--text-base);
+            color: var(--text-secondary);
+            margin-bottom: var(--space-8);
+        }
+
+        /* FAQ */
+        .faq-list {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .faq-item {
+            padding: var(--space-6);
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            margin-bottom: var(--space-4);
+        }
+        .faq-item h3 {
+            font-size: var(--text-base);
+            font-weight: var(--font-semibold);
+            color: var(--blue);
+            margin-bottom: var(--space-3);
+        }
+        .faq-item p {
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+            line-height: var(--leading-relaxed);
+        }
+
+        /* CTA */
+        .cta-section {
+            text-align: center;
+            padding: var(--space-24) var(--space-6);
+        }
+        .cta-section h2 {
+            font-size: var(--text-3xl);
+            font-weight: var(--font-bold);
+            margin-bottom: var(--space-4);
+        }
+        .cta-section p {
+            font-size: var(--text-lg);
+            color: var(--text-secondary);
+            margin-bottom: var(--space-8);
+        }
+
+        /* Footer */
+        .footer {
+            padding: var(--space-10) var(--space-6);
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+        }
+        .footer p {
+            font-size: var(--text-sm);
+            color: var(--text-tertiary);
+        }
+
+        /* Scroll Animation */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" role="banner">
+        <div class="header-content">
+            <a href="index.html" class="logo">SCM Expert</a>
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="index.html#solution">패키지</a>
+                <a href="#pricing" class="btn btn-primary btn-sm">신청하기</a>
+            </nav>
+            <button class="theme-toggle" id="themeToggle" aria-label="테마 변경">
+                <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+                <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-badge fade-up">
+            <span class="hero-badge-dot"></span>
+            <span>취업준비생 · 주니어 이직 추천</span>
+        </div>
+        <h1 class="hero-title fade-up">기본 패키지</h1>
+        <p class="hero-subtitle fade-up">
+            SCM 직무 5주 캠프 + 자소서 완성 + 면접 준비<br>
+            직무 지식부터 취업 성공까지 한 번에 해결하세요
+        </p>
+        <a href="#pricing" class="btn btn-primary btn-lg fade-up">지금 신청하기</a>
+    </section>
+
+    <!-- Package Overview -->
+    <section class="page-section alt">
+        <div class="container">
+            <div class="section-header fade-up">
+                <h2>패키지 구성</h2>
+                <p>강의와 컨설팅을 통합한 완벽한 취업 준비 프로그램</p>
+            </div>
+
+            <div class="package-overview">
+                <div class="package-part fade-up">
+                    <h3>📚 Part 1: 직무 5주 캠프 (기초)</h3>
+                    <ul>
+                        <li>5주간 SCM 실무 완성</li>
+                        <li>3회 라이브 세션 + 복습 VOD</li>
+                        <li>매주 실무 과제 + 1:1 피드백</li>
+                        <li>SCM 프로세스 포트폴리오 완성</li>
+                        <li>수료증 발급</li>
+                    </ul>
+                </div>
+
+                <div class="package-part fade-up">
+                    <h3>💼 Part 2: 커리어 컨설팅</h3>
+                    <ul>
+                        <li>자기소개서 작성 및 첨삭 2회</li>
+                        <li>면접 준비 및 모의면접 1회</li>
+                        <li>1:1 온라인 피드백 (각 60분)</li>
+                        <li>서류 개선 후 재검토</li>
+                        <li>면접 예상 질문 리스트 제공</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Curriculum Section -->
+    <section class="page-section">
+        <div class="container">
+            <div class="section-header fade-up">
+                <h2>5주 직무 캠프 커리큘럼</h2>
+                <p>실무 중심의 체계적인 학습으로 SCM 전문가가 됩니다</p>
+            </div>
+
+            <div class="curriculum-grid">
+                <div class="week-card fade-up">
+                    <div class="week-number">1</div>
+                    <div class="week-content">
+                        <h3>직무 에센스 강의 & SCM 프로세스 도식화</h3>
+                        <p>직무 담당자가 실제로 하는 일과 요구 역량을 배웁니다. SCM 프로세스 전체를 도식화하며 큰 그림을 이해합니다.</p>
+                    </div>
+                </div>
+
+                <div class="week-card fade-up">
+                    <div class="week-number">2</div>
+                    <div class="week-content">
+                        <h3>개별 리뷰 & 이슈 분석</h3>
+                        <p>1주차 과제에 대한 상세한 피드백을 받습니다. SCM 키워드 관련 이슈를 마인드맵으로 분석합니다.</p>
+                    </div>
+                </div>
+
+                <div class="week-card fade-up">
+                    <div class="week-number">3</div>
+                    <div class="week-content">
+                        <h3>SAP ERP 연결고리 & 재무 Integration</h3>
+                        <p>SCM과 SAP ERP의 연결고리를 이해하고, 재무 Integration을 통해 기업 수익성 관점을 학습합니다.</p>
+                    </div>
+                </div>
+
+                <div class="week-card fade-up">
+                    <div class="week-number">4</div>
+                    <div class="week-content">
+                        <h3>피드백 & 커리어 로드맵</h3>
+                        <p>3주차 과제 피드백과 함께 SCM 트렌드 및 커리어 로드맵을 수립합니다.</p>
+                    </div>
+                </div>
+
+                <div class="week-card fade-up">
+                    <div class="week-number">5</div>
+                    <div class="week-content">
+                        <h3>최종 발표 & 수료</h3>
+                        <p>프로세스 개선 포트폴리오를 발표하고 최종 피드백을 받습니다. 수료증이 발급됩니다.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Consulting Process -->
+    <section class="page-section alt">
+        <div class="container">
+            <div class="section-header fade-up">
+                <h2>커리어 컨설팅 프로세스</h2>
+                <p>현직 컨설턴트의 1:1 맞춤 컨설팅으로 취업을 완성합니다</p>
+            </div>
+
+            <div class="process-grid">
+                <div class="process-step fade-up">
+                    <div class="process-number">1</div>
+                    <h3>자소서 분석 & 전략</h3>
+                    <p>자기소개서를 면밀히 분석하여 지원 기업과 직무에 최적화된 개선 방향을 제시합니다</p>
+                </div>
+
+                <div class="process-step fade-up">
+                    <div class="process-number">2</div>
+                    <h3>1:1 맞춤 피드백</h3>
+                    <p>온라인 화상 미팅을 통해 구체적인 피드백을 제공하고 실제 면접관 관점에서의 조언을 전달합니다</p>
+                </div>
+
+                <div class="process-step fade-up">
+                    <div class="process-number">3</div>
+                    <h3>실전 모의면접</h3>
+                    <p>실제 면접과 동일한 환경에서 모의면접을 진행하고 즉각적인 피드백으로 면접 스킬을 향상시킵니다</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="page-section" id="pricing">
+        <div class="container">
+            <div class="section-header fade-up">
+                <h2>수강 신청</h2>
+                <p>지금 신청하고 취업 성공의 기회를 잡으세요</p>
+            </div>
+
+            <div class="price-card fade-up">
+                <div class="price-badge">기본 패키지</div>
+                <div class="price-amount">300,000원</div>
+                <p class="price-desc">
+                    5주 직무 캠프 + 자소서 2회 + 면접 1회<br>
+                    강의 + 컨설팅 통합 특별가
+                </p>
+                <a href="mailto:contact@scmexpert.com" class="btn btn-primary btn-lg" style="width: 100%;">상담 신청하기</a>
+
+                <div style="margin-top: var(--space-8); padding: var(--space-4); background: rgba(0, 113, 227, 0.1); border-radius: var(--radius-md);">
+                    <p style="font-size: var(--text-sm); color: var(--blue); margin: 0;">
+                        💡 개별 구매 시 369,000원 → 통합 패키지 69,000원 할인!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="page-section alt">
+        <div class="container">
+            <div class="section-header fade-up">
+                <h2>자주 묻는 질문</h2>
+            </div>
+
+            <div class="faq-list">
+                <div class="faq-item fade-up">
+                    <h3>Q. 강의와 컨설팅은 동시에 진행되나요?</h3>
+                    <p>5주 강의를 먼저 진행하고, 강의 기간 중 또는 종료 후 편한 시기에 컨설팅을 받으실 수 있습니다. 유연하게 일정 조율이 가능합니다.</p>
+                </div>
+
+                <div class="faq-item fade-up">
+                    <h3>Q. SCM 경험이 전혀 없는데 수강 가능한가요?</h3>
+                    <p>네, 가능합니다. 기초 과정은 SCM 경험이 없는 분들을 위해 설계되었습니다. 기초부터 차근차근 설명하며, 실무 용어도 쉽게 풀어서 설명드립니다.</p>
+                </div>
+
+                <div class="faq-item fade-up">
+                    <h3>Q. 직장을 다니면서도 수강할 수 있나요?</h3>
+                    <p>네, 충분히 가능합니다. 주당 평균 2-3시간 정도만 투자하시면 되며, 모든 세션은 녹화본으로 제공되어 언제든 복습 가능합니다.</p>
+                </div>
+
+                <div class="faq-item fade-up">
+                    <h3>Q. 환불은 가능한가요?</h3>
+                    <p>수강 시작 전까지는 전액 환불이 가능합니다. 1주차 수강 후에는 2/3, 2주차 수강 후에는 1/2 환불이 가능하며, 3주차부터는 환불이 불가능합니다.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <h2 class="fade-up">지금이 시작할 때입니다</h2>
+        <p class="fade-up">직무 지식부터 취업 성공까지, 한 번에 해결하세요</p>
+        <a href="#pricing" class="btn btn-primary btn-lg fade-up">지금 신청하기</a>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2025 SCM Expert. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Scroll Animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-up').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Theme Toggle
+        (function() {
+            const themeToggle = document.getElementById('themeToggle');
+            const html = document.documentElement;
+
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                html.setAttribute('data-theme', savedTheme);
+            }
+
+            if (themeToggle) {
+                themeToggle.addEventListener('click', () => {
+                    const currentTheme = html.getAttribute('data-theme');
+                    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+
+                    if (newTheme === 'dark') {
+                        html.removeAttribute('data-theme');
+                    } else {
+                        html.setAttribute('data-theme', newTheme);
+                    }
+
+                    localStorage.setItem('theme', newTheme);
+                });
+            }
+        })();
+    </script>
+</body>
+</html>
