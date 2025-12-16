@@ -28,25 +28,106 @@
             color: #1d1d1f;
         }
 
-        /* Navigation */
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: var(--space-6);
+        /* Mobile menu toggle */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            padding: var(--space-2);
+            cursor: pointer;
         }
-        .nav-links a {
-            font-size: var(--text-base);
-            color: var(--text-primary);
-            text-decoration: none;
-            transition: color var(--transition-fast);
+        .menu-toggle span {
+            display: block;
+            width: 18px;
+            height: 2px;
+            background-color: var(--text-primary);
+            margin: 4px 0;
+            transition: var(--transition-fast);
+        }
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+            .header .btn-sm {
+                display: none;
+            }
+        }
+
+        /* Contact Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            z-index: var(--z-modal-backdrop);
+            opacity: 0;
+            visibility: hidden;
+            transition: all var(--transition-base);
+        }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal-container {
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%) scale(0.95);
+            width: 90%; max-width: 500px; max-height: 90vh;
+            overflow-y: auto;
+            background: var(--bg-elevated);
+            border-radius: var(--radius-xl);
+            padding: var(--space-8);
+            z-index: var(--z-modal);
+            opacity: 0; visibility: hidden;
+            transition: all var(--transition-base);
+        }
+        .modal-container.active {
+            opacity: 1; visibility: visible;
+            transform: translate(-50%, -50%) scale(1);
+        }
+        .modal-close {
+            position: absolute; top: var(--space-4); right: var(--space-4);
+            background: none; border: none;
+            font-size: 1.5rem; cursor: pointer;
+            color: var(--text-secondary);
+        }
+        .modal-title {
+            font-size: var(--text-2xl);
+            font-weight: var(--font-bold);
+            margin-bottom: var(--space-2);
+            text-align: center;
+        }
+        .modal-subtitle {
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+            text-align: center;
+            margin-bottom: var(--space-6);
+        }
+        .form-group { margin-bottom: var(--space-4); }
+        .form-label {
+            display: block;
+            font-size: var(--text-sm);
             font-weight: var(--font-medium);
+            margin-bottom: var(--space-2);
         }
-        [data-theme="light"] .nav-links a {
-            color: #1d1d1f;
+        .form-input {
+            width: 100%;
+            padding: var(--space-3) var(--space-4);
+            font-size: var(--text-base);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
         }
-        .nav-links a:hover {
-            color: var(--blue);
+        .form-input:focus { outline: none; border-color: var(--blue); }
+        textarea.form-input { min-height: 100px; resize: vertical; }
+        .form-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2386868b' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right var(--space-4) center;
         }
+        .form-submit { width: 100%; margin-top: var(--space-4); }
+        .form-success { display: none; text-align: center; padding: var(--space-8); }
+        .form-success.show { display: block; }
+        .form-success-icon { font-size: 3rem; margin-bottom: var(--space-4); }
 
         /* Hero */
         .hero {
@@ -637,11 +718,18 @@
     <header class="header" role="banner">
         <div class="header-content">
             <a href="index.html" class="logo">SCM Expert</a>
-            <nav class="nav-links">
-                <a href="index.html">Home</a>
-                <a href="index.html#solution">패키지</a>
-                <a href="#pricing" class="btn btn-primary btn-sm">신청하기</a>
+            <nav aria-label="주요 메뉴">
+                <ul class="nav-menu" id="navMenu" role="menubar">
+                    <li role="none"><a href="index.html" class="nav-link" role="menuitem">Home</a></li>
+                    <li role="none"><a href="index.html#solution" class="nav-link" role="menuitem">패키지</a></li>
+                </ul>
             </nav>
+            <a href="#pricing" class="btn btn-sm btn-primary">신청하기</a>
+            <button class="menu-toggle" id="menuToggle" aria-label="메뉴 열기" aria-expanded="false" aria-controls="navMenu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
             <button class="theme-toggle" id="themeToggle" aria-label="테마 변경">
                 <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <circle cx="12" cy="12" r="5"></circle>
@@ -672,7 +760,7 @@
             SCM 직무 5주 캠프 + 자소서 완성 + 면접 준비<br>
             직무 능력부터 커리어 준비까지 한 번에 완성하세요
         </p>
-        <a href="#pricing" class="btn btn-primary btn-lg fade-up">지금 신청하기</a>
+        <button class="btn btn-primary btn-lg fade-up" onclick="openModal('basic-package')">지금 신청하기</button>
     </section>
 
     <!-- Package Overview -->
@@ -843,7 +931,7 @@
                     5주 직무 캠프 + 자소서 2회 + 면접 1회<br>
                     강의 + 컨설팅 통합 특별가
                 </p>
-                <a href="mailto:contact@scmexpert.com" class="btn btn-primary btn-lg" style="width: 100%;">상담 신청하기</a>
+                <button class="btn btn-primary btn-lg" style="width: 100%;" onclick="openModal('basic-package')">상담 신청하기</button>
 
                 <div style="margin-top: var(--space-8); padding: var(--space-4); background: rgba(0, 113, 227, 0.1); border-radius: var(--radius-md);">
                     <p style="font-size: var(--text-sm); color: var(--blue); margin: 0;">
@@ -889,8 +977,55 @@
     <section class="cta-section">
         <h2 class="fade-up">지금이 시작할 때입니다</h2>
         <p class="fade-up">직무 능력부터 커리어 준비까지, 한 번에 완성하세요</p>
-        <a href="#pricing" class="btn btn-primary btn-lg fade-up">지금 신청하기</a>
+        <button class="btn btn-primary btn-lg fade-up" onclick="openModal('basic-package')">지금 신청하기</button>
     </section>
+
+    <!-- Contact Modal -->
+    <div class="modal-overlay" id="contactModalOverlay"></div>
+    <div class="modal-container" id="contactModal">
+        <button class="modal-close" id="modalClose" aria-label="닫기">&times;</button>
+        <div id="contactForm">
+            <h2 class="modal-title">무료 상담 신청</h2>
+            <p class="modal-subtitle">24시간 내 담당자가 연락드립니다</p>
+            <form id="inquiryForm">
+                <div class="form-group">
+                    <label class="form-label" for="name">이름 *</label>
+                    <input type="text" class="form-input" id="name" name="name" placeholder="홍길동" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="email">이메일 *</label>
+                    <input type="email" class="form-input" id="email" name="email" placeholder="example@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="phone">연락처</label>
+                    <input type="tel" class="form-input" id="phone" name="phone" placeholder="010-0000-0000">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="service">관심 서비스 *</label>
+                    <select class="form-input form-select" id="service" name="service" required>
+                        <option value="">선택해주세요</option>
+                        <option value="basic-package">기본 패키지 (직무 캠프 + 컨설팅)</option>
+                        <option value="scm-camp">SCM 직무 5주 캠프</option>
+                        <option value="career-consulting">커리어 컨설팅</option>
+                        <option value="resume">자기소개서 컨설팅</option>
+                        <option value="interview">면접 컨설팅</option>
+                        <option value="other">기타 문의</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="message">문의 내용</label>
+                    <textarea class="form-input" id="message" name="message" placeholder="궁금하신 점을 적어주세요"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary form-submit">상담 신청하기</button>
+            </form>
+        </div>
+        <div class="form-success" id="formSuccess">
+            <div class="form-success-icon">✓</div>
+            <h3>신청이 완료되었습니다!</h3>
+            <p>입력하신 연락처로 24시간 내 연락드리겠습니다.</p>
+            <button class="btn btn-secondary" style="margin-top: var(--space-6);" onclick="closeModal()">닫기</button>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer class="footer">
@@ -898,6 +1033,22 @@
     </footer>
 
     <script>
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const navMenu = document.getElementById('navMenu');
+
+        menuToggle?.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            menuToggle.setAttribute('aria-expanded', navMenu.classList.contains('active'));
+        });
+
+        // Close menu on link click
+        navMenu?.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+            });
+        });
+
         // Scroll Animation
         const observerOptions = {
             threshold: 0.1,
@@ -914,6 +1065,70 @@
 
         document.querySelectorAll('.fade-up').forEach(el => {
             observer.observe(el);
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const headerOffset = 60;
+                    const elementPosition = target.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Modal Functions
+        const modalOverlay = document.getElementById('contactModalOverlay');
+        const modal = document.getElementById('contactModal');
+        const modalClose = document.getElementById('modalClose');
+        const inquiryForm = document.getElementById('inquiryForm');
+        const formSuccess = document.getElementById('formSuccess');
+        const contactForm = document.getElementById('contactForm');
+
+        function openModal(service = '') {
+            modalOverlay.classList.add('active');
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            if (service) {
+                const serviceSelect = document.getElementById('service');
+                if (serviceSelect) serviceSelect.value = service;
+            }
+        }
+
+        function closeModal() {
+            modalOverlay.classList.remove('active');
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+            setTimeout(() => {
+                contactForm.style.display = 'block';
+                formSuccess.classList.remove('show');
+                inquiryForm.reset();
+            }, 300);
+        }
+
+        modalOverlay?.addEventListener('click', closeModal);
+        modalClose?.addEventListener('click', closeModal);
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
+        });
+
+        inquiryForm?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(inquiryForm);
+            const data = Object.fromEntries(formData.entries());
+            const inquiries = JSON.parse(localStorage.getItem('scm_inquiries') || '[]');
+            inquiries.push({ ...data, timestamp: new Date().toISOString() });
+            localStorage.setItem('scm_inquiries', JSON.stringify(inquiries));
+            contactForm.style.display = 'none';
+            formSuccess.classList.add('show');
         });
 
         // Calendar Data
