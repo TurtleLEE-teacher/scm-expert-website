@@ -486,11 +486,17 @@
             padding: 3px 6px;
             border-radius: var(--radius-sm);
             display: block;
-            margin-bottom: var(--space-1);
+            margin-bottom: 2px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
             max-width: 100%;
+        }
+        .calendar-type {
+            font-size: 10px;
+            color: var(--text-secondary);
+            text-align: center;
+            font-weight: var(--font-medium);
         }
         .calendar-session-type {
             font-size: 10px;
@@ -558,7 +564,7 @@
             }
             .calendar-day {
                 padding: 4px;
-                min-height: 55px;
+                min-height: 60px;
                 position: relative;
             }
             .calendar-day-number {
@@ -570,21 +576,8 @@
                 padding: 2px 4px;
                 margin-bottom: 2px;
             }
-            /* Hide text labels on mobile, show only icons */
-            .calendar-session-type {
-                font-size: 14px;
-                margin: 0;
-                text-align: center;
-            }
-            .calendar-session-type .type-label {
-                display: none;
-            }
-            .calendar-assignment {
-                font-size: 12px;
-                text-align: center;
-            }
-            .calendar-assignment .assignment-text {
-                display: none;
+            .calendar-type {
+                font-size: 9px;
             }
             .schedule-legend {
                 flex-direction: column;
@@ -595,7 +588,7 @@
         @media (max-width: 480px) {
             .calendar-day {
                 padding: 3px;
-                min-height: 50px;
+                min-height: 55px;
             }
             .calendar-day-number {
                 font-size: 10px;
@@ -604,11 +597,8 @@
                 font-size: 9px;
                 padding: 1px 3px;
             }
-            .calendar-session-type {
-                font-size: 12px;
-            }
-            .calendar-assignment {
-                font-size: 11px;
+            .calendar-type {
+                font-size: 8px;
             }
         }
     </style>
@@ -803,6 +793,9 @@
                     </div>
                     <div class="legend-item">
                         <span class="legend-text">🔵 진행중</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-text">강의 / 피드백</span>
                     </div>
                 </div>
             </div>
@@ -1068,7 +1061,8 @@
                     calendarHTML += `
                         <div class="calendar-day class-day ${batchClass}" title="${tooltipText}">
                             <div class="calendar-day-number">${day}</div>
-                            <div class="calendar-event">${statusBadge}${batchNumber}기 ${weekLabel} ${typeLabel}</div>
+                            <div class="calendar-event">${statusBadge}${batchNumber}기 ${weekLabel}</div>
+                            <div class="calendar-type">${typeLabel}</div>
                         </div>
                     `;
                 } else {

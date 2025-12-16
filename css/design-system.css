@@ -557,6 +557,16 @@ h1, h2, h3, h4, h5, h6 {
   opacity: 1;
 }
 
+/* Light mode specific styles */
+[data-theme="light"] .nav-link {
+  color: #1d1d1f;
+  opacity: 1;
+}
+
+[data-theme="light"] .nav-link:hover {
+  color: var(--blue);
+}
+
 /* Mobile Navigation */
 @media (max-width: 768px) {
   .nav-menu {
