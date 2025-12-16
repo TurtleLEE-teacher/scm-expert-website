@@ -89,7 +89,7 @@
             }
         }
 
-        /* Urgency Banner */
+        /* Urgency Banner - 기본 숨김, JS에서 표시 제어 */
         .urgency-banner {
             position: fixed;
             top: var(--header-height);
@@ -102,6 +102,10 @@
             z-index: calc(var(--z-fixed) - 1);
             font-size: var(--text-sm);
             font-weight: var(--font-medium);
+            display: none; /* 기본 숨김 */
+        }
+        .urgency-banner.show {
+            display: block;
         }
         .urgency-banner a {
             color: white;
@@ -1668,18 +1672,30 @@
         const urgencyBanner = document.getElementById('urgencyBanner');
         const bannerClose = document.getElementById('bannerClose');
 
-        // Check if banner was closed before
-        if (!sessionStorage.getItem('bannerClosed')) {
-            document.body.classList.add('banner-visible');
-        } else {
-            urgencyBanner?.remove();
+        // 배너 표시 함수
+        function showBanner() {
+            if (urgencyBanner) {
+                urgencyBanner.classList.add('show');
+                document.body.classList.add('banner-visible');
+            }
         }
 
-        bannerClose?.addEventListener('click', () => {
-            urgencyBanner.style.display = 'none';
-            document.body.classList.remove('banner-visible');
-            sessionStorage.setItem('bannerClosed', 'true');
-        });
+        // 배너 숨김 함수
+        function hideBanner() {
+            if (urgencyBanner) {
+                urgencyBanner.classList.remove('show');
+                document.body.classList.remove('banner-visible');
+                sessionStorage.setItem('bannerClosed', 'true');
+            }
+        }
+
+        // 페이지 로드 시 배너 상태 확인
+        if (!sessionStorage.getItem('bannerClosed')) {
+            showBanner();
+        }
+
+        // 닫기 버튼 클릭
+        bannerClose?.addEventListener('click', hideBanner);
 
         // Countdown timer - set deadline to end of current month
         function updateCountdown() {

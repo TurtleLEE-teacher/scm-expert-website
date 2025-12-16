@@ -968,6 +968,35 @@
             background: rgba(0, 113, 227, 0.1);
             border-color: var(--blue);
         }
+        /* 리스트뷰 기수별 색상 */
+        .calendar-list-item.batch-1 {
+            background: rgba(0, 113, 227, 0.1);
+            border-color: #0071e3;
+        }
+        .calendar-list-item.batch-1 .list-date {
+            background: linear-gradient(135deg, #0071e3 0%, #00a1ff 100%);
+        }
+        .calendar-list-item.batch-2 {
+            background: rgba(52, 199, 89, 0.1);
+            border-color: #34c759;
+        }
+        .calendar-list-item.batch-2 .list-date {
+            background: linear-gradient(135deg, #34c759 0%, #30d158 100%);
+        }
+        .calendar-list-item.batch-3 {
+            background: rgba(255, 149, 0, 0.1);
+            border-color: #ff9500;
+        }
+        .calendar-list-item.batch-3 .list-date {
+            background: linear-gradient(135deg, #ff9500 0%, #ffb340 100%);
+        }
+        .calendar-list-item.batch-4 {
+            background: rgba(191, 90, 242, 0.1);
+            border-color: #bf5af2;
+        }
+        .calendar-list-item.batch-4 .list-date {
+            background: linear-gradient(135deg, #bf5af2 0%, #da8fff 100%);
+        }
         .list-date {
             display: flex;
             flex-direction: column;
@@ -2172,6 +2201,35 @@
         // Calendar View State
         let currentView = 'list'; // Default to list view (better for mobile)
 
+        // 주차별 실제 커리큘럼 내용
+        const weeklyContent = {
+            1: {
+                lecture: '현직자 직무 에센스 강의 및 Q&A',
+                assignment: 'SCM 프로세스 도식화',
+                desc: '직무 입문 방법, 실제 업무, 요구 역량 학습'
+            },
+            2: {
+                lecture: '리드멘토 개별 리뷰 및 피드백',
+                assignment: 'SCM 이슈 분석 (Keyword Study)',
+                desc: '1차 과제 피드백 + 마인드맵 도식화'
+            },
+            3: {
+                lecture: 'SAP ERP 연결고리 이해',
+                assignment: '재무 Integration 실습',
+                desc: 'SCM과 SAP ERP 연계, 디지털 전환 사례'
+            },
+            4: {
+                lecture: '3차 업무 피드백 및 심화 학습',
+                assignment: '프로세스 개선 포트폴리오 작성',
+                desc: 'SCM 트렌드 및 커리어 로드맵 수립'
+            },
+            5: {
+                lecture: '업무 발표 및 최종 피드백',
+                assignment: null,
+                desc: '포트폴리오 발표 + 수료증 발급'
+            }
+        };
+
         // Generate List View
         function generateListView(data, targetMonth, targetYear) {
             const weekdays = ['일', '월', '화', '수', '목', '금', '토'];
@@ -2185,25 +2243,36 @@
                 const date = new Date(year, month - 1, day);
                 const weekday = weekdays[date.getDay()];
 
+                // 기수 추출 (예: "SCM 기초 완성 강의 1기" → 1)
+                const batchMatch = item.name?.match(/(\d+)기/);
+                const batch = batchMatch ? batchMatch[1] : '1';
+                const batchClass = `batch-${batch}`;
+
                 const isLecture = item.type === 'lecture';
                 const typeIcon = isLecture ? '📚' : '📝';
-                const typeLabel = isLecture ? '온라인 수업' : '피드백 세션';
-                const weekLabel = item.label || `${item.week}주차`;
+                const week = item.week || 1;
+                const weekContent = weeklyContent[week] || weeklyContent[1];
+
+                // 주차별 실제 내용
+                const title = isLecture ? weekContent.lecture : weekContent.lecture;
+                const assignment = weekContent.assignment;
+                const desc = weekContent.desc;
                 const statusText = item.status || '';
 
                 listHTML += `
-                    <div class="calendar-list-item class-day">
+                    <div class="calendar-list-item class-day ${batchClass}">
                         <div class="list-date">
                             <span class="list-day">${day}</span>
                             <span class="list-weekday">${weekday}</span>
                         </div>
                         <div class="list-content">
-                            <div class="list-title">${weekLabel} ${typeLabel}</div>
+                            <div class="list-title">${week}주차 · ${title}</div>
                             <div class="list-meta">
-                                <span>${typeIcon} ${item.name || 'SCM 강의'}</span>
-                                ${item.hasAssignment ? '<span>📋 과제 포함</span>' : ''}
+                                <span>${typeIcon} ${batch}기</span>
+                                ${assignment ? `<span>📋 ${assignment}</span>` : ''}
                                 ${statusText ? `<span style="color: var(--blue);">${statusText}</span>` : ''}
                             </div>
+                            <div style="font-size: var(--text-xs); color: var(--text-tertiary); margin-top: 4px;">${desc}</div>
                         </div>
                     </div>
                 `;
