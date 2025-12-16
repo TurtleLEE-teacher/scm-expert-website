@@ -136,6 +136,42 @@
             }
         }
 
+        /* Hero Stats */
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-8);
+            margin-top: var(--space-10);
+            padding: var(--space-6) var(--space-8);
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-xl);
+            border: 1px solid var(--border-color);
+        }
+        .hero-stat {
+            text-align: center;
+        }
+        .hero-stat-number {
+            display: block;
+            font-size: var(--text-3xl);
+            font-weight: var(--font-bold);
+            color: var(--blue);
+            line-height: 1.2;
+        }
+        .hero-stat-label {
+            font-size: var(--text-xs);
+            color: var(--text-secondary);
+            margin-top: var(--space-1);
+        }
+        @media (max-width: 480px) {
+            .hero-stats {
+                gap: var(--space-4);
+                padding: var(--space-4);
+            }
+            .hero-stat-number {
+                font-size: var(--text-2xl);
+            }
+        }
+
         /* Hero - Question Style */
         .hero {
             min-height: 100vh;
@@ -410,6 +446,33 @@
         .stat-label {
             font-size: var(--text-xs);
             color: var(--text-secondary);
+        }
+
+        /* Certification Badges */
+        .cert-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-3);
+            margin-top: var(--space-6);
+            padding-top: var(--space-6);
+            border-top: 1px solid var(--border-color-light);
+        }
+        .cert-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-2) var(--space-3);
+            background: linear-gradient(135deg, rgba(0, 113, 227, 0.1) 0%, rgba(0, 198, 255, 0.1) 100%);
+            border: 1px solid rgba(0, 113, 227, 0.3);
+            border-radius: var(--radius-full);
+            font-size: var(--text-xs);
+            font-weight: var(--font-medium);
+            color: var(--blue);
+        }
+        .cert-badge svg {
+            width: 14px;
+            height: 14px;
+            fill: currentColor;
         }
 
         /* CTA Section */
@@ -907,7 +970,26 @@
             </p>
             <div class="hero-cta fade-up">
                 <a href="#solution" class="btn btn-lg btn-primary">서비스 보기</a>
-                <a href="#cta" class="btn btn-lg btn-secondary">상담 신청</a>
+                <button class="btn btn-lg btn-secondary" onclick="openModal()">상담 신청</button>
+            </div>
+
+            <div class="hero-stats fade-up">
+                <div class="hero-stat">
+                    <span class="hero-stat-number">158+</span>
+                    <span class="hero-stat-label">수강생</span>
+                </div>
+                <div class="hero-stat">
+                    <span class="hero-stat-number">306%</span>
+                    <span class="hero-stat-label">연봉 상승률</span>
+                </div>
+                <div class="hero-stat">
+                    <span class="hero-stat-number">4.9</span>
+                    <span class="hero-stat-label">만족도</span>
+                </div>
+                <div class="hero-stat">
+                    <span class="hero-stat-number">Big4</span>
+                    <span class="hero-stat-label">컨설팅펌</span>
+                </div>
             </div>
         </section>
 
@@ -1050,6 +1132,18 @@
                         <div style="font-size: var(--text-xs); color: var(--text-tertiary); margin-top: var(--space-1);">곧 출시 예정입니다</div>
                     </div>
                     <button class="btn btn-secondary" style="opacity: 0.5; cursor: not-allowed;" disabled>준비중</button>
+                </div>
+            </div>
+
+            <!-- Guarantee Badge -->
+            <div class="guarantee-banner fade-up" style="margin-top: var(--space-8); padding: var(--space-4) var(--space-6); background: linear-gradient(135deg, rgba(52, 199, 89, 0.1) 0%, rgba(0, 113, 227, 0.1) 100%); border: 1px solid rgba(52, 199, 89, 0.3); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; gap: var(--space-4); flex-wrap: wrap; text-align: center;">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#34c759" stroke-width="2" style="flex-shrink: 0;">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    <polyline points="9 12 11 14 15 10"/>
+                </svg>
+                <div>
+                    <strong style="color: var(--text-primary);">100% 만족 보장</strong>
+                    <span style="color: var(--text-secondary); font-size: var(--text-sm); display: block;">수강 시작 전 전액 환불 | 1주차 후 2/3 환불 | 불만족 시 추가 세션 제공</span>
                 </div>
             </div>
         </section>
@@ -1330,6 +1424,25 @@
                             <span class="stat-label">컨설팅펌</span>
                         </div>
                     </div>
+
+                    <div class="cert-badges">
+                        <span class="cert-badge">
+                            <svg viewBox="0 0 24 24"><path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V8.26l7-3.89V12.99z"/></svg>
+                            Big4 컨설팅펌 시니어 매니저
+                        </span>
+                        <span class="cert-badge">
+                            <svg viewBox="0 0 24 24"><path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82zM12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/></svg>
+                            CPIM 자격 보유
+                        </span>
+                        <span class="cert-badge">
+                            <svg viewBox="0 0 24 24"><path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82zM12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/></svg>
+                            CPSM 자격 보유
+                        </span>
+                        <span class="cert-badge">
+                            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                            SCM 프로젝트 10+ 수행
+                        </span>
+                    </div>
                 </div>
             </div>
         </section>
@@ -1534,6 +1647,43 @@
             // const GOOGLE_FORM_URL = 'YOUR_GOOGLE_FORM_URL';
             // fetch(GOOGLE_FORM_URL, { method: 'POST', body: formData, mode: 'no-cors' });
         });
+
+        // Urgency Banner & Countdown
+        const urgencyBanner = document.getElementById('urgencyBanner');
+        const bannerClose = document.getElementById('bannerClose');
+
+        // Check if banner was closed before
+        if (!sessionStorage.getItem('bannerClosed')) {
+            document.body.classList.add('banner-visible');
+        } else {
+            urgencyBanner?.remove();
+        }
+
+        bannerClose?.addEventListener('click', () => {
+            urgencyBanner.style.display = 'none';
+            document.body.classList.remove('banner-visible');
+            sessionStorage.setItem('bannerClosed', 'true');
+        });
+
+        // Countdown timer - set deadline to end of current month
+        function updateCountdown() {
+            const now = new Date();
+            const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59);
+            const diff = endOfMonth - now;
+
+            if (diff > 0) {
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+                document.getElementById('days').textContent = String(days).padStart(2, '0');
+                document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+                document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+            }
+        }
+
+        updateCountdown();
+        setInterval(updateCountdown, 60000); // Update every minute
     </script>
 
     <!-- Theme Toggle -->
