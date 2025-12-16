@@ -792,13 +792,10 @@
 
                 <div class="schedule-legend">
                     <div class="legend-item">
-                        <span class="legend-text">📚 온라인 수업</span>
+                        <span class="legend-text">🟢 모집중</span>
                     </div>
                     <div class="legend-item">
-                        <span class="legend-text">📝 피드백 세션</span>
-                    </div>
-                    <div class="legend-item">
-                        <span class="legend-text">• 과제 및 프로젝트</span>
+                        <span class="legend-text">🔵 진행중</span>
                     </div>
                 </div>
             </div>
@@ -1055,24 +1052,16 @@
                     const batchClass = `batch-${batchNumber}`;
                     const isLecture = sessionData.type === 'lecture';
                     const weekLabel = sessionData.label || `${sessionData.week}주차`;
-                    const statusBadge = sessionData.status === '모집중' ? '🟢' :
-                                        sessionData.status === '진행중' ? '🔵' : '';
+                    const statusBadge = sessionData.status === '모집중' ? '🟢 ' :
+                                        sessionData.status === '진행중' ? '🔵 ' : '';
 
-                    const typeIcon = isLecture ? '📚' : '📝';
                     const typeLabel = isLecture ? '수업' : '피드백';
-
-                    const assignmentDot = sessionData.hasAssignment
-                        ? `<div class="calendar-assignment" title="과제 및 프로젝트">•<span class="assignment-text"> 과제</span></div>`
-                        : '';
-
                     const tooltipText = `${sessionData.name} - ${weekLabel} (${typeLabel})${sessionData.hasAssignment ? ' · 과제 있음' : ''}`;
 
                     calendarHTML += `
                         <div class="calendar-day class-day ${batchClass}" title="${tooltipText}">
                             <div class="calendar-day-number">${day}</div>
-                            <div class="calendar-event">${statusBadge} ${batchNumber}기 ${weekLabel}</div>
-                            <div class="calendar-session-type">${typeIcon}<span class="type-label"> ${typeLabel}</span></div>
-                            ${assignmentDot}
+                            <div class="calendar-event">${statusBadge}${batchNumber}기 ${weekLabel}</div>
                         </div>
                     `;
                 } else {
