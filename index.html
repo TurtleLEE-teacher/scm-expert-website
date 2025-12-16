@@ -48,6 +48,22 @@
             text-decoration: none;
         }
 
+        /* Navigation Active State */
+        .nav-menu .nav-link.active {
+            color: var(--blue);
+            position: relative;
+        }
+        .nav-menu .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--blue);
+            border-radius: 1px;
+        }
+
         /* Mobile menu toggle */
         .menu-toggle {
             display: none;
@@ -70,6 +86,105 @@
             }
             .header .btn-sm {
                 display: none;
+            }
+        }
+
+        /* Urgency Banner */
+        .urgency-banner {
+            position: fixed;
+            top: var(--header-height);
+            left: 0;
+            right: 0;
+            background: linear-gradient(90deg, #ff3b30 0%, #ff9500 100%);
+            color: white;
+            padding: var(--space-2) var(--space-4);
+            text-align: center;
+            z-index: calc(var(--z-fixed) - 1);
+            font-size: var(--text-sm);
+            font-weight: var(--font-medium);
+        }
+        .urgency-banner a {
+            color: white;
+            text-decoration: underline;
+            margin-left: var(--space-2);
+        }
+        .urgency-countdown {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            background: rgba(255, 255, 255, 0.2);
+            padding: var(--space-1) var(--space-3);
+            border-radius: var(--radius-full);
+            margin-left: var(--space-3);
+        }
+        .countdown-item {
+            text-align: center;
+        }
+        .countdown-number {
+            font-weight: var(--font-bold);
+            font-size: var(--text-base);
+        }
+        .countdown-label {
+            font-size: 9px;
+            opacity: 0.9;
+        }
+        .banner-close {
+            position: absolute;
+            right: var(--space-4);
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: var(--text-lg);
+            opacity: 0.8;
+        }
+        .banner-close:hover {
+            opacity: 1;
+        }
+        body.banner-visible .hero {
+            padding-top: calc(var(--header-height) + 44px + var(--space-16));
+        }
+        @media (max-width: 768px) {
+            .urgency-countdown {
+                display: none;
+            }
+        }
+
+        /* Hero Stats */
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-8);
+            margin-top: var(--space-10);
+            padding: var(--space-6) var(--space-8);
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-xl);
+            border: 1px solid var(--border-color);
+        }
+        .hero-stat {
+            text-align: center;
+        }
+        .hero-stat-number {
+            display: block;
+            font-size: var(--text-3xl);
+            font-weight: var(--font-bold);
+            color: var(--blue);
+            line-height: 1.2;
+        }
+        .hero-stat-label {
+            font-size: var(--text-xs);
+            color: var(--text-secondary);
+            margin-top: var(--space-1);
+        }
+        @media (max-width: 480px) {
+            .hero-stats {
+                gap: var(--space-4);
+                padding: var(--space-4);
+            }
+            .hero-stat-number {
+                font-size: var(--text-2xl);
             }
         }
 
@@ -349,6 +464,33 @@
             color: var(--text-secondary);
         }
 
+        /* Certification Badges */
+        .cert-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-3);
+            margin-top: var(--space-6);
+            padding-top: var(--space-6);
+            border-top: 1px solid var(--border-color-light);
+        }
+        .cert-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-2) var(--space-3);
+            background: linear-gradient(135deg, rgba(0, 113, 227, 0.1) 0%, rgba(0, 198, 255, 0.1) 100%);
+            border: 1px solid rgba(0, 113, 227, 0.3);
+            border-radius: var(--radius-full);
+            font-size: var(--text-xs);
+            font-weight: var(--font-medium);
+            color: var(--blue);
+        }
+        .cert-badge svg {
+            width: 14px;
+            height: 14px;
+            fill: currentColor;
+        }
+
         /* CTA Section */
         .cta-section {
             padding: var(--space-24) var(--space-6);
@@ -389,6 +531,140 @@
         }
         .cta-contact a:hover {
             color: var(--blue);
+        }
+
+        /* Contact Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: var(--z-modal-backdrop);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity var(--transition-base), visibility var(--transition-base);
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.95);
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            background: var(--bg-elevated);
+            border-radius: var(--radius-xl);
+            padding: var(--space-8);
+            z-index: var(--z-modal);
+            opacity: 0;
+            visibility: hidden;
+            transition: all var(--transition-base);
+        }
+        .modal-overlay.active + .modal-container,
+        .modal-container.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1);
+        }
+        .modal-close {
+            position: absolute;
+            top: var(--space-4);
+            right: var(--space-4);
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+            padding: var(--space-2);
+            line-height: 1;
+            transition: color var(--transition-fast);
+        }
+        .modal-close:hover {
+            color: var(--text-primary);
+        }
+        .modal-title {
+            font-size: var(--text-2xl);
+            font-weight: var(--font-bold);
+            margin-bottom: var(--space-2);
+            text-align: center;
+        }
+        .modal-subtitle {
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+            text-align: center;
+            margin-bottom: var(--space-6);
+        }
+        .form-group {
+            margin-bottom: var(--space-4);
+        }
+        .form-label {
+            display: block;
+            font-size: var(--text-sm);
+            font-weight: var(--font-medium);
+            margin-bottom: var(--space-2);
+            color: var(--text-primary);
+        }
+        .form-input {
+            width: 100%;
+            padding: var(--space-3) var(--space-4);
+            font-size: var(--text-base);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            transition: border-color var(--transition-fast);
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: var(--blue);
+        }
+        .form-input::placeholder {
+            color: var(--text-tertiary);
+        }
+        textarea.form-input {
+            min-height: 100px;
+            resize: vertical;
+        }
+        .form-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2386868b' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right var(--space-4) center;
+            padding-right: var(--space-10);
+        }
+        .form-submit {
+            width: 100%;
+            margin-top: var(--space-4);
+        }
+        .form-success {
+            display: none;
+            text-align: center;
+            padding: var(--space-8);
+        }
+        .form-success.show {
+            display: block;
+        }
+        .form-success-icon {
+            font-size: 3rem;
+            margin-bottom: var(--space-4);
+        }
+        .form-success h3 {
+            font-size: var(--text-xl);
+            font-weight: var(--font-bold);
+            margin-bottom: var(--space-2);
+        }
+        .form-success p {
+            color: var(--text-secondary);
+            font-size: var(--text-sm);
         }
 
         /* Process Section */
@@ -674,6 +950,26 @@
         </div>
     </header>
 
+    <!-- Urgency Banner -->
+    <div class="urgency-banner" id="urgencyBanner">
+        <span>🔥 2월 기수 <strong>선착순 10명</strong> 마감 임박!</span>
+        <div class="urgency-countdown" id="countdown">
+            <div class="countdown-item">
+                <span class="countdown-number" id="days">00</span>
+                <span class="countdown-label">일</span>
+            </div>
+            <div class="countdown-item">
+                <span class="countdown-number" id="hours">00</span>
+                <span class="countdown-label">시간</span>
+            </div>
+            <div class="countdown-item">
+                <span class="countdown-number" id="minutes">00</span>
+                <span class="countdown-label">분</span>
+            </div>
+        </div>
+        <button class="banner-close" id="bannerClose" aria-label="배너 닫기">&times;</button>
+    </div>
+
     <main id="main-content" role="main">
         <!-- Hero Section -->
         <section class="hero">
@@ -690,7 +986,26 @@
             </p>
             <div class="hero-cta fade-up">
                 <a href="#solution" class="btn btn-lg btn-primary">서비스 보기</a>
-                <a href="#cta" class="btn btn-lg btn-secondary">상담 신청</a>
+                <button class="btn btn-lg btn-secondary" onclick="openModal()">상담 신청</button>
+            </div>
+
+            <div class="hero-stats fade-up">
+                <div class="hero-stat">
+                    <span class="hero-stat-number">158+</span>
+                    <span class="hero-stat-label">수강생</span>
+                </div>
+                <div class="hero-stat">
+                    <span class="hero-stat-number">306%</span>
+                    <span class="hero-stat-label">연봉 상승률</span>
+                </div>
+                <div class="hero-stat">
+                    <span class="hero-stat-number">4.9</span>
+                    <span class="hero-stat-label">만족도</span>
+                </div>
+                <div class="hero-stat">
+                    <span class="hero-stat-number">Big4</span>
+                    <span class="hero-stat-label">컨설팅펌</span>
+                </div>
             </div>
         </section>
 
@@ -833,6 +1148,18 @@
                         <div style="font-size: var(--text-xs); color: var(--text-tertiary); margin-top: var(--space-1);">곧 출시 예정입니다</div>
                     </div>
                     <button class="btn btn-secondary" style="opacity: 0.5; cursor: not-allowed;" disabled>준비중</button>
+                </div>
+            </div>
+
+            <!-- Guarantee Badge -->
+            <div class="guarantee-banner fade-up" style="margin-top: var(--space-8); padding: var(--space-4) var(--space-6); background: linear-gradient(135deg, rgba(52, 199, 89, 0.1) 0%, rgba(0, 113, 227, 0.1) 100%); border: 1px solid rgba(52, 199, 89, 0.3); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; gap: var(--space-4); flex-wrap: wrap; text-align: center;">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#34c759" stroke-width="2" style="flex-shrink: 0;">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    <polyline points="9 12 11 14 15 10"/>
+                </svg>
+                <div>
+                    <strong style="color: var(--text-primary);">100% 만족 보장</strong>
+                    <span style="color: var(--text-secondary); font-size: var(--text-sm); display: block;">수강 시작 전 전액 환불 | 1주차 후 2/3 환불 | 불만족 시 추가 세션 제공</span>
                 </div>
             </div>
         </section>
@@ -1113,6 +1440,25 @@
                             <span class="stat-label">컨설팅펌</span>
                         </div>
                     </div>
+
+                    <div class="cert-badges">
+                        <span class="cert-badge">
+                            <svg viewBox="0 0 24 24"><path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V8.26l7-3.89V12.99z"/></svg>
+                            Big4 컨설팅펌 시니어 매니저
+                        </span>
+                        <span class="cert-badge">
+                            <svg viewBox="0 0 24 24"><path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82zM12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/></svg>
+                            CPIM 자격 보유
+                        </span>
+                        <span class="cert-badge">
+                            <svg viewBox="0 0 24 24"><path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82zM12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/></svg>
+                            CPSM 자격 보유
+                        </span>
+                        <span class="cert-badge">
+                            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                            SCM 프로젝트 10+ 수행
+                        </span>
+                    </div>
                 </div>
             </div>
         </section>
@@ -1123,7 +1469,7 @@
             <p class="fade-up">직무 지식부터 취업 성공까지, 한 번에 해결하세요</p>
             <div class="cta-buttons fade-up">
                 <a href="#solution" class="btn btn-lg btn-primary">패키지 보기</a>
-                <a href="mailto:contact@scmexpert.com" class="btn btn-lg btn-secondary">상담 문의</a>
+                <button class="btn btn-lg btn-secondary" onclick="openModal()">상담 문의</button>
             </div>
 
             <div class="cta-contact fade-up">
@@ -1132,6 +1478,61 @@
             </div>
         </section>
     </main>
+
+    <!-- Contact Modal -->
+    <div class="modal-overlay" id="contactModalOverlay"></div>
+    <div class="modal-container" id="contactModal">
+        <button class="modal-close" id="modalClose" aria-label="닫기">&times;</button>
+
+        <div id="contactForm">
+            <h2 class="modal-title">무료 상담 신청</h2>
+            <p class="modal-subtitle">24시간 내 담당자가 연락드립니다</p>
+
+            <form id="inquiryForm">
+                <div class="form-group">
+                    <label class="form-label" for="name">이름 *</label>
+                    <input type="text" class="form-input" id="name" name="name" placeholder="홍길동" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="email">이메일 *</label>
+                    <input type="email" class="form-input" id="email" name="email" placeholder="example@email.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="phone">연락처</label>
+                    <input type="tel" class="form-input" id="phone" name="phone" placeholder="010-0000-0000">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="service">관심 서비스 *</label>
+                    <select class="form-input form-select" id="service" name="service" required>
+                        <option value="">선택해주세요</option>
+                        <option value="basic-package">기본 패키지 (직무 캠프 + 컨설팅)</option>
+                        <option value="scm-camp">SCM 직무 5주 캠프</option>
+                        <option value="career-consulting">커리어 컨설팅</option>
+                        <option value="resume">자기소개서 컨설팅</option>
+                        <option value="interview">면접 컨설팅</option>
+                        <option value="other">기타 문의</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="message">문의 내용</label>
+                    <textarea class="form-input" id="message" name="message" placeholder="궁금하신 점을 적어주세요"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary form-submit">상담 신청하기</button>
+            </form>
+        </div>
+
+        <div class="form-success" id="formSuccess">
+            <div class="form-success-icon">✓</div>
+            <h3>신청이 완료되었습니다!</h3>
+            <p>입력하신 연락처로 24시간 내 연락드리겠습니다.<br>빠른 상담을 원하시면 카카오톡 채널을 이용해주세요.</p>
+            <button class="btn btn-secondary" style="margin-top: var(--space-6);" onclick="closeModal()">닫기</button>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer class="footer" role="contentinfo">
@@ -1191,6 +1592,145 @@
                 }
             });
         });
+
+        // Modal Functions
+        const modalOverlay = document.getElementById('contactModalOverlay');
+        const modal = document.getElementById('contactModal');
+        const modalClose = document.getElementById('modalClose');
+        const inquiryForm = document.getElementById('inquiryForm');
+        const formSuccess = document.getElementById('formSuccess');
+        const contactForm = document.getElementById('contactForm');
+
+        function openModal(service = '') {
+            modalOverlay.classList.add('active');
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+
+            // Pre-select service if provided
+            if (service) {
+                const serviceSelect = document.getElementById('service');
+                if (serviceSelect) {
+                    serviceSelect.value = service;
+                }
+            }
+        }
+
+        function closeModal() {
+            modalOverlay.classList.remove('active');
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+
+            // Reset form after closing
+            setTimeout(() => {
+                contactForm.style.display = 'block';
+                formSuccess.classList.remove('show');
+                inquiryForm.reset();
+            }, 300);
+        }
+
+        // Close modal on overlay click
+        modalOverlay?.addEventListener('click', closeModal);
+        modalClose?.addEventListener('click', closeModal);
+
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.classList.contains('active')) {
+                closeModal();
+            }
+        });
+
+        // Form submission
+        inquiryForm?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(inquiryForm);
+            const data = Object.fromEntries(formData.entries());
+
+            // Store in localStorage for demo (replace with actual API call)
+            const inquiries = JSON.parse(localStorage.getItem('scm_inquiries') || '[]');
+            inquiries.push({
+                ...data,
+                timestamp: new Date().toISOString()
+            });
+            localStorage.setItem('scm_inquiries', JSON.stringify(inquiries));
+
+            // Show success message
+            contactForm.style.display = 'none';
+            formSuccess.classList.add('show');
+
+            // TODO: Send to actual backend or Google Form
+            // Example Google Form submission:
+            // const GOOGLE_FORM_URL = 'YOUR_GOOGLE_FORM_URL';
+            // fetch(GOOGLE_FORM_URL, { method: 'POST', body: formData, mode: 'no-cors' });
+        });
+
+        // Urgency Banner & Countdown
+        const urgencyBanner = document.getElementById('urgencyBanner');
+        const bannerClose = document.getElementById('bannerClose');
+
+        // Check if banner was closed before
+        if (!sessionStorage.getItem('bannerClosed')) {
+            document.body.classList.add('banner-visible');
+        } else {
+            urgencyBanner?.remove();
+        }
+
+        bannerClose?.addEventListener('click', () => {
+            urgencyBanner.style.display = 'none';
+            document.body.classList.remove('banner-visible');
+            sessionStorage.setItem('bannerClosed', 'true');
+        });
+
+        // Countdown timer - set deadline to end of current month
+        function updateCountdown() {
+            const now = new Date();
+            const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59);
+            const diff = endOfMonth - now;
+
+            if (diff > 0) {
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+                document.getElementById('days').textContent = String(days).padStart(2, '0');
+                document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+                document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+            }
+        }
+
+        updateCountdown();
+        setInterval(updateCountdown, 60000); // Update every minute
+
+        // Navigation Scroll Highlight (Scroll Spy)
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.nav-menu .nav-link');
+
+        function highlightNavOnScroll() {
+            const scrollPosition = window.scrollY + 100;
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.offsetHeight;
+                const sectionId = section.getAttribute('id');
+
+                if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                    navLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === '#' + sectionId) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+
+            // If at top of page, remove all active states
+            if (window.scrollY < 100) {
+                navLinks.forEach(link => link.classList.remove('active'));
+            }
+        }
+
+        window.addEventListener('scroll', highlightNavOnScroll);
+        highlightNavOnScroll(); // Run on page load
     </script>
 
     <!-- Theme Toggle -->
