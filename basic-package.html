@@ -509,49 +509,6 @@
             background: rgba(0, 113, 227, 0.1);
             border-color: var(--blue);
         }
-        /* Batch-specific colors */
-        .calendar-day.batch-1 {
-            background: rgba(0, 113, 227, 0.12);
-            border-color: #0071e3;
-        }
-        .calendar-day.batch-1 .calendar-event {
-            background: linear-gradient(135deg, #0071e3 0%, #00a1ff 100%);
-        }
-        .calendar-day.batch-2 {
-            background: rgba(52, 199, 89, 0.12);
-            border-color: #34c759;
-        }
-        .calendar-day.batch-2 .calendar-event {
-            background: linear-gradient(135deg, #34c759 0%, #30d158 100%);
-        }
-        .calendar-day.batch-3 {
-            background: rgba(255, 149, 0, 0.12);
-            border-color: #ff9500;
-        }
-        .calendar-day.batch-3 .calendar-event {
-            background: linear-gradient(135deg, #ff9500 0%, #ffb340 100%);
-        }
-        .calendar-day.batch-4 {
-            background: rgba(255, 59, 48, 0.12);
-            border-color: #ff3b30;
-        }
-        .calendar-day.batch-4 .calendar-event {
-            background: linear-gradient(135deg, #ff3b30 0%, #ff6961 100%);
-        }
-        .calendar-day.batch-5 {
-            background: rgba(191, 90, 242, 0.12);
-            border-color: #bf5af2;
-        }
-        .calendar-day.batch-5 .calendar-event {
-            background: linear-gradient(135deg, #bf5af2 0%, #da8fff 100%);
-        }
-        .calendar-day.batch-6 {
-            background: rgba(255, 45, 85, 0.12);
-            border-color: #ff2d55;
-        }
-        .calendar-day.batch-6 .calendar-event {
-            background: linear-gradient(135deg, #ff2d55 0%, #ff6482 100%);
-        }
         .calendar-day-number {
             font-size: var(--text-sm);
             color: var(--text-secondary);
@@ -569,7 +526,10 @@
         .calendar-event {
             font-size: 11px;
             font-weight: var(--font-semibold);
-            color: var(--text-primary);
+            color: #fff;
+            background: var(--blue);
+            padding: 3px 6px;
+            border-radius: var(--radius-sm);
             margin-bottom: 3px;
             line-height: 1.2;
         }
@@ -584,30 +544,6 @@
             display: inline-block;
             width: fit-content;
             margin: 0 auto;
-        }
-        .calendar-day.batch-1 .calendar-type {
-            background: rgba(0, 113, 227, 0.2);
-            color: #0071e3;
-        }
-        .calendar-day.batch-2 .calendar-type {
-            background: rgba(52, 199, 89, 0.2);
-            color: #2d9f4e;
-        }
-        .calendar-day.batch-3 .calendar-type {
-            background: rgba(255, 149, 0, 0.2);
-            color: #d67d00;
-        }
-        .calendar-day.batch-4 .calendar-type {
-            background: rgba(255, 59, 48, 0.2);
-            color: #d63028;
-        }
-        .calendar-day.batch-5 .calendar-type {
-            background: rgba(191, 90, 242, 0.2);
-            color: #9d4cc7;
-        }
-        .calendar-day.batch-6 .calendar-type {
-            background: rgba(255, 45, 85, 0.2);
-            color: #d6264a;
         }
         .calendar-session-type {
             font-size: 10px;
@@ -730,35 +666,6 @@
         .calendar-list-item.class-day {
             background: rgba(0, 113, 227, 0.1);
             border-color: var(--blue);
-        }
-        /* 리스트뷰 기수별 색상 */
-        .calendar-list-item.batch-1 {
-            background: rgba(0, 113, 227, 0.1);
-            border-color: #0071e3;
-        }
-        .calendar-list-item.batch-1 .list-date {
-            background: linear-gradient(135deg, #0071e3 0%, #00a1ff 100%);
-        }
-        .calendar-list-item.batch-2 {
-            background: rgba(52, 199, 89, 0.1);
-            border-color: #34c759;
-        }
-        .calendar-list-item.batch-2 .list-date {
-            background: linear-gradient(135deg, #34c759 0%, #30d158 100%);
-        }
-        .calendar-list-item.batch-3 {
-            background: rgba(255, 149, 0, 0.1);
-            border-color: #ff9500;
-        }
-        .calendar-list-item.batch-3 .list-date {
-            background: linear-gradient(135deg, #ff9500 0%, #ffb340 100%);
-        }
-        .calendar-list-item.batch-4 {
-            background: rgba(191, 90, 242, 0.1);
-            border-color: #bf5af2;
-        }
-        .calendar-list-item.batch-4 .list-date {
-            background: linear-gradient(135deg, #bf5af2 0%, #da8fff 100%);
         }
         .list-date {
             display: flex;
@@ -1654,7 +1561,6 @@
                             <div class="list-meta">
                                 <span>${typeIcon} ${batch}기</span>
                                 ${assignment ? `<span>📋 ${assignment}</span>` : ''}
-                                ${statusText ? `<span style="color: var(--blue);">${statusText}</span>` : ''}
                             </div>
                             <div style="font-size: var(--text-xs); color: var(--text-tertiary); margin-top: 4px;">${desc}</div>
                         </div>

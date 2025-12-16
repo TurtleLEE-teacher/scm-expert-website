@@ -864,29 +864,32 @@
             border-radius: var(--radius-full);
             margin-left: var(--space-2);
         }
-        .reviews-scroll {
+        /* Infinite Scroll Animation */
+        .reviews-track-wrapper {
+            overflow: hidden;
+            position: relative;
+        }
+        .reviews-track {
             display: flex;
             gap: var(--space-4);
-            overflow-x: auto;
-            padding-bottom: var(--space-4);
-            scroll-snap-type: x mandatory;
-            -webkit-overflow-scrolling: touch;
+            animation: scroll-left 40s linear infinite;
+            width: max-content;
         }
-        .reviews-scroll::-webkit-scrollbar {
-            height: 6px;
+        .reviews-track:hover {
+            animation-play-state: paused;
         }
-        .reviews-scroll::-webkit-scrollbar-track {
-            background: var(--bg-tertiary);
-            border-radius: 3px;
+        @keyframes scroll-left {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
         }
-        .reviews-scroll::-webkit-scrollbar-thumb {
-            background: var(--border-color);
-            border-radius: 3px;
-        }
-        .reviews-scroll .review-card {
+        .reviews-track .review-card {
             flex-shrink: 0;
-            width: 300px;
-            scroll-snap-align: start;
+            width: 320px;
+        }
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-4);
         }
 
         /* Footer */
@@ -1221,7 +1224,8 @@
             <!-- 직무부트캠프 후기 -->
             <div class="reviews-category">
                 <h3 class="fade-up">직무부트캠프 후기</h3>
-                <div class="reviews-scroll">
+                <div class="reviews-track-wrapper">
+                <div class="reviews-track" id="reviewsTrack">
                     <div class="review-card fade-up">
                         <div class="review-stars">
                             <svg viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
@@ -1409,6 +1413,7 @@
                         <p>"언제든지 물어보고 싶은 것 있으면 물어보세요~ 하시고 먼저 편하게 대해주셔서 좋았습니다. 강의가 아직 저한테는 너무 어렵지만, 조금씩 성장하는 저의 모습도 볼 수 있어서 좋았습니다!"</p>
                         <span class="review-author">강OO님<span class="review-badge">2022.08</span></span>
                     </div>
+                </div>
                 </div>
             </div>
         </section>
@@ -1747,6 +1752,13 @@
 
         window.addEventListener('scroll', highlightNavOnScroll);
         highlightNavOnScroll(); // Run on page load
+
+        // Reviews Infinite Scroll - 후기 복제하여 무한 스크롤 구현
+        const reviewsTrack = document.getElementById('reviewsTrack');
+        if (reviewsTrack) {
+            const reviewCards = reviewsTrack.innerHTML;
+            reviewsTrack.innerHTML = reviewCards + reviewCards; // 복제하여 이어붙이기
+        }
     </script>
 
     <!-- Theme Toggle -->
