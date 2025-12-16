@@ -409,11 +409,13 @@
             border: 1px solid var(--border-color);
             border-radius: var(--radius-sm);
             padding: var(--space-3);
-            min-height: 80px;
+            min-height: 85px;
             transition: all var(--transition-fast);
             display: flex;
             flex-direction: column;
-            overflow: hidden;
+            align-items: flex-start;
+            justify-content: flex-start;
+            gap: 2px;
         }
         .calendar-day:hover {
             border-color: var(--blue);
@@ -472,31 +474,59 @@
         .calendar-day-number {
             font-size: var(--text-sm);
             color: var(--text-secondary);
-            margin-bottom: var(--space-1);
             flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            width: 100%;
+            justify-content: space-between;
         }
         .calendar-day.class-day .calendar-day-number {
-            color: var(--blue);
+            color: var(--text-primary);
             font-weight: var(--font-semibold);
         }
         .calendar-event {
-            font-size: var(--text-xs);
-            background: var(--blue);
-            color: #fff;
-            padding: 3px 6px;
-            border-radius: var(--radius-sm);
-            display: block;
-            margin-bottom: 2px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-width: 100%;
+            font-size: 11px;
+            font-weight: var(--font-semibold);
+            color: var(--text-primary);
+            margin-bottom: 3px;
+            line-height: 1.2;
         }
         .calendar-type {
-            font-size: 10px;
-            color: var(--text-secondary);
+            font-size: 9px;
+            background: rgba(0, 113, 227, 0.15);
+            color: var(--blue);
+            padding: 2px 6px;
+            border-radius: 10px;
             text-align: center;
             font-weight: var(--font-medium);
+            display: inline-block;
+            width: fit-content;
+            margin: 0 auto;
+        }
+        .calendar-day.batch-1 .calendar-type {
+            background: rgba(0, 113, 227, 0.2);
+            color: #0071e3;
+        }
+        .calendar-day.batch-2 .calendar-type {
+            background: rgba(52, 199, 89, 0.2);
+            color: #2d9f4e;
+        }
+        .calendar-day.batch-3 .calendar-type {
+            background: rgba(255, 149, 0, 0.2);
+            color: #d67d00;
+        }
+        .calendar-day.batch-4 .calendar-type {
+            background: rgba(255, 59, 48, 0.2);
+            color: #d63028;
+        }
+        .calendar-day.batch-5 .calendar-type {
+            background: rgba(191, 90, 242, 0.2);
+            color: #9d4cc7;
+        }
+        .calendar-day.batch-6 .calendar-type {
+            background: rgba(255, 45, 85, 0.2);
+            color: #d6264a;
         }
         .calendar-session-type {
             font-size: 10px;
@@ -563,21 +593,19 @@
                 gap: 2px;
             }
             .calendar-day {
-                padding: 4px;
-                min-height: 60px;
-                position: relative;
+                padding: 6px;
+                min-height: 70px;
+                gap: 3px;
             }
             .calendar-day-number {
                 font-size: 11px;
-                margin-bottom: 2px;
             }
             .calendar-event {
                 font-size: 10px;
-                padding: 2px 4px;
-                margin-bottom: 2px;
             }
             .calendar-type {
-                font-size: 9px;
+                font-size: 8px;
+                padding: 1px 5px;
             }
             .schedule-legend {
                 flex-direction: column;
@@ -587,18 +615,19 @@
         }
         @media (max-width: 480px) {
             .calendar-day {
-                padding: 3px;
-                min-height: 55px;
+                padding: 5px;
+                min-height: 65px;
+                gap: 2px;
             }
             .calendar-day-number {
                 font-size: 10px;
             }
             .calendar-event {
                 font-size: 9px;
-                padding: 1px 3px;
             }
             .calendar-type {
-                font-size: 8px;
+                font-size: 7px;
+                padding: 1px 4px;
             }
         }
     </style>
@@ -789,13 +818,10 @@
 
                 <div class="schedule-legend">
                     <div class="legend-item">
-                        <span class="legend-text">🟢 모집중</span>
+                        <span class="legend-text">🟢 모집중 · 🔵 진행중</span>
                     </div>
                     <div class="legend-item">
-                        <span class="legend-text">🔵 진행중</span>
-                    </div>
-                    <div class="legend-item">
-                        <span class="legend-text">강의 / 피드백</span>
+                        <span class="legend-text">색상으로 기수 구분</span>
                     </div>
                 </div>
             </div>
@@ -1051,17 +1077,16 @@
                     const batchNumber = extractBatchNumber(sessionData.name);
                     const batchClass = `batch-${batchNumber}`;
                     const isLecture = sessionData.type === 'lecture';
-                    const weekLabel = sessionData.label || `${sessionData.week}주차`;
-                    const statusBadge = sessionData.status === '모집중' ? '🟢 ' :
-                                        sessionData.status === '진행중' ? '🔵 ' : '';
-
                     const typeLabel = isLecture ? '강의' : '피드백';
-                    const tooltipText = `${sessionData.name} - ${weekLabel} (${typeLabel})${sessionData.hasAssignment ? ' · 과제 있음' : ''}`;
+                    const statusIcon = sessionData.status === '모집중' ? '🟢' :
+                                       sessionData.status === '진행중' ? '🔵' : '⚪';
+
+                    const tooltipText = `${sessionData.name} - ${sessionData.week}주차 (${typeLabel}) - ${sessionData.status}${sessionData.hasAssignment ? ' · 과제 있음' : ''}`;
 
                     calendarHTML += `
                         <div class="calendar-day class-day ${batchClass}" title="${tooltipText}">
-                            <div class="calendar-day-number">${day}</div>
-                            <div class="calendar-event">${statusBadge}${batchNumber}기 ${weekLabel}</div>
+                            <div class="calendar-day-number">${day} ${statusIcon}</div>
+                            <div class="calendar-event">${batchNumber}기 ${sessionData.week}주</div>
                             <div class="calendar-type">${typeLabel}</div>
                         </div>
                     `;
