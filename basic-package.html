@@ -336,6 +336,193 @@
             opacity: 1;
             transform: translateY(0);
         }
+
+        /* Calendar Styles */
+        .calendar-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-6);
+        }
+        .calendar-title {
+            text-align: center;
+        }
+        .calendar-month {
+            font-size: var(--text-2xl);
+            font-weight: var(--font-bold);
+            color: var(--blue);
+        }
+        .calendar-year {
+            font-size: var(--text-base);
+            color: var(--text-secondary);
+        }
+        .calendar-nav-btn {
+            width: 40px;
+            height: 40px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--text-lg);
+        }
+        .calendar-nav-btn:hover {
+            background: var(--blue);
+            color: #fff;
+            border-color: var(--blue);
+        }
+        .calendar-nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: var(--space-2);
+            margin-bottom: var(--space-6);
+        }
+        .calendar-day-header {
+            text-align: center;
+            font-size: var(--text-sm);
+            font-weight: var(--font-semibold);
+            color: var(--blue);
+            padding: var(--space-2);
+        }
+        .calendar-day {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            padding: var(--space-3);
+            min-height: 80px;
+            transition: all var(--transition-fast);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .calendar-day:hover {
+            border-color: var(--blue);
+        }
+        .calendar-day.empty {
+            background: transparent;
+            border: none;
+        }
+        .calendar-day.class-day {
+            background: rgba(0, 113, 227, 0.1);
+            border-color: var(--blue);
+        }
+        .calendar-day-number {
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+            margin-bottom: var(--space-1);
+            flex-shrink: 0;
+        }
+        .calendar-day.class-day .calendar-day-number {
+            color: var(--blue);
+            font-weight: var(--font-semibold);
+        }
+        .calendar-event {
+            font-size: var(--text-xs);
+            background: var(--blue);
+            color: #fff;
+            padding: 3px 6px;
+            border-radius: var(--radius-sm);
+            display: block;
+            margin-bottom: var(--space-1);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+        }
+        .calendar-session-type {
+            font-size: 10px;
+            color: var(--text-secondary);
+            margin-bottom: 2px;
+        }
+        .calendar-assignment {
+            font-size: 10px;
+            color: var(--blue);
+            display: block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .schedule-legend {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-8);
+            flex-wrap: wrap;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+        .legend-text {
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+        }
+        .month-tabs {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-3);
+            margin-bottom: var(--space-6);
+            flex-wrap: wrap;
+        }
+        .month-tab {
+            padding: var(--space-2) var(--space-4);
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-full);
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+        .month-tab:hover {
+            border-color: var(--blue);
+        }
+        .month-tab.active {
+            background: var(--blue);
+            color: #fff;
+            border-color: var(--blue);
+        }
+        .batch-info {
+            text-align: center;
+            font-size: var(--text-base);
+            color: var(--blue);
+            margin-bottom: var(--space-6);
+        }
+        @media (max-width: 768px) {
+            .calendar-grid {
+                gap: 2px;
+            }
+            .calendar-day {
+                padding: var(--space-2);
+                min-height: 60px;
+            }
+            .calendar-day-number {
+                font-size: var(--text-xs);
+            }
+            .calendar-event {
+                font-size: 9px;
+                padding: 1px 4px;
+            }
+            .calendar-assignment {
+                font-size: 8px;
+            }
+            .schedule-legend {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
     </style>
 </head>
 <body>
@@ -497,8 +684,48 @@
         </div>
     </section>
 
+    <!-- Schedule Section -->
+    <section class="page-section">
+        <div class="container">
+            <div class="section-header fade-up">
+                <h2>수업 일정</h2>
+                <p>모집 중인 강의 일정을 확인하세요</p>
+            </div>
+
+            <div class="month-tabs" id="monthTabs"></div>
+            <div class="batch-info" id="batchInfo">강의 일정을 불러오는 중...</div>
+
+            <div class="calendar-container fade-up">
+                <div class="calendar-header">
+                    <button class="calendar-nav-btn" id="prevMonth" onclick="navigateMonth(-1)">&lt;</button>
+                    <div class="calendar-title">
+                        <div class="calendar-month">8월</div>
+                        <div class="calendar-year">2025년</div>
+                    </div>
+                    <button class="calendar-nav-btn" id="nextMonth" onclick="navigateMonth(1)">&gt;</button>
+                </div>
+
+                <div class="calendar-grid" id="calendarGrid">
+                    <!-- Calendar will be generated by JavaScript -->
+                </div>
+
+                <div class="schedule-legend">
+                    <div class="legend-item">
+                        <span class="legend-text">📚 온라인 수업 </span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-text">📝 피드백 세션</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-text">• 과제 및 프로젝트</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Pricing Section -->
-    <section class="page-section" id="pricing">
+    <section class="page-section alt" id="pricing">
         <div class="container">
             <div class="section-header fade-up">
                 <h2>수강 신청</h2>
@@ -583,6 +810,291 @@
 
         document.querySelectorAll('.fade-up').forEach(el => {
             observer.observe(el);
+        });
+
+        // Calendar Data
+        let notionData = [];
+        let currentDisplayMonth = null;
+        let currentDisplayYear = null;
+
+        // Fetch Notion Data
+        async function fetchNotionData() {
+            try {
+                const response = await fetch('./data/schedule.json?t=' + Date.now());
+
+                if (!response.ok) {
+                    throw new Error(`Data load failed: ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                if (data.success && data.data && data.data.length > 0) {
+                    notionData = [];
+
+                    data.data.forEach(course => {
+                        if (course.schedule && course.schedule.length > 0) {
+                            notionData.push(...course.schedule);
+                        } else if (course.date) {
+                            notionData.push(course);
+                        }
+                    });
+
+                    console.log(`Notion data loaded (${notionData.length} lectures)`);
+
+                    generateMonthTabs();
+
+                    if (notionData.length > 0) {
+                        const firstCourse = notionData[0];
+                        const [year, month, day] = firstCourse.date.split('-').map(Number);
+                        const firstDate = new Date(year, month - 1, day);
+                        updateCalendar(firstDate.getMonth() + 1, firstDate.getFullYear());
+                    }
+                    return;
+                } else {
+                    throw new Error('Invalid data format');
+                }
+
+            } catch (error) {
+                console.warn('Data load failed:', error.message);
+                loadDefaultData();
+            }
+        }
+
+        // Default Data (Fallback when API/JSON fails)
+        function loadDefaultData() {
+            notionData = [
+                { "name": "SCM 기초 완성 강의 1기", "date": "2025-02-07", "type": "lecture", "week": 1, "label": "1주차 강의", "hasAssignment": true, "status": "모집중", "notionData": { "category": "SCM 기초" } },
+                { "name": "SCM 기초 완성 강의 1기", "date": "2025-02-14", "type": "assignment", "week": 2, "label": "2주차 피드백", "hasAssignment": true, "status": "모집중", "notionData": { "category": "SCM 기초" } },
+                { "name": "SCM 기초 완성 강의 1기", "date": "2025-02-21", "type": "lecture", "week": 3, "label": "3주차 강의", "hasAssignment": true, "status": "모집중", "notionData": { "category": "SCM 기초" } },
+                { "name": "SCM 기초 완성 강의 1기", "date": "2025-02-28", "type": "assignment", "week": 4, "label": "4주차 피드백", "hasAssignment": true, "status": "모집중", "notionData": { "category": "SCM 기초" } },
+                { "name": "SCM 기초 완성 강의 1기", "date": "2025-03-07", "type": "lecture", "week": 5, "label": "5주차 최종발표", "hasAssignment": false, "status": "모집중", "notionData": { "category": "SCM 기초" } }
+            ];
+
+            generateMonthTabs();
+
+            const firstCourse = notionData[0];
+            const [year, month, day] = firstCourse.date.split('-').map(Number);
+            const firstDate = new Date(year, month - 1, day);
+            updateCalendar(firstDate.getMonth() + 1, firstDate.getFullYear());
+
+            const batchInfo = document.getElementById('batchInfo');
+            if (batchInfo) {
+                batchInfo.textContent = 'SCM 기초 완성 강의 1기 - 2월 (모집중)';
+            }
+        }
+
+        // Generate Month Tabs
+        function generateMonthTabs() {
+            const monthTabs = document.getElementById('monthTabs');
+            if (!monthTabs || !notionData || notionData.length === 0) return;
+
+            const months = [...new Set(notionData.map(course => {
+                const [year, month, day] = course.date.split('-').map(Number);
+                const date = new Date(year, month - 1, day);
+                return JSON.stringify({
+                    month: date.getMonth() + 1,
+                    year: date.getFullYear(),
+                    status: course.status || '예정'
+                });
+            }))].map(item => JSON.parse(item));
+
+            months.sort((a, b) => {
+                if (a.year !== b.year) return a.year - b.year;
+                return a.month - b.month;
+            });
+
+            const monthNames = ['', '1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'];
+
+            const getStatusText = (status) => {
+                if (status.includes('완료') || status.includes('종료')) return '완료';
+                if (status.includes('진행')) return '진행중';
+                if (status.includes('모집')) return '모집중';
+                return '예정';
+            };
+
+            let tabsHTML = '';
+            months.forEach((monthInfo, index) => {
+                const isActive = index === 0 ? 'active' : '';
+                const statusText = getStatusText(monthInfo.status);
+                const currentYear = new Date().getFullYear();
+                const yearText = monthInfo.year !== currentYear ? ` ${monthInfo.year}` : '';
+
+                tabsHTML += `
+                    <div class="month-tab ${isActive}" data-month="${monthInfo.month}" data-year="${monthInfo.year}">
+                        ${monthNames[monthInfo.month]}${yearText} (${statusText})
+                    </div>
+                `;
+            });
+
+            monthTabs.innerHTML = tabsHTML;
+
+            document.querySelectorAll('.month-tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    document.querySelectorAll('.month-tab').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+
+                    const month = parseInt(this.dataset.month);
+                    const year = parseInt(this.dataset.year);
+                    updateCalendar(month, year);
+                });
+            });
+        }
+
+        // Generate Calendar
+        function generateDynamicCalendar(data, targetMonth, targetYear) {
+            const firstDay = new Date(targetYear, targetMonth - 1, 1);
+            const lastDay = new Date(targetYear, targetMonth, 0);
+            const daysInMonth = lastDay.getDate();
+            const startingDayOfWeek = firstDay.getDay();
+
+            let calendarHTML = '';
+
+            const dayHeaders = ['일', '월', '화', '수', '목', '금', '토'];
+            dayHeaders.forEach(day => {
+                calendarHTML += `<div class="calendar-day-header">${day}</div>`;
+            });
+
+            for (let i = 0; i < startingDayOfWeek; i++) {
+                calendarHTML += '<div class="calendar-day empty"></div>';
+            }
+
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dateString = `${targetYear}-${String(targetMonth).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const sessionData = data.find(item => item.date === dateString);
+
+                if (sessionData) {
+                    const isLecture = sessionData.type === 'lecture';
+                    const weekLabel = sessionData.label || `${sessionData.week}주차`;
+                    const statusBadge = sessionData.status === '모집중' ? '🟢' :
+                                        sessionData.status === '진행중' ? '🔵' : '';
+
+                    const typeIcon = isLecture ? '📚' : '📝';
+                    const typeLabel = isLecture ? '수업' : '피드백';
+
+                    const assignmentDot = sessionData.hasAssignment
+                        ? '<div class="calendar-assignment">• 과제 및 프로젝트</div>'
+                        : '';
+
+                    calendarHTML += `
+                        <div class="calendar-day class-day" title="${sessionData.name}">
+                            <div class="calendar-day-number">${day}</div>
+                            <div class="calendar-event">${statusBadge} ${weekLabel}</div>
+                            <div class="calendar-session-type">${typeIcon} ${typeLabel}</div>
+                            ${assignmentDot}
+                        </div>
+                    `;
+                } else {
+                    calendarHTML += `
+                        <div class="calendar-day">
+                            <div class="calendar-day-number">${day}</div>
+                        </div>
+                    `;
+                }
+            }
+
+            return calendarHTML;
+        }
+
+        // Update Calendar
+        function updateCalendar(month, year) {
+            currentDisplayMonth = month;
+            currentDisplayYear = year;
+
+            const calendarGrid = document.getElementById('calendarGrid');
+            if (!calendarGrid) return;
+
+            const monthData = notionData.filter(item => {
+                const [itemYear, itemMonth, itemDay] = item.date.split('-').map(Number);
+                const itemDate = new Date(itemYear, itemMonth - 1, itemDay);
+                return itemDate.getMonth() + 1 === month && itemDate.getFullYear() === year;
+            });
+
+            const batchInfo = document.getElementById('batchInfo');
+            if (monthData.length > 0) {
+                const courseName = monthData[0].name || monthData[0].notionData?.title || 'SCM 기초 과정';
+                const status = monthData[0].status || '준비중';
+                const monthNames = ['', '1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'];
+                const statusText = status.includes('종료') ? '완료' : status;
+                batchInfo.textContent = `${courseName} - ${monthNames[month]} (${statusText})`;
+            }
+
+            document.querySelector('.calendar-month').textContent = `${month}월`;
+            document.querySelector('.calendar-year').textContent = `${year}년`;
+
+            calendarGrid.innerHTML = generateDynamicCalendar(monthData, month, year);
+
+            updateNavigationButtons();
+        }
+
+        // Navigate Month
+        window.navigateMonth = function(direction) {
+            if (!currentDisplayMonth || !currentDisplayYear) return;
+
+            let newMonth = currentDisplayMonth + direction;
+            let newYear = currentDisplayYear;
+
+            if (newMonth > 12) {
+                newMonth = 1;
+                newYear++;
+            } else if (newMonth < 1) {
+                newMonth = 12;
+                newYear--;
+            }
+
+            const hasDataForMonth = notionData && notionData.some(course => {
+                const [courseYear, courseMonth, courseDay] = course.date.split('-').map(Number);
+                const courseDate = new Date(courseYear, courseMonth - 1, courseDay);
+                return courseDate.getMonth() + 1 === newMonth && courseDate.getFullYear() === newYear;
+            });
+
+            if (hasDataForMonth) {
+                const targetTab = document.querySelector(`.month-tab[data-month="${newMonth}"][data-year="${newYear}"]`);
+                if (targetTab) {
+                    document.querySelectorAll('.month-tab').forEach(tab => tab.classList.remove('active'));
+                    targetTab.classList.add('active');
+                    updateCalendar(newMonth, newYear);
+                }
+            }
+        };
+
+        // Update Navigation Buttons
+        window.updateNavigationButtons = function() {
+            const prevBtn = document.getElementById('prevMonth');
+            const nextBtn = document.getElementById('nextMonth');
+
+            if (!prevBtn || !nextBtn || !notionData) return;
+
+            const hasPrevData = notionData.some(course => {
+                const [courseYear, courseMonth, courseDay] = course.date.split('-').map(Number);
+                const courseDate = new Date(courseYear, courseMonth - 1, courseDay);
+                let prevMonth = currentDisplayMonth - 1;
+                let prevYear = currentDisplayYear;
+                if (prevMonth < 1) {
+                    prevMonth = 12;
+                    prevYear--;
+                }
+                return courseDate.getMonth() + 1 === prevMonth && courseDate.getFullYear() === prevYear;
+            });
+
+            const hasNextData = notionData.some(course => {
+                const [courseYear, courseMonth, courseDay] = course.date.split('-').map(Number);
+                const courseDate = new Date(courseYear, courseMonth - 1, courseDay);
+                let nextMonth = currentDisplayMonth + 1;
+                let nextYear = currentDisplayYear;
+                if (nextMonth > 12) {
+                    nextMonth = 1;
+                    nextYear++;
+                }
+                return courseDate.getMonth() + 1 === nextMonth && courseDate.getFullYear() === nextYear;
+            });
+
+            prevBtn.disabled = !hasPrevData;
+            nextBtn.disabled = !hasNextData;
+        };
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchNotionData();
         });
 
         // Theme Toggle
