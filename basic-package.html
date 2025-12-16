@@ -75,6 +75,7 @@
             line-height: 1.1;
             margin-bottom: var(--space-6);
             max-width: 800px;
+            color: var(--text-primary);
         }
         .hero-subtitle {
             font-size: clamp(1rem, 2.5vw, 1.25rem);
@@ -643,7 +644,7 @@
         <h1 class="hero-title fade-up">기본 패키지</h1>
         <p class="hero-subtitle fade-up">
             SCM 직무 5주 캠프 + 자소서 완성 + 면접 준비<br>
-            직무 지식부터 취업 성공까지 한 번에 해결하세요
+            직무 능력부터 커리어 준비까지 한 번에 완성하세요
         </p>
         <a href="#pricing" class="btn btn-primary btn-lg fade-up">지금 신청하기</a>
     </section>
@@ -800,32 +801,6 @@
                         <span class="legend-text">• 과제 및 프로젝트</span>
                     </div>
                 </div>
-                <div class="schedule-legend" style="margin-top: var(--space-4); padding-top: var(--space-4); border-top: 1px solid var(--border-color);">
-                    <div class="legend-item">
-                        <span style="display: inline-block; width: 16px; height: 16px; background: linear-gradient(135deg, #0071e3 0%, #00a1ff 100%); border-radius: 3px; margin-right: 6px;"></span>
-                        <span class="legend-text">1기</span>
-                    </div>
-                    <div class="legend-item">
-                        <span style="display: inline-block; width: 16px; height: 16px; background: linear-gradient(135deg, #34c759 0%, #30d158 100%); border-radius: 3px; margin-right: 6px;"></span>
-                        <span class="legend-text">2기</span>
-                    </div>
-                    <div class="legend-item">
-                        <span style="display: inline-block; width: 16px; height: 16px; background: linear-gradient(135deg, #ff9500 0%, #ffb340 100%); border-radius: 3px; margin-right: 6px;"></span>
-                        <span class="legend-text">3기</span>
-                    </div>
-                    <div class="legend-item">
-                        <span style="display: inline-block; width: 16px; height: 16px; background: linear-gradient(135deg, #ff3b30 0%, #ff6961 100%); border-radius: 3px; margin-right: 6px;"></span>
-                        <span class="legend-text">4기</span>
-                    </div>
-                    <div class="legend-item">
-                        <span style="display: inline-block; width: 16px; height: 16px; background: linear-gradient(135deg, #bf5af2 0%, #da8fff 100%); border-radius: 3px; margin-right: 6px;"></span>
-                        <span class="legend-text">5기</span>
-                    </div>
-                    <div class="legend-item">
-                        <span style="display: inline-block; width: 16px; height: 16px; background: linear-gradient(135deg, #ff2d55 0%, #ff6482 100%); border-radius: 3px; margin-right: 6px;"></span>
-                        <span class="legend-text">6기</span>
-                    </div>
-                </div>
             </div>
         </div>
     </section>
@@ -835,7 +810,7 @@
         <div class="container">
             <div class="section-header fade-up">
                 <h2>수강 신청</h2>
-                <p>지금 신청하고 취업 성공의 기회를 잡으세요</p>
+                <p>지금 신청하고 커리어 역량을 강화하세요</p>
             </div>
 
             <div class="price-card fade-up">
@@ -890,7 +865,7 @@
     <!-- CTA Section -->
     <section class="cta-section">
         <h2 class="fade-up">지금이 시작할 때입니다</h2>
-        <p class="fade-up">직무 지식부터 취업 성공까지, 한 번에 해결하세요</p>
+        <p class="fade-up">직무 능력부터 커리어 준비까지, 한 번에 완성하세요</p>
         <a href="#pricing" class="btn btn-primary btn-lg fade-up">지금 신청하기</a>
     </section>
 
@@ -1095,7 +1070,7 @@
                     calendarHTML += `
                         <div class="calendar-day class-day ${batchClass}" title="${tooltipText}">
                             <div class="calendar-day-number">${day}</div>
-                            <div class="calendar-event">${statusBadge} ${weekLabel}</div>
+                            <div class="calendar-event">${statusBadge} ${batchNumber}기 ${weekLabel}</div>
                             <div class="calendar-session-type">${typeIcon}<span class="type-label"> ${typeLabel}</span></div>
                             ${assignmentDot}
                         </div>
