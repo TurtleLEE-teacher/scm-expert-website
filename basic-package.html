@@ -668,6 +668,111 @@
             color: var(--blue);
             margin-bottom: var(--space-6);
         }
+        /* View Toggle Button */
+        .view-toggle {
+            display: flex;
+            gap: var(--space-2);
+            margin-bottom: var(--space-4);
+            justify-content: center;
+        }
+        .view-toggle-btn {
+            padding: var(--space-2) var(--space-4);
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+        .view-toggle-btn:hover {
+            border-color: var(--blue);
+        }
+        .view-toggle-btn.active {
+            background: var(--blue);
+            color: #fff;
+            border-color: var(--blue);
+        }
+        .view-toggle-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Calendar List View */
+        .calendar-list {
+            display: none;
+            flex-direction: column;
+            gap: var(--space-3);
+            margin-bottom: var(--space-6);
+        }
+        .calendar-list.active {
+            display: flex;
+        }
+        .calendar-grid.hidden {
+            display: none;
+        }
+        .calendar-list-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-4);
+            padding: var(--space-4);
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            transition: all var(--transition-fast);
+        }
+        .calendar-list-item:hover {
+            border-color: var(--blue);
+        }
+        .calendar-list-item.class-day {
+            background: rgba(0, 113, 227, 0.1);
+            border-color: var(--blue);
+        }
+        .list-date {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-width: 60px;
+            padding: var(--space-2) var(--space-3);
+            background: var(--blue);
+            border-radius: var(--radius-md);
+            color: #fff;
+        }
+        .list-day {
+            font-size: var(--text-2xl);
+            font-weight: var(--font-bold);
+            line-height: 1;
+        }
+        .list-weekday {
+            font-size: var(--text-xs);
+            opacity: 0.9;
+        }
+        .list-content {
+            flex: 1;
+        }
+        .list-title {
+            font-size: var(--text-base);
+            font-weight: var(--font-semibold);
+            color: var(--text-primary);
+            margin-bottom: var(--space-1);
+        }
+        .list-meta {
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+            display: flex;
+            gap: var(--space-3);
+            flex-wrap: wrap;
+        }
+        .list-meta span {
+            display: flex;
+            align-items: center;
+            gap: var(--space-1);
+        }
+
         /* Mobile optimizations */
         @media (max-width: 768px) {
             .calendar-grid {
@@ -692,6 +797,13 @@
                 flex-direction: column;
                 align-items: center;
                 gap: var(--space-3);
+            }
+            /* Auto-switch to list view on mobile */
+            .calendar-grid:not(.force-grid) {
+                display: none;
+            }
+            .calendar-list {
+                display: flex;
             }
         }
         @media (max-width: 480px) {
@@ -900,8 +1012,36 @@
                     <button class="calendar-nav-btn" id="nextMonth" onclick="navigateMonth(1)">&gt;</button>
                 </div>
 
+                <!-- View Toggle -->
+                <div class="view-toggle">
+                    <button class="view-toggle-btn" id="gridViewBtn" onclick="setCalendarView('grid')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="3" width="7" height="7"></rect>
+                            <rect x="3" y="14" width="7" height="7"></rect>
+                            <rect x="14" y="14" width="7" height="7"></rect>
+                        </svg>
+                        달력
+                    </button>
+                    <button class="view-toggle-btn active" id="listViewBtn" onclick="setCalendarView('list')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="8" y1="6" x2="21" y2="6"></line>
+                            <line x1="8" y1="12" x2="21" y2="12"></line>
+                            <line x1="8" y1="18" x2="21" y2="18"></line>
+                            <circle cx="4" cy="6" r="1.5" fill="currentColor"></circle>
+                            <circle cx="4" cy="12" r="1.5" fill="currentColor"></circle>
+                            <circle cx="4" cy="18" r="1.5" fill="currentColor"></circle>
+                        </svg>
+                        리스트
+                    </button>
+                </div>
+
                 <div class="calendar-grid" id="calendarGrid">
                     <!-- Calendar will be generated by JavaScript -->
+                </div>
+
+                <div class="calendar-list" id="calendarList">
+                    <!-- List view will be generated by JavaScript -->
                 </div>
 
                 <div class="schedule-legend">
@@ -1414,9 +1554,104 @@
             nextBtn.disabled = !hasNextData;
         };
 
+        // Calendar View State
+        let currentView = 'list';
+
+        // Generate List View
+        function generateListView(data, targetMonth, targetYear) {
+            const weekdays = ['일', '월', '화', '수', '목', '금', '토'];
+            let listHTML = '';
+
+            const sortedData = [...data].sort((a, b) => new Date(a.date) - new Date(b.date));
+
+            sortedData.forEach(item => {
+                const [year, month, day] = item.date.split('-').map(Number);
+                const date = new Date(year, month - 1, day);
+                const weekday = weekdays[date.getDay()];
+
+                const isLecture = item.type === 'lecture';
+                const typeIcon = isLecture ? '📚' : '📝';
+                const typeLabel = isLecture ? '온라인 수업' : '피드백 세션';
+                const weekLabel = item.label || `${item.week}주차`;
+                const statusText = item.status || '';
+                const batchClass = item.batch ? `batch-${item.batch}` : '';
+
+                listHTML += `
+                    <div class="calendar-list-item class-day ${batchClass}">
+                        <div class="list-date">
+                            <span class="list-day">${day}</span>
+                            <span class="list-weekday">${weekday}</span>
+                        </div>
+                        <div class="list-content">
+                            <div class="list-title">${weekLabel} ${typeLabel}</div>
+                            <div class="list-meta">
+                                <span>${typeIcon} ${item.name || 'SCM 강의'}</span>
+                                ${item.hasAssignment ? '<span>📋 과제 포함</span>' : ''}
+                                ${statusText ? `<span style="color: var(--blue);">${statusText}</span>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            if (listHTML === '') {
+                listHTML = '<div class="calendar-list-item" style="justify-content: center; color: var(--text-secondary);">이번 달에는 강의 일정이 없습니다.</div>';
+            }
+
+            return listHTML;
+        }
+
+        // Set Calendar View
+        window.setCalendarView = function(view) {
+            currentView = view;
+            const calendarGrid = document.getElementById('calendarGrid');
+            const calendarList = document.getElementById('calendarList');
+            const gridBtn = document.getElementById('gridViewBtn');
+            const listBtn = document.getElementById('listViewBtn');
+
+            if (view === 'grid') {
+                calendarGrid.classList.remove('hidden');
+                calendarGrid.classList.add('force-grid');
+                calendarList.classList.remove('active');
+                gridBtn.classList.add('active');
+                listBtn.classList.remove('active');
+            } else {
+                calendarGrid.classList.add('hidden');
+                calendarGrid.classList.remove('force-grid');
+                calendarList.classList.add('active');
+                gridBtn.classList.remove('active');
+                listBtn.classList.add('active');
+            }
+
+            localStorage.setItem('calendarView', view);
+        };
+
+        // Override updateCalendar to also update list view
+        const originalUpdateCalendar = updateCalendar;
+        updateCalendar = function(month, year) {
+            originalUpdateCalendar(month, year);
+
+            const calendarList = document.getElementById('calendarList');
+            if (calendarList) {
+                const monthData = notionData.filter(item => {
+                    const [itemYear, itemMonth] = item.date.split('-').map(Number);
+                    return itemMonth === month && itemYear === year;
+                });
+                calendarList.innerHTML = generateListView(monthData, month, year);
+            }
+        };
+
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
             fetchNotionData();
+
+            const savedView = localStorage.getItem('calendarView');
+            const isMobile = window.innerWidth <= 768;
+            if (savedView) {
+                setCalendarView(savedView);
+            } else if (isMobile) {
+                setCalendarView('list');
+            }
         });
 
         // Theme Toggle
