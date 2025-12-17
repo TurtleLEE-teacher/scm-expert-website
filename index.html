@@ -868,12 +868,14 @@
         .reviews-track-wrapper {
             overflow: hidden;
             position: relative;
+            width: 100%;
         }
         .reviews-track {
             display: flex;
             gap: var(--space-4);
-            animation: scroll-left 40s linear infinite;
             width: max-content;
+            animation: scroll-left 30s linear infinite;
+            will-change: transform;
         }
         .reviews-track:hover {
             animation-play-state: paused;
@@ -885,6 +887,11 @@
         .reviews-track .review-card {
             flex-shrink: 0;
             width: 320px;
+            box-sizing: border-box;
+            transition: border-color var(--transition-base);
+        }
+        .reviews-track .review-card:hover {
+            transform: none;
         }
         .reviews-grid {
             display: grid;
@@ -1754,12 +1761,31 @@
         highlightNavOnScroll(); // Run on page load
 
         // Reviews Infinite Scroll - 후기 복제하여 무한 스크롤 구현
-        const reviewsTrack = document.getElementById('reviewsTrack');
-        if (reviewsTrack) {
-            const reviewCards = reviewsTrack.innerHTML;
-            reviewsTrack.innerHTML = reviewCards + reviewCards; // 복제하여 이어붙이기
-            // 복제된 카드에도 visible 클래스 추가 (fade-up 애니메이션 완료 처리)
-            reviewsTrack.querySelectorAll('.fade-up').forEach(el => el.classList.add('visible'));
+        function initReviewsScroll() {
+            const reviewsTrack = document.getElementById('reviewsTrack');
+            if (reviewsTrack && !reviewsTrack.dataset.initialized) {
+                // 카드 복제하여 무한 스크롤 효과 생성
+                const originalCards = reviewsTrack.innerHTML;
+                reviewsTrack.innerHTML = originalCards + originalCards;
+
+                // 모든 카드에 visible 클래스 추가 (fade-up 애니메이션 완료 처리)
+                reviewsTrack.querySelectorAll('.fade-up').forEach(el => el.classList.add('visible'));
+
+                // 초기화 완료 표시
+                reviewsTrack.dataset.initialized = 'true';
+
+                // 애니메이션 강제 시작 (브라우저 렌더링 최적화)
+                reviewsTrack.style.animation = 'none';
+                reviewsTrack.offsetHeight; // 리플로우 트리거
+                reviewsTrack.style.animation = '';
+            }
+        }
+
+        // DOM 로드 후 실행
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initReviewsScroll);
+        } else {
+            initReviewsScroll();
         }
     </script>
 
