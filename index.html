@@ -1758,6 +1758,8 @@
         if (reviewsTrack) {
             const reviewCards = reviewsTrack.innerHTML;
             reviewsTrack.innerHTML = reviewCards + reviewCards; // 복제하여 이어붙이기
+            // 복제된 카드에도 visible 클래스 추가 (fade-up 애니메이션 완료 처리)
+            reviewsTrack.querySelectorAll('.fade-up').forEach(el => el.classList.add('visible'));
         }
     </script>
 

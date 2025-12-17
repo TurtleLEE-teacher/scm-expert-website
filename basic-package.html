@@ -509,6 +509,49 @@
             background: rgba(0, 113, 227, 0.1);
             border-color: var(--blue);
         }
+        /* Batch-specific colors */
+        .calendar-day.batch-1 {
+            background: rgba(0, 113, 227, 0.12);
+            border-color: #0071e3;
+        }
+        .calendar-day.batch-1 .calendar-event {
+            background: linear-gradient(135deg, #0071e3 0%, #00a1ff 100%);
+        }
+        .calendar-day.batch-2 {
+            background: rgba(52, 199, 89, 0.12);
+            border-color: #34c759;
+        }
+        .calendar-day.batch-2 .calendar-event {
+            background: linear-gradient(135deg, #34c759 0%, #30d158 100%);
+        }
+        .calendar-day.batch-3 {
+            background: rgba(255, 149, 0, 0.12);
+            border-color: #ff9500;
+        }
+        .calendar-day.batch-3 .calendar-event {
+            background: linear-gradient(135deg, #ff9500 0%, #ffb340 100%);
+        }
+        .calendar-day.batch-4 {
+            background: rgba(255, 59, 48, 0.12);
+            border-color: #ff3b30;
+        }
+        .calendar-day.batch-4 .calendar-event {
+            background: linear-gradient(135deg, #ff3b30 0%, #ff6961 100%);
+        }
+        .calendar-day.batch-5 {
+            background: rgba(191, 90, 242, 0.12);
+            border-color: #bf5af2;
+        }
+        .calendar-day.batch-5 .calendar-event {
+            background: linear-gradient(135deg, #bf5af2 0%, #da8fff 100%);
+        }
+        .calendar-day.batch-6 {
+            background: rgba(255, 45, 85, 0.12);
+            border-color: #ff2d55;
+        }
+        .calendar-day.batch-6 .calendar-event {
+            background: linear-gradient(135deg, #ff2d55 0%, #ff6482 100%);
+        }
         .calendar-day-number {
             font-size: var(--text-sm);
             color: var(--text-secondary);
@@ -734,13 +777,6 @@
                 align-items: center;
                 gap: var(--space-3);
             }
-            /* Auto-switch to list view on mobile */
-            .calendar-grid:not(.force-grid) {
-                display: none;
-            }
-            .calendar-list {
-                display: flex;
-            }
         }
         @media (max-width: 480px) {
             .calendar-day {
@@ -950,7 +986,7 @@
 
                 <!-- View Toggle -->
                 <div class="view-toggle">
-                    <button class="view-toggle-btn" id="gridViewBtn" onclick="setCalendarView('grid')">
+                    <button class="view-toggle-btn active" id="gridViewBtn" onclick="setCalendarView('grid')">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <rect x="3" y="3" width="7" height="7"></rect>
                             <rect x="14" y="3" width="7" height="7"></rect>
@@ -959,7 +995,7 @@
                         </svg>
                         달력
                     </button>
-                    <button class="view-toggle-btn active" id="listViewBtn" onclick="setCalendarView('list')">
+                    <button class="view-toggle-btn" id="listViewBtn" onclick="setCalendarView('list')">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <line x1="8" y1="6" x2="21" y2="6"></line>
                             <line x1="8" y1="12" x2="21" y2="12"></line>
@@ -983,9 +1019,6 @@
                 <div class="schedule-legend">
                     <div class="legend-item">
                         <span class="legend-text">🟢 모집중 · 🔵 진행중</span>
-                    </div>
-                    <div class="legend-item">
-                        <span class="legend-text">색상으로 기수 구분</span>
                     </div>
                 </div>
             </div>
@@ -1491,7 +1524,7 @@
         };
 
         // Calendar View State
-        let currentView = 'list';
+        let currentView = 'grid'; // Default to grid (calendar) view
 
         // 주차별 실제 커리큘럼 내용
         const weeklyContent = {
@@ -1619,12 +1652,12 @@
         document.addEventListener('DOMContentLoaded', () => {
             fetchNotionData();
 
+            // Restore saved view preference (default to grid/calendar)
             const savedView = localStorage.getItem('calendarView');
-            const isMobile = window.innerWidth <= 768;
             if (savedView) {
                 setCalendarView(savedView);
-            } else if (isMobile) {
-                setCalendarView('list');
+            } else {
+                setCalendarView('grid');
             }
         });
 
