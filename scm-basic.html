@@ -1032,21 +1032,9 @@
                 flex-direction: column;
                 align-items: center;
             }
-            /* Auto-switch to list view on mobile */
-            .calendar-grid:not(.force-grid) {
-                display: none;
-            }
-            .calendar-list {
-                display: flex;
-            }
-            .view-toggle {
-                display: flex;
-            }
         }
-        @media (min-width: 769px) {
-            .view-toggle {
-                display: flex;
-            }
+        .view-toggle {
+            display: flex;
         }
 
         /* Contact Modal */
@@ -1511,7 +1499,7 @@
 
                 <!-- View Toggle -->
                 <div class="view-toggle">
-                    <button class="view-toggle-btn" id="gridViewBtn" onclick="setCalendarView('grid')">
+                    <button class="view-toggle-btn active" id="gridViewBtn" onclick="setCalendarView('grid')">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <rect x="3" y="3" width="7" height="7"></rect>
                             <rect x="14" y="3" width="7" height="7"></rect>
@@ -1520,7 +1508,7 @@
                         </svg>
                         달력
                     </button>
-                    <button class="view-toggle-btn active" id="listViewBtn" onclick="setCalendarView('list')">
+                    <button class="view-toggle-btn" id="listViewBtn" onclick="setCalendarView('list')">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <line x1="8" y1="6" x2="21" y2="6"></line>
                             <line x1="8" y1="12" x2="21" y2="12"></line>
@@ -2170,7 +2158,7 @@
         };
 
         // Calendar View State
-        let currentView = 'list'; // Default to list view (better for mobile)
+        let currentView = 'grid'; // Default to grid (calendar) view
 
         // 주차별 실제 커리큘럼 내용
         const weeklyContent = {
@@ -2301,13 +2289,12 @@
         document.addEventListener('DOMContentLoaded', () => {
             fetchNotionData();
 
-            // Restore saved view preference (default to list on mobile)
+            // Restore saved view preference (default to grid/calendar)
             const savedView = localStorage.getItem('calendarView');
-            const isMobile = window.innerWidth <= 768;
             if (savedView) {
                 setCalendarView(savedView);
-            } else if (isMobile) {
-                setCalendarView('list');
+            } else {
+                setCalendarView('grid');
             }
         });
     </script>
