@@ -580,34 +580,37 @@ h1, h2, h3, h4, h5, h6 {
     top: var(--header-height);
     left: 0;
     right: 0;
-    bottom: 0;
+    bottom: auto;
     background-color: var(--bg-primary);
-    padding: var(--space-6) var(--space-4);
+    padding: var(--space-2) 0;
     gap: 0;
     z-index: var(--z-fixed);
-    overflow-y: auto;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    border-bottom: 1px solid var(--border-color);
   }
 
   .nav-menu.active .nav-link {
     display: block;
-    padding: var(--space-4) var(--space-4);
-    font-size: var(--text-xl);
+    padding: var(--space-3) var(--space-6);
+    font-size: var(--text-base);
     font-weight: var(--font-medium);
     border-bottom: 1px solid var(--border-color-light);
     opacity: 1;
+    color: var(--text-primary);
   }
 
   .nav-menu.active .nav-link:last-child {
     border-bottom: none;
   }
 
-  .nav-menu.active .nav-link:active {
+  .nav-menu.active .nav-link:active,
+  .nav-menu.active .nav-link:hover {
     background-color: var(--bg-secondary);
+    color: var(--blue);
   }
 
   .nav-link {
-    font-size: var(--text-lg);
+    font-size: var(--text-base);
   }
 }
 

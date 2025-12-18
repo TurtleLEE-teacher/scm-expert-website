@@ -240,6 +240,123 @@
             justify-content: center;
         }
 
+        /* Differentiation Section */
+        .diff-section {
+            padding: var(--space-20) var(--space-6);
+            background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+        }
+        .diff-header {
+            text-align: center;
+            margin-bottom: var(--space-12);
+        }
+        .diff-header h2 {
+            font-size: var(--text-3xl);
+            font-weight: var(--font-bold);
+            margin-bottom: var(--space-4);
+        }
+        .diff-header p {
+            font-size: var(--text-lg);
+            color: var(--text-secondary);
+            line-height: var(--leading-relaxed);
+        }
+        .diff-header strong {
+            color: var(--blue);
+        }
+        .diff-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-6);
+            max-width: 1000px;
+            margin: 0 auto var(--space-12);
+        }
+        @media (max-width: 768px) {
+            .diff-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .diff-card {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: var(--space-6);
+            text-align: center;
+        }
+        .diff-icon {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto var(--space-4);
+        }
+        .diff-icon svg {
+            width: 100%;
+            height: 100%;
+            stroke: var(--blue);
+        }
+        .diff-card h3 {
+            font-size: var(--text-xl);
+            font-weight: var(--font-bold);
+            margin-bottom: var(--space-4);
+            color: var(--blue);
+        }
+        .diff-compare {
+            font-size: var(--text-sm);
+            color: var(--text-tertiary);
+            margin-bottom: var(--space-2);
+            text-decoration: line-through;
+        }
+        .diff-ours {
+            font-size: var(--text-sm);
+            color: var(--text-primary);
+            font-weight: var(--font-medium);
+        }
+        .diff-process {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+            padding: var(--space-8);
+            background: var(--bg-tertiary);
+            border: 2px solid var(--blue);
+            border-radius: var(--radius-lg);
+        }
+        .diff-process-title {
+            font-size: var(--text-lg);
+            font-weight: var(--font-bold);
+            color: var(--blue);
+            margin-bottom: var(--space-4);
+        }
+        .diff-process-steps {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: var(--space-2);
+            margin-bottom: var(--space-4);
+        }
+        .diff-step {
+            background: var(--blue);
+            color: white;
+            padding: var(--space-2) var(--space-4);
+            border-radius: var(--radius-full);
+            font-size: var(--text-sm);
+            font-weight: var(--font-medium);
+        }
+        .diff-arrow {
+            color: var(--blue);
+            font-weight: var(--font-bold);
+        }
+        .diff-process-note {
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+        @media (max-width: 768px) {
+            .diff-process-steps {
+                flex-direction: column;
+            }
+            .diff-arrow {
+                transform: rotate(90deg);
+            }
+        }
+
         /* Pain Points Section */
         .pain-section {
             padding: var(--space-24) var(--space-6);
@@ -1010,6 +1127,70 @@
             </div>
         </section>
 
+        <!-- Differentiation Section -->
+        <section class="diff-section">
+            <div class="diff-header">
+                <h2 class="fade-up">다른 프로그램과 무엇이 다른가요?</h2>
+                <p class="fade-up">직무강의만? 취업컨설팅만? NO!<br>처음부터 끝까지 함께하는 <strong>통합 커리어 설계</strong>입니다</p>
+            </div>
+            <div class="diff-grid">
+                <div class="diff-card fade-up">
+                    <div class="diff-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                            <path d="M2 17l10 5 10-5"/>
+                            <path d="M2 12l10 5 10-5"/>
+                        </svg>
+                    </div>
+                    <h3>통합 과정</h3>
+                    <p class="diff-compare">타사: 직무교육 따로, 취업컨설팅 따로</p>
+                    <p class="diff-ours">우리: 커리어 방향 설정 → 직무 학습 → 포트폴리오 → Resume까지 원스톱</p>
+                </div>
+                <div class="diff-card fade-up">
+                    <div class="diff-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <polyline points="14 2 14 8 20 8"/>
+                            <line x1="16" y1="13" x2="8" y2="13"/>
+                            <line x1="16" y1="17" x2="8" y2="17"/>
+                            <polyline points="10 9 9 9 8 9"/>
+                        </svg>
+                    </div>
+                    <h3>커리어 포트폴리오</h3>
+                    <p class="diff-compare">타사: 단순 직무지식 전달에 그침</p>
+                    <p class="diff-ours">우리: 직무 이해도 기반 포트폴리오 + Resume 방향성까지 정리</p>
+                </div>
+                <div class="diff-card fade-up">
+                    <div class="diff-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                        </svg>
+                    </div>
+                    <h3>5명 소수정예</h3>
+                    <p class="diff-compare">타사: 대규모 강의, 개인별 케어 불가</p>
+                    <p class="diff-ours">우리: 기수당 최대 5명, 시작부터 끝까지 같은 멤버와 밀착 케어</p>
+                </div>
+            </div>
+            <div class="diff-process fade-up">
+                <div class="diff-process-title">우리만의 프로세스</div>
+                <div class="diff-process-steps">
+                    <span class="diff-step">커리어 니즈 파악</span>
+                    <span class="diff-arrow">→</span>
+                    <span class="diff-step">방향성 설정</span>
+                    <span class="diff-arrow">→</span>
+                    <span class="diff-step">직무강의 Align</span>
+                    <span class="diff-arrow">→</span>
+                    <span class="diff-step">포트폴리오 구성</span>
+                    <span class="diff-arrow">→</span>
+                    <span class="diff-step">Resume 방향 제시</span>
+                </div>
+                <p class="diff-process-note">* 직무강의가 끝나고 컨설팅하는 것이 아니라, 처음부터 방향을 잡고 함께 만들어갑니다</p>
+            </div>
+        </section>
+
         <!-- Pain Points Section -->
         <section id="pain" class="pain-section">
             <div class="pain-grid">
@@ -1110,7 +1291,7 @@
                         <li>직무 5주 캠프 (기초)</li>
                         <li>자소서 완성 2회</li>
                         <li>면접 준비 1회</li>
-                        <li>포트폴리오 + 수료증</li>
+                        <li>커리어 포트폴리오</li>
                     </ul>
                     <div style="margin: var(--space-4) 0; padding: var(--space-3) var(--space-4); background: rgba(0, 113, 227, 0.1); border-radius: var(--radius-md); text-align: center;">
                         <div style="font-size: var(--text-2xl); font-weight: var(--font-bold); color: var(--blue);">300,000원</div>
