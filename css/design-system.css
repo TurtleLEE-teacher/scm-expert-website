@@ -582,10 +582,28 @@ h1, h2, h3, h4, h5, h6 {
     right: 0;
     bottom: 0;
     background-color: var(--bg-primary);
-    padding: var(--space-8);
-    gap: var(--space-6);
+    padding: var(--space-6) var(--space-4);
+    gap: 0;
     z-index: var(--z-fixed);
     overflow-y: auto;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  }
+
+  .nav-menu.active .nav-link {
+    display: block;
+    padding: var(--space-4) var(--space-4);
+    font-size: var(--text-xl);
+    font-weight: var(--font-medium);
+    border-bottom: 1px solid var(--border-color-light);
+    opacity: 1;
+  }
+
+  .nav-menu.active .nav-link:last-child {
+    border-bottom: none;
+  }
+
+  .nav-menu.active .nav-link:active {
+    background-color: var(--bg-secondary);
   }
 
   .nav-link {
