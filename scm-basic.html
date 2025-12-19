@@ -812,34 +812,53 @@
             background: rgba(0, 113, 227, 0.1);
             border-color: var(--blue);
         }
-        /* Status-specific colors */
-        .calendar-day.status-준비중 {
-            background: rgba(142, 142, 147, 0.12);
-            border-color: #8e8e93;
-        }
-        .calendar-day.status-준비중 .calendar-event {
-            background: linear-gradient(135deg, #8e8e93 0%, #aeaeb2 100%);
-        }
-        .calendar-day.status-모집중 {
-            background: rgba(52, 199, 89, 0.12);
-            border-color: #34c759;
-        }
-        .calendar-day.status-모집중 .calendar-event {
-            background: linear-gradient(135deg, #34c759 0%, #30d158 100%);
-        }
-        .calendar-day.status-진행중 {
+        /* Batch-specific colors (기수별 색상) */
+        .calendar-day.batch-1 {
             background: rgba(0, 113, 227, 0.12);
             border-color: #0071e3;
         }
-        .calendar-day.status-진행중 .calendar-event {
+        .calendar-day.batch-1 .calendar-event {
             background: linear-gradient(135deg, #0071e3 0%, #00a1ff 100%);
         }
-        .calendar-day.status-종료 {
-            background: rgba(174, 174, 178, 0.08);
-            border-color: #aeaeb2;
+        .calendar-day.batch-2 {
+            background: rgba(52, 199, 89, 0.12);
+            border-color: #34c759;
         }
-        .calendar-day.status-종료 .calendar-event {
-            background: linear-gradient(135deg, #aeaeb2 0%, #c7c7cc 100%);
+        .calendar-day.batch-2 .calendar-event {
+            background: linear-gradient(135deg, #34c759 0%, #30d158 100%);
+        }
+        .calendar-day.batch-3 {
+            background: rgba(255, 149, 0, 0.12);
+            border-color: #ff9500;
+        }
+        .calendar-day.batch-3 .calendar-event {
+            background: linear-gradient(135deg, #ff9500 0%, #ffb340 100%);
+        }
+        .calendar-day.batch-4 {
+            background: rgba(175, 82, 222, 0.12);
+            border-color: #af52de;
+        }
+        .calendar-day.batch-4 .calendar-event {
+            background: linear-gradient(135deg, #af52de 0%, #da8fff 100%);
+        }
+        .calendar-day.batch-5 {
+            background: rgba(255, 45, 85, 0.12);
+            border-color: #ff2d55;
+        }
+        .calendar-day.batch-5 .calendar-event {
+            background: linear-gradient(135deg, #ff2d55 0%, #ff6482 100%);
+        }
+        .calendar-day.batch-6 {
+            background: rgba(90, 200, 250, 0.12);
+            border-color: #5ac8fa;
+        }
+        .calendar-day.batch-6 .calendar-event {
+            background: linear-gradient(135deg, #5ac8fa 0%, #70d7ff 100%);
+        }
+        /* Status icon badge */
+        .status-badge {
+            font-size: 10px;
+            margin-left: auto;
         }
         .calendar-day-number {
             font-size: var(--text-sm);
@@ -879,8 +898,14 @@
         }
         .schedule-legend {
             display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-4);
+        }
+        .legend-section {
+            display: flex;
             justify-content: center;
-            gap: var(--space-8);
+            gap: var(--space-6);
             flex-wrap: wrap;
         }
         .legend-item {
@@ -889,7 +914,7 @@
             gap: var(--space-2);
         }
         .legend-color {
-            width: 16px;
+            width: 14px;
             height: 16px;
             border-radius: var(--radius-sm);
         }
@@ -2022,37 +2047,75 @@
             });
         }
 
-        // 상태별 아이콘 및 색상 매핑
+        // 상태별 아이콘 매핑
         const statusConfig = {
-            '준비중': { icon: '⚪', color: '#8e8e93', label: '준비중' },
-            '모집중': { icon: '🟢', color: '#34c759', label: '모집중' },
-            '진행중': { icon: '🔵', color: '#0071e3', label: '진행중' },
-            '종료': { icon: '⚫', color: '#aeaeb2', label: '종료' }
+            '준비중': { icon: '⚪', label: '준비중' },
+            '모집중': { icon: '🟢', label: '모집중' },
+            '진행중': { icon: '🔵', label: '진행중' },
+            '종료': { icon: '⚫', label: '종료' }
         };
 
-        // 동적 범례 생성
+        // 기수별 색상 매핑
+        const batchConfig = {
+            1: { color: '#0071e3', label: '1기' },
+            2: { color: '#34c759', label: '2기' },
+            3: { color: '#ff9500', label: '3기' },
+            4: { color: '#af52de', label: '4기' },
+            5: { color: '#ff2d55', label: '5기' },
+            6: { color: '#5ac8fa', label: '6기' }
+        };
+
+        // 기수 추출 함수
+        function extractBatchNumber(courseName) {
+            if (!courseName) return 1;
+            const match = courseName.match(/(\d+)기/);
+            return match ? parseInt(match[1]) : 1;
+        }
+
+        // 동적 범례 생성 (기수별 색상 + 상태별 아이콘)
         function updateScheduleLegend() {
             const legendEl = document.getElementById('scheduleLegend');
             if (!legendEl || !notionData || notionData.length === 0) return;
 
-            // 현재 데이터에 있는 상태들만 추출
-            const activeStatuses = [...new Set(notionData.map(item => item.status || '준비중'))];
+            // 현재 데이터에 있는 기수들 추출
+            const activeBatches = [...new Set(notionData.map(item => extractBatchNumber(item.name)))].sort((a, b) => a - b);
 
-            // 순서 정의
+            // 현재 데이터에 있는 상태들 추출
+            const activeStatuses = [...new Set(notionData.map(item => item.status || '준비중'))];
             const statusOrder = ['준비중', '모집중', '진행중', '종료'];
             const sortedStatuses = statusOrder.filter(s => activeStatuses.includes(s));
 
-            let legendHTML = '';
+            // 기수별 색상 범례
+            let batchLegendHTML = '';
+            activeBatches.forEach(batch => {
+                const config = batchConfig[batch] || { color: '#0071e3', label: `${batch}기` };
+                batchLegendHTML += `
+                    <div class="legend-item">
+                        <span class="legend-color" style="background: ${config.color}"></span>
+                        <span class="legend-text">${config.label}</span>
+                    </div>
+                `;
+            });
+
+            // 상태별 아이콘 범례
+            let statusLegendHTML = '';
             sortedStatuses.forEach(status => {
                 const config = statusConfig[status] || statusConfig['준비중'];
-                legendHTML += `
+                statusLegendHTML += `
                     <div class="legend-item">
                         <span class="legend-text">${config.icon} ${config.label}</span>
                     </div>
                 `;
             });
 
-            legendEl.innerHTML = legendHTML;
+            legendEl.innerHTML = `
+                <div class="legend-section">
+                    ${batchLegendHTML}
+                </div>
+                <div class="legend-section">
+                    ${statusLegendHTML}
+                </div>
+            `;
         }
 
         // Generate Calendar
@@ -2078,10 +2141,11 @@
                 const sessionData = data.find(item => item.date === dateString);
 
                 if (sessionData) {
-                    // 상태에 따른 스타일
+                    // 기수에 따른 스타일
+                    const batchNumber = extractBatchNumber(sessionData.name);
+                    const batchClass = `batch-${batchNumber}`;
                     const status = sessionData.status || '준비중';
-                    const statusClass = `status-${status}`;
-                    const config = statusConfig[status] || statusConfig['준비중'];
+                    const statusIcon = statusConfig[status]?.icon || '⚪';
 
                     // 세션 타입에 따른 표시
                     const isLecture = sessionData.type === 'lecture';
@@ -2097,9 +2161,9 @@
                         : '';
 
                     calendarHTML += `
-                        <div class="calendar-day class-day ${statusClass}" title="${sessionData.name} - ${status}">
-                            <div class="calendar-day-number">${day} ${config.icon}</div>
-                            <div class="calendar-event">${weekLabel}</div>
+                        <div class="calendar-day class-day ${batchClass}" title="${sessionData.name} - ${status}">
+                            <div class="calendar-day-number">${day} <span class="status-badge">${statusIcon}</span></div>
+                            <div class="calendar-event">${batchNumber}기 ${weekLabel}</div>
                             <div class="calendar-session-type">${typeIcon} ${typeLabel}</div>
                             ${assignmentDot}
                         </div>
