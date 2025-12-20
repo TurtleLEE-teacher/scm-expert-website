@@ -101,6 +101,15 @@ jobs:
           const price = props.수강료?.number || 0;
           const maxStudents = props.최대인원?.number || 20;
 
+          // 기수 번호 추출 (숫자 필드 또는 타이틀에서 추출)
+          let batch = props.기수?.number;
+          if (!batch) {
+            // 기수 필드가 없으면 기수명에서 숫자 추출
+            const batchMatch = title.match(/(\\d+)기/);
+            batch = batchMatch ? parseInt(batchMatch[1]) : (index + 1);
+          }
+          console.log(\`  기수: \${batch}\`);
+
           // 강의 날짜 추출 (강의(1), 강의(2), 강의(3))
           const lecture1 = props['강의(1)']?.date?.start;
           const lecture2 = props['강의(2)']?.date?.start;
@@ -128,7 +137,8 @@ jobs:
             status,
             description,
             price,
-            maxStudents
+            maxStudents,
+            batch
           };
 
           // 강의(1) - 1주차: 강의 + 과제
@@ -141,6 +151,7 @@ jobs:
               label: '1주차 강의',
               hasAssignment: true,
               status: status,
+              batch: batch,
               notionData: courseInfo
             });
           }
@@ -155,6 +166,7 @@ jobs:
               label: '2주차 피드백',
               hasAssignment: true,
               status: status,
+              batch: batch,
               notionData: courseInfo
             });
           }
@@ -169,6 +181,7 @@ jobs:
               label: '3주차 강의',
               hasAssignment: true,
               status: status,
+              batch: batch,
               notionData: courseInfo
             });
           }
@@ -183,6 +196,7 @@ jobs:
               label: '4주차 피드백',
               hasAssignment: true,
               status: status,
+              batch: batch,
               notionData: courseInfo
             });
           }
@@ -197,6 +211,7 @@ jobs:
               label: '5주차 최종발표',
               hasAssignment: false,
               status: status,
+              batch: batch,
               notionData: courseInfo
             });
           }
