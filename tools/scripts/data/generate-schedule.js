@@ -65,6 +65,8 @@ async function generateScheduleJSON() {
             const status = props.상태?.select?.name || '준비중';
             const startDate = props.개강일?.date?.start;
             const description = props.강의설명?.rich_text?.[0]?.text?.content || '';
+            const maxStudents = props.최대인원?.number || 10;
+            const currentStudents = props.현재등록인원?.number || 0;
 
             // 기수 번호 추출 (숫자 필드 또는 타이틀에서 추출)
             let batch = props.기수?.number;
@@ -86,6 +88,8 @@ async function generateScheduleJSON() {
                     ],
                     status: status,
                     batch: batch,
+                    maxStudents: maxStudents,
+                    currentStudents: currentStudents,
                     notionData: {
                         id: course.id,
                         title,
@@ -93,7 +97,9 @@ async function generateScheduleJSON() {
                         status,
                         startDate,
                         description,
-                        batch
+                        batch,
+                        maxStudents,
+                        currentStudents
                     }
                 });
 
