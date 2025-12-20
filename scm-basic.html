@@ -2072,6 +2072,11 @@
             return match ? parseInt(match[1]) : 1;
         }
 
+        // 기수 번호를 색상 인덱스로 변환 (7기 이상은 1~6 순환)
+        function getBatchColorIndex(batchNumber) {
+            return ((batchNumber - 1) % 6) + 1;
+        }
+
         // 동적 범례 생성 (기수별 색상 + 상태별 아이콘)
         function updateScheduleLegend() {
             const legendEl = document.getElementById('scheduleLegend');
@@ -2085,14 +2090,15 @@
             const statusOrder = ['준비중', '모집중', '진행중', '종료'];
             const sortedStatuses = statusOrder.filter(s => activeStatuses.includes(s));
 
-            // 기수별 색상 범례
+            // 기수별 색상 범례 (7기 이상은 색상 순환)
             let batchLegendHTML = '';
             activeBatches.forEach(batch => {
-                const config = batchConfig[batch] || { color: '#0071e3', label: `${batch}기` };
+                const colorIndex = getBatchColorIndex(batch);
+                const colorConfig = batchConfig[colorIndex];
                 batchLegendHTML += `
                     <div class="legend-item">
-                        <span class="legend-color" style="background: ${config.color}"></span>
-                        <span class="legend-text">${config.label}</span>
+                        <span class="legend-color" style="background: ${colorConfig.color}"></span>
+                        <span class="legend-text">${batch}기</span>
                     </div>
                 `;
             });
@@ -2141,9 +2147,10 @@
                 const sessionData = data.find(item => item.date === dateString);
 
                 if (sessionData) {
-                    // 기수에 따른 스타일
+                    // 기수에 따른 스타일 (7기 이상은 색상 순환)
                     const batchNumber = extractBatchNumber(sessionData.name);
-                    const batchClass = `batch-${batchNumber}`;
+                    const batchColorIndex = getBatchColorIndex(batchNumber);
+                    const batchClass = `batch-${batchColorIndex}`;
                     const status = sessionData.status || '준비중';
                     const statusIcon = statusConfig[status]?.icon || '⚪';
 
@@ -2326,8 +2333,9 @@
 
                 // 기수 추출 (예: "SCM 기초 완성 강의 1기" → 1)
                 const batchMatch = item.name?.match(/(\d+)기/);
-                const batch = batchMatch ? batchMatch[1] : '1';
-                const batchClass = `batch-${batch}`;
+                const batch = batchMatch ? parseInt(batchMatch[1]) : 1;
+                const batchColorIndex = getBatchColorIndex(batch);
+                const batchClass = `batch-${batchColorIndex}`;
 
                 const isLecture = item.type === 'lecture';
                 const typeIcon = isLecture ? '📚' : '📝';
