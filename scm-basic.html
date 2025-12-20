@@ -2065,10 +2065,20 @@
             6: { color: '#5ac8fa', label: '6기' }
         };
 
-        // 기수 추출 함수
-        function extractBatchNumber(courseName) {
-            if (!courseName) return 1;
-            const match = courseName.match(/(\d+)기/);
+        // 기수 추출 함수 (우선순위: item.batch > item.notionData.batch > 이름에서 추출)
+        function extractBatchNumber(item) {
+            // item이 객체인 경우: batch 필드 우선 확인
+            if (item && typeof item === 'object') {
+                if (item.batch) return item.batch;
+                if (item.notionData?.batch) return item.notionData.batch;
+                // batch 필드가 없으면 이름에서 추출
+                const courseName = item.name || item.notionData?.title || '';
+                const match = courseName.match(/(\d+)기/);
+                return match ? parseInt(match[1]) : 1;
+            }
+            // item이 문자열인 경우 (하위 호환성)
+            if (!item) return 1;
+            const match = String(item).match(/(\d+)기/);
             return match ? parseInt(match[1]) : 1;
         }
 
@@ -2082,8 +2092,8 @@
             const legendEl = document.getElementById('scheduleLegend');
             if (!legendEl || !notionData || notionData.length === 0) return;
 
-            // 현재 데이터에 있는 기수들 추출
-            const activeBatches = [...new Set(notionData.map(item => extractBatchNumber(item.name)))].sort((a, b) => a - b);
+            // 현재 데이터에 있는 기수들 추출 (batch 필드 우선, 없으면 이름에서 추출)
+            const activeBatches = [...new Set(notionData.map(item => extractBatchNumber(item)))].sort((a, b) => a - b);
 
             // 현재 데이터에 있는 상태들 추출
             const activeStatuses = [...new Set(notionData.map(item => item.status || '준비중'))];
@@ -2148,7 +2158,7 @@
 
                 if (sessionData) {
                     // 기수에 따른 스타일 (7기 이상은 색상 순환)
-                    const batchNumber = extractBatchNumber(sessionData.name);
+                    const batchNumber = extractBatchNumber(sessionData);
                     const batchColorIndex = getBatchColorIndex(batchNumber);
                     const batchClass = `batch-${batchColorIndex}`;
                     const status = sessionData.status || '준비중';

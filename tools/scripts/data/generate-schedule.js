@@ -65,7 +65,15 @@ async function generateScheduleJSON() {
             const status = props.상태?.select?.name || '준비중';
             const startDate = props.개강일?.date?.start;
             const description = props.강의설명?.rich_text?.[0]?.text?.content || '';
-            
+
+            // 기수 번호 추출 (숫자 필드 또는 타이틀에서 추출)
+            let batch = props.기수?.number;
+            if (!batch) {
+                // 기수 필드가 없으면 타이틀에서 숫자 추출
+                const batchMatch = title.match(/(\d+)기/);
+                batch = batchMatch ? parseInt(batchMatch[1]) : (index + 1);
+            }
+
             // 삭제되지 않은 모든 강의 포함 (개강일 없어도 포함)
             if (!course.archived && !course.in_trash) {
                 calendarData.push({
@@ -77,18 +85,19 @@ async function generateScheduleJSON() {
                         description || '상세 설명 없음'
                     ],
                     status: status,
-                    batch: '실제 Notion 데이터',
+                    batch: batch,
                     notionData: {
                         id: course.id,
                         title,
                         category,
                         status,
                         startDate,
-                        description
+                        description,
+                        batch
                     }
                 });
-                
-                console.log(`📚 ${index + 1}. ${title} (${status}) - ${startDate || '날짜 없음'}`);
+
+                console.log(`📚 ${index + 1}. ${title} (${batch}기, ${status}) - ${startDate || '날짜 없음'}`);
             }
         });
         
