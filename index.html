@@ -1004,6 +1004,52 @@
             gap: var(--space-4);
         }
 
+        /* 더보기 버튼 및 확장 그리드 */
+        .reviews-expand-btn {
+            display: block;
+            margin: var(--space-6) auto 0;
+            padding: var(--space-3) var(--space-6);
+            background: transparent;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-full);
+            color: var(--text-secondary);
+            font-size: var(--text-sm);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .reviews-expand-btn:hover {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border-color: var(--blue);
+        }
+        .reviews-expand-btn svg {
+            width: 16px;
+            height: 16px;
+            margin-left: var(--space-2);
+            vertical-align: middle;
+            transition: transform 0.3s ease;
+        }
+        .reviews-expand-btn.expanded svg {
+            transform: rotate(180deg);
+        }
+        .reviews-grid-expanded {
+            display: none;
+            padding: var(--space-6) 0;
+        }
+        .reviews-grid-expanded.show {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-4);
+            animation: fadeIn 0.4s ease;
+        }
+        .reviews-grid-expanded .review-card {
+            width: 100%;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         /* Footer */
         .footer {
             padding: var(--space-8) var(--space-6);
@@ -1582,6 +1628,78 @@
                     </div>
                 </div>
                 </div>
+
+                <!-- 더보기 버튼 -->
+                <button class="reviews-expand-btn" id="reviewsExpandBtn" onclick="toggleReviewsExpand()">
+                    <span>후기 전체보기</span>
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 9l6 6 6-6"/>
+                    </svg>
+                </button>
+
+                <!-- 확장된 후기 그리드 -->
+                <div class="reviews-grid-expanded" id="reviewsGridExpanded">
+                    <div class="review-card">
+                        <div class="review-stars">★★★★★</div>
+                        <p>"처음 해당 직무를 접하는 사람도 이해할 수 있게 전체적인 틀과 방향성을 잘 설명 해주셔서 만족스러웠습니다."</p>
+                        <span class="review-author">임OO님<span class="review-badge">2025.11</span></span>
+                    </div>
+                    <div class="review-card">
+                        <div class="review-stars">★★★★★</div>
+                        <p>"짧은 시간이지만 정말 많은 것을 담아주시려고 노력하시는 멘토님의 모습에 큰 감명을 받았습니다. 내용 또한 직무에 대해 정말 핵심적이고 중요한 부분을 다뤄주셔서 많은 배움이 됩니다."</p>
+                        <span class="review-author">설OO님<span class="review-badge">2025.11</span></span>
+                    </div>
+                    <div class="review-card">
+                        <div class="review-stars">★★★★★</div>
+                        <p>"매주 SCM 흐름을 잘 정리해서 말씀해주셔서 직무 이해도를 높일 수 있었고 덕분에 인턴 면접에 합격할 수 있었습니다 :)"</p>
+                        <span class="review-author">양OO님<span class="review-badge">2025.10</span></span>
+                    </div>
+                    <div class="review-card">
+                        <div class="review-stars">★★★★★</div>
+                        <p>"양질의 과제와 꼼꼼한 피드백 덕분에 큰 도움 되고 있습니다."</p>
+                        <span class="review-author">정OO님<span class="review-badge">2025.09</span></span>
+                    </div>
+                    <div class="review-card">
+                        <div class="review-stars">★★★★★</div>
+                        <p>"다양한 직군에 지원가능하다고 생각하셔서 너무 조언이 좋았습니다. 다양한 직군을 안다는 것도 좋았구요 :)"</p>
+                        <span class="review-author">이OO님<span class="review-badge">2025.08</span></span>
+                    </div>
+                    <div class="review-card">
+                        <div class="review-stars">★★★★★</div>
+                        <p>"많이 배울수있는 과제를 내주신게 제일 좋았습니다. 자료를 보고 산출물을 만들어내는 과정에서 얻어갈 수 있는 것들이 많았습니다."</p>
+                        <span class="review-author">백OO님<span class="review-badge">2023.01</span></span>
+                    </div>
+                    <div class="review-card">
+                        <div class="review-stars">★★★★★</div>
+                        <p>"꼼꼼한 피드백 감사합니다! 미처 생각하지 못한 점을 알수있어서 너무 좋았습니다. 피드백 받을 때마다 갖고 계시는 인사이트가 너무 부럽습니다ㅠㅠ"</p>
+                        <span class="review-author">여OO님<span class="review-badge">2023.01</span></span>
+                    </div>
+                    <div class="review-card">
+                        <div class="review-stars">★★★★★</div>
+                        <p>"전체적인 흐름을 꼼꼼하게 잘 짚어주셨습니다. 앞으로 수업이 기대됩니다."</p>
+                        <span class="review-author">임OO님<span class="review-badge">2022.12</span></span>
+                    </div>
+                    <div class="review-card">
+                        <div class="review-stars">★★★★★</div>
+                        <p>"수업을 들으면서 향후 어떤 방향으로 커리어를 쌓는게 좋을지에 대한 갈피를 잡을 수 있었습니다. 첫 수업 너무 잘 들었고 앞으로의 수업이 기대가 됩니다."</p>
+                        <span class="review-author">하OO님<span class="review-badge">2022.12</span></span>
+                    </div>
+                    <div class="review-card">
+                        <div class="review-stars">★★★★★</div>
+                        <p>"SAP에 대해서 자세한 설명을 들을 수 있어 좋았습니다."</p>
+                        <span class="review-author">양OO님<span class="review-badge">2022.11</span></span>
+                    </div>
+                    <div class="review-card">
+                        <div class="review-stars">★★★★★</div>
+                        <p>"구체적이고 다양한 니즈에 잘 맞추어 주셨습니다."</p>
+                        <span class="review-author">명OO님<span class="review-badge">2022.11</span></span>
+                    </div>
+                    <div class="review-card">
+                        <div class="review-stars">★★★★★</div>
+                        <p>"언제든지 물어보고 싶은 것 있으면 물어보세요~ 하시고 먼저 편하게 대해주셔서 좋았습니다. 강의가 아직 저한테는 너무 어렵지만, 조금씩 성장하는 저의 모습도 볼 수 있어서 좋았습니다!"</p>
+                        <span class="review-author">강OO님<span class="review-badge">2022.08</span></span>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -1857,6 +1975,24 @@
                 urgencyBanner.classList.remove('show');
                 document.body.classList.remove('banner-visible');
                 sessionStorage.setItem('bannerClosed', 'true');
+            }
+        }
+
+        // 후기 더보기/접기 토글
+        function toggleReviewsExpand() {
+            const btn = document.getElementById('reviewsExpandBtn');
+            const grid = document.getElementById('reviewsGridExpanded');
+
+            if (grid.classList.contains('show')) {
+                grid.classList.remove('show');
+                btn.classList.remove('expanded');
+                btn.querySelector('span').textContent = '후기 전체보기';
+            } else {
+                grid.classList.add('show');
+                btn.classList.add('expanded');
+                btn.querySelector('span').textContent = '접기';
+                // 그리드로 스크롤
+                grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         }
 
