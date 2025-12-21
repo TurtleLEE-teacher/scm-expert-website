@@ -1067,9 +1067,9 @@
         </div>
     </header>
 
-    <!-- Urgency Banner -->
-    <div class="urgency-banner" id="urgencyBanner">
-        <span>🔥 2월 기수 <strong>선착순 10명</strong> 마감 임박!</span>
+    <!-- Urgency Banner (Notion 데이터 기반 동적 생성) -->
+    <div class="urgency-banner" id="urgencyBanner" style="display: none;">
+        <span id="urgencyMessage">🔥 모집중인 기수를 확인하세요!</span>
         <div class="urgency-countdown" id="countdown">
             <div class="countdown-item">
                 <span class="countdown-number" id="days">00</span>
@@ -1837,13 +1837,15 @@
             // fetch(GOOGLE_FORM_URL, { method: 'POST', body: formData, mode: 'no-cors' });
         });
 
-        // Urgency Banner & Countdown
+        // Urgency Banner & Countdown (Notion 데이터 기반)
         const urgencyBanner = document.getElementById('urgencyBanner');
         const bannerClose = document.getElementById('bannerClose');
+        const urgencyMessage = document.getElementById('urgencyMessage');
 
         // 배너 표시 함수
         function showBanner() {
             if (urgencyBanner) {
+                urgencyBanner.style.display = '';
                 urgencyBanner.classList.add('show');
                 document.body.classList.add('banner-visible');
             }
@@ -1858,19 +1860,114 @@
             }
         }
 
-        // 페이지 로드 시 배너 상태 확인
-        if (!sessionStorage.getItem('bannerClosed')) {
-            showBanner();
+        // Notion 데이터에서 모집중인 기수 정보 가져오기
+        async function loadRecruitingCourseInfo() {
+            try {
+                const response = await fetch('data/schedule.json');
+                const data = await response.json();
+
+                if (!data.success || !data.data || data.data.length === 0) {
+                    return null;
+                }
+
+                // 모집중인 기수 찾기 (중복 제거를 위해 기수별로 그룹화)
+                const recruitingCourses = {};
+                data.data.forEach(item => {
+                    if (item.status === '모집중') {
+                        const courseId = item.notionData?.id || item.name;
+                        if (!recruitingCourses[courseId]) {
+                            recruitingCourses[courseId] = {
+                                name: item.name,
+                                batch: item.batch || 1,
+                                maxStudents: item.maxStudents || item.notionData?.maxStudents || 10,
+                                currentStudents: item.currentStudents || item.notionData?.currentStudents || 0,
+                                startDate: item.date
+                            };
+                        }
+                    }
+                });
+
+                const courses = Object.values(recruitingCourses);
+                if (courses.length === 0) return null;
+
+                // 가장 먼저 시작하는 모집중 기수 반환
+                courses.sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
+                return courses[0];
+            } catch (error) {
+                console.error('Failed to load recruiting course info:', error);
+                return null;
+            }
+        }
+
+        // 배너 메시지 업데이트
+        async function updateUrgencyBanner() {
+            const courseInfo = await loadRecruitingCourseInfo();
+
+            if (!courseInfo) {
+                // 모집중인 기수가 없으면 배너 숨김
+                if (urgencyBanner) urgencyBanner.style.display = 'none';
+                return;
+            }
+
+            const { batch, maxStudents, currentStudents, startDate } = courseInfo;
+            const remainingSpots = maxStudents - currentStudents;
+
+            // 시작 월 계산
+            const startMonth = startDate ? new Date(startDate).getMonth() + 1 : new Date().getMonth() + 1;
+
+            let message = '';
+
+            if (remainingSpots <= 0) {
+                // 마감된 경우
+                message = `🎉 ${batch}기 모집 마감! 다음 기수를 기대해주세요`;
+            } else if (currentStudents <= 1) {
+                // 1명 이하 신청 - 마감 임박 표시하지 않음
+                message = `📢 ${startMonth}월 ${batch}기 모집중 · <strong>기수별 ${maxStudents}명 한정</strong>`;
+            } else if (remainingSpots <= 3) {
+                // 잔여 3자리 이하 - 마감 임박
+                message = `🔥 ${startMonth}월 ${batch}기 <strong>잔여 ${remainingSpots}자리</strong> 마감 임박!`;
+            } else {
+                // 일반 모집중
+                message = `📢 ${startMonth}월 ${batch}기 모집중 · <strong>잔여 ${remainingSpots}/${maxStudents}자리</strong>`;
+            }
+
+            if (urgencyMessage) {
+                urgencyMessage.innerHTML = message;
+            }
+
+            // 배너 표시 (세션에서 닫지 않은 경우)
+            if (!sessionStorage.getItem('bannerClosed')) {
+                showBanner();
+            }
         }
 
         // 닫기 버튼 클릭
         bannerClose?.addEventListener('click', hideBanner);
 
-        // Countdown timer - set deadline to end of current month
+        // Countdown timer - 모집 마감일까지 (개강일 기준)
+        let countdownTarget = null;
+
+        async function initCountdown() {
+            const courseInfo = await loadRecruitingCourseInfo();
+            if (courseInfo && courseInfo.startDate) {
+                // 개강일 전날 23:59:59를 마감일로 설정
+                const startDate = new Date(courseInfo.startDate);
+                startDate.setDate(startDate.getDate() - 1);
+                startDate.setHours(23, 59, 59);
+                countdownTarget = startDate;
+            } else {
+                // 폴백: 이번 달 말
+                const now = new Date();
+                countdownTarget = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59);
+            }
+            updateCountdown();
+        }
+
         function updateCountdown() {
+            if (!countdownTarget) return;
+
             const now = new Date();
-            const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59);
-            const diff = endOfMonth - now;
+            const diff = countdownTarget - now;
 
             if (diff > 0) {
                 const days = Math.floor(diff / (1000 * 60 * 60 * 24));
@@ -1883,7 +1980,9 @@
             }
         }
 
-        updateCountdown();
+        // 초기화
+        updateUrgencyBanner();
+        initCountdown();
         setInterval(updateCountdown, 60000); // Update every minute
 
         // Navigation Scroll Highlight (Scroll Spy)

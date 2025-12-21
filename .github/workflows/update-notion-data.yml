@@ -100,6 +100,7 @@ jobs:
           const description = props.비고?.rich_text?.[0]?.text?.content || '';
           const price = props.수강료?.number || 0;
           const maxStudents = props.최대인원?.number || 20;
+          const currentStudents = props.현재등록인원?.number || 0;
 
           // 기수 번호 추출 (숫자 필드 또는 타이틀에서 추출)
           let batch = props.기수?.number;
@@ -138,6 +139,7 @@ jobs:
             description,
             price,
             maxStudents,
+            currentStudents,
             batch
           };
 
@@ -152,6 +154,8 @@ jobs:
               hasAssignment: true,
               status: status,
               batch: batch,
+              maxStudents: maxStudents,
+              currentStudents: currentStudents,
               notionData: courseInfo
             });
           }
@@ -167,6 +171,8 @@ jobs:
               hasAssignment: true,
               status: status,
               batch: batch,
+              maxStudents: maxStudents,
+              currentStudents: currentStudents,
               notionData: courseInfo
             });
           }
@@ -182,6 +188,8 @@ jobs:
               hasAssignment: true,
               status: status,
               batch: batch,
+              maxStudents: maxStudents,
+              currentStudents: currentStudents,
               notionData: courseInfo
             });
           }
@@ -197,6 +205,8 @@ jobs:
               hasAssignment: true,
               status: status,
               batch: batch,
+              maxStudents: maxStudents,
+              currentStudents: currentStudents,
               notionData: courseInfo
             });
           }
@@ -212,6 +222,8 @@ jobs:
               hasAssignment: false,
               status: status,
               batch: batch,
+              maxStudents: maxStudents,
+              currentStudents: currentStudents,
               notionData: courseInfo
             });
           }
