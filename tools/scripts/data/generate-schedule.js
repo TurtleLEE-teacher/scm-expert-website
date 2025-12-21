@@ -8,12 +8,13 @@ const { readFileSync } = require('fs');
 
 // 설정 파일에서 API 키 읽기
 let NOTION_API_KEY, NOTION_DATABASE_ID;
+const NOTION_REVIEWS_DB_ID = '243951127368492d906a3d36861aacd2';
 
 try {
     const configContent = readFileSync('./includes/config.php', 'utf8');
     const apiKeyMatch = configContent.match(/'NOTION_API_KEY'\s*=>\s*'([^']+)'/);
     const dbIdMatch = configContent.match(/'NOTION_COURSES_DB_ID'\s*=>\s*'([^']+)'/);
-    
+
     if (apiKeyMatch && dbIdMatch) {
         NOTION_API_KEY = apiKeyMatch[1];
         NOTION_DATABASE_ID = dbIdMatch[1];
@@ -132,5 +133,145 @@ async function generateScheduleJSON() {
     }
 }
 
+// 후기 데이터 생성
+async function generateReviewsJSON() {
+    try {
+        console.log('\n🔍 Notion 후기 데이터 가져오는 중...');
+
+        const response = await fetch(`https://api.notion.com/v1/databases/${NOTION_REVIEWS_DB_ID}/query`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${NOTION_API_KEY}`,
+                'Notion-Version': '2022-06-28',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                page_size: 100
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+
+        const rawData = await response.json();
+        console.log(`✅ ${rawData.results.length}개 후기 데이터 받음`);
+
+        const reviews = [];
+
+        rawData.results.forEach((review, index) => {
+            if (review.archived || review.in_trash) return;
+
+            const props = review.properties;
+
+            // 첫 번째 항목에서 속성 목록 출력
+            if (index === 0) {
+                console.log('\n📋 후기 속성 목록:');
+                Object.keys(props).forEach(key => {
+                    console.log(`  - ${key} (${props[key].type})`);
+                });
+            }
+
+            // 후기 내용 추출
+            let content = '';
+            const contentFields = ['후기내용', '후기', '내용', 'content', 'Content', 'Review'];
+            for (const field of contentFields) {
+                if (props[field]?.rich_text?.[0]?.text?.content) {
+                    content = props[field].rich_text[0].text.content;
+                    break;
+                }
+                if (props[field]?.title?.[0]?.text?.content) {
+                    content = props[field].title[0].text.content;
+                    break;
+                }
+            }
+
+            // 별점 추출
+            let rating = 5;
+            const ratingFields = ['별점', 'rating', 'Rating', '평점'];
+            for (const field of ratingFields) {
+                if (props[field]?.number) {
+                    rating = props[field].number;
+                    break;
+                }
+                if (props[field]?.select?.name) {
+                    rating = parseInt(props[field].select.name) || 5;
+                    break;
+                }
+            }
+
+            // 작성자 추출
+            let author = '';
+            const authorFields = ['작성자', '이름', 'author', 'Author', 'Name'];
+            for (const field of authorFields) {
+                if (props[field]?.rich_text?.[0]?.text?.content) {
+                    author = props[field].rich_text[0].text.content;
+                    break;
+                }
+                if (props[field]?.title?.[0]?.text?.content) {
+                    author = props[field].title[0].text.content;
+                    break;
+                }
+            }
+
+            // 날짜 추출
+            let date = '';
+            const dateFields = ['날짜', '작성일', 'date', 'Date', '등록일'];
+            for (const field of dateFields) {
+                if (props[field]?.date?.start) {
+                    const d = new Date(props[field].date.start);
+                    date = `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}`;
+                    break;
+                }
+            }
+
+            // 생성일 fallback
+            if (!date && review.created_time) {
+                const d = new Date(review.created_time);
+                date = `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}`;
+            }
+
+            if (content) {
+                reviews.push({
+                    id: review.id,
+                    content: content,
+                    rating: rating,
+                    author: author,
+                    date: date
+                });
+                console.log(`✓ 후기: ${author} (${rating}점) - ${content.substring(0, 30)}...`);
+            }
+        });
+
+        // 날짜 역순 정렬 (최신순)
+        reviews.sort((a, b) => {
+            if (!a.date) return 1;
+            if (!b.date) return -1;
+            return b.date.localeCompare(a.date);
+        });
+
+        const output = {
+            success: true,
+            data: reviews,
+            lastUpdated: new Date().toISOString(),
+            totalReviews: reviews.length
+        };
+
+        fs.writeFileSync('data/reviews.json', JSON.stringify(output, null, 2));
+        console.log(`✅ ${reviews.length}개 후기 데이터가 data/reviews.json에 저장되었습니다.`);
+
+        return output;
+
+    } catch (error) {
+        console.error('❌ 후기 생성 실패:', error.message);
+        // 후기 생성 실패해도 스케줄은 유지
+    }
+}
+
 // 스크립트 실행
-generateScheduleJSON();
+async function main() {
+    await generateScheduleJSON();
+    await generateReviewsJSON();
+}
+
+main();

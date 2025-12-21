@@ -1439,14 +1439,9 @@
                 <h3 class="fade-up">직무부트캠프 후기</h3>
                 <div class="reviews-track-wrapper">
                 <div class="reviews-track" id="reviewsTrack">
+                    <!-- 동적 로드됨 - 아래는 Fallback -->
                     <div class="review-card fade-up">
-                        <div class="review-stars">
-                            <svg viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
-                            <svg viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
-                            <svg viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
-                            <svg viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
-                            <svg viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
-                        </div>
+                        <div class="review-stars">★★★★★</div>
                         <p>"개인마다 처한 환경이나 이 캠프가 필요한 이유들을 다 물어봐주시고 상황과 현재 수준에 맞게 수업을 진행해주셔서 따라가기 쉽고 흥미가 생기는 것 같습니다."</p>
                         <span class="review-author">황OO님<span class="review-badge">2025.12</span></span>
                     </div>
@@ -1995,6 +1990,63 @@
                 grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         }
+
+        // 별점 HTML 생성
+        function createStarsHTML(rating) {
+            const fullStar = '<svg viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>';
+            return fullStar.repeat(Math.min(Math.max(rating, 1), 5));
+        }
+
+        // 후기 카드 HTML 생성
+        function createReviewCardHTML(review, isSlide = false) {
+            return `
+                <div class="review-card${isSlide ? ' fade-up' : ''}">
+                    <div class="review-stars">${createStarsHTML(review.rating)}</div>
+                    <p>"${review.content}"</p>
+                    <span class="review-author">${review.author}<span class="review-badge">${review.date}</span></span>
+                </div>
+            `;
+        }
+
+        // 노션에서 후기 데이터 로드
+        async function loadReviewsFromNotion() {
+            try {
+                const response = await fetch('data/reviews.json');
+                if (!response.ok) {
+                    console.log('후기 데이터 파일 없음, 기본 데이터 사용');
+                    return;
+                }
+
+                const data = await response.json();
+                if (!data.success || !data.data || data.data.length === 0) {
+                    console.log('후기 데이터 없음, 기본 데이터 사용');
+                    return;
+                }
+
+                const reviews = data.data;
+                console.log(`📝 ${reviews.length}개 후기 로드됨`);
+
+                // 슬라이드 트랙 업데이트
+                const reviewsTrack = document.getElementById('reviewsTrack');
+                if (reviewsTrack) {
+                    reviewsTrack.innerHTML = reviews.map(r => createReviewCardHTML(r, true)).join('');
+                }
+
+                // 확장 그리드 업데이트
+                const expandedGrid = document.getElementById('reviewsGridExpanded');
+                if (expandedGrid) {
+                    expandedGrid.innerHTML = reviews.map(r => createReviewCardHTML(r, false)).join('');
+                }
+
+            } catch (error) {
+                console.log('후기 로드 실패, 기본 데이터 사용:', error.message);
+            }
+        }
+
+        // 페이지 로드 시 후기 데이터 로드
+        document.addEventListener('DOMContentLoaded', function() {
+            loadReviewsFromNotion();
+        });
 
         // Notion 데이터에서 모집중인 기수 정보 가져오기
         async function loadRecruitingCourseInfo() {
