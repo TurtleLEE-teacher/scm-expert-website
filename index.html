@@ -1108,7 +1108,7 @@
 
             <div class="hero-stats fade-up">
                 <div class="hero-stat">
-                    <span class="hero-stat-number">5명</span>
+                    <span class="hero-stat-number" id="heroMaxStudents">5명</span>
                     <span class="hero-stat-label">소수정예</span>
                 </div>
                 <div class="hero-stat">
@@ -1168,9 +1168,9 @@
                             <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
                         </svg>
                     </div>
-                    <h3>5명 소수정예</h3>
+                    <h3 id="diffMaxStudentsTitle">5명 소수정예</h3>
                     <p class="diff-compare">타사: 대규모 강의, 개인별 케어 불가</p>
-                    <p class="diff-ours">우리: 기수당 최대 5명, 시작부터 끝까지 같은 멤버와 밀착 케어</p>
+                    <p class="diff-ours" id="diffMaxStudentsDesc">우리: 기수당 최대 5명, 시작부터 끝까지 같은 멤버와 밀착 케어</p>
                 </div>
             </div>
             <div class="diff-process fade-up">
@@ -1308,7 +1308,7 @@
 
                     <div style="text-align: center; padding: var(--space-5); background: linear-gradient(135deg, rgba(0, 113, 227, 0.1) 0%, rgba(52, 199, 89, 0.1) 100%); border-radius: var(--radius-lg); margin-bottom: var(--space-6);">
                         <div style="font-size: var(--text-4xl); font-weight: var(--font-bold); color: var(--blue);">300,000원</div>
-                        <div style="font-size: var(--text-sm); color: var(--text-secondary); margin-top: var(--space-2);">직무교육 + 커리어 컨설팅 통합 가격 | 기수당 최대 5명</div>
+                        <div id="pricingMaxStudents" style="font-size: var(--text-sm); color: var(--text-secondary); margin-top: var(--space-2);">직무교육 + 커리어 컨설팅 통합 가격 | 기수당 최대 5명</div>
                     </div>
 
                     <div style="display: flex; gap: var(--space-4); justify-content: center; flex-wrap: wrap;">
@@ -1980,8 +1980,46 @@
             }
         }
 
+        // 페이지 전체의 정원 정보 동적 업데이트
+        async function updateMaxStudentsInfo() {
+            try {
+                const response = await fetch('data/schedule.json');
+                const data = await response.json();
+
+                if (!data.success || !data.data || data.data.length === 0) return;
+
+                // 가장 최근 모집중 또는 준비중인 기수의 최대 인원 가져오기
+                const activeCourse = data.data.find(item =>
+                    item.status === '모집중' || item.status === '준비중'
+                );
+
+                if (!activeCourse) return;
+
+                const maxStudents = activeCourse.maxStudents || activeCourse.notionData?.maxStudents || 5;
+
+                // Hero 영역 업데이트
+                const heroEl = document.getElementById('heroMaxStudents');
+                if (heroEl) heroEl.textContent = `${maxStudents}명`;
+
+                // 차별화 섹션 업데이트
+                const diffTitleEl = document.getElementById('diffMaxStudentsTitle');
+                if (diffTitleEl) diffTitleEl.textContent = `${maxStudents}명 소수정예`;
+
+                const diffDescEl = document.getElementById('diffMaxStudentsDesc');
+                if (diffDescEl) diffDescEl.textContent = `우리: 기수당 최대 ${maxStudents}명, 시작부터 끝까지 같은 멤버와 밀착 케어`;
+
+                // 가격 섹션 업데이트
+                const pricingEl = document.getElementById('pricingMaxStudents');
+                if (pricingEl) pricingEl.textContent = `직무교육 + 커리어 컨설팅 통합 가격 | 기수당 최대 ${maxStudents}명`;
+
+            } catch (error) {
+                console.error('Failed to update max students info:', error);
+            }
+        }
+
         // 초기화
         updateUrgencyBanner();
+        updateMaxStudentsInfo();
         initCountdown();
         setInterval(updateCountdown, 60000); // Update every minute
 
