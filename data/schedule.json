@@ -10,6 +10,8 @@
       "hasAssignment": true,
       "status": "종료",
       "batch": 1,
+      "maxStudents": 6,
+      "currentStudents": 0,
       "notionData": {
         "id": "2cf87a19-32c4-80a6-8027-fc0f6a79b5d6",
         "title": "SCM 기초 완성 강의",
@@ -17,7 +19,8 @@
         "status": "종료",
         "description": "",
         "price": 169000,
-        "maxStudents": 5,
+        "maxStudents": 6,
+        "currentStudents": 0,
         "batch": 1
       }
     },
@@ -30,6 +33,8 @@
       "hasAssignment": true,
       "status": "종료",
       "batch": 1,
+      "maxStudents": 6,
+      "currentStudents": 0,
       "notionData": {
         "id": "2cf87a19-32c4-80a6-8027-fc0f6a79b5d6",
         "title": "SCM 기초 완성 강의",
@@ -37,7 +42,8 @@
         "status": "종료",
         "description": "",
         "price": 169000,
-        "maxStudents": 5,
+        "maxStudents": 6,
+        "currentStudents": 0,
         "batch": 1
       }
     },
@@ -50,6 +56,8 @@
       "hasAssignment": true,
       "status": "종료",
       "batch": 1,
+      "maxStudents": 6,
+      "currentStudents": 0,
       "notionData": {
         "id": "2cf87a19-32c4-80a6-8027-fc0f6a79b5d6",
         "title": "SCM 기초 완성 강의",
@@ -57,7 +65,8 @@
         "status": "종료",
         "description": "",
         "price": 169000,
-        "maxStudents": 5,
+        "maxStudents": 6,
+        "currentStudents": 0,
         "batch": 1
       }
     },
@@ -70,6 +79,8 @@
       "hasAssignment": true,
       "status": "종료",
       "batch": 1,
+      "maxStudents": 6,
+      "currentStudents": 0,
       "notionData": {
         "id": "2cf87a19-32c4-80a6-8027-fc0f6a79b5d6",
         "title": "SCM 기초 완성 강의",
@@ -77,7 +88,8 @@
         "status": "종료",
         "description": "",
         "price": 169000,
-        "maxStudents": 5,
+        "maxStudents": 6,
+        "currentStudents": 0,
         "batch": 1
       }
     },
@@ -90,6 +102,8 @@
       "hasAssignment": false,
       "status": "종료",
       "batch": 1,
+      "maxStudents": 6,
+      "currentStudents": 0,
       "notionData": {
         "id": "2cf87a19-32c4-80a6-8027-fc0f6a79b5d6",
         "title": "SCM 기초 완성 강의",
@@ -97,7 +111,8 @@
         "status": "종료",
         "description": "",
         "price": 169000,
-        "maxStudents": 5,
+        "maxStudents": 6,
+        "currentStudents": 0,
         "batch": 1
       }
     },
@@ -110,6 +125,8 @@
       "hasAssignment": true,
       "status": "모집중",
       "batch": 2,
+      "maxStudents": 6,
+      "currentStudents": 0,
       "notionData": {
         "id": "b60d0727-ac12-4149-aff8-5117cc5042d0",
         "title": "SCM 기초 완성 강의 1기",
@@ -117,7 +134,8 @@
         "status": "모집중",
         "description": "",
         "price": 169000,
-        "maxStudents": 5,
+        "maxStudents": 6,
+        "currentStudents": 0,
         "batch": 2
       }
     },
@@ -130,6 +148,8 @@
       "hasAssignment": true,
       "status": "모집중",
       "batch": 2,
+      "maxStudents": 6,
+      "currentStudents": 0,
       "notionData": {
         "id": "b60d0727-ac12-4149-aff8-5117cc5042d0",
         "title": "SCM 기초 완성 강의 1기",
@@ -137,7 +157,8 @@
         "status": "모집중",
         "description": "",
         "price": 169000,
-        "maxStudents": 5,
+        "maxStudents": 6,
+        "currentStudents": 0,
         "batch": 2
       }
     },
@@ -150,6 +171,8 @@
       "hasAssignment": true,
       "status": "모집중",
       "batch": 2,
+      "maxStudents": 6,
+      "currentStudents": 0,
       "notionData": {
         "id": "b60d0727-ac12-4149-aff8-5117cc5042d0",
         "title": "SCM 기초 완성 강의 1기",
@@ -157,7 +180,8 @@
         "status": "모집중",
         "description": "",
         "price": 169000,
-        "maxStudents": 5,
+        "maxStudents": 6,
+        "currentStudents": 0,
         "batch": 2
       }
     },
@@ -170,6 +194,8 @@
       "hasAssignment": true,
       "status": "준비중",
       "batch": 3,
+      "maxStudents": 6,
+      "currentStudents": 0,
       "notionData": {
         "id": "2c687a19-32c4-8099-934e-fbbd4a843b8c",
         "title": "SCM 기초 완성 강의 2기",
@@ -177,7 +203,8 @@
         "status": "준비중",
         "description": "",
         "price": 169000,
-        "maxStudents": 5,
+        "maxStudents": 6,
+        "currentStudents": 0,
         "batch": 3
       }
     },
@@ -190,6 +217,8 @@
       "hasAssignment": true,
       "status": "모집중",
       "batch": 2,
+      "maxStudents": 6,
+      "currentStudents": 0,
       "notionData": {
         "id": "b60d0727-ac12-4149-aff8-5117cc5042d0",
         "title": "SCM 기초 완성 강의 1기",
@@ -197,7 +226,8 @@
         "status": "모집중",
         "description": "",
         "price": 169000,
-        "maxStudents": 5,
+        "maxStudents": 6,
+        "currentStudents": 0,
         "batch": 2
       }
     },
@@ -210,6 +240,8 @@
       "hasAssignment": true,
       "status": "준비중",
       "batch": 3,
+      "maxStudents": 6,
+      "currentStudents": 0,
       "notionData": {
         "id": "2c687a19-32c4-8099-934e-fbbd4a843b8c",
         "title": "SCM 기초 완성 강의 2기",
@@ -217,7 +249,8 @@
         "status": "준비중",
         "description": "",
         "price": 169000,
-        "maxStudents": 5,
+        "maxStudents": 6,
+        "currentStudents": 0,
         "batch": 3
       }
     },
@@ -230,6 +263,8 @@
       "hasAssignment": false,
       "status": "모집중",
       "batch": 2,
+      "maxStudents": 6,
+      "currentStudents": 0,
       "notionData": {
         "id": "b60d0727-ac12-4149-aff8-5117cc5042d0",
         "title": "SCM 기초 완성 강의 1기",
@@ -237,7 +272,8 @@
         "status": "모집중",
         "description": "",
         "price": 169000,
-        "maxStudents": 5,
+        "maxStudents": 6,
+        "currentStudents": 0,
         "batch": 2
       }
     },
@@ -250,6 +286,8 @@
       "hasAssignment": true,
       "status": "준비중",
       "batch": 3,
+      "maxStudents": 6,
+      "currentStudents": 0,
       "notionData": {
         "id": "2c687a19-32c4-8099-934e-fbbd4a843b8c",
         "title": "SCM 기초 완성 강의 2기",
@@ -257,7 +295,8 @@
         "status": "준비중",
         "description": "",
         "price": 169000,
-        "maxStudents": 5,
+        "maxStudents": 6,
+        "currentStudents": 0,
         "batch": 3
       }
     },
@@ -270,6 +309,8 @@
       "hasAssignment": true,
       "status": "준비중",
       "batch": 3,
+      "maxStudents": 6,
+      "currentStudents": 0,
       "notionData": {
         "id": "2c687a19-32c4-8099-934e-fbbd4a843b8c",
         "title": "SCM 기초 완성 강의 2기",
@@ -277,7 +318,8 @@
         "status": "준비중",
         "description": "",
         "price": 169000,
-        "maxStudents": 5,
+        "maxStudents": 6,
+        "currentStudents": 0,
         "batch": 3
       }
     },
@@ -290,6 +332,8 @@
       "hasAssignment": false,
       "status": "준비중",
       "batch": 3,
+      "maxStudents": 6,
+      "currentStudents": 0,
       "notionData": {
         "id": "2c687a19-32c4-8099-934e-fbbd4a843b8c",
         "title": "SCM 기초 완성 강의 2기",
@@ -297,11 +341,12 @@
         "status": "준비중",
         "description": "",
         "price": 169000,
-        "maxStudents": 5,
+        "maxStudents": 6,
+        "currentStudents": 0,
         "batch": 3
       }
     }
   ],
-  "lastUpdated": "2025-12-21T01:06:26.333Z",
+  "lastUpdated": "2025-12-21T03:35:05.013Z",
   "totalSessions": 15
 }
