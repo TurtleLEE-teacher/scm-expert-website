@@ -1894,19 +1894,24 @@
                 newYear--;
             }
 
-            const hasDataForMonth = notionData && notionData.some(course => {
-                const [courseYear, courseMonth, courseDay] = course.date.split('-').map(Number);
-                const courseDate = new Date(courseYear, courseMonth - 1, courseDay);
-                return courseDate.getMonth() + 1 === newMonth && courseDate.getFullYear() === newYear;
+            // 해당 월에 데이터가 있는지 확인
+            const monthData = notionData && notionData.filter(course => {
+                const [courseYear, courseMonth] = course.date.split('-').map(Number);
+                return courseMonth === newMonth && courseYear === newYear;
             });
 
-            if (hasDataForMonth) {
-                const targetTab = document.querySelector(`.month-tab[data-month="${newMonth}"][data-year="${newYear}"]`);
+            if (monthData && monthData.length > 0) {
+                // 해당 월의 기수를 찾아서 탭 활성화
+                const batch = extractBatchNumber(monthData[0]);
+                const targetTab = document.querySelector(`.month-tab[data-batch="${batch}"]`);
                 if (targetTab) {
                     document.querySelectorAll('.month-tab').forEach(tab => tab.classList.remove('active'));
                     targetTab.classList.add('active');
-                    updateCalendar(newMonth, newYear);
                 }
+                updateCalendar(newMonth, newYear, batch);
+            } else {
+                // 데이터가 없어도 달력은 이동
+                updateCalendar(newMonth, newYear);
             }
         };
 
