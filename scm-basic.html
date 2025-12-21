@@ -1936,6 +1936,9 @@
                     notionData = [];
 
                     data.data.forEach(course => {
+                        // 종료 상태는 달력에서 제외
+                        if (course.status === '종료') return;
+
                         if (course.schedule && course.schedule.length > 0) {
                             notionData.push(...course.schedule);
                         } else if (course.date) {
