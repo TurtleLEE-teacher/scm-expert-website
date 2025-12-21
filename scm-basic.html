@@ -1993,45 +1993,43 @@
             }
         }
 
-        // Generate Month Tabs
+        // Generate Batch Tabs (기수별 탭 생성)
         function generateMonthTabs() {
             const monthTabs = document.getElementById('monthTabs');
             if (!monthTabs || !notionData || notionData.length === 0) return;
 
-            const months = [...new Set(notionData.map(course => {
-                const [year, month, day] = course.date.split('-').map(Number);
-                const date = new Date(year, month - 1, day);
-                return JSON.stringify({
-                    month: date.getMonth() + 1,
-                    year: date.getFullYear(),
-                    status: course.status || '예정'
-                });
-            }))].map(item => JSON.parse(item));
-
-            months.sort((a, b) => {
-                if (a.year !== b.year) return a.year - b.year;
-                return a.month - b.month;
+            // 기수별로 그룹화 (중복 제거)
+            const batchMap = {};
+            notionData.forEach(course => {
+                const batch = extractBatchNumber(course);
+                if (!batchMap[batch]) {
+                    batchMap[batch] = {
+                        batch: batch,
+                        status: course.status || '준비중',
+                        // 해당 기수의 첫 번째 날짜 정보 저장
+                        firstDate: course.date
+                    };
+                }
             });
 
-            const monthNames = ['', '1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'];
+            // 기수 순으로 정렬
+            const batches = Object.values(batchMap).sort((a, b) => a.batch - b.batch);
 
             const getStatusText = (status) => {
                 if (status.includes('완료') || status.includes('종료')) return '완료';
                 if (status.includes('진행')) return '진행중';
                 if (status.includes('모집')) return '모집중';
-                return '예정';
+                return '준비중';
             };
 
             let tabsHTML = '';
-            months.forEach((monthInfo, index) => {
+            batches.forEach((batchInfo, index) => {
                 const isActive = index === 0 ? 'active' : '';
-                const statusText = getStatusText(monthInfo.status);
-                const currentYear = new Date().getFullYear();
-                const yearText = monthInfo.year !== currentYear ? ` ${monthInfo.year}` : '';
+                const statusText = getStatusText(batchInfo.status);
 
                 tabsHTML += `
-                    <div class="month-tab ${isActive}" data-month="${monthInfo.month}" data-year="${monthInfo.year}">
-                        ${monthNames[monthInfo.month]}${yearText} (${statusText})
+                    <div class="month-tab ${isActive}" data-batch="${batchInfo.batch}">
+                        ${batchInfo.batch}기 (${statusText})
                     </div>
                 `;
             });
@@ -2043,9 +2041,13 @@
                     document.querySelectorAll('.month-tab').forEach(t => t.classList.remove('active'));
                     this.classList.add('active');
 
-                    const month = parseInt(this.dataset.month);
-                    const year = parseInt(this.dataset.year);
-                    updateCalendar(month, year);
+                    const batch = parseInt(this.dataset.batch);
+                    // 해당 기수의 첫 번째 날짜로 달력 이동
+                    const batchData = notionData.find(item => extractBatchNumber(item) === batch);
+                    if (batchData && batchData.date) {
+                        const [year, month] = batchData.date.split('-').map(Number);
+                        updateCalendar(month, year, batch);
+                    }
                 });
             });
         }
@@ -2201,9 +2203,12 @@
         }
 
         // Update Calendar
-        function updateCalendar(month, year) {
+        let currentBatch = null; // 현재 선택된 기수
+
+        function updateCalendar(month, year, batch = null) {
             currentDisplayMonth = month;
             currentDisplayYear = year;
+            if (batch !== null) currentBatch = batch;
 
             const calendarGrid = document.getElementById('calendarGrid');
             if (!calendarGrid) return;
@@ -2216,11 +2221,10 @@
 
             const batchInfo = document.getElementById('batchInfo');
             if (monthData.length > 0) {
-                const courseName = monthData[0].name || monthData[0].notionData?.title || 'SCM 기초 과정';
+                const batchNum = extractBatchNumber(monthData[0]);
                 const status = monthData[0].status || '준비중';
-                const monthNames = ['', '1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'];
                 const statusText = status.includes('종료') ? '완료' : status;
-                batchInfo.textContent = `${courseName} - ${monthNames[month]} (${statusText})`;
+                batchInfo.textContent = `${batchNum}기 (${statusText})`;
             }
 
             // Update header
