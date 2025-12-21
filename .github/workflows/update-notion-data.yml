@@ -243,13 +243,162 @@ jobs:
         console.log(\`✅ \${calendarData.length}개 세션 데이터 업데이트 완료\`);
         "
 
+    - name: Fetch Reviews from Notion
+      run: |
+        HTTP_STATUS=$(curl -s -w "%{http_code}" -o reviews-raw.json -X POST "https://api.notion.com/v1/databases/243951127368492d906a3d36861aacd2/query" \
+          -H "Authorization: Bearer ${{ secrets.NOTION_API_KEY }}" \
+          -H "Notion-Version: 2022-06-28" \
+          -H "Content-Type: application/json" \
+          -d '{
+            "page_size": 100
+          }')
+
+        echo "HTTP Status: $HTTP_STATUS"
+
+        if [ "$HTTP_STATUS" != "200" ]; then
+          echo "❌ Notion Reviews API 오류 (HTTP $HTTP_STATUS):"
+          cat reviews-raw.json
+          exit 1
+        fi
+
+        echo "✅ Notion Reviews API 호출 성공"
+
+    - name: Transform reviews data
+      run: |
+        node -e "
+        const fs = require('fs');
+
+        let rawData;
+        try {
+          rawData = JSON.parse(fs.readFileSync('reviews-raw.json', 'utf8'));
+        } catch (e) {
+          console.error('❌ Reviews JSON 파싱 오류:', e.message);
+          process.exit(1);
+        }
+
+        if (rawData.object === 'error') {
+          console.error('❌ Notion API 오류:', rawData.message);
+          process.exit(1);
+        }
+
+        if (!rawData.results || !Array.isArray(rawData.results)) {
+          console.error('❌ 유효하지 않은 응답 형식');
+          process.exit(1);
+        }
+
+        console.log('📊 총 ' + rawData.results.length + '개 후기 발견');
+
+        const reviews = [];
+
+        rawData.results.forEach((review, index) => {
+          if (review.archived || review.in_trash) return;
+
+          const props = review.properties;
+
+          // 속성 이름 확인을 위한 디버깅
+          if (index === 0) {
+            console.log('\\n📋 후기 속성 목록:');
+            Object.keys(props).forEach(key => {
+              console.log('  - ' + key + ' (' + props[key].type + ')');
+            });
+          }
+
+          // 후기 내용 추출 (다양한 필드명 시도)
+          let content = '';
+          const contentFields = ['후기내용', '후기', '내용', 'content', 'Content', 'Review'];
+          for (const field of contentFields) {
+            if (props[field]?.rich_text?.[0]?.text?.content) {
+              content = props[field].rich_text[0].text.content;
+              break;
+            }
+            if (props[field]?.title?.[0]?.text?.content) {
+              content = props[field].title[0].text.content;
+              break;
+            }
+          }
+
+          // 별점 추출
+          let rating = 5;
+          const ratingFields = ['별점', 'rating', 'Rating', '평점'];
+          for (const field of ratingFields) {
+            if (props[field]?.number) {
+              rating = props[field].number;
+              break;
+            }
+            if (props[field]?.select?.name) {
+              rating = parseInt(props[field].select.name) || 5;
+              break;
+            }
+          }
+
+          // 작성자 추출
+          let author = '';
+          const authorFields = ['작성자', '이름', 'author', 'Author', 'Name'];
+          for (const field of authorFields) {
+            if (props[field]?.rich_text?.[0]?.text?.content) {
+              author = props[field].rich_text[0].text.content;
+              break;
+            }
+            if (props[field]?.title?.[0]?.text?.content) {
+              author = props[field].title[0].text.content;
+              break;
+            }
+          }
+
+          // 날짜 추출
+          let date = '';
+          const dateFields = ['날짜', '작성일', 'date', 'Date', '등록일'];
+          for (const field of dateFields) {
+            if (props[field]?.date?.start) {
+              const d = new Date(props[field].date.start);
+              date = d.getFullYear() + '.' + String(d.getMonth() + 1).padStart(2, '0');
+              break;
+            }
+          }
+
+          // 생성일 fallback
+          if (!date && review.created_time) {
+            const d = new Date(review.created_time);
+            date = d.getFullYear() + '.' + String(d.getMonth() + 1).padStart(2, '0');
+          }
+
+          if (content) {
+            reviews.push({
+              id: review.id,
+              content: content,
+              rating: rating,
+              author: author,
+              date: date
+            });
+            console.log('✓ 후기 추가: ' + author + ' (' + rating + '점)');
+          }
+        });
+
+        // 날짜 역순 정렬 (최신순)
+        reviews.sort((a, b) => {
+          if (!a.date) return 1;
+          if (!b.date) return -1;
+          return b.date.localeCompare(a.date);
+        });
+
+        const output = {
+          success: true,
+          data: reviews,
+          lastUpdated: new Date().toISOString(),
+          totalReviews: reviews.length
+        };
+
+        fs.writeFileSync('data/reviews.json', JSON.stringify(output, null, 2));
+        console.log('✅ ' + reviews.length + '개 후기 데이터 업데이트 완료');
+        "
+
     - name: Commit and push if changed
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add data/schedule.json
+        git add data/schedule.json data/reviews.json
         if ! git diff --cached --exit-code; then
-          git commit -m "🔄 Notion 강의 데이터 자동 업데이트 $(date '+%Y-%m-%d %H:%M')"
+          git commit -m "🔄 Notion 데이터 자동 업데이트 $(date '+%Y-%m-%d %H:%M')"
           git push
         else
           echo "데이터 변경사항 없음"
