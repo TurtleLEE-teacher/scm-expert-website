@@ -8,16 +8,16 @@
       "week": 1,
       "label": "1주차 강의",
       "hasAssignment": true,
-      "status": "진행중",
+      "status": "종료",
       "batch": 1,
       "notionData": {
         "id": "2cf87a19-32c4-80a6-8027-fc0f6a79b5d6",
         "title": "SCM 기초 완성 강의",
         "category": "SCM 기초",
-        "status": "진행중",
+        "status": "종료",
         "description": "",
         "price": 169000,
-        "maxStudents": 10,
+        "maxStudents": 5,
         "batch": 1
       }
     },
@@ -28,16 +28,16 @@
       "week": 2,
       "label": "2주차 피드백",
       "hasAssignment": true,
-      "status": "진행중",
+      "status": "종료",
       "batch": 1,
       "notionData": {
         "id": "2cf87a19-32c4-80a6-8027-fc0f6a79b5d6",
         "title": "SCM 기초 완성 강의",
         "category": "SCM 기초",
-        "status": "진행중",
+        "status": "종료",
         "description": "",
         "price": 169000,
-        "maxStudents": 10,
+        "maxStudents": 5,
         "batch": 1
       }
     },
@@ -48,16 +48,16 @@
       "week": 3,
       "label": "3주차 강의",
       "hasAssignment": true,
-      "status": "진행중",
+      "status": "종료",
       "batch": 1,
       "notionData": {
         "id": "2cf87a19-32c4-80a6-8027-fc0f6a79b5d6",
         "title": "SCM 기초 완성 강의",
         "category": "SCM 기초",
-        "status": "진행중",
+        "status": "종료",
         "description": "",
         "price": 169000,
-        "maxStudents": 10,
+        "maxStudents": 5,
         "batch": 1
       }
     },
@@ -68,16 +68,16 @@
       "week": 4,
       "label": "4주차 피드백",
       "hasAssignment": true,
-      "status": "진행중",
+      "status": "종료",
       "batch": 1,
       "notionData": {
         "id": "2cf87a19-32c4-80a6-8027-fc0f6a79b5d6",
         "title": "SCM 기초 완성 강의",
         "category": "SCM 기초",
-        "status": "진행중",
+        "status": "종료",
         "description": "",
         "price": 169000,
-        "maxStudents": 10,
+        "maxStudents": 5,
         "batch": 1
       }
     },
@@ -88,16 +88,16 @@
       "week": 5,
       "label": "5주차 최종발표",
       "hasAssignment": false,
-      "status": "진행중",
+      "status": "종료",
       "batch": 1,
       "notionData": {
         "id": "2cf87a19-32c4-80a6-8027-fc0f6a79b5d6",
         "title": "SCM 기초 완성 강의",
         "category": "SCM 기초",
-        "status": "진행중",
+        "status": "종료",
         "description": "",
         "price": 169000,
-        "maxStudents": 10,
+        "maxStudents": 5,
         "batch": 1
       }
     },
@@ -117,7 +117,7 @@
         "status": "모집중",
         "description": "",
         "price": 169000,
-        "maxStudents": 10,
+        "maxStudents": 5,
         "batch": 2
       }
     },
@@ -137,7 +137,7 @@
         "status": "모집중",
         "description": "",
         "price": 169000,
-        "maxStudents": 10,
+        "maxStudents": 5,
         "batch": 2
       }
     },
@@ -157,7 +157,7 @@
         "status": "모집중",
         "description": "",
         "price": 169000,
-        "maxStudents": 10,
+        "maxStudents": 5,
         "batch": 2
       }
     },
@@ -177,7 +177,7 @@
         "status": "준비중",
         "description": "",
         "price": 169000,
-        "maxStudents": 10,
+        "maxStudents": 5,
         "batch": 3
       }
     },
@@ -197,7 +197,7 @@
         "status": "모집중",
         "description": "",
         "price": 169000,
-        "maxStudents": 10,
+        "maxStudents": 5,
         "batch": 2
       }
     },
@@ -217,7 +217,7 @@
         "status": "준비중",
         "description": "",
         "price": 169000,
-        "maxStudents": 10,
+        "maxStudents": 5,
         "batch": 3
       }
     },
@@ -237,7 +237,7 @@
         "status": "모집중",
         "description": "",
         "price": 169000,
-        "maxStudents": 10,
+        "maxStudents": 5,
         "batch": 2
       }
     },
@@ -257,7 +257,7 @@
         "status": "준비중",
         "description": "",
         "price": 169000,
-        "maxStudents": 10,
+        "maxStudents": 5,
         "batch": 3
       }
     },
@@ -277,7 +277,7 @@
         "status": "준비중",
         "description": "",
         "price": 169000,
-        "maxStudents": 10,
+        "maxStudents": 5,
         "batch": 3
       }
     },
@@ -297,11 +297,11 @@
         "status": "준비중",
         "description": "",
         "price": 169000,
-        "maxStudents": 10,
+        "maxStudents": 5,
         "batch": 3
       }
     }
   ],
-  "lastUpdated": "2025-12-20T21:10:51.322Z",
+  "lastUpdated": "2025-12-21T01:06:26.333Z",
   "totalSessions": 15
 }
