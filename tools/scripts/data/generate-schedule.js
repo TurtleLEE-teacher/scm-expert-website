@@ -174,7 +174,7 @@ async function generateReviewsJSON() {
 
             // 후기 내용 추출
             let content = '';
-            const contentFields = ['후기내용', '후기', '내용', 'content', 'Content', 'Review'];
+            const contentFields = ['후기 내용', '후기내용', '후기', '내용', 'content', 'Content', 'Review'];
             for (const field of contentFields) {
                 if (props[field]?.rich_text?.[0]?.text?.content) {
                     content = props[field].rich_text[0].text.content;
@@ -216,7 +216,7 @@ async function generateReviewsJSON() {
 
             // 날짜 추출
             let date = '';
-            const dateFields = ['날짜', '작성일', 'date', 'Date', '등록일'];
+            const dateFields = ['작성일자', '날짜', '작성일', 'date', 'Date', '등록일'];
             for (const field of dateFields) {
                 if (props[field]?.date?.start) {
                     const d = new Date(props[field].date.start);
