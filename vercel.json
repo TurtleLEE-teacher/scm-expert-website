@@ -7,6 +7,10 @@
     {
       "source": "/api/career-application",
       "destination": "/api/career-application.js"
+    },
+    {
+      "source": "/api/scm-demand",
+      "destination": "/api/scm-demand.js"
     }
   ]
 }

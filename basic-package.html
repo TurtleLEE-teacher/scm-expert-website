@@ -1821,7 +1821,7 @@
                 const data = Object.fromEntries(formData.entries());
                 data.privacy_agreed = document.getElementById('demand-privacy').checked;
 
-                const response = await fetch('/api/php/scm-demand.php', {
+                const response = await fetch('/api/scm-demand', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
