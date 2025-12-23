@@ -538,6 +538,66 @@
             color: var(--text-secondary);
             margin-bottom: var(--space-8);
         }
+        .price-info-row {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-6);
+            margin-bottom: var(--space-6);
+            padding-bottom: var(--space-6);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .price-info-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-1);
+        }
+        .price-info-label {
+            font-size: var(--text-sm);
+            color: var(--text-tertiary);
+        }
+        .price-info-value {
+            font-size: var(--text-base);
+            font-weight: var(--font-semibold);
+            color: var(--text-primary);
+        }
+        @media (max-width: 480px) {
+            .price-info-row {
+                flex-direction: column;
+                gap: var(--space-3);
+            }
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-4);
+        }
+        @media (max-width: 480px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+        .form-checkbox {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-2);
+            cursor: pointer;
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+        }
+        .form-checkbox input[type="checkbox"] {
+            margin-top: 2px;
+            width: 16px;
+            height: 16px;
+            accent-color: var(--blue);
+        }
+        .conditional-fields {
+            animation: fadeIn 0.2s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
         /* FAQ */
         .faq-list {
@@ -1086,7 +1146,7 @@
             SCM 직무 5주 캠프 + 자소서 완성 + 면접 준비<br>
             직무 능력부터 커리어 준비까지 한 번에 완성하세요
         </p>
-        <button class="btn btn-primary btn-lg fade-up" onclick="openModal('basic-package')">지금 신청하기</button>
+        <button class="btn btn-primary btn-lg fade-up" onclick="openDemandModal()">대기 등록하기</button>
     </section>
 
     <!-- Package Overview -->
@@ -1361,18 +1421,32 @@
     <section class="page-section alt" id="pricing">
         <div class="container">
             <div class="section-header fade-up">
-                <h2>수강 신청</h2>
-                <p>지금 신청하고 커리어 역량을 강화하세요</p>
+                <h2>수강 대기 등록</h2>
+                <p>정원이 충족되면 개강 일정을 확정하여 안내드립니다</p>
             </div>
 
             <div class="price-card fade-up">
                 <div class="price-badge">기본 패키지</div>
+                <div class="price-info-row">
+                    <div class="price-info-item">
+                        <span class="price-info-label">일정</span>
+                        <span class="price-info-value">매주 토요일 20:00-22:00</span>
+                    </div>
+                    <div class="price-info-item">
+                        <span class="price-info-label">기간</span>
+                        <span class="price-info-value">5주 과정</span>
+                    </div>
+                    <div class="price-info-item">
+                        <span class="price-info-label">정원</span>
+                        <span class="price-info-value">6명 (소수 정예)</span>
+                    </div>
+                </div>
                 <div class="price-amount">300,000원</div>
                 <p class="price-desc">
                     5주 직무 캠프 + 자소서 2회 + 면접 1회<br>
                     강의 + 컨설팅 통합 특별가
                 </p>
-                <button class="btn btn-primary btn-lg" style="width: 100%;" onclick="openModal('basic-package')">상담 신청하기</button>
+                <button class="btn btn-primary btn-lg" style="width: 100%;" onclick="openDemandModal()">대기 등록하기</button>
 
                 <div style="margin-top: var(--space-8); padding: var(--space-4); background: rgba(0, 113, 227, 0.1); border-radius: var(--radius-md);">
                     <p style="font-size: var(--text-sm); color: var(--blue); margin: 0;">
@@ -1418,7 +1492,7 @@
     <section class="cta-section">
         <h2 class="fade-up">지금이 시작할 때입니다</h2>
         <p class="fade-up">직무 능력부터 커리어 준비까지, 한 번에 완성하세요</p>
-        <button class="btn btn-primary btn-lg fade-up" onclick="openModal('basic-package')">지금 신청하기</button>
+        <button class="btn btn-primary btn-lg fade-up" onclick="openDemandModal()">대기 등록하기</button>
     </section>
 
     <!-- Contact Modal -->
@@ -1465,6 +1539,93 @@
             <h3>신청이 완료되었습니다!</h3>
             <p>입력하신 연락처로 24시간 내 연락드리겠습니다.</p>
             <button class="btn btn-secondary" style="margin-top: var(--space-6);" onclick="closeModal()">닫기</button>
+        </div>
+    </div>
+
+    <!-- Demand Registration Modal -->
+    <div class="modal-overlay" id="demandModalOverlay"></div>
+    <div class="modal-container" id="demandModal">
+        <button class="modal-close" id="demandModalClose" aria-label="닫기">&times;</button>
+        <div id="demandFormContainer">
+            <h2 class="modal-title">수강 대기 등록</h2>
+            <p class="modal-subtitle">기수가 확정되면 안내드리겠습니다</p>
+            <form id="demandForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="demand-name">이름 *</label>
+                        <input type="text" class="form-input" id="demand-name" name="name" placeholder="홍길동" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="demand-phone">연락처 *</label>
+                        <input type="tel" class="form-input" id="demand-phone" name="phone" placeholder="010-0000-0000" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="demand-email">이메일 *</label>
+                    <input type="email" class="form-input" id="demand-email" name="email" placeholder="example@email.com" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="demand-affiliation">소속구분 *</label>
+                        <select class="form-input form-select" id="demand-affiliation" name="affiliation" required>
+                            <option value="">선택해주세요</option>
+                            <option value="직장인">직장인</option>
+                            <option value="학생">학생</option>
+                            <option value="취업준비생">취업준비생</option>
+                            <option value="기타">기타</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="demand-waiting-month">희망 시작 월 *</label>
+                        <select class="form-input form-select" id="demand-waiting-month" name="waiting_month" required>
+                            <option value="">선택해주세요</option>
+                        </select>
+                    </div>
+                </div>
+                <!-- 직장인 필드 -->
+                <div id="workerFields" class="conditional-fields" style="display: none;">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="demand-company">회사명</label>
+                            <input type="text" class="form-input" id="demand-company" name="company" placeholder="회사명">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="demand-position">직책</label>
+                            <input type="text" class="form-input" id="demand-position" name="position" placeholder="직책">
+                        </div>
+                    </div>
+                </div>
+                <!-- 학생 필드 -->
+                <div id="studentFields" class="conditional-fields" style="display: none;">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="demand-major">전공</label>
+                            <input type="text" class="form-input" id="demand-major" name="major" placeholder="전공">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="demand-grade">학년</label>
+                            <input type="text" class="form-input" id="demand-grade" name="grade" placeholder="예: 3학년, 대학원생">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="demand-notes">특이사항</label>
+                    <textarea class="form-input" id="demand-notes" name="notes" placeholder="문의사항이나 요청사항이 있으시면 적어주세요"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-checkbox">
+                        <input type="checkbox" id="demand-privacy" name="privacy_agreed" required>
+                        <span>개인정보 수집·이용에 동의합니다 (필수)</span>
+                    </label>
+                </div>
+                <button type="submit" class="btn btn-primary form-submit">대기 등록하기</button>
+            </form>
+        </div>
+        <div class="form-success" id="demandFormSuccess">
+            <div class="form-success-icon">✓</div>
+            <h3>대기 등록이 완료되었습니다!</h3>
+            <p>기수가 확정되면 안내드리겠습니다.</p>
+            <button class="btn btn-secondary" style="margin-top: var(--space-6);" onclick="closeDemandModal()">닫기</button>
         </div>
     </div>
 
@@ -1570,6 +1731,117 @@
             localStorage.setItem('scm_inquiries', JSON.stringify(inquiries));
             contactForm.style.display = 'none';
             formSuccess.classList.add('show');
+        });
+
+        // Demand Registration Modal
+        const demandModalOverlay = document.getElementById('demandModalOverlay');
+        const demandModal = document.getElementById('demandModal');
+        const demandModalClose = document.getElementById('demandModalClose');
+        const demandForm = document.getElementById('demandForm');
+        const demandFormContainer = document.getElementById('demandFormContainer');
+        const demandFormSuccess = document.getElementById('demandFormSuccess');
+        const affiliationSelect = document.getElementById('demand-affiliation');
+        const workerFields = document.getElementById('workerFields');
+        const studentFields = document.getElementById('studentFields');
+        const waitingMonthSelect = document.getElementById('demand-waiting-month');
+        const demandPhoneInput = document.getElementById('demand-phone');
+
+        // 희망 시작 월 옵션 생성 (다음 달부터 6개월)
+        function generateWaitingMonthOptions() {
+            if (!waitingMonthSelect) return;
+            const today = new Date();
+            const currentMonth = today.getMonth();
+            const currentYear = today.getFullYear();
+
+            for (let i = 1; i <= 6; i++) {
+                const month = (currentMonth + i) % 12;
+                const year = currentYear + Math.floor((currentMonth + i) / 12);
+                const monthName = `${year}년 ${month + 1}월`;
+                const option = document.createElement('option');
+                option.value = monthName;
+                option.textContent = monthName;
+                waitingMonthSelect.appendChild(option);
+            }
+        }
+        generateWaitingMonthOptions();
+
+        // 소속구분에 따른 조건부 필드 표시
+        affiliationSelect?.addEventListener('change', function() {
+            const value = this.value;
+            workerFields.style.display = value === '직장인' ? 'block' : 'none';
+            studentFields.style.display = value === '학생' ? 'block' : 'none';
+        });
+
+        // 전화번호 자동 포맷팅
+        demandPhoneInput?.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 11) value = value.slice(0, 11);
+            if (value.length > 7) {
+                value = value.replace(/(\d{3})(\d{4})(\d{0,4})/, '$1-$2-$3');
+            } else if (value.length > 3) {
+                value = value.replace(/(\d{3})(\d{0,4})/, '$1-$2');
+            }
+            e.target.value = value;
+        });
+
+        function openDemandModal() {
+            demandModalOverlay.classList.add('active');
+            demandModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeDemandModal() {
+            demandModalOverlay.classList.remove('active');
+            demandModal.classList.remove('active');
+            document.body.style.overflow = '';
+            setTimeout(() => {
+                demandFormContainer.style.display = 'block';
+                demandFormSuccess.classList.remove('show');
+                demandForm.reset();
+                workerFields.style.display = 'none';
+                studentFields.style.display = 'none';
+            }, 300);
+        }
+
+        demandModalOverlay?.addEventListener('click', closeDemandModal);
+        demandModalClose?.addEventListener('click', closeDemandModal);
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && demandModal.classList.contains('active')) closeDemandModal();
+        });
+
+        demandForm?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const submitBtn = demandForm.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = '등록 중...';
+            submitBtn.disabled = true;
+
+            try {
+                const formData = new FormData(demandForm);
+                const data = Object.fromEntries(formData.entries());
+                data.privacy_agreed = document.getElementById('demand-privacy').checked;
+
+                const response = await fetch('/api/php/scm-demand.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    demandFormContainer.style.display = 'none';
+                    demandFormSuccess.classList.add('show');
+                } else {
+                    alert(result.error || '등록에 실패했습니다. 다시 시도해주세요.');
+                }
+            } catch (error) {
+                console.error('Demand registration error:', error);
+                alert('네트워크 오류가 발생했습니다. 다시 시도해주세요.');
+            } finally {
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }
         });
 
         // Calendar Data
