@@ -1746,20 +1746,68 @@
         const waitingMonthSelect = document.getElementById('demand-waiting-month');
         const demandPhoneInput = document.getElementById('demand-phone');
 
-        // 희망 기수 옵션 생성 (다음 달부터 6개월, 기수 형식)
-        function generateWaitingMonthOptions() {
+        // 희망 기수 옵션 생성 (Notion 강의관리 DB에서 모집중/준비중 기수만 표시)
+        async function generateWaitingMonthOptions() {
             if (!waitingMonthSelect) return;
-            const today = new Date();
-            const currentMonth = today.getMonth();
-            const currentYear = today.getFullYear();
 
-            for (let i = 1; i <= 6; i++) {
-                const month = (currentMonth + i) % 12;
-                const year = currentYear + Math.floor((currentMonth + i) / 12);
-                const cohortName = `${i}기 (${year}년 ${month + 1}월 시작)`;
+            try {
+                const response = await fetch('./data/schedule.json?t=' + Date.now());
+                if (!response.ok) throw new Error('스케줄 데이터 로드 실패');
+
+                const data = await response.json();
+                if (!data.success || !data.data) throw new Error('데이터 형식 오류');
+
+                // 모집중 또는 준비중인 강의만 필터링하고, 중복 제거 (notionData.id 기준)
+                const courseMap = new Map();
+                data.data.forEach(item => {
+                    if ((item.status === '모집중' || item.status === '준비중') && item.notionData?.id) {
+                        const courseId = item.notionData.id;
+                        if (!courseMap.has(courseId)) {
+                            // 첫 번째 세션 날짜를 저장
+                            const date = new Date(item.date);
+                            courseMap.set(courseId, {
+                                title: item.notionData.title || item.name,
+                                date: date,
+                                status: item.status,
+                                batch: item.batch
+                            });
+                        }
+                    }
+                });
+
+                // 날짜순 정렬
+                const courses = Array.from(courseMap.values()).sort((a, b) => a.date - b.date);
+
+                if (courses.length === 0) {
+                    // 모집중인 기수가 없을 때
+                    const option = document.createElement('option');
+                    option.value = '';
+                    option.textContent = '현재 모집중인 기수가 없습니다';
+                    option.disabled = true;
+                    waitingMonthSelect.appendChild(option);
+                    return;
+                }
+
+                // 옵션 생성
+                courses.forEach(course => {
+                    const year = course.date.getFullYear();
+                    const month = course.date.getMonth() + 1;
+                    const statusLabel = course.status === '모집중' ? '모집중' : '예정';
+                    const optionText = `${course.title} (${year}년 ${month}월 시작) - ${statusLabel}`;
+
+                    const option = document.createElement('option');
+                    option.value = course.title;
+                    option.textContent = optionText;
+                    waitingMonthSelect.appendChild(option);
+                });
+
+            } catch (error) {
+                console.warn('기수 옵션 로드 실패:', error.message);
+                // 폴백: 기본 옵션
                 const option = document.createElement('option');
-                option.value = cohortName;
-                option.textContent = cohortName;
+                option.value = '';
+                option.textContent = '기수 정보를 불러올 수 없습니다';
+                option.disabled = true;
                 waitingMonthSelect.appendChild(option);
             }
         }
