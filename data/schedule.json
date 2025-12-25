@@ -2,7 +2,7 @@
   "success": true,
   "data": [
     {
-      "name": "SCM 기초 완성 강의",
+      "name": "SCM 기초 완성 강의 1기",
       "date": "2026-02-13",
       "type": "lecture",
       "week": 1,
@@ -14,7 +14,7 @@
       "currentStudents": 0,
       "notionData": {
         "id": "2cf87a19-32c4-80a6-8027-fc0f6a79b5d6",
-        "title": "SCM 기초 완성 강의",
+        "title": "SCM 기초 완성 강의 1기",
         "category": "SCM 기초",
         "status": "종료",
         "description": "",
@@ -25,7 +25,7 @@
       }
     },
     {
-      "name": "SCM 기초 완성 강의",
+      "name": "SCM 기초 완성 강의 1기",
       "date": "2026-02-20",
       "type": "assignment",
       "week": 2,
@@ -37,7 +37,7 @@
       "currentStudents": 0,
       "notionData": {
         "id": "2cf87a19-32c4-80a6-8027-fc0f6a79b5d6",
-        "title": "SCM 기초 완성 강의",
+        "title": "SCM 기초 완성 강의 1기",
         "category": "SCM 기초",
         "status": "종료",
         "description": "",
@@ -48,7 +48,7 @@
       }
     },
     {
-      "name": "SCM 기초 완성 강의",
+      "name": "SCM 기초 완성 강의 1기",
       "date": "2026-02-27",
       "type": "lecture",
       "week": 3,
@@ -60,7 +60,7 @@
       "currentStudents": 0,
       "notionData": {
         "id": "2cf87a19-32c4-80a6-8027-fc0f6a79b5d6",
-        "title": "SCM 기초 완성 강의",
+        "title": "SCM 기초 완성 강의 1기",
         "category": "SCM 기초",
         "status": "종료",
         "description": "",
@@ -71,7 +71,7 @@
       }
     },
     {
-      "name": "SCM 기초 완성 강의",
+      "name": "SCM 기초 완성 강의 1기",
       "date": "2026-03-06",
       "type": "assignment",
       "week": 4,
@@ -83,7 +83,7 @@
       "currentStudents": 0,
       "notionData": {
         "id": "2cf87a19-32c4-80a6-8027-fc0f6a79b5d6",
-        "title": "SCM 기초 완성 강의",
+        "title": "SCM 기초 완성 강의 1기",
         "category": "SCM 기초",
         "status": "종료",
         "description": "",
@@ -94,7 +94,7 @@
       }
     },
     {
-      "name": "SCM 기초 완성 강의",
+      "name": "SCM 기초 완성 강의 1기",
       "date": "2026-03-13",
       "type": "lecture",
       "week": 5,
@@ -106,7 +106,7 @@
       "currentStudents": 0,
       "notionData": {
         "id": "2cf87a19-32c4-80a6-8027-fc0f6a79b5d6",
-        "title": "SCM 기초 완성 강의",
+        "title": "SCM 기초 완성 강의 1기",
         "category": "SCM 기초",
         "status": "종료",
         "description": "",
@@ -117,113 +117,21 @@
       }
     },
     {
-      "name": "SCM 기초 완성 강의 1기",
+      "name": "SCM 기초 완성 강의 2기",
       "date": "2026-03-20",
       "type": "lecture",
       "week": 1,
       "label": "1주차 강의",
       "hasAssignment": true,
-      "status": "모집중",
+      "status": "준비중",
       "batch": 2,
       "maxStudents": 6,
       "currentStudents": 0,
       "notionData": {
         "id": "b60d0727-ac12-4149-aff8-5117cc5042d0",
-        "title": "SCM 기초 완성 강의 1기",
+        "title": "SCM 기초 완성 강의 2기",
         "category": "SCM 기초",
-        "status": "모집중",
-        "description": "",
-        "price": 169000,
-        "maxStudents": 6,
-        "currentStudents": 0,
-        "batch": 2
-      }
-    },
-    {
-      "name": "SCM 기초 완성 강의 1기",
-      "date": "2026-03-27",
-      "type": "assignment",
-      "week": 2,
-      "label": "2주차 피드백",
-      "hasAssignment": true,
-      "status": "모집중",
-      "batch": 2,
-      "maxStudents": 6,
-      "currentStudents": 0,
-      "notionData": {
-        "id": "b60d0727-ac12-4149-aff8-5117cc5042d0",
-        "title": "SCM 기초 완성 강의 1기",
-        "category": "SCM 기초",
-        "status": "모집중",
-        "description": "",
-        "price": 169000,
-        "maxStudents": 6,
-        "currentStudents": 0,
-        "batch": 2
-      }
-    },
-    {
-      "name": "SCM 기초 완성 강의 1기",
-      "date": "2026-04-03",
-      "type": "lecture",
-      "week": 3,
-      "label": "3주차 강의",
-      "hasAssignment": true,
-      "status": "모집중",
-      "batch": 2,
-      "maxStudents": 6,
-      "currentStudents": 0,
-      "notionData": {
-        "id": "b60d0727-ac12-4149-aff8-5117cc5042d0",
-        "title": "SCM 기초 완성 강의 1기",
-        "category": "SCM 기초",
-        "status": "모집중",
-        "description": "",
-        "price": 169000,
-        "maxStudents": 6,
-        "currentStudents": 0,
-        "batch": 2
-      }
-    },
-    {
-      "name": "SCM 기초 완성 강의 1기",
-      "date": "2026-04-10",
-      "type": "assignment",
-      "week": 4,
-      "label": "4주차 피드백",
-      "hasAssignment": true,
-      "status": "모집중",
-      "batch": 2,
-      "maxStudents": 6,
-      "currentStudents": 0,
-      "notionData": {
-        "id": "b60d0727-ac12-4149-aff8-5117cc5042d0",
-        "title": "SCM 기초 완성 강의 1기",
-        "category": "SCM 기초",
-        "status": "모집중",
-        "description": "",
-        "price": 169000,
-        "maxStudents": 6,
-        "currentStudents": 0,
-        "batch": 2
-      }
-    },
-    {
-      "name": "SCM 기초 완성 강의 1기",
-      "date": "2026-04-17",
-      "type": "lecture",
-      "week": 5,
-      "label": "5주차 최종발표",
-      "hasAssignment": false,
-      "status": "모집중",
-      "batch": 2,
-      "maxStudents": 6,
-      "currentStudents": 0,
-      "notionData": {
-        "id": "b60d0727-ac12-4149-aff8-5117cc5042d0",
-        "title": "SCM 기초 완성 강의 1기",
-        "category": "SCM 기초",
-        "status": "모집중",
+        "status": "준비중",
         "description": "",
         "price": 169000,
         "maxStudents": 6,
@@ -233,6 +141,98 @@
     },
     {
       "name": "SCM 기초 완성 강의 2기",
+      "date": "2026-03-27",
+      "type": "assignment",
+      "week": 2,
+      "label": "2주차 피드백",
+      "hasAssignment": true,
+      "status": "준비중",
+      "batch": 2,
+      "maxStudents": 6,
+      "currentStudents": 0,
+      "notionData": {
+        "id": "b60d0727-ac12-4149-aff8-5117cc5042d0",
+        "title": "SCM 기초 완성 강의 2기",
+        "category": "SCM 기초",
+        "status": "준비중",
+        "description": "",
+        "price": 169000,
+        "maxStudents": 6,
+        "currentStudents": 0,
+        "batch": 2
+      }
+    },
+    {
+      "name": "SCM 기초 완성 강의 2기",
+      "date": "2026-04-03",
+      "type": "lecture",
+      "week": 3,
+      "label": "3주차 강의",
+      "hasAssignment": true,
+      "status": "준비중",
+      "batch": 2,
+      "maxStudents": 6,
+      "currentStudents": 0,
+      "notionData": {
+        "id": "b60d0727-ac12-4149-aff8-5117cc5042d0",
+        "title": "SCM 기초 완성 강의 2기",
+        "category": "SCM 기초",
+        "status": "준비중",
+        "description": "",
+        "price": 169000,
+        "maxStudents": 6,
+        "currentStudents": 0,
+        "batch": 2
+      }
+    },
+    {
+      "name": "SCM 기초 완성 강의 2기",
+      "date": "2026-04-10",
+      "type": "assignment",
+      "week": 4,
+      "label": "4주차 피드백",
+      "hasAssignment": true,
+      "status": "준비중",
+      "batch": 2,
+      "maxStudents": 6,
+      "currentStudents": 0,
+      "notionData": {
+        "id": "b60d0727-ac12-4149-aff8-5117cc5042d0",
+        "title": "SCM 기초 완성 강의 2기",
+        "category": "SCM 기초",
+        "status": "준비중",
+        "description": "",
+        "price": 169000,
+        "maxStudents": 6,
+        "currentStudents": 0,
+        "batch": 2
+      }
+    },
+    {
+      "name": "SCM 기초 완성 강의 2기",
+      "date": "2026-04-17",
+      "type": "lecture",
+      "week": 5,
+      "label": "5주차 최종발표",
+      "hasAssignment": false,
+      "status": "준비중",
+      "batch": 2,
+      "maxStudents": 6,
+      "currentStudents": 0,
+      "notionData": {
+        "id": "b60d0727-ac12-4149-aff8-5117cc5042d0",
+        "title": "SCM 기초 완성 강의 2기",
+        "category": "SCM 기초",
+        "status": "준비중",
+        "description": "",
+        "price": 169000,
+        "maxStudents": 6,
+        "currentStudents": 0,
+        "batch": 2
+      }
+    },
+    {
+      "name": "SCM 기초 완성 강의 3기",
       "date": "2026-04-24",
       "type": "lecture",
       "week": 1,
@@ -244,7 +244,7 @@
       "currentStudents": 0,
       "notionData": {
         "id": "2c687a19-32c4-8099-934e-fbbd4a843b8c",
-        "title": "SCM 기초 완성 강의 2기",
+        "title": "SCM 기초 완성 강의 3기",
         "category": "SCM 기초",
         "status": "준비중",
         "description": "",
@@ -255,7 +255,7 @@
       }
     },
     {
-      "name": "SCM 기초 완성 강의 2기",
+      "name": "SCM 기초 완성 강의 3기",
       "date": "2026-05-01",
       "type": "assignment",
       "week": 2,
@@ -267,7 +267,7 @@
       "currentStudents": 0,
       "notionData": {
         "id": "2c687a19-32c4-8099-934e-fbbd4a843b8c",
-        "title": "SCM 기초 완성 강의 2기",
+        "title": "SCM 기초 완성 강의 3기",
         "category": "SCM 기초",
         "status": "준비중",
         "description": "",
@@ -278,7 +278,7 @@
       }
     },
     {
-      "name": "SCM 기초 완성 강의 2기",
+      "name": "SCM 기초 완성 강의 3기",
       "date": "2026-05-08",
       "type": "lecture",
       "week": 3,
@@ -290,7 +290,7 @@
       "currentStudents": 0,
       "notionData": {
         "id": "2c687a19-32c4-8099-934e-fbbd4a843b8c",
-        "title": "SCM 기초 완성 강의 2기",
+        "title": "SCM 기초 완성 강의 3기",
         "category": "SCM 기초",
         "status": "준비중",
         "description": "",
@@ -301,7 +301,7 @@
       }
     },
     {
-      "name": "SCM 기초 완성 강의 2기",
+      "name": "SCM 기초 완성 강의 3기",
       "date": "2026-05-15",
       "type": "assignment",
       "week": 4,
@@ -313,7 +313,7 @@
       "currentStudents": 0,
       "notionData": {
         "id": "2c687a19-32c4-8099-934e-fbbd4a843b8c",
-        "title": "SCM 기초 완성 강의 2기",
+        "title": "SCM 기초 완성 강의 3기",
         "category": "SCM 기초",
         "status": "준비중",
         "description": "",
@@ -324,7 +324,7 @@
       }
     },
     {
-      "name": "SCM 기초 완성 강의 2기",
+      "name": "SCM 기초 완성 강의 3기",
       "date": "2026-05-22",
       "type": "lecture",
       "week": 5,
@@ -336,7 +336,7 @@
       "currentStudents": 0,
       "notionData": {
         "id": "2c687a19-32c4-8099-934e-fbbd4a843b8c",
-        "title": "SCM 기초 완성 강의 2기",
+        "title": "SCM 기초 완성 강의 3기",
         "category": "SCM 기초",
         "status": "준비중",
         "description": "",
@@ -347,6 +347,6 @@
       }
     }
   ],
-  "lastUpdated": "2025-12-25T09:15:36.668Z",
+  "lastUpdated": "2025-12-25T12:25:38.764Z",
   "totalSessions": 15
 }
