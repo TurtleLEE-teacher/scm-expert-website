@@ -84,7 +84,7 @@ export default async function handler(req, res) {
           phone_number: input.phone.trim()
         },
         '소속구분': {
-          select: { name: input.affiliation }
+          rich_text: [{ text: { content: input.affiliation } }]
         },
         '회사명': {
           rich_text: [{ text: { content: input.company || '' } }]
@@ -99,7 +99,7 @@ export default async function handler(req, res) {
           rich_text: [{ text: { content: input.grade || '' } }]
         },
         '대기 (월)': {
-          select: { name: input.waiting_month }
+          rich_text: [{ text: { content: input.waiting_month } }]
         },
         '특이사항': {
           rich_text: [{ text: { content: input.notes || '' } }]
@@ -108,7 +108,7 @@ export default async function handler(req, res) {
           date: { start: new Date().toISOString().split('T')[0] }
         },
         '상태': {
-          select: { name: '대기중' }
+          rich_text: [{ text: { content: '대기중' } }]
         }
       }
     };
@@ -126,8 +126,13 @@ export default async function handler(req, res) {
 
     if (!notionResponse.ok) {
       const errorData = await notionResponse.text();
-      console.error('Notion API Error:', errorData);
-      throw new Error('등록에 실패했습니다. 잠시 후 다시 시도해주세요.');
+      console.error('Notion API Error:', notionResponse.status, errorData);
+
+      // 디버깅을 위해 상세 에러 반환
+      if (process.env.NODE_ENV === 'development') {
+        throw new Error(`Notion API 오류: ${errorData}`);
+      }
+      throw new Error('등록에 실패했습니다. 관리자에게 문의해주세요.');
     }
 
     const result = await notionResponse.json();
