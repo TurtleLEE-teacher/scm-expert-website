@@ -43,7 +43,7 @@ export default async function handler(req, res) {
     }
 
     if (!input.waiting_month) {
-      throw new Error('희망 시작 월을 선택해주세요.');
+      throw new Error('희망 기수를 선택해주세요.');
     }
 
     if (!input.privacy_agreed) {
