@@ -64,16 +64,12 @@ export default async function handler(req, res) {
 
     // Notion API 키 확인
     const notionApiKey = process.env.NOTION_API_KEY;
-    const crmDbId = process.env.NOTION_CRM_DB_ID;
+    // 환경변수가 없으면 기본값 사용 (CRM DB ID는 민감정보가 아님)
+    const crmDbId = process.env.NOTION_CRM_DB_ID || '13b7677074f041018d4c7573e1e958d4';
 
     if (!notionApiKey || notionApiKey === 'your_notion_api_key_here') {
       console.error('Missing NOTION_API_KEY');
       throw new Error('시스템 설정 오류 (API). 관리자에게 문의해주세요.');
-    }
-
-    if (!crmDbId) {
-      console.error('Missing NOTION_CRM_DB_ID');
-      throw new Error('시스템 설정 오류 (DB). 관리자에게 문의해주세요.');
     }
 
     // Notion에 저장할 데이터 준비
@@ -84,10 +80,10 @@ export default async function handler(req, res) {
           title: [{ text: { content: input.name.trim() } }]
         },
         '이메일': {
-          email: input.email.trim()
+          rich_text: [{ text: { content: input.email.trim() } }]
         },
         '전화번호': {
-          phone_number: input.phone.trim()
+          rich_text: [{ text: { content: input.phone.trim() } }]
         },
         '소속구분': {
           rich_text: [{ text: { content: input.affiliation } }]
@@ -111,7 +107,7 @@ export default async function handler(req, res) {
           rich_text: [{ text: { content: input.notes || '' } }]
         },
         '문의일': {
-          date: { start: new Date().toISOString().split('T')[0] }
+          rich_text: [{ text: { content: new Date().toISOString().split('T')[0] } }]
         },
         '상태': {
           rich_text: [{ text: { content: '대기중' } }]
