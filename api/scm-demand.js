@@ -130,21 +130,14 @@ export default async function handler(req, res) {
       const errorData = await notionResponse.text();
       console.error('Notion API Error:', notionResponse.status, errorData);
 
-      // 상세 에러 정보 파싱
-      let errorMessage = '등록에 실패했습니다.';
+      // 상세 에러 정보를 그대로 반환 (디버깅용)
+      let errorMessage = '등록 실패';
       try {
         const errorJson = JSON.parse(errorData);
-        if (errorJson.code === 'validation_error') {
-          errorMessage = `필드 오류: ${errorJson.message}`;
-        } else if (errorJson.code === 'object_not_found') {
-          errorMessage = '데이터베이스를 찾을 수 없습니다. 관리자에게 문의해주세요.';
-        } else if (errorJson.code === 'unauthorized') {
-          errorMessage = 'API 인증 오류입니다. 관리자에게 문의해주세요.';
-        } else {
-          errorMessage = `오류: ${errorJson.message || errorData}`;
-        }
+        // Notion 에러 메시지 전체를 표시
+        errorMessage = errorJson.message || errorData;
       } catch (e) {
-        errorMessage = `서버 오류 (${notionResponse.status})`;
+        errorMessage = errorData || `서버 오류 (${notionResponse.status})`;
       }
 
       throw new Error(errorMessage);
