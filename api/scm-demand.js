@@ -64,10 +64,16 @@ export default async function handler(req, res) {
 
     // Notion API 키 확인
     const notionApiKey = process.env.NOTION_API_KEY;
-    const crmDbId = process.env.NOTION_CRM_DB_ID || '13b7677074f041018d4c7573e1e958d4';
+    const crmDbId = process.env.NOTION_CRM_DB_ID;
 
     if (!notionApiKey || notionApiKey === 'your_notion_api_key_here') {
-      throw new Error('Notion API 키가 설정되지 않았습니다.');
+      console.error('Missing NOTION_API_KEY');
+      throw new Error('시스템 설정 오류 (API). 관리자에게 문의해주세요.');
+    }
+
+    if (!crmDbId) {
+      console.error('Missing NOTION_CRM_DB_ID');
+      throw new Error('시스템 설정 오류 (DB). 관리자에게 문의해주세요.');
     }
 
     // Notion에 저장할 데이터 준비
@@ -128,11 +134,24 @@ export default async function handler(req, res) {
       const errorData = await notionResponse.text();
       console.error('Notion API Error:', notionResponse.status, errorData);
 
-      // 디버깅을 위해 상세 에러 반환
-      if (process.env.NODE_ENV === 'development') {
-        throw new Error(`Notion API 오류: ${errorData}`);
+      // 상세 에러 정보 파싱
+      let errorMessage = '등록에 실패했습니다.';
+      try {
+        const errorJson = JSON.parse(errorData);
+        if (errorJson.code === 'validation_error') {
+          errorMessage = `필드 오류: ${errorJson.message}`;
+        } else if (errorJson.code === 'object_not_found') {
+          errorMessage = '데이터베이스를 찾을 수 없습니다. 관리자에게 문의해주세요.';
+        } else if (errorJson.code === 'unauthorized') {
+          errorMessage = 'API 인증 오류입니다. 관리자에게 문의해주세요.';
+        } else {
+          errorMessage = `오류: ${errorJson.message || errorData}`;
+        }
+      } catch (e) {
+        errorMessage = `서버 오류 (${notionResponse.status})`;
       }
-      throw new Error('등록에 실패했습니다. 관리자에게 문의해주세요.');
+
+      throw new Error(errorMessage);
     }
 
     const result = await notionResponse.json();
