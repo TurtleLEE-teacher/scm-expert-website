@@ -1576,7 +1576,7 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label class="form-label" for="demand-waiting-month">희망 시작 월 *</label>
+                        <label class="form-label" for="demand-waiting-month">희망 기수 *</label>
                         <select class="form-input form-select" id="demand-waiting-month" name="waiting_month" required>
                             <option value="">선택해주세요</option>
                         </select>
@@ -1746,7 +1746,7 @@
         const waitingMonthSelect = document.getElementById('demand-waiting-month');
         const demandPhoneInput = document.getElementById('demand-phone');
 
-        // 희망 시작 월 옵션 생성 (다음 달부터 6개월)
+        // 희망 기수 옵션 생성 (다음 달부터 6개월, 기수 형식)
         function generateWaitingMonthOptions() {
             if (!waitingMonthSelect) return;
             const today = new Date();
@@ -1756,10 +1756,10 @@
             for (let i = 1; i <= 6; i++) {
                 const month = (currentMonth + i) % 12;
                 const year = currentYear + Math.floor((currentMonth + i) / 12);
-                const monthName = `${year}년 ${month + 1}월`;
+                const cohortName = `${i}기 (${year}년 ${month + 1}월 시작)`;
                 const option = document.createElement('option');
-                option.value = monthName;
-                option.textContent = monthName;
+                option.value = cohortName;
+                option.textContent = cohortName;
                 waitingMonthSelect.appendChild(option);
             }
         }
