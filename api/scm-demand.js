@@ -72,22 +72,27 @@ export default async function handler(req, res) {
       throw new Error('시스템 설정 오류 (API). 관리자에게 문의해주세요.');
     }
 
-    // Notion에 저장할 데이터 준비
+    // Notion에 저장할 데이터 준비 (Notion DB 필드 타입에 맞춤)
     const notionData = {
       parent: { database_id: crmDbId },
       properties: {
+        // 제목 필드 (title 타입)
         '이름': {
           title: [{ text: { content: input.name.trim() } }]
         },
+        // 이메일 필드 (email 타입)
         '이메일': {
-          rich_text: [{ text: { content: input.email.trim() } }]
+          email: input.email.trim()
         },
+        // 전화번호 필드 (phone_number 타입)
         '전화번호': {
-          rich_text: [{ text: { content: input.phone.trim() } }]
+          phone_number: input.phone.trim()
         },
+        // 소속구분 필드 (select 타입)
         '소속구분': {
-          rich_text: [{ text: { content: input.affiliation } }]
+          select: { name: input.affiliation }
         },
+        // 텍스트 필드들 (rich_text 타입)
         '회사명': {
           rich_text: [{ text: { content: input.company || '' } }]
         },
@@ -100,17 +105,20 @@ export default async function handler(req, res) {
         '학년': {
           rich_text: [{ text: { content: input.grade || '' } }]
         },
+        // 대기 월 필드 (select 타입)
         '대기 (월)': {
-          rich_text: [{ text: { content: input.waiting_month } }]
+          select: { name: input.waiting_month }
         },
         '특이사항': {
           rich_text: [{ text: { content: input.notes || '' } }]
         },
+        // 날짜 필드 (date 타입)
         '문의일': {
-          rich_text: [{ text: { content: new Date().toISOString().split('T')[0] } }]
+          date: { start: new Date().toISOString().split('T')[0] }
         },
+        // 상태 필드 (select 타입)
         '상태': {
-          rich_text: [{ text: { content: '대기중' } }]
+          select: { name: '대기중' }
         }
       }
     };
