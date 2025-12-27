@@ -362,13 +362,29 @@ jobs:
             date = d.getFullYear() + '.' + String(d.getMonth() + 1).padStart(2, '0');
           }
 
+          // 카테고리 추출 (컨설팅/부트캠프 구분)
+          let category = 'bootcamp';
+          const categoryFields = ['카테고리', 'category', 'Category', '유형', '종류'];
+          for (const field of categoryFields) {
+            if (props[field]?.select?.name) {
+              const catName = props[field].select.name.toLowerCase();
+              if (catName.includes('컨설팅') || catName.includes('consulting') || catName.includes('1:1') || catName.includes('커리어')) {
+                category = 'consulting';
+              } else {
+                category = 'bootcamp';
+              }
+              break;
+            }
+          }
+
           if (content) {
             reviews.push({
               id: review.id,
               content: content,
               rating: rating,
               author: author,
-              date: date
+              date: date,
+              category: category
             });
             console.log('✓ 후기 추가: ' + author + ' (' + rating + '점)');
           }
