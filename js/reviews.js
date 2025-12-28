@@ -20,13 +20,11 @@
         const starsHtml = createStarsHtml(review.rating);
         const dateStr = review.date || '';
         const authorName = review.author || '수강생';
-        const title = review.title || '';
         const content = review.content || '';
 
         return `
             <div class="review-card${isSlide ? ' fade-up' : ''}">
                 ${starsHtml}
-                ${title ? `<h4 class="review-title">${title}</h4>` : ''}
                 <p>"${content}"</p>
                 <span class="review-author">${authorName}${dateStr ? `<span class="review-badge">${dateStr}</span>` : ''}</span>
             </div>
@@ -107,36 +105,35 @@
     // 무한 스크롤 애니메이션
     function initInfiniteScroll() {
         const track = document.getElementById('reviewsTrack');
-        if (!track || track.children.length === 0) return;
+        if (!track || track.dataset.initialized) return;
 
         const cards = Array.from(track.children);
         if (cards.length < 2) return;
 
         // 카드 복제하여 무한 스크롤 효과
-        cards.forEach(card => {
-            const clone = card.cloneNode(true);
-            track.appendChild(clone);
-        });
+        const originalHTML = track.innerHTML;
+        track.innerHTML = originalHTML + originalHTML;
+
+        // 모든 카드에 visible 클래스 추가
+        track.querySelectorAll('.fade-up').forEach(el => el.classList.add('visible'));
+
+        // 초기화 완료 표시
+        track.dataset.initialized = 'true';
 
         let scrollPos = 0;
-        const speed = 0.5;
-        let animationId;
+        const speed = 1;
         let isPaused = false;
 
         function animate() {
             if (!isPaused) {
                 scrollPos += speed;
-                const firstCard = track.children[0];
-                const cardWidth = firstCard.offsetWidth + 16; // gap 포함
-
-                if (scrollPos >= cardWidth) {
-                    scrollPos -= cardWidth;
-                    track.appendChild(track.children[0]);
+                const halfWidth = track.scrollWidth / 2;
+                if (scrollPos >= halfWidth) {
+                    scrollPos = 0;
                 }
-
                 track.style.transform = `translateX(-${scrollPos}px)`;
             }
-            animationId = requestAnimationFrame(animate);
+            requestAnimationFrame(animate);
         }
 
         // 호버 시 일시정지
@@ -144,7 +141,7 @@
         track.addEventListener('mouseleave', () => { isPaused = false; });
 
         // 애니메이션 시작
-        animationId = requestAnimationFrame(animate);
+        requestAnimationFrame(animate);
     }
 
     // 후기 데이터 로드

@@ -1764,53 +1764,7 @@
             `;
         }
 
-        // 노션에서 후기 데이터 로드
-        async function loadReviewsFromNotion() {
-            try {
-                const response = await fetch('data/reviews.json');
-                if (!response.ok) {
-                    console.log('후기 데이터 파일 없음, 기본 데이터 사용');
-                    initReviewsScroll(); // 기본 데이터로 슬라이드 초기화
-                    return;
-                }
-
-                const data = await response.json();
-                if (!data.success || !data.data || data.data.length === 0) {
-                    console.log('후기 데이터 없음, 기본 데이터 사용');
-                    initReviewsScroll(); // 기본 데이터로 슬라이드 초기화
-                    return;
-                }
-
-                const reviews = data.data;
-                console.log(`📝 ${reviews.length}개 후기 로드됨`);
-
-                // 슬라이드 트랙 업데이트
-                const reviewsTrack = document.getElementById('reviewsTrack');
-                if (reviewsTrack) {
-                    // 초기화 플래그 리셋 (새 콘텐츠로 다시 초기화 필요)
-                    delete reviewsTrack.dataset.initialized;
-                    reviewsTrack.innerHTML = reviews.map(r => createReviewCardHTML(r, true)).join('');
-                }
-
-                // 확장 그리드 업데이트
-                const expandedGrid = document.getElementById('reviewsGridExpanded');
-                if (expandedGrid) {
-                    expandedGrid.innerHTML = reviews.map(r => createReviewCardHTML(r, false)).join('');
-                }
-
-                // 슬라이드 애니메이션 초기화
-                initReviewsScroll();
-
-            } catch (error) {
-                console.log('후기 로드 실패, 기본 데이터 사용:', error.message);
-                initReviewsScroll(); // 오류 시에도 기본 데이터로 슬라이드 초기화
-            }
-        }
-
-        // 페이지 로드 시 후기 데이터 로드
-        document.addEventListener('DOMContentLoaded', function() {
-            loadReviewsFromNotion();
-        });
+        // 후기 로드는 reviews.js에서 처리됨
 
         // Notion 데이터에서 모집중인 기수 정보 가져오기
         async function loadRecruitingCourseInfo() {
@@ -2006,57 +1960,7 @@
         window.addEventListener('scroll', highlightNavOnScroll);
         highlightNavOnScroll(); // Run on page load
 
-        // Reviews Infinite Scroll - JavaScript 기반 무한 스크롤
-        // 주의: reviews.js에서 Notion 데이터를 동적으로 로드하여 처리하므로
-        // 하드코딩된 후기가 없는 경우 이 함수는 실행되지 않음
-        function initReviewsScroll() {
-            const reviewsTrack = document.getElementById('reviewsTrack');
-            if (!reviewsTrack || reviewsTrack.dataset.initialized) return;
-
-            // 로딩 중이거나 빈 상태면 실행하지 않음 (reviews.js에서 처리)
-            if (reviewsTrack.querySelector('.reviews-loading') || reviewsTrack.querySelector('.reviews-empty')) return;
-
-            // review-card가 없으면 실행하지 않음
-            if (!reviewsTrack.querySelector('.review-card')) return;
-
-            // 카드 복제하여 무한 스크롤 효과 생성
-            const originalCards = reviewsTrack.innerHTML;
-            reviewsTrack.innerHTML = originalCards + originalCards;
-
-            // 모든 카드에 visible 클래스 추가
-            reviewsTrack.querySelectorAll('.fade-up').forEach(el => el.classList.add('visible'));
-
-            // 초기화 완료 표시
-            reviewsTrack.dataset.initialized = 'true';
-
-            // JavaScript 애니메이션 변수
-            let scrollPos = 0;
-            const speed = 1; // 픽셀/프레임 (속도 조절)
-            let isPaused = false;
-            let animationId;
-
-            // 마우스 호버 시 일시정지
-            reviewsTrack.addEventListener('mouseenter', () => isPaused = true);
-            reviewsTrack.addEventListener('mouseleave', () => isPaused = false);
-
-            // 애니메이션 루프
-            function animate() {
-                if (!isPaused) {
-                    scrollPos += speed;
-                    const halfWidth = reviewsTrack.scrollWidth / 2;
-                    if (scrollPos >= halfWidth) {
-                        scrollPos = 0;
-                    }
-                    reviewsTrack.style.transform = `translateX(-${scrollPos}px)`;
-                }
-                animationId = requestAnimationFrame(animate);
-            }
-
-            // 애니메이션 시작
-            animate();
-        }
-
-        // initReviewsScroll은 loadReviewsFromNotion에서 호출됨
+        // 후기 슬라이드 애니메이션은 reviews.js에서 처리됨
     </script>
 
     <!-- Theme Toggle -->
