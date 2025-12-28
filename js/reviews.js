@@ -81,19 +81,68 @@
         const slideCardsHtml = slideReviews.map(r => createReviewCard(r, true)).join('');
         container.innerHTML = slideCardsHtml;
 
-        // 15개 이상이면 더보기 버튼 표시
+        // 15개 이상이면 페이지네이션 버튼 표시
         if (bootcampReviews.length > 15 && expandedContainer && expandBtn) {
             const remainingReviews = bootcampReviews.slice(15);
-            const expandedCardsHtml = remainingReviews.map(r => createReviewCard(r, false)).join('');
-            expandedContainer.innerHTML = expandedCardsHtml;
+            const PAGE_SIZE = 10; // 페이지당 10개씩 표시
+            let currentPage = 0; // 현재 페이지 (0부터 시작)
+
+            // 초기에는 첫 10개만 표시
+            function updateExpandedReviews() {
+                const startIdx = currentPage * PAGE_SIZE;
+                const endIdx = Math.min(startIdx + PAGE_SIZE, remainingReviews.length);
+                const visibleReviews = remainingReviews.slice(0, endIdx);
+
+                expandedContainer.innerHTML = visibleReviews.map(r => createReviewCard(r, false)).join('');
+
+                // 더 볼 후기가 있는지 확인
+                const hasMore = endIdx < remainingReviews.length;
+                const totalShown = endIdx;
+                const totalRemaining = remainingReviews.length;
+
+                // 버튼 텍스트 업데이트
+                if (expandedContainer.classList.contains('show')) {
+                    if (hasMore) {
+                        expandBtn.querySelector('span').textContent =
+                            `다음 10개 보기 (${totalShown}/${totalRemaining})`;
+                    } else {
+                        expandBtn.querySelector('span').textContent = '접기';
+                    }
+                } else {
+                    expandBtn.querySelector('span').textContent = '후기 전체보기';
+                }
+
+                return hasMore;
+            }
+
             expandBtn.style.display = 'block';
+            updateExpandedReviews();
 
             // 더보기 버튼 이벤트
             expandBtn.onclick = function() {
-                expandedContainer.classList.toggle('show');
-                this.classList.toggle('expanded');
-                this.querySelector('span').textContent =
-                    expandedContainer.classList.contains('show') ? '접기' : '후기 전체보기';
+                const isExpanded = expandedContainer.classList.contains('show');
+
+                if (!isExpanded) {
+                    // 처음 펼치기
+                    expandedContainer.classList.add('show');
+                    this.classList.add('expanded');
+                    currentPage = 0;
+                    updateExpandedReviews();
+                } else {
+                    const hasMore = updateExpandedReviews();
+
+                    if (hasMore) {
+                        // 다음 페이지 로드
+                        currentPage++;
+                        updateExpandedReviews();
+                    } else {
+                        // 모두 봤으면 접기
+                        expandedContainer.classList.remove('show');
+                        this.classList.remove('expanded');
+                        currentPage = 0;
+                        expandBtn.querySelector('span').textContent = '후기 전체보기';
+                    }
+                }
             };
         }
 
