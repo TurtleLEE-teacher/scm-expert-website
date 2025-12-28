@@ -348,29 +348,29 @@ jobs:
             if (!rawValue) return null;
 
             const str = String(rawValue).trim();
-            console.log('    🔍 원본 값: "' + str + '"');
+            console.log('    [DEBUG] 원본 값: [' + str + ']');
 
-            // 1. 숫자만 있는 경우: "5", "4", "3" 등
+            // 1. 숫자만 있는 경우: 5, 4, 3 등
             const numOnly = parseInt(str);
             if (!isNaN(numOnly) && numOnly >= 1 && numOnly <= 5) {
-              console.log('    ✓ 숫자 파싱 성공: ' + numOnly);
+              console.log('    [OK] 숫자 파싱 성공: ' + numOnly);
               return numOnly;
             }
 
-            // 2. "N점" 형식: "5점", "4점", "3점" 등
+            // 2. N점 형식: 5점, 4점, 3점 등
             const matchPoints = str.match(/^(\d+)점?$/);
             if (matchPoints) {
               const num = parseInt(matchPoints[1]);
               if (num >= 1 && num <= 5) {
-                console.log('    ✓ "N점" 파싱 성공: ' + num);
+                console.log('    [OK] N점 파싱 성공: ' + num);
                 return num;
               }
             }
 
-            // 3. 별 개수 세기: "★★★★★", "⭐⭐⭐⭐" 등
+            // 3. 별 개수 세기
             const starCount = (str.match(/[★⭐]/g) || []).length;
             if (starCount >= 1 && starCount <= 5) {
-              console.log('    ✓ 별 개수 파싱 성공: ' + starCount);
+              console.log('    [OK] 별 개수 파싱 성공: ' + starCount);
               return starCount;
             }
 
@@ -385,12 +385,12 @@ jobs:
             const lowerStr = str.toLowerCase();
             for (const [key, value] of Object.entries(satisfactionMap)) {
               if (lowerStr.includes(key.toLowerCase())) {
-                console.log('    ✓ 만족도 매핑 성공: ' + key + ' → ' + value);
+                console.log('    [OK] 만족도 매핑: ' + key + ' = ' + value);
                 return value;
               }
             }
 
-            console.log('    ⚠️ 파싱 실패 - 기본값 5로 설정');
+            console.log('    [WARN] 파싱 실패 - 기본값 5로 설정');
             return null;
           }
 
@@ -426,9 +426,9 @@ jobs:
           }
 
           if (!ratingFound) {
-            console.log('  ⚠️ 별점 필드를 찾지 못함 - 기본값 5 사용');
+            console.log('  [WARN] 별점 필드를 찾지 못함 - 기본값 5 사용');
           }
-          console.log('  → 최종 별점: ' + rating);
+          console.log('  - 최종 별점: ' + rating);
 
           // 작성자 추출
           let author = '';
@@ -504,8 +504,9 @@ jobs:
             });
             console.log('✓ 후기 추가: ' + author + ' (' + rating + '점, ' + category + ')');
           } else {
-            console.log('✗ 후기 제외 (내용 없음): ID=' + review.id + ', 카테고리=' + category + ', 작성자=' + (author || '(없음)') + ', 별점=' + rating);
-            console.log('  ℹ️  "후기 내용" 필드를 확인하세요. 제목만 있고 내용이 비어있을 수 있습니다.');
+            const excludeMsg = '✗ 후기 제외 (내용 없음): ID=' + review.id + ', 카테고리=' + category + ', 작성자=' + (author || '(없음)') + ', 별점=' + rating;
+            console.log(excludeMsg);
+            console.log('  [INFO] 후기 내용 필드를 확인하세요.');
           }
         });
 
@@ -544,14 +545,14 @@ jobs:
         console.log('✓ 4점 이하: ' + lowRatingCount + '개');
 
         if (!categoryStats.consulting || categoryStats.consulting === 0) {
-          console.log('\n⚠️  경고: 1대1컨설팅 후기가 없습니다!');
-          console.log('   → Notion의 "프로그램" 필드 확인 필요');
+          console.log('\\n[WARNING] 1대1컨설팅 후기가 없습니다!');
+          console.log('   - Notion의 프로그램 필드 확인 필요');
         }
 
         if (lowRatingCount === 0) {
-          console.log('\n⚠️  경고: 4점 이하 후기가 없습니다!');
-          console.log('   → Notion의 "별점" 필드 값 확인 필요');
-          console.log('   → 위 로그에서 "🔍 원본 값" 확인');
+          console.log('\\n[WARNING] 4점 이하 후기가 없습니다!');
+          console.log('   - Notion의 별점 필드 값 확인 필요');
+          console.log('   - 위 로그에서 원본 값 확인');
         }
 
         console.log('\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n');
