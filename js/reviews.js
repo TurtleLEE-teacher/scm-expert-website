@@ -20,11 +20,13 @@
         const starsHtml = createStarsHtml(review.rating);
         const dateStr = review.date || '';
         const authorName = review.author || '수강생';
+        const title = review.title || '';
         const content = review.content || '';
 
         return `
             <div class="review-card${isSlide ? ' fade-up' : ''}">
                 ${starsHtml}
+                ${title ? `<h4 class="review-title">${title}</h4>` : ''}
                 <p>"${content}"</p>
                 <span class="review-author">${authorName}${dateStr ? `<span class="review-badge">${dateStr}</span>` : ''}</span>
             </div>
