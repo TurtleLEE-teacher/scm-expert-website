@@ -140,7 +140,7 @@
       "id": "b37b651d-9df2-472f-beda-e814d24e2cce",
       "title": "SCM 확장 설명",
       "content": "SCM에 확장해서 설명해주셔서 좋았습니다. 강의내용과 다소 무관한 질문을 하여도 진심으로 답변해주셔서 도움이 되었습니다",
-      "rating": 5,
+      "rating": 4,
       "author": "안",
       "date": "2023.04",
       "category": "bootcamp"
@@ -158,7 +158,7 @@
       "id": "63d7b534-6d0f-4b64-9e48-f211c69c4dd2",
       "title": "최대한 상세한 피드백",
       "content": "최대한 상세하게 피드백 해주셨어서 감사했습니다.",
-      "rating": 5,
+      "rating": 4,
       "author": "정",
       "date": "2023.01",
       "category": "bootcamp"
@@ -347,7 +347,7 @@
       "id": "130b6b12-de75-48c2-a3cf-0e6d2cf64e38",
       "title": "보통",
       "content": "없습니다.",
-      "rating": 5,
+      "rating": 3,
       "author": "여",
       "date": "2022.01",
       "category": "bootcamp"
@@ -356,7 +356,7 @@
       "id": "3c01b08e-e215-4bc1-8277-162535a9e583",
       "title": "SCM에 대한 자세한 설명",
       "content": "scm에 대해서 자세히 설명해주셔서 좋았습니다",
-      "rating": 5,
+      "rating": 4,
       "author": "정",
       "date": "2022.01",
       "category": "bootcamp"
@@ -563,7 +563,7 @@
       "id": "244bee2e-0081-4c47-bb41-b3d75e53d673",
       "title": "시간 내어서 감사",
       "content": "회사 다니기도 힘드신데 일주일에 두 번씩 시간을 내어서 세션을 갖는 것에 대해 감사합니다.",
-      "rating": 5,
+      "rating": 4,
       "author": "남",
       "date": "2020.11",
       "category": "bootcamp"
@@ -689,7 +689,7 @@
       "id": "835574f6-18e9-4fcc-9ad7-0616a32d1a58",
       "title": "엑셀tip 알려주고 샘플 만들어주셔서 감사",
       "content": "엑셀tip 같은것도 알려주시고, 마지막 숙제를 조금 더 이해가 잘될수있도록 샘플?같은거 만들어주셔서 감사합니다",
-      "rating": 5,
+      "rating": 3,
       "author": "하",
       "date": "2020.05",
       "category": "bootcamp"
@@ -698,7 +698,7 @@
       "id": "8b673997-2710-44d3-9722-ad66d7394389",
       "title": "피드백 정말 잘주세요 과제에 대해서도 설명해줌",
       "content": "피드백을 정말 잘주세요~ 과제에 대해서도 충분히 설명해주셔서 좋았어요",
-      "rating": 5,
+      "rating": 4,
       "author": "서",
       "date": "2020.05",
       "category": "bootcamp"
@@ -902,6 +902,6 @@
       "category": "bootcamp"
     }
   ],
-  "lastUpdated": "2025-12-28T12:24:00.747Z",
+  "lastUpdated": "2025-12-28T21:09:45.432Z",
   "totalReviews": 100
 }
