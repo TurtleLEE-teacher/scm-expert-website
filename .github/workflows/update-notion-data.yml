@@ -295,13 +295,22 @@ jobs:
 
           const props = review.properties;
 
-          // 속성 이름 확인을 위한 디버깅
-          if (index === 0) {
-            console.log('\\n📋 후기 속성 목록:');
-            Object.keys(props).forEach(key => {
-              console.log('  - ' + key + ' (' + props[key].type + ')');
-            });
-          }
+          // 모든 후기의 속성 확인을 위한 디버깅 강화
+          console.log('\\n📋 후기 #' + (index + 1) + ' 속성:');
+          Object.keys(props).forEach(key => {
+            const prop = props[key];
+            let value = '(empty)';
+            if (prop.type === 'title' && prop.title?.[0]) {
+              value = prop.title[0].text?.content || prop.title[0].plain_text || '';
+            } else if (prop.type === 'rich_text' && prop.rich_text?.[0]) {
+              value = prop.rich_text[0].text?.content || prop.rich_text[0].plain_text || '';
+            } else if (prop.type === 'number') {
+              value = prop.number;
+            } else if (prop.type === 'select' && prop.select) {
+              value = prop.select.name;
+            }
+            console.log('  - ' + key + ' (' + prop.type + '): ' + value);
+          });
 
           // 후기 제목 추출
           let title = '';
@@ -329,19 +338,31 @@ jobs:
             content = title;
           }
 
-          // 별점 추출
+          // 별점 추출 - 더 많은 필드명 지원
           let rating = 5;
-          const ratingFields = ['별점', 'rating', 'Rating', '평점'];
+          const ratingFields = ['별점', 'rating', 'Rating', '평점', '점수', 'Score', 'Stars', '만족도'];
           for (const field of ratingFields) {
             if (props[field]?.number) {
               rating = props[field].number;
+              console.log('  → 별점 필드 발견 (number): ' + field + ' = ' + rating);
               break;
             }
             if (props[field]?.select?.name) {
-              rating = parseInt(props[field].select.name) || 5;
+              const ratingStr = props[field].select.name;
+              rating = parseInt(ratingStr) || 5;
+              console.log('  → 별점 필드 발견 (select): ' + field + ' = ' + rating);
               break;
             }
+            if (props[field]?.rich_text?.[0]) {
+              const ratingStr = props[field].rich_text[0].text?.content || props[field].rich_text[0].plain_text || '';
+              if (ratingStr) {
+                rating = parseInt(ratingStr) || 5;
+                console.log('  → 별점 필드 발견 (rich_text): ' + field + ' = ' + rating);
+                break;
+              }
+            }
           }
+          console.log('  → 최종 별점: ' + rating);
 
           // 작성자 추출
           let author = '';
@@ -375,20 +396,35 @@ jobs:
             date = d.getFullYear() + '.' + String(d.getMonth() + 1).padStart(2, '0');
           }
 
-          // 카테고리 추출 (컨설팅/부트캠프 구분)
+          // 카테고리 추출 (컨설팅/부트캠프 구분) - 더 많은 필드명 지원
           let category = 'bootcamp';
-          const categoryFields = ['프로그램', '카테고리', 'category', 'Category', '유형', '종류'];
+          const categoryFields = ['서비스 종류', '서비스종류', '프로그램', '카테고리', 'category', 'Category', '유형', '종류', '타입', 'Type', '서비스', 'Service'];
           for (const field of categoryFields) {
             if (props[field]?.select?.name) {
               const catName = props[field].select.name.toLowerCase();
-              if (catName.includes('컨설팅') || catName.includes('consulting') || catName.includes('1:1') || catName.includes('커리어')) {
+              console.log('  → 카테고리 필드 발견: ' + field + ' = ' + catName);
+              if (catName.includes('컨설팅') || catName.includes('consulting') || catName.includes('1:1') || catName.includes('1대1') || catName.includes('커리어') || catName.includes('career')) {
                 category = 'consulting';
-              } else {
+              } else if (catName.includes('부트') || catName.includes('bootcamp') || catName.includes('boot') || catName.includes('scm') || catName.includes('직무')) {
                 category = 'bootcamp';
               }
               break;
             }
+            // rich_text 타입도 확인
+            if (props[field]?.rich_text?.[0]) {
+              const catName = (props[field].rich_text[0].text?.content || props[field].rich_text[0].plain_text || '').toLowerCase();
+              if (catName) {
+                console.log('  → 카테고리 필드 발견 (rich_text): ' + field + ' = ' + catName);
+                if (catName.includes('컨설팅') || catName.includes('consulting') || catName.includes('1:1') || catName.includes('1대1') || catName.includes('커리어') || catName.includes('career')) {
+                  category = 'consulting';
+                } else if (catName.includes('부트') || catName.includes('bootcamp') || catName.includes('boot') || catName.includes('scm') || catName.includes('직무')) {
+                  category = 'bootcamp';
+                }
+                break;
+              }
+            }
           }
+          console.log('  → 최종 카테고리: ' + category);
 
           if (content) {
             reviews.push({
@@ -400,7 +436,9 @@ jobs:
               date: date,
               category: category
             });
-            console.log('✓ 후기 추가: ' + author + ' (' + rating + '점)');
+            console.log('✓ 후기 추가: ' + author + ' (' + rating + '점, ' + category + ')');
+          } else {
+            console.log('✗ 후기 제외 (내용 없음): ID=' + review.id);
           }
         });
 
