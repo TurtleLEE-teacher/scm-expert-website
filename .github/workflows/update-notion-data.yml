@@ -305,21 +305,22 @@ jobs:
 
           // 후기 제목 추출
           let title = '';
-          if (props['후기 제목']?.title?.[0]?.text?.content) {
-            title = props['후기 제목'].title[0].text.content;
+          if (props['후기 제목']?.title?.[0]) {
+            title = props['후기 제목'].title[0].text?.content || props['후기 제목'].title[0].plain_text || '';
           }
 
           // 후기 내용 추출 (다양한 필드명 시도)
           let content = '';
           const contentFields = ['후기 내용', '후기내용', '후기', '내용', 'content', 'Content', 'Review'];
           for (const field of contentFields) {
-            if (props[field]?.rich_text?.[0]?.text?.content) {
-              content = props[field].rich_text[0].text.content;
-              break;
+            const prop = props[field];
+            if (prop?.rich_text?.[0]) {
+              content = prop.rich_text[0].text?.content || prop.rich_text[0].plain_text || '';
+              if (content) break;
             }
-            if (props[field]?.title?.[0]?.text?.content) {
-              content = props[field].title[0].text.content;
-              break;
+            if (prop?.title?.[0]) {
+              content = prop.title[0].text?.content || prop.title[0].plain_text || '';
+              if (content) break;
             }
           }
 
@@ -346,13 +347,14 @@ jobs:
           let author = '';
           const authorFields = ['작성자', '이름', 'author', 'Author', 'Name'];
           for (const field of authorFields) {
-            if (props[field]?.rich_text?.[0]?.text?.content) {
-              author = props[field].rich_text[0].text.content;
-              break;
+            const prop = props[field];
+            if (prop?.rich_text?.[0]) {
+              author = prop.rich_text[0].text?.content || prop.rich_text[0].plain_text || '';
+              if (author) break;
             }
-            if (props[field]?.title?.[0]?.text?.content) {
-              author = props[field].title[0].text.content;
-              break;
+            if (prop?.title?.[0]) {
+              author = prop.title[0].text?.content || prop.title[0].plain_text || '';
+              if (author) break;
             }
           }
 
