@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>후기 데이터 테스트</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; max-width: 800px; margin: 0 auto; }
+        .success { color: green; }
+        .error { color: red; }
+        .review { border: 1px solid #ddd; padding: 10px; margin: 10px 0; }
+        pre { background: #f5f5f5; padding: 10px; overflow: auto; }
+    </style>
+</head>
+<body>
+    <h1>🔍 후기 데이터 진단</h1>
+    <div id="results"></div>
+
+    <script>
+        async function testReviews() {
+            const results = document.getElementById('results');
+            
+            try {
+                // 1. 데이터 로드
+                const response = await fetch('./data/reviews.json');
+                if (!response.ok) throw new Error('HTTP ' + response.status);
+                
+                const data = await response.json();
+                const reviews = data.data || [];
+                
+                results.innerHTML += `<h2 class="success">✅ 데이터 로드 성공</h2>`;
+                results.innerHTML += `<p>총 후기: ${reviews.length}개</p>`;
+                results.innerHTML += `<p>마지막 업데이트: ${data.lastUpdated}</p>`;
+                
+                // 2. 카테고리별 분류
+                const consulting = reviews.filter(r => r.category === 'consulting');
+                const bootcamp = reviews.filter(r => r.category === 'bootcamp');
+                
+                results.innerHTML += `<h2>카테고리별 분포</h2>`;
+                results.innerHTML += `<p>Consulting: ${consulting.length}개</p>`;
+                results.innerHTML += `<p>Bootcamp: ${bootcamp.length}개</p>`;
+                
+                // 3. 평점별 분류
+                const ratings = {};
+                reviews.forEach(r => ratings[r.rating] = (ratings[r.rating] || 0) + 1);
+                results.innerHTML += `<h2>평점별 분포</h2>`;
+                results.innerHTML += `<pre>${JSON.stringify(ratings, null, 2)}</pre>`;
+                
+                // 4. Consulting 후기 상세
+                if (consulting.length > 0) {
+                    results.innerHTML += `<h2 class="success">✅ Consulting 후기 발견!</h2>`;
+                    consulting.forEach((r, i) => {
+                        results.innerHTML += `
+                            <div class="review">
+                                <strong>${i+1}. ${r.author}</strong> (${r.rating}점, ${r.date})<br>
+                                ${r.content.substring(0, 100)}...
+                            </div>
+                        `;
+                    });
+                } else {
+                    results.innerHTML += `<h2 class="error">❌ Consulting 후기 없음</h2>`;
+                }
+                
+                // 5. 원본 데이터 샘플
+                results.innerHTML += `<h2>원본 데이터 샘플 (처음 2개)</h2>`;
+                results.innerHTML += `<pre>${JSON.stringify(reviews.slice(0, 2), null, 2)}</pre>`;
+                
+            } catch (error) {
+                results.innerHTML += `<h2 class="error">❌ 오류 발생</h2>`;
+                results.innerHTML += `<p>${error.message}</p>`;
+                console.error(error);
+            }
+        }
+        
+        testReviews();
+    </script>
+</body>
+</html>
