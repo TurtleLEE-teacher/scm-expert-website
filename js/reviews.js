@@ -81,67 +81,104 @@
         const slideCardsHtml = slideReviews.map(r => createReviewCard(r, true)).join('');
         container.innerHTML = slideCardsHtml;
 
-        // 15개 이상이면 페이지네이션 버튼 표시
+        // 15개 이상이면 페이지네이션 표시
         if (bootcampReviews.length > 15 && expandedContainer && expandBtn) {
             const remainingReviews = bootcampReviews.slice(15);
             const PAGE_SIZE = 10; // 페이지당 10개씩 표시
-            let currentPage = 0; // 현재 페이지 (0부터 시작)
+            const totalPages = Math.ceil(remainingReviews.length / PAGE_SIZE);
+            let currentPage = 1; // 현재 페이지 (1부터 시작)
 
-            // 초기에는 첫 10개만 표시
-            function updateExpandedReviews() {
-                const startIdx = currentPage * PAGE_SIZE;
+            const paginationContainer = document.getElementById('reviewsPagination');
+
+            // 페이지 렌더링 함수
+            function renderPage(pageNum) {
+                const startIdx = (pageNum - 1) * PAGE_SIZE;
                 const endIdx = Math.min(startIdx + PAGE_SIZE, remainingReviews.length);
-                const visibleReviews = remainingReviews.slice(0, endIdx);
+                const pageReviews = remainingReviews.slice(startIdx, endIdx);
 
-                expandedContainer.innerHTML = visibleReviews.map(r => createReviewCard(r, false)).join('');
+                expandedContainer.innerHTML = pageReviews.map(r => createReviewCard(r, false)).join('');
+                currentPage = pageNum;
+                updatePagination();
+            }
 
-                // 더 볼 후기가 있는지 확인
-                const hasMore = endIdx < remainingReviews.length;
-                const totalShown = endIdx;
-                const totalRemaining = remainingReviews.length;
+            // 페이지네이션 버튼 생성
+            function updatePagination() {
+                if (!paginationContainer) return;
 
-                // 버튼 텍스트 업데이트
-                if (expandedContainer.classList.contains('show')) {
-                    if (hasMore) {
-                        expandBtn.querySelector('span').textContent =
-                            `다음 10개 보기 (${totalShown}/${totalRemaining})`;
-                    } else {
-                        expandBtn.querySelector('span').textContent = '접기';
-                    }
-                } else {
-                    expandBtn.querySelector('span').textContent = '후기 전체보기';
+                let paginationHTML = '';
+
+                // 이전 버튼
+                paginationHTML += `<button ${currentPage === 1 ? 'disabled' : ''} data-page="${currentPage - 1}">&lt;</button>`;
+
+                // 페이지 번호 표시 로직 (최대 7개 버튼)
+                const maxButtons = 7;
+                let startPage = Math.max(1, currentPage - 3);
+                let endPage = Math.min(totalPages, startPage + maxButtons - 1);
+
+                // 끝에서부터 계산했을 때 시작 페이지 조정
+                if (endPage - startPage < maxButtons - 1) {
+                    startPage = Math.max(1, endPage - maxButtons + 1);
                 }
 
-                return hasMore;
+                // 첫 페이지
+                if (startPage > 1) {
+                    paginationHTML += `<button data-page="1">1</button>`;
+                    if (startPage > 2) {
+                        paginationHTML += '<span class="page-dots">...</span>';
+                    }
+                }
+
+                // 중간 페이지들
+                for (let i = startPage; i <= endPage; i++) {
+                    const isActive = i === currentPage ? ' class="active"' : '';
+                    paginationHTML += `<button${isActive} data-page="${i}">${i}</button>`;
+                }
+
+                // 마지막 페이지
+                if (endPage < totalPages) {
+                    if (endPage < totalPages - 1) {
+                        paginationHTML += '<span class="page-dots">...</span>';
+                    }
+                    paginationHTML += `<button data-page="${totalPages}">${totalPages}</button>`;
+                }
+
+                // 다음 버튼
+                paginationHTML += `<button ${currentPage === totalPages ? 'disabled' : ''} data-page="${currentPage + 1}">&gt;</button>`;
+
+                paginationContainer.innerHTML = paginationHTML;
+
+                // 페이지 버튼 이벤트 리스너
+                paginationContainer.querySelectorAll('button').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const page = parseInt(this.dataset.page);
+                        if (page && page !== currentPage) {
+                            renderPage(page);
+                            // 스크롤을 확장된 영역 위로 이동
+                            expandedContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                        }
+                    });
+                });
             }
 
             expandBtn.style.display = 'block';
-            updateExpandedReviews();
 
             // 더보기 버튼 이벤트
             expandBtn.onclick = function() {
                 const isExpanded = expandedContainer.classList.contains('show');
 
                 if (!isExpanded) {
-                    // 처음 펼치기
+                    // 펼치기
                     expandedContainer.classList.add('show');
                     this.classList.add('expanded');
-                    currentPage = 0;
-                    updateExpandedReviews();
+                    paginationContainer.style.display = 'flex';
+                    this.querySelector('span').textContent = '접기';
+                    renderPage(1); // 첫 페이지 표시
                 } else {
-                    const hasMore = updateExpandedReviews();
-
-                    if (hasMore) {
-                        // 다음 페이지 로드
-                        currentPage++;
-                        updateExpandedReviews();
-                    } else {
-                        // 모두 봤으면 접기
-                        expandedContainer.classList.remove('show');
-                        this.classList.remove('expanded');
-                        currentPage = 0;
-                        expandBtn.querySelector('span').textContent = '후기 전체보기';
-                    }
+                    // 접기
+                    expandedContainer.classList.remove('show');
+                    this.classList.remove('expanded');
+                    paginationContainer.style.display = 'none';
+                    this.querySelector('span').textContent = '후기 전체보기';
                 }
             };
         }
