@@ -36,7 +36,14 @@
         const container = document.getElementById('consultingReviews');
         if (!container) return;
 
-        const consultingReviews = reviews.filter(r => r.category === 'consulting');
+        // 컨설팅 카테고리 우선 표시, 없으면 모든 후기 표시
+        let consultingReviews = reviews.filter(r => r.category === 'consulting');
+
+        // 컨설팅 후기가 없으면 모든 후기 표시
+        if (consultingReviews.length === 0) {
+            console.log('컨설팅 후기가 없어 모든 후기를 표시합니다.');
+            consultingReviews = reviews;
+        }
 
         if (consultingReviews.length === 0) {
             container.innerHTML = '<div class="reviews-empty">아직 등록된 후기가 없습니다.</div>';
@@ -55,7 +62,14 @@
 
         if (!container) return;
 
-        const bootcampReviews = reviews.filter(r => r.category === 'bootcamp' || !r.category);
+        // 부트캠프 카테고리 우선 표시, 없으면 모든 후기 표시
+        let bootcampReviews = reviews.filter(r => r.category === 'bootcamp' || !r.category);
+
+        // 부트캠프 후기가 없으면 모든 후기 표시
+        if (bootcampReviews.length === 0) {
+            console.log('부트캠프 후기가 없어 모든 후기를 표시합니다.');
+            bootcampReviews = reviews;
+        }
 
         if (bootcampReviews.length === 0) {
             container.innerHTML = '<div class="reviews-empty">아직 등록된 후기가 없습니다.</div>';
