@@ -1432,6 +1432,117 @@
         .philosophy-bottom strong {
             color: var(--blue);
         }
+
+        /* Comparison Section */
+        .comparison-section {
+            padding: var(--space-24) var(--space-6);
+            background: var(--bg-primary);
+        }
+        .comparison-header {
+            text-align: center;
+            margin-bottom: var(--space-12);
+        }
+        .comparison-header h2 {
+            font-size: var(--text-3xl);
+            font-weight: var(--font-bold);
+            margin-bottom: var(--space-4);
+        }
+        .comparison-header p {
+            font-size: var(--text-lg);
+            color: var(--text-secondary);
+        }
+        .comparison-table-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+            overflow-x: auto;
+        }
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+        }
+        .comparison-table th,
+        .comparison-table td {
+            padding: var(--space-4) var(--space-5);
+            text-align: center;
+            border-bottom: 1px solid var(--border-color-light);
+        }
+        .comparison-table th {
+            background: var(--bg-secondary);
+            font-size: var(--text-sm);
+            font-weight: var(--font-semibold);
+            color: var(--text-secondary);
+        }
+        .comparison-table th:first-child {
+            text-align: left;
+        }
+        .comparison-table th.highlight {
+            background: var(--blue);
+            color: white;
+        }
+        .comparison-table td:first-child {
+            text-align: left;
+            font-weight: var(--font-medium);
+            color: var(--text-primary);
+            font-size: var(--text-sm);
+        }
+        .comparison-table td.highlight {
+            background: rgba(0, 113, 227, 0.05);
+        }
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+        .comparison-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            font-size: 0.875rem;
+        }
+        .comparison-icon.yes {
+            background: rgba(52, 199, 89, 0.15);
+            color: #34c759;
+        }
+        .comparison-icon.partial {
+            background: rgba(255, 159, 10, 0.15);
+            color: #ff9f0a;
+        }
+        .comparison-icon.no {
+            background: rgba(255, 59, 48, 0.1);
+            color: #ff3b30;
+        }
+        .comparison-bottom {
+            max-width: 900px;
+            margin: var(--space-8) auto 0;
+            padding: var(--space-5);
+            background: linear-gradient(135deg, rgba(0, 113, 227, 0.1) 0%, rgba(52, 199, 89, 0.1) 100%);
+            border-radius: var(--radius-lg);
+            text-align: center;
+        }
+        .comparison-bottom p {
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+            margin: 0;
+        }
+        .comparison-bottom strong {
+            color: var(--blue);
+        }
+        @media (max-width: 640px) {
+            .comparison-table th,
+            .comparison-table td {
+                padding: var(--space-3);
+                font-size: var(--text-xs);
+            }
+            .comparison-icon {
+                width: 24px;
+                height: 24px;
+                font-size: 0.75rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1594,6 +1705,66 @@
                     <span class="diff-step">Resume 방향 제시</span>
                 </div>
                 <p class="diff-process-note">* 직무강의가 끝나고 컨설팅하는 것이 아니라, 처음부터 방향을 잡고 함께 만들어갑니다</p>
+            </div>
+        </section>
+
+        <!-- Comparison Section -->
+        <section id="comparison" class="comparison-section">
+            <div class="comparison-header fade-up">
+                <h2>왜 통합 과정인가?</h2>
+                <p>따로 듣는 것과 함께 듣는 것의 차이</p>
+            </div>
+
+            <div class="comparison-table-wrapper fade-up">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>일반 직무 강의</th>
+                            <th>취업 컨설팅</th>
+                            <th class="highlight">SCM Expert</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>직무 이해</td>
+                            <td><span class="comparison-icon partial">△</span><br><small>이론 중심</small></td>
+                            <td><span class="comparison-icon no">✕</span><br><small>없음</small></td>
+                            <td class="highlight"><span class="comparison-icon yes">✓</span><br><small>실무 중심</small></td>
+                        </tr>
+                        <tr>
+                            <td>커리어 포트폴리오 / 면접</td>
+                            <td><span class="comparison-icon no">✕</span><br><small>없음</small></td>
+                            <td><span class="comparison-icon yes">✓</span><br><small>있음</small></td>
+                            <td class="highlight"><span class="comparison-icon yes">✓</span><br><small>직무 기반 구성</small></td>
+                        </tr>
+                        <tr>
+                            <td>현직자 피드백</td>
+                            <td><span class="comparison-icon partial">△</span><br><small>제한적</small></td>
+                            <td><span class="comparison-icon partial">△</span><br><small>제한적</small></td>
+                            <td class="highlight"><span class="comparison-icon yes">✓</span><br><small>직접 피드백</small></td>
+                        </tr>
+                        <tr>
+                            <td>직무 방향성 설계</td>
+                            <td><span class="comparison-icon no">✕</span><br><small>없음</small></td>
+                            <td><span class="comparison-icon partial">△</span><br><small>부분적</small></td>
+                            <td class="highlight"><span class="comparison-icon yes">✓</span><br><small>커리어 설계</small></td>
+                        </tr>
+                        <tr>
+                            <td>사후 커뮤니티</td>
+                            <td><span class="comparison-icon no">✕</span><br><small>없음</small></td>
+                            <td><span class="comparison-icon no">✕</span><br><small>없음</small></td>
+                            <td class="highlight"><span class="comparison-icon yes">✓</span><br><small>지속 네트워킹</small></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="comparison-bottom fade-up">
+                <p>
+                    직무 강의 따로, 컨설팅 따로 받으면 <strong>연결이 안 됩니다.</strong><br>
+                    처음부터 방향을 잡고 함께 만들어가야 시너지가 납니다.
+                </p>
             </div>
         </section>
 
