@@ -41,6 +41,7 @@ try {
     // 필수 필드 검증
     $name = trim($input['name'] ?? '');
     $phone = trim($input['phone'] ?? '');
+    $email = trim($input['email'] ?? '');
     $currentStatus = trim($input['current_status'] ?? '');
     $preferredTime = trim($input['preferred_time'] ?? '');
 
@@ -50,6 +51,12 @@ try {
     if (empty($phone)) {
         throw new Exception('연락처를 입력해주세요.');
     }
+    if (empty($email)) {
+        throw new Exception('이메일을 입력해주세요.');
+    }
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        throw new Exception('올바른 이메일 형식을 입력해주세요.');
+    }
     if (empty($currentStatus)) {
         throw new Exception('현재 상황을 선택해주세요.');
     }
@@ -58,7 +65,6 @@ try {
     }
 
     // 선택 필드
-    $email = trim($input['email'] ?? '');
     $goal = trim($input['goal'] ?? '');
 
     // 전화번호 정규화
@@ -88,7 +94,7 @@ try {
                 'phone_number' => $phone
             ],
             '이메일' => [
-                'email' => $email ?: null
+                'email' => $email
             ],
             '현재상황' => [
                 'select' => [
@@ -121,11 +127,6 @@ try {
             ]
         ]
     ];
-
-    // 이메일이 없으면 해당 속성 제거
-    if (empty($email)) {
-        unset($notionData['properties']['이메일']);
-    }
 
     // Notion API 호출
     $ch = curl_init('https://api.notion.com/v1/pages');
