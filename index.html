@@ -1298,6 +1298,140 @@
             line-height: var(--leading-relaxed);
             margin: 0;
         }
+
+        /* Philosophy Section */
+        .philosophy-section {
+            padding: var(--space-24) var(--space-6);
+            background: var(--bg-secondary);
+        }
+        .philosophy-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .philosophy-header {
+            text-align: center;
+            margin-bottom: var(--space-12);
+        }
+        .philosophy-header h2 {
+            font-size: var(--text-3xl);
+            font-weight: var(--font-bold);
+            margin-bottom: var(--space-4);
+        }
+        .philosophy-story {
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-xl);
+            padding: var(--space-8);
+            margin-bottom: var(--space-10);
+            border-left: 4px solid var(--blue);
+        }
+        .philosophy-story-quote {
+            font-size: var(--text-xl);
+            font-weight: var(--font-semibold);
+            color: var(--text-primary);
+            margin-bottom: var(--space-6);
+            line-height: var(--leading-relaxed);
+        }
+        .philosophy-story-content {
+            font-size: var(--text-base);
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+        .philosophy-story-content p {
+            margin-bottom: var(--space-4);
+        }
+        .philosophy-story-content p:last-child {
+            margin-bottom: 0;
+        }
+        .philosophy-highlight {
+            display: inline;
+            background: linear-gradient(transparent 60%, rgba(0, 113, 227, 0.2) 60%);
+            font-weight: var(--font-semibold);
+        }
+        .philosophy-growth {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-4);
+            margin: var(--space-8) 0;
+            padding: var(--space-6);
+            background: linear-gradient(135deg, rgba(0, 113, 227, 0.1) 0%, rgba(52, 199, 89, 0.1) 100%);
+            border-radius: var(--radius-lg);
+        }
+        .philosophy-growth-item {
+            text-align: center;
+        }
+        .philosophy-growth-item .number {
+            font-size: var(--text-2xl);
+            font-weight: var(--font-bold);
+            color: var(--blue);
+        }
+        .philosophy-growth-item .label {
+            font-size: var(--text-sm);
+            color: var(--text-tertiary);
+        }
+        .philosophy-growth-arrow {
+            color: var(--blue);
+        }
+        .philosophy-values {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-4);
+        }
+        @media (max-width: 640px) {
+            .philosophy-values {
+                grid-template-columns: 1fr;
+            }
+        }
+        .philosophy-value {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-3);
+            padding: var(--space-5);
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+        }
+        .philosophy-value-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--blue);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 1rem;
+        }
+        .philosophy-value-text {
+            font-size: var(--text-sm);
+            color: var(--text-primary);
+            font-weight: var(--font-medium);
+            line-height: var(--leading-relaxed);
+        }
+        .philosophy-value-text span {
+            display: block;
+            font-size: var(--text-xs);
+            color: var(--text-tertiary);
+            font-weight: var(--font-normal);
+            margin-top: 4px;
+        }
+        .philosophy-bottom {
+            margin-top: var(--space-10);
+            text-align: center;
+            padding: var(--space-6);
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-xl);
+            border: 2px dashed var(--border-color);
+        }
+        .philosophy-bottom p {
+            font-size: var(--text-base);
+            color: var(--text-secondary);
+            margin: 0;
+            line-height: var(--leading-relaxed);
+        }
+        .philosophy-bottom strong {
+            color: var(--blue);
+        }
     </style>
 </head>
 <body>
@@ -1876,6 +2010,94 @@
                             SCM 프로젝트 10+ 수행
                         </span>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Philosophy Section -->
+        <section id="philosophy" class="philosophy-section">
+            <div class="philosophy-container">
+                <div class="philosophy-header fade-up">
+                    <h2>왜 이 일을 하는가</h2>
+                </div>
+
+                <div class="philosophy-story fade-up">
+                    <div class="philosophy-story-quote">
+                        "가르치기 위해 더 공부하게 되고, 그게 결국 나의 성장이 됐습니다."
+                    </div>
+                    <div class="philosophy-story-content">
+                        <p>
+                            처음에는 누군가를 가르치는 게 좋아서 우연히 시작했습니다.
+                            그런데 계속하다 보니 깨달은 게 있어요.
+                            <span class="philosophy-highlight">멘티를 가르치기 위해 제가 더 공부하게 되고,
+                            그게 결국 저의 성장이 됐다는 것</span>입니다.
+                        </p>
+                        <p>
+                            연봉도, 직무 능력도, 회사 레벨도 — 모든 게 올랐습니다.
+                        </p>
+
+                        <div class="philosophy-growth">
+                            <div class="philosophy-growth-item">
+                                <div class="number">4,000만</div>
+                                <div class="label">시작</div>
+                            </div>
+                            <div class="philosophy-growth-arrow">
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                                </svg>
+                            </div>
+                            <div class="philosophy-growth-item">
+                                <div class="number">1억 3천+</div>
+                                <div class="label">현재</div>
+                            </div>
+                        </div>
+
+                        <p>
+                            그리고 나의 성장만큼 중요한 게 있습니다.
+                            <span class="philosophy-highlight">상대방의 성장을 통해 얻는 희열</span>이요.
+                            어떤 멘티들은 지금 저와 같은 회사에서 협업하는 파트너가 됐고,
+                            그들은 저의 현재 파트너이자 미래 파트너로 함께 성장하고 있습니다.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="philosophy-values fade-up">
+                    <div class="philosophy-value">
+                        <div class="philosophy-value-icon">🧟</div>
+                        <div class="philosophy-value-text">
+                            월급 루팡처럼 좀비가 되지 말자
+                            <span>시키는 일만 하다 보면 성장은 멈춥니다</span>
+                        </div>
+                    </div>
+                    <div class="philosophy-value">
+                        <div class="philosophy-value-icon">🏢</div>
+                        <div class="philosophy-value-text">
+                            회사는 나를 챙겨주지 않는다
+                            <span>결국 나를 지키는 건 나의 실력입니다</span>
+                        </div>
+                    </div>
+                    <div class="philosophy-value">
+                        <div class="philosophy-value-icon">💪</div>
+                        <div class="philosophy-value-text">
+                            스스로에 대한 힘을 기르자
+                            <span>내가 통제할 수 있는 부분을 극대화하세요</span>
+                        </div>
+                    </div>
+                    <div class="philosophy-value">
+                        <div class="philosophy-value-icon">🚫</div>
+                        <div class="philosophy-value-text">
+                            "원래 이렇게 해왔으니까"는 게으른 변명
+                            <span>변화하지 않으면 도태됩니다</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="philosophy-bottom fade-up">
+                    <p>
+                        그래서 저는 기수를 많이 받지 않습니다.<br>
+                        <strong>정예멤버로, 진심을 다해, 서로 윈윈하는 과정</strong>을 설계합니다.<br>
+                        이게 제가 이 일을 하는 이유이자, 운영 철학입니다.
+                    </p>
                 </div>
             </div>
         </section>
