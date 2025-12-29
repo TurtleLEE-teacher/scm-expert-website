@@ -1137,6 +1137,167 @@
             opacity: 1;
             transform: translateY(0);
         }
+
+        /* Success Cases Section */
+        .cases-section {
+            padding: var(--space-24) var(--space-6);
+            background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+        }
+        .cases-header {
+            text-align: center;
+            margin-bottom: var(--space-16);
+        }
+        .cases-header h2 {
+            font-size: var(--text-3xl);
+            font-weight: var(--font-bold);
+            margin-bottom: var(--space-4);
+        }
+        .cases-header p {
+            font-size: var(--text-lg);
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .cases-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-6);
+            max-width: 1000px;
+            margin: 0 auto var(--space-12);
+        }
+        @media (max-width: 768px) {
+            .cases-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .case-card {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-xl);
+            padding: var(--space-6);
+            position: relative;
+            transition: transform var(--transition-base), border-color var(--transition-base);
+        }
+        .case-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--blue);
+        }
+        .case-badge {
+            position: absolute;
+            top: -12px;
+            left: var(--space-6);
+            background: var(--blue);
+            color: white;
+            padding: var(--space-1) var(--space-4);
+            border-radius: var(--radius-full);
+            font-size: var(--text-xs);
+            font-weight: var(--font-semibold);
+        }
+        .case-badge.promoted {
+            background: linear-gradient(135deg, #34c759 0%, #30d158 100%);
+        }
+        .case-content {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-4);
+        }
+        .case-before, .case-after {
+            padding: var(--space-4);
+            border-radius: var(--radius-lg);
+        }
+        .case-before {
+            background: rgba(255, 59, 48, 0.08);
+            border-left: 3px solid #ff3b30;
+        }
+        .case-after {
+            background: rgba(52, 199, 89, 0.08);
+            border-left: 3px solid #34c759;
+        }
+        .case-label {
+            font-size: var(--text-xs);
+            font-weight: var(--font-bold);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: var(--space-2);
+        }
+        .case-before .case-label {
+            color: #ff3b30;
+        }
+        .case-after .case-label {
+            color: #34c759;
+        }
+        .case-before p, .case-after p {
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+            margin: 0;
+            line-height: var(--leading-relaxed);
+        }
+        .case-arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--blue);
+        }
+        .case-result {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            padding-top: var(--space-4);
+            border-top: 1px solid var(--border-color-light);
+        }
+        .case-result-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--blue) 0%, #00c6ff 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .case-result-icon svg {
+            width: 20px;
+            height: 20px;
+            stroke: white;
+            fill: none;
+        }
+        .case-result-text {
+            font-size: var(--text-sm);
+            color: var(--text-primary);
+            font-weight: var(--font-medium);
+        }
+        .case-result-text span {
+            display: block;
+            font-size: var(--text-xs);
+            color: var(--text-tertiary);
+            font-weight: var(--font-normal);
+            margin-top: 2px;
+        }
+        .cases-message {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto;
+            padding: var(--space-8);
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-xl);
+            border: 2px solid var(--blue);
+        }
+        .cases-message-icon {
+            font-size: 2rem;
+            margin-bottom: var(--space-4);
+        }
+        .cases-message h3 {
+            font-size: var(--text-xl);
+            font-weight: var(--font-bold);
+            color: var(--blue);
+            margin-bottom: var(--space-3);
+        }
+        .cases-message p {
+            font-size: var(--text-base);
+            color: var(--text-secondary);
+            line-height: var(--leading-relaxed);
+            margin: 0;
+        }
     </style>
 </head>
 <body>
@@ -1447,6 +1608,156 @@
                     <strong style="color: var(--text-primary);">100% 만족 보장</strong>
                     <span style="color: var(--text-secondary); font-size: var(--text-sm); display: block;">수강 시작 전 전액 환불 | 1주차 후 2/3 환불 | 불만족 시 추가 세션 제공</span>
                 </div>
+            </div>
+        </section>
+
+        <!-- Success Cases Section -->
+        <section id="cases" class="cases-section">
+            <div class="cases-header">
+                <h2 class="fade-up">이렇게 성장했습니다</h2>
+                <p class="fade-up">단순 합격이 아닌, 방향성을 잡고 지속 성장하는 커리어</p>
+            </div>
+
+            <div class="cases-grid">
+                <!-- Case 1: 비전공자 → 대기업 -->
+                <div class="case-card fade-up">
+                    <span class="case-badge">취업 성공</span>
+                    <div class="case-content">
+                        <div class="case-before">
+                            <div class="case-label">Before</div>
+                            <p>비전공자, 취준 6개월째<br>SCM이 뭔지도 몰랐고 서류 탈락만 10번</p>
+                        </div>
+                        <div class="case-arrow">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 5v14M5 12l7 7 7-7"/>
+                            </svg>
+                        </div>
+                        <div class="case-after">
+                            <div class="case-label">After</div>
+                            <p>CJ대한통운 SCM팀 최종 합격<br>물류 최적화 업무 담당</p>
+                        </div>
+                        <div class="case-result">
+                            <div class="case-result-icon">
+                                <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                                    <polyline points="22 4 12 14.01 9 11.01"/>
+                                </svg>
+                            </div>
+                            <div class="case-result-text">
+                                현재 3년차, SCM 전문가로 성장 중
+                                <span>직무 이해도를 바탕으로 커리어 방향 유지</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case 2: 제조업 → 컨설팅펌 -->
+                <div class="case-card fade-up">
+                    <span class="case-badge">이직 성공</span>
+                    <div class="case-content">
+                        <div class="case-before">
+                            <div class="case-label">Before</div>
+                            <p>제조업 구매팀 3년차<br>SCM 직무로 커리어 전환 희망</p>
+                        </div>
+                        <div class="case-arrow">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 5v14M5 12l7 7 7-7"/>
+                            </svg>
+                        </div>
+                        <div class="case-after">
+                            <div class="case-label">After</div>
+                            <p>Big4 컨설팅펌 SCM 컨설턴트 입사<br>글로벌 프로젝트 수행</p>
+                        </div>
+                        <div class="case-result">
+                            <div class="case-result-icon">
+                                <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                                    <polyline points="22 4 12 14.01 9 11.01"/>
+                                </svg>
+                            </div>
+                            <div class="case-result-text">
+                                연봉 40% 상승 + 글로벌 경험
+                                <span>체계적인 직무 역량으로 컨설턴트 전환</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case 3: 취준생 → 대기업 -->
+                <div class="case-card fade-up">
+                    <span class="case-badge">취업 성공</span>
+                    <div class="case-content">
+                        <div class="case-before">
+                            <div class="case-label">Before</div>
+                            <p>경영학 전공 취준생<br>직무 방향성 없이 막막했던 상태</p>
+                        </div>
+                        <div class="case-arrow">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 5v14M5 12l7 7 7-7"/>
+                            </svg>
+                        </div>
+                        <div class="case-after">
+                            <div class="case-label">After</div>
+                            <p>SK온 SCM팀 최종 합격<br>배터리 산업 SCM 담당</p>
+                        </div>
+                        <div class="case-result">
+                            <div class="case-result-icon">
+                                <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                                    <polyline points="22 4 12 14.01 9 11.01"/>
+                                </svg>
+                            </div>
+                            <div class="case-result-text">
+                                성장산업에서 SCM 전문가로 도약
+                                <span>명확한 직무 이해로 면접에서 차별화</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case 4: 승진 사례 -->
+                <div class="case-card fade-up">
+                    <span class="case-badge promoted">승진 성공</span>
+                    <div class="case-content">
+                        <div class="case-before">
+                            <div class="case-label">Before</div>
+                            <p>대기업 SCM팀 주니어<br>실무는 하지만 전체 그림이 안 보였음</p>
+                        </div>
+                        <div class="case-arrow">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 5v14M5 12l7 7 7-7"/>
+                            </svg>
+                        </div>
+                        <div class="case-after">
+                            <div class="case-label">After</div>
+                            <p>팀장/파트장으로 승진<br>전략적 SCM 리더로 성장</p>
+                        </div>
+                        <div class="case-result">
+                            <div class="case-result-icon">
+                                <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                                    <polyline points="22 4 12 14.01 9 11.01"/>
+                                </svg>
+                            </div>
+                            <div class="case-result-text">
+                                End-to-End SCM 이해로 리더십 발휘
+                                <span>부분이 아닌 전체를 보는 시야 확보</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Core Message -->
+            <div class="cases-message fade-up">
+                <div class="cases-message-icon">🎯</div>
+                <h3>합격이 끝이 아닙니다</h3>
+                <p>
+                    저희 프로그램의 진짜 가치는 <strong>'방향성'</strong>입니다.<br>
+                    직무 이해도를 기반으로 커리어 방향을 잡으면,<br>
+                    합격 후에도 흔들리지 않고 같은 방향으로 레벨업할 수 있습니다.<br>
+                    <strong>멘토인 저 또한 이 방법으로 10년간 성장해왔습니다.</strong>
+                </p>
             </div>
         </section>
 
