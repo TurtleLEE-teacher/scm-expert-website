@@ -66,7 +66,7 @@ export default async function handler(req, res) {
 
     // Notion API 키 확인
     const notionApiKey = process.env.NOTION_API_KEY;
-    const consultationDbId = '23787a1932c481c59df9eb0bed62f1a8';
+    const consultationDbId = process.env.NOTION_INQUIRY_DB_ID || '23787a1932c481c59df9eb0bed62f1a8';
 
     if (!notionApiKey || notionApiKey === 'your_notion_api_key_here') {
       console.error('Missing NOTION_API_KEY');
