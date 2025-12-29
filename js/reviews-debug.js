@@ -120,6 +120,15 @@
         const slideReviews = bootcampReviews.slice(0, 15);
         const slideCardsHtml = slideReviews.map(r => createReviewCard(r, true)).join('');
         container.innerHTML = slideCardsHtml;
+
+        // fade-up 애니메이션을 즉시 visible로 만들기
+        setTimeout(() => {
+            container.querySelectorAll('.fade-up').forEach(card => {
+                card.classList.add('visible');
+            });
+            console.log('   - fade-up 애니메이션 활성화 완료');
+        }, 10);
+
         console.log('✅ [BOOTCAMP] 슬라이드 렌더링 완료 (15개)');
 
         // 페이지네이션은 생략 (기존 코드 그대로 사용)

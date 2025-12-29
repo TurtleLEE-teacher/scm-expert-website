@@ -88,6 +88,13 @@
         const slideCardsHtml = slideReviews.map(r => createReviewCard(r, true)).join('');
         container.innerHTML = slideCardsHtml;
 
+        // fade-up 애니메이션을 즉시 visible로 만들기 (동적으로 추가된 요소용)
+        setTimeout(() => {
+            container.querySelectorAll('.fade-up').forEach(card => {
+                card.classList.add('visible');
+            });
+        }, 10);
+
         // 15개 이상이면 페이지네이션 표시
         if (bootcampReviews.length > 15 && expandedContainer && expandBtn) {
             const remainingReviews = bootcampReviews.slice(15);
