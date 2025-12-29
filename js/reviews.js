@@ -52,6 +52,13 @@
 
         const cardsHtml = consultingReviews.slice(0, 6).map(r => createReviewCard(r, true)).join('');
         container.innerHTML = cardsHtml;
+
+        // fade-up 애니메이션을 즉시 visible로 만들기 (동적으로 추가된 요소용)
+        setTimeout(() => {
+            container.querySelectorAll('.fade-up').forEach(card => {
+                card.classList.add('visible');
+            });
+        }, 10);
     }
 
     // 부트캠프 후기 렌더링 (슬라이드 형태)
