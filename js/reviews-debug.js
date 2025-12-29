@@ -78,6 +78,15 @@
             console.log(`   - 생성된 HTML 길이: ${cardsHtml.length} 문자`);
 
             container.innerHTML = cardsHtml;
+
+            // 🔥 FIX: fade-up 애니메이션을 즉시 visible로 만들기
+            setTimeout(() => {
+                container.querySelectorAll('.fade-up').forEach(card => {
+                    card.classList.add('visible');
+                });
+                console.log('   - fade-up 애니메이션 활성화 완료');
+            }, 10);
+
             console.log('✅ [CONSULTING] 렌더링 완료!');
             console.log('   - 컨테이너 자식 요소 수:', container.children.length);
         } catch (error) {
