@@ -31,80 +31,38 @@
         `;
     }
 
-    // 컨설팅 후기 렌더링 (그리드 형태)
+    // 컨설팅 후기 렌더링 (슬라이드 + 페이지네이션)
     function renderConsultingReviews(reviews) {
-        const container = document.getElementById('consultingReviews');
-        if (!container) return;
+        const trackContainer = document.getElementById('consultingReviewsTrack');
+        const expandedContainer = document.getElementById('consultingReviewsExpanded');
+        const expandBtn = document.getElementById('consultingExpandBtn');
+        const paginationContainer = document.getElementById('consultingPagination');
 
-        // 컨설팅 카테고리 우선 표시, 없으면 모든 후기 표시
+        if (!trackContainer) return;
+
+        // 컨설팅 카테고리 필터링
         let consultingReviews = reviews.filter(r => r.category === 'consulting');
 
-        // 컨설팅 후기가 없으면 모든 후기 표시
         if (consultingReviews.length === 0) {
-            console.log('컨설팅 후기가 없어 모든 후기를 표시합니다.');
-            consultingReviews = reviews;
-        }
-
-        if (consultingReviews.length === 0) {
-            container.innerHTML = '<div class="reviews-empty">아직 등록된 후기가 없습니다.</div>';
+            trackContainer.innerHTML = '<div class="reviews-empty">아직 등록된 후기가 없습니다.</div>';
             return;
         }
 
-        const cardsHtml = consultingReviews.slice(0, 6).map(r => createReviewCard(r, true)).join('');
-        container.innerHTML = cardsHtml;
-
-        // fade-up 애니메이션을 즉시 visible로 만들기 (동적으로 추가된 요소용)
-        setTimeout(() => {
-            container.querySelectorAll('.fade-up').forEach(card => {
-                card.classList.add('visible');
-            });
-        }, 10);
-    }
-
-    // 부트캠프 후기 렌더링 (슬라이드 형태)
-    function renderBootcampReviews(reviews) {
-        const container = document.getElementById('reviewsTrack');
-        const expandedContainer = document.getElementById('reviewsGridExpanded');
-        const expandBtn = document.getElementById('reviewsExpandBtn');
-
-        if (!container) return;
-
-        // 부트캠프 카테고리 우선 표시, 없으면 모든 후기 표시
-        let bootcampReviews = reviews.filter(r => r.category === 'bootcamp' || !r.category);
-
-        // 부트캠프 후기가 없으면 모든 후기 표시
-        if (bootcampReviews.length === 0) {
-            console.log('부트캠프 후기가 없어 모든 후기를 표시합니다.');
-            bootcampReviews = reviews;
-        }
-
-        if (bootcampReviews.length === 0) {
-            container.innerHTML = '<div class="reviews-empty">아직 등록된 후기가 없습니다.</div>';
-            return;
-        }
-
-        // 슬라이드에 표시할 후기 (최대 15개)
-        const slideReviews = bootcampReviews.slice(0, 15);
+        // 슬라이드에 표시할 후기 (최대 6개)
+        const slideReviews = consultingReviews.slice(0, 6);
         const slideCardsHtml = slideReviews.map(r => createReviewCard(r, true)).join('');
-        container.innerHTML = slideCardsHtml;
+        trackContainer.innerHTML = slideCardsHtml;
 
-        // fade-up 애니메이션을 즉시 visible로 만들기 (동적으로 추가된 요소용)
-        setTimeout(() => {
-            container.querySelectorAll('.fade-up').forEach(card => {
-                card.classList.add('visible');
-            });
-        }, 10);
+        // 무한 스크롤 애니메이션 시작
+        initSlideAnimation('consultingReviewsTrack');
 
-        // 15개 이상이면 페이지네이션 표시
-        if (bootcampReviews.length > 15 && expandedContainer && expandBtn) {
-            const remainingReviews = bootcampReviews.slice(15);
-            const PAGE_SIZE = 10; // 페이지당 10개씩 표시
+        // 6개 이상이면 페이지네이션 표시
+        if (consultingReviews.length > 6 && expandedContainer && expandBtn && paginationContainer) {
+            const remainingReviews = consultingReviews.slice(6);
+            const PAGE_SIZE = 10;
             const totalPages = Math.ceil(remainingReviews.length / PAGE_SIZE);
-            let currentPage = 1; // 현재 페이지 (1부터 시작)
+            let currentPage = 1;
 
-            const paginationContainer = document.getElementById('reviewsPagination');
-
-            // 페이지 렌더링 함수
             function renderPage(pageNum) {
                 const startIdx = (pageNum - 1) * PAGE_SIZE;
                 const endIdx = Math.min(startIdx + PAGE_SIZE, remainingReviews.length);
@@ -115,26 +73,18 @@
                 updatePagination();
             }
 
-            // 페이지네이션 버튼 생성
             function updatePagination() {
-                if (!paginationContainer) return;
-
                 let paginationHTML = '';
-
-                // 이전 버튼
                 paginationHTML += `<button ${currentPage === 1 ? 'disabled' : ''} data-page="${currentPage - 1}">&lt;</button>`;
 
-                // 페이지 번호 표시 로직 (최대 7개 버튼)
                 const maxButtons = 7;
                 let startPage = Math.max(1, currentPage - 3);
                 let endPage = Math.min(totalPages, startPage + maxButtons - 1);
 
-                // 끝에서부터 계산했을 때 시작 페이지 조정
                 if (endPage - startPage < maxButtons - 1) {
                     startPage = Math.max(1, endPage - maxButtons + 1);
                 }
 
-                // 첫 페이지
                 if (startPage > 1) {
                     paginationHTML += `<button data-page="1">1</button>`;
                     if (startPage > 2) {
@@ -142,13 +92,11 @@
                     }
                 }
 
-                // 중간 페이지들
                 for (let i = startPage; i <= endPage; i++) {
                     const isActive = i === currentPage ? ' class="active"' : '';
                     paginationHTML += `<button${isActive} data-page="${i}">${i}</button>`;
                 }
 
-                // 마지막 페이지
                 if (endPage < totalPages) {
                     if (endPage < totalPages - 1) {
                         paginationHTML += '<span class="page-dots">...</span>';
@@ -156,18 +104,15 @@
                     paginationHTML += `<button data-page="${totalPages}">${totalPages}</button>`;
                 }
 
-                // 다음 버튼
                 paginationHTML += `<button ${currentPage === totalPages ? 'disabled' : ''} data-page="${currentPage + 1}">&gt;</button>`;
 
                 paginationContainer.innerHTML = paginationHTML;
 
-                // 페이지 버튼 이벤트 리스너
                 paginationContainer.querySelectorAll('button').forEach(btn => {
                     btn.addEventListener('click', function() {
                         const page = parseInt(this.dataset.page);
                         if (page && page !== currentPage) {
                             renderPage(page);
-                            // 스크롤을 확장된 영역 위로 이동
                             expandedContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                         }
                     });
@@ -176,19 +121,16 @@
 
             expandBtn.style.display = 'block';
 
-            // 더보기 버튼 이벤트
             expandBtn.onclick = function() {
                 const isExpanded = expandedContainer.classList.contains('show');
 
                 if (!isExpanded) {
-                    // 펼치기
                     expandedContainer.classList.add('show');
                     this.classList.add('expanded');
                     paginationContainer.style.display = 'flex';
                     this.querySelector('span').textContent = '접기';
-                    renderPage(1); // 첫 페이지 표시
+                    renderPage(1);
                 } else {
-                    // 접기
                     expandedContainer.classList.remove('show');
                     this.classList.remove('expanded');
                     paginationContainer.style.display = 'none';
@@ -196,29 +138,124 @@
                 }
             };
         }
+    }
+
+    // 부트캠프 후기 렌더링 (슬라이드 + 페이지네이션)
+    function renderBootcampReviews(reviews) {
+        const trackContainer = document.getElementById('reviewsTrack');
+        const expandedContainer = document.getElementById('reviewsGridExpanded');
+        const expandBtn = document.getElementById('reviewsExpandBtn');
+        const paginationContainer = document.getElementById('reviewsPagination');
+
+        if (!trackContainer) return;
+
+        // 부트캠프 카테고리 필터링
+        let bootcampReviews = reviews.filter(r => r.category === 'bootcamp' || !r.category);
+
+        if (bootcampReviews.length === 0) {
+            bootcampReviews = reviews;
+        }
+
+        if (bootcampReviews.length === 0) {
+            trackContainer.innerHTML = '<div class="reviews-empty">아직 등록된 후기가 없습니다.</div>';
+            return;
+        }
+
+        // 슬라이드에 표시할 후기 (최대 15개)
+        const slideReviews = bootcampReviews.slice(0, 15);
+        const slideCardsHtml = slideReviews.map(r => createReviewCard(r, true)).join('');
+        trackContainer.innerHTML = slideCardsHtml;
 
         // 무한 스크롤 애니메이션 시작
-        initInfiniteScroll();
+        initSlideAnimation('reviewsTrack');
+
+        // 15개 이상이면 페이지네이션 표시
+        if (bootcampReviews.length > 15 && expandedContainer && expandBtn && paginationContainer) {
+            const remainingReviews = bootcampReviews.slice(15);
+            const PAGE_SIZE = 10;
+            const totalPages = Math.ceil(remainingReviews.length / PAGE_SIZE);
+            let currentPage = 1;
+
+            function renderPage(pageNum) {
+                const startIdx = (pageNum - 1) * PAGE_SIZE;
+                const endIdx = Math.min(startIdx + PAGE_SIZE, remainingReviews.length);
+                const pageReviews = remainingReviews.slice(startIdx, endIdx);
+
+                expandedContainer.innerHTML = pageReviews.map(r => createReviewCard(r, false)).join('');
+                currentPage = pageNum;
+                updatePagination();
+            }
+
+            function updatePagination() {
+                let paginationHTML = '';
+                paginationHTML += `<button ${currentPage === 1 ? 'disabled' : ''} data-page="${currentPage - 1}">&lt;</button>`;
+
+                const maxButtons = 7;
+                let startPage = Math.max(1, currentPage - 3);
+                let endPage = Math.min(totalPages, startPage + maxButtons - 1);
+
+                if (endPage - startPage < maxButtons - 1) {
+                    startPage = Math.max(1, endPage - maxButtons + 1);
+                }
+
+                if (startPage > 1) {
+                    paginationHTML += `<button data-page="1">1</button>`;
+                    if (startPage > 2) {
+                        paginationHTML += '<span class="page-dots">...</span>';
+                    }
+                }
+
+                for (let i = startPage; i <= endPage; i++) {
+                    const isActive = i === currentPage ? ' class="active"' : '';
+                    paginationHTML += `<button${isActive} data-page="${i}">${i}</button>`;
+                }
+
+                if (endPage < totalPages) {
+                    if (endPage < totalPages - 1) {
+                        paginationHTML += '<span class="page-dots">...</span>';
+                    }
+                    paginationHTML += `<button data-page="${totalPages}">${totalPages}</button>`;
+                }
+
+                paginationHTML += `<button ${currentPage === totalPages ? 'disabled' : ''} data-page="${currentPage + 1}">&gt;</button>`;
+
+                paginationContainer.innerHTML = paginationHTML;
+
+                paginationContainer.querySelectorAll('button').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const page = parseInt(this.dataset.page);
+                        if (page && page !== currentPage) {
+                            renderPage(page);
+                            expandedContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                        }
+                    });
+                });
+            }
+
+            expandBtn.style.display = 'block';
+
+            expandBtn.onclick = function() {
+                const isExpanded = expandedContainer.classList.contains('show');
+
+                if (!isExpanded) {
+                    expandedContainer.classList.add('show');
+                    this.classList.add('expanded');
+                    paginationContainer.style.display = 'flex';
+                    this.querySelector('span').textContent = '접기';
+                    renderPage(1);
+                } else {
+                    expandedContainer.classList.remove('show');
+                    this.classList.remove('expanded');
+                    paginationContainer.style.display = 'none';
+                    this.querySelector('span').textContent = '후기 전체보기';
+                }
+            };
+        }
     }
 
-    // 통계 업데이트
-    function updateStats(reviews) {
-        const countEl = document.getElementById('reviewsCount');
-        const ratingEl = document.getElementById('reviewsRating');
-
-        if (countEl) {
-            countEl.textContent = reviews.length > 0 ? `${reviews.length}+` : '-';
-        }
-
-        if (ratingEl && reviews.length > 0) {
-            const avgRating = reviews.reduce((sum, r) => sum + (r.rating || 5), 0) / reviews.length;
-            ratingEl.textContent = avgRating.toFixed(1);
-        }
-    }
-
-    // 무한 스크롤 애니메이션
-    function initInfiniteScroll() {
-        const track = document.getElementById('reviewsTrack');
+    // 슬라이드 애니메이션 초기화 (재사용 가능한 함수)
+    function initSlideAnimation(trackId) {
+        const track = document.getElementById(trackId);
         if (!track || track.dataset.initialized) return;
 
         const cards = Array.from(track.children);
@@ -258,6 +295,36 @@
         requestAnimationFrame(animate);
     }
 
+    // 통계 업데이트
+    function updateStats(reviews) {
+        const countEl = document.getElementById('reviewsCount');
+        const ratingEl = document.getElementById('reviewsRating');
+
+        if (countEl) {
+            countEl.textContent = reviews.length > 0 ? `${reviews.length}+` : '-';
+        }
+
+        if (ratingEl && reviews.length > 0) {
+            const avgRating = reviews.reduce((sum, r) => sum + (r.rating || 5), 0) / reviews.length;
+            ratingEl.textContent = avgRating.toFixed(1);
+        }
+    }
+
+    // 빈 상태 표시
+    function showEmptyState() {
+        const consultingContainer = document.getElementById('consultingReviewsTrack');
+        const bootcampContainer = document.getElementById('reviewsTrack');
+        const countEl = document.getElementById('reviewsCount');
+        const ratingEl = document.getElementById('reviewsRating');
+
+        const emptyHtml = '<div class="reviews-empty">후기 데이터를 불러오는 중입니다...</div>';
+
+        if (consultingContainer) consultingContainer.innerHTML = emptyHtml;
+        if (bootcampContainer) bootcampContainer.innerHTML = emptyHtml;
+        if (countEl) countEl.textContent = '-';
+        if (ratingEl) ratingEl.textContent = '-';
+    }
+
     // 후기 데이터 로드
     async function loadReviews() {
         try {
@@ -270,7 +337,6 @@
             const reviews = data.data || [];
 
             if (reviews.length === 0) {
-                // 데이터가 없을 때 빈 상태 표시
                 showEmptyState();
                 return;
             }
@@ -283,21 +349,6 @@
             console.warn('후기 데이터 로드 실패:', error);
             showEmptyState();
         }
-    }
-
-    // 빈 상태 표시
-    function showEmptyState() {
-        const consultingContainer = document.getElementById('consultingReviews');
-        const bootcampContainer = document.getElementById('reviewsTrack');
-        const countEl = document.getElementById('reviewsCount');
-        const ratingEl = document.getElementById('reviewsRating');
-
-        const emptyHtml = '<div class="reviews-empty">후기 데이터를 불러오는 중입니다...</div>';
-
-        if (consultingContainer) consultingContainer.innerHTML = emptyHtml;
-        if (bootcampContainer) bootcampContainer.innerHTML = emptyHtml;
-        if (countEl) countEl.textContent = '-';
-        if (ratingEl) ratingEl.textContent = '-';
     }
 
     // DOM 로드 후 실행

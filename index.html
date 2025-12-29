@@ -1463,10 +1463,26 @@
             <!-- 1:1 컨설팅 후기 - 동적 로드 -->
             <div class="reviews-category">
                 <h3 class="fade-up">1:1 커리어 컨설팅 후기</h3>
-                <div class="reviews-grid" id="consultingReviews">
-                    <!-- Notion 데이터에서 동적 로드 -->
-                    <div class="reviews-loading">후기를 불러오는 중...</div>
+                <div class="reviews-track-wrapper">
+                    <div class="reviews-track" id="consultingReviewsTrack">
+                        <!-- Notion 데이터에서 동적 로드 -->
+                        <div class="reviews-loading">후기를 불러오는 중...</div>
+                    </div>
                 </div>
+
+                <!-- 전체보기 버튼 -->
+                <button class="reviews-expand-btn" id="consultingExpandBtn" style="display: none;">
+                    <span>후기 전체보기</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </button>
+
+                <!-- 확장된 후기 영역 (페이지네이션) -->
+                <div class="reviews-grid-expanded" id="consultingReviewsExpanded"></div>
+
+                <!-- 페이지네이션 -->
+                <div class="reviews-pagination" id="consultingPagination" style="display: none;"></div>
             </div>
 
             <!-- 직무부트캠프 후기 - 동적 로드 -->
@@ -2054,6 +2070,6 @@
     </script>
 
     <!-- Notion 후기 동적 로드 -->
-    <script src="./js/reviews-debug.js"></script>
+    <script src="./js/reviews.js"></script>
 </body>
 </html>
