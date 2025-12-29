@@ -203,6 +203,17 @@
             }
         }
 
+        /* Header scroll effect */
+        .header {
+            background-color: transparent;
+            border-bottom-color: transparent;
+            transition: background-color 0.3s, border-bottom-color 0.3s;
+        }
+        .header.scrolled {
+            background-color: rgba(0, 0, 0, 0.85);
+            border-bottom-color: var(--border-color-light);
+        }
+
         /* Hero - Question Style */
         .hero {
             min-height: 100vh;
@@ -211,7 +222,7 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: calc(var(--header-height) + var(--space-16)) var(--space-6) var(--space-16);
+            padding: calc(var(--header-height) + var(--space-20)) var(--space-6) var(--space-20);
             position: relative;
             overflow: hidden;
         }
@@ -232,35 +243,37 @@
             z-index: 1;
         }
         .hero-question {
-            font-size: clamp(2rem, 6vw, 3.5rem);
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
             font-weight: var(--font-bold);
-            letter-spacing: var(--tracking-tighter);
-            line-height: 1.15;
-            margin-bottom: var(--space-6);
-            max-width: 800px;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: var(--space-8);
+            max-width: 900px;
         }
         .hero-answer {
-            font-size: clamp(1rem, 2.5vw, 1.25rem);
+            font-size: clamp(1.1rem, 2.5vw, 1.35rem);
             color: var(--text-secondary);
-            margin-bottom: var(--space-8);
+            margin-bottom: var(--space-10);
             max-width: 600px;
+            line-height: 1.6;
         }
         .hero-trust {
             display: inline-flex;
             align-items: center;
             gap: var(--space-2);
-            padding: var(--space-2) var(--space-4);
-            background-color: rgba(0, 122, 255, 0.1);
-            border: 1px solid rgba(0, 122, 255, 0.2);
+            padding: var(--space-1) var(--space-3);
+            background-color: transparent;
+            border: 1px solid var(--border-color);
             border-radius: var(--radius-full);
-            font-size: var(--text-sm);
-            color: var(--blue);
-            font-weight: var(--font-medium);
-            margin-bottom: var(--space-8);
+            font-size: var(--text-xs);
+            color: var(--text-tertiary);
+            font-weight: var(--font-regular);
+            margin-bottom: var(--space-6);
+            letter-spacing: 0.02em;
         }
         .hero-trust-dot {
-            width: 8px;
-            height: 8px;
+            width: 6px;
+            height: 6px;
             background-color: var(--green);
             border-radius: 50%;
             animation: pulse 2s ease-in-out infinite;
@@ -274,11 +287,11 @@
             gap: var(--space-4);
             flex-wrap: wrap;
             justify-content: center;
-            margin-bottom: var(--space-12);
+            margin-bottom: var(--space-16);
         }
         .hero-scroll {
             position: absolute;
-            bottom: var(--space-8);
+            bottom: var(--space-10);
             left: 50%;
             transform: translateX(-50%);
             display: flex;
@@ -288,6 +301,10 @@
             color: var(--text-tertiary);
             font-size: var(--text-xs);
             animation: bounce 2s ease-in-out infinite;
+            text-decoration: none;
+        }
+        .hero-scroll:hover {
+            color: var(--text-secondary);
         }
         .hero-scroll svg {
             width: 20px;
@@ -300,17 +317,18 @@
 
         /* Differentiation Section */
         .diff-section {
-            padding: var(--space-20) var(--space-6);
+            padding: var(--space-24) var(--space-6);
             background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
         }
         .diff-header {
             text-align: center;
-            margin-bottom: var(--space-12);
+            margin-bottom: var(--space-16);
         }
         .diff-header h2 {
-            font-size: var(--text-3xl);
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
             font-weight: var(--font-bold);
             margin-bottom: var(--space-4);
+            letter-spacing: -0.02em;
         }
         .diff-header p {
             font-size: var(--text-lg);
@@ -1698,18 +1716,18 @@
         <section class="hero">
             <div class="hero-trust fade-up">
                 <span class="hero-trust-dot"></span>
-                글로벌 Big4 컨설팅펌 현직 컨설턴트
+                Big4 컨설팅펌 현직 컨설턴트
             </div>
             <h1 class="hero-question fade-up">
-                SCM 취업,<br>처음부터 끝까지 함께합니다
+                커리어의 다음 레벨로
             </h1>
             <p class="hero-answer fade-up">
-                5주 직무교육 + 커리어 컨설팅을 하나로<br>
-                직무 이해부터 Resume 완성까지 원스톱으로
+                직무 역량 강화부터 1:1 커리어 설계까지<br>
+                당신의 시장 가치를 높이는 5주
             </p>
             <div class="hero-cta fade-up">
                 <a href="basic-package.html" class="btn btn-lg btn-primary">프로그램 보기</a>
-                <button class="btn btn-lg btn-secondary" onclick="openModal()">상담 신청</button>
+                <button class="btn btn-lg btn-secondary" onclick="openModal()">무료 상담</button>
             </div>
 
             <div class="hero-stats fade-up">
@@ -2479,6 +2497,16 @@
             link.addEventListener('click', () => {
                 navMenu.classList.remove('active');
             });
+        });
+
+        // Header scroll effect
+        const header = document.querySelector('.header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header?.classList.add('scrolled');
+            } else {
+                header?.classList.remove('scrolled');
+            }
         });
 
         // Scroll animations
