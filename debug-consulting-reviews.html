@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>컨설팅 후기 디버깅</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; max-width: 900px; margin: 0 auto; }
+        .review-card { border: 1px solid #ddd; padding: 15px; margin: 10px 0; border-radius: 8px; }
+        .success { color: green; font-weight: bold; }
+        .error { color: red; font-weight: bold; }
+        pre { background: #f5f5f5; padding: 10px; overflow: auto; font-size: 12px; }
+        .step { background: #e3f2fd; padding: 10px; margin: 10px 0; border-left: 4px solid #2196f3; }
+    </style>
+</head>
+<body>
+    <h1>🔍 컨설팅 후기 표시 디버깅</h1>
+    <div id="results"></div>
+    <hr>
+    <h2>실제 렌더링 테스트</h2>
+    <div class="reviews-grid" id="consultingReviews">
+        <div>로딩 중...</div>
+    </div>
+
+    <script>
+        const results = document.getElementById('results');
+        
+        // 단계별 디버깅
+        async function debugConsultingReviews() {
+            try {
+                // Step 1: 데이터 로드
+                results.innerHTML += '<div class="step">1️⃣ 데이터 로드 중...</div>';
+                const response = await fetch('./data/reviews.json');
+                if (!response.ok) throw new Error('HTTP ' + response.status);
+                
+                const data = await response.json();
+                const allReviews = data.data || [];
+                
+                results.innerHTML += '<div class="success">✅ 데이터 로드 성공: ' + allReviews.length + '개</div>';
+                
+                // Step 2: 컨설팅 필터링
+                results.innerHTML += '<div class="step">2️⃣ 컨설팅 후기 필터링 중...</div>';
+                const consultingReviews = allReviews.filter(r => r.category === 'consulting');
+                
+                results.innerHTML += '<div class="success">✅ Consulting 필터링 결과: ' + consultingReviews.length + '개</div>';
+                
+                if (consultingReviews.length === 0) {
+                    results.innerHTML += '<div class="error">❌ 컨설팅 후기가 없습니다!</div>';
+                    results.innerHTML += '<p>샘플 카테고리 값:</p><pre>' + 
+                        JSON.stringify(allReviews.slice(0, 5).map(r => ({ category: r.category, author: r.author })), null, 2) + 
+                        '</pre>';
+                    return;
+                }
+                
+                // Step 3: HTML 생성
+                results.innerHTML += '<div class="step">3️⃣ HTML 카드 생성 중...</div>';
+                
+                consultingReviews.forEach((review, i) => {
+                    results.innerHTML += '<div class="review-card">' +
+                        '<strong>' + (i + 1) + '. ' + review.author + '</strong> ' +
+                        '(' + review.rating + '점, ' + review.date + ')<br>' +
+                        '<small>Category: ' + review.category + '</small><br>' +
+                        review.content.substring(0, 100) + '...' +
+                        '</div>';
+                });
+                
+                // Step 4: 실제 렌더링 (reviews.js와 동일한 로직)
+                results.innerHTML += '<div class="step">4️⃣ 실제 DOM에 렌더링 중...</div>';
+                const container = document.getElementById('consultingReviews');
+                
+                if (!container) {
+                    results.innerHTML += '<div class="error">❌ consultingReviews 컨테이너를 찾을 수 없습니다!</div>';
+                    return;
+                }
+                
+                const STAR_SVG = '<svg viewBox="0 0 20 20" width="16" height="16" fill="gold"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>';
+                
+                const cardsHtml = consultingReviews.slice(0, 6).map(r => {
+                    const starsHtml = '<div style="display:inline-block">' + STAR_SVG.repeat(r.rating) + '</div>';
+                    return '<div class="review-card">' +
+                        starsHtml + '<br>' +
+                        '<p>"' + r.content + '"</p>' +
+                        '<span><strong>' + r.author + '</strong> <small>' + r.date + '</small></span>' +
+                        '</div>';
+                }).join('');
+                
+                container.innerHTML = cardsHtml;
+                results.innerHTML += '<div class="success">✅ 렌더링 완료!</div>';
+                
+                // Step 5: 최종 확인
+                results.innerHTML += '<div class="step">5️⃣ 최종 확인</div>';
+                results.innerHTML += '<p>consultingReviews 컨테이너의 자식 요소 수: <strong>' + 
+                    container.children.length + '</strong></p>';
+                
+                if (container.children.length > 0) {
+                    results.innerHTML += '<div class="success">🎉 성공! 컨설팅 후기가 표시되어야 합니다!</div>';
+                } else {
+                    results.innerHTML += '<div class="error">❌ 렌더링 실패!</div>';
+                }
+                
+            } catch (error) {
+                results.innerHTML += '<div class="error">❌ 오류: ' + error.message + '</div>';
+                console.error(error);
+            }
+        }
+        
+        debugConsultingReviews();
+    </script>
+</body>
+</html>
