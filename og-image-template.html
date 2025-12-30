@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OG Image Template - SCM Labs</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 40px;
+        }
+
+        .og-container {
+            width: 1200px;
+            height: 630px;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
+            position: relative;
+            overflow: hidden;
+            border-radius: 0;
+        }
+
+        /* Subtle grid pattern */
+        .og-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+        }
+
+        /* Blue gradient accent */
+        .accent-glow {
+            position: absolute;
+            top: -200px;
+            right: -200px;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(0, 113, 227, 0.15) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .accent-glow-2 {
+            position: absolute;
+            bottom: -300px;
+            left: -200px;
+            width: 700px;
+            height: 700px;
+            background: radial-gradient(circle, rgba(0, 113, 227, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .content {
+            position: relative;
+            z-index: 1;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 80px 100px;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 60px;
+            letter-spacing: -0.5px;
+        }
+
+        .logo span {
+            color: #0071e3;
+        }
+
+        .headline {
+            font-size: 72px;
+            font-weight: 800;
+            color: #ffffff;
+            line-height: 1.1;
+            letter-spacing: -2px;
+            margin-bottom: 30px;
+        }
+
+        .headline .highlight {
+            background: linear-gradient(135deg, #0071e3 0%, #00a3ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subheadline {
+            font-size: 26px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.6);
+            line-height: 1.5;
+            max-width: 700px;
+        }
+
+        .stats-bar {
+            position: absolute;
+            bottom: 80px;
+            left: 100px;
+            right: 100px;
+            display: flex;
+            gap: 60px;
+        }
+
+        .stat {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: 700;
+            color: #0071e3;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Decorative elements */
+        .corner-accent {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 300px;
+            height: 300px;
+            border-left: 1px solid rgba(0, 113, 227, 0.3);
+            border-top: 1px solid rgba(0, 113, 227, 0.3);
+            border-top-left-radius: 150px;
+        }
+
+        .line-accent {
+            position: absolute;
+            top: 80px;
+            right: 100px;
+            width: 120px;
+            height: 4px;
+            background: linear-gradient(90deg, #0071e3 0%, transparent 100%);
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="og-container">
+        <div class="accent-glow"></div>
+        <div class="accent-glow-2"></div>
+        <div class="corner-accent"></div>
+        <div class="line-accent"></div>
+
+        <div class="content">
+            <div class="logo">SCM <span>Labs</span></div>
+
+            <h1 class="headline">
+                커리어의<br>
+                <span class="highlight">다음 레벨</span>로
+            </h1>
+
+            <p class="subheadline">
+                글로벌 Big4 컨설턴트와 함께하는<br>
+                SCM 직무교육 & 커리어 컨설팅
+            </p>
+
+            <div class="stats-bar">
+                <div class="stat">
+                    <span class="stat-number">100+</span>
+                    <span class="stat-label">멘토링</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">4.4x</span>
+                    <span class="stat-label">연봉 성장</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">95%</span>
+                    <span class="stat-label">만족도</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 사용법 안내
+        console.log('=== OG 이미지 생성 방법 ===');
+        console.log('1. 브라우저 개발자 도구 열기 (F12)');
+        console.log('2. 디바이스 모드에서 1200x630 설정');
+        console.log('3. 스크린샷 캡처');
+        console.log('4. images/og-image.png로 저장');
+    </script>
+</body>
+</html>
