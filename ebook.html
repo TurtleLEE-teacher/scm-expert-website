@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>무료 전자책 - SCM & 컨설팅 커리어 가이드 | SCM Labs</title>
+    <meta name="description" content="글로벌 컨설팅펌 현직 컨설턴트가 들려주는 SCM 커리어와 컨설팅 커리어 이야기. 무료 전자책을 받아보세요.">
+    <meta name="keywords" content="SCM 커리어, 컨설팅 커리어, 전자책, 무료, 커리어 가이드">
+    <meta name="author" content="SCM Labs">
+    <meta name="robots" content="index, follow">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
+    <link rel="apple-touch-icon" href="./images/apple-touch-icon.png">
+
+    <!-- Design System CSS -->
+    <link rel="stylesheet" href="css/design-system.css">
+
+    <style>
+        /* Logo */
+        .logo {
+            font-size: 1.5rem;
+            font-weight: var(--font-semibold);
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+        [data-theme="light"] .logo {
+            color: #1d1d1f;
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: calc(var(--header-height) + var(--space-8)) var(--space-6) var(--space-16);
+        }
+
+        .hero-content {
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-2) var(--space-4);
+            background-color: var(--bg-secondary);
+            border-radius: var(--radius-full);
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+            margin-bottom: var(--space-6);
+        }
+
+        .hero-badge-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--green);
+            border-radius: 50%;
+        }
+
+        .hero-title {
+            font-size: clamp(2rem, 6vw, 3rem);
+            font-weight: var(--font-bold);
+            letter-spacing: var(--tracking-tighter);
+            line-height: 1.2;
+            margin-bottom: var(--space-4);
+            color: var(--text-primary);
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1rem, 2.5vw, 1.125rem);
+            color: var(--text-secondary);
+            margin-bottom: var(--space-8);
+            line-height: var(--leading-relaxed);
+        }
+
+        /* Ebook Preview */
+        .ebook-preview {
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+            border-radius: var(--radius-xl);
+            padding: var(--space-8);
+            margin-bottom: var(--space-8);
+            border: 1px solid var(--border-color);
+        }
+
+        .ebook-icon {
+            font-size: 3rem;
+            margin-bottom: var(--space-4);
+        }
+
+        .ebook-title {
+            font-size: var(--text-xl);
+            font-weight: var(--font-semibold);
+            margin-bottom: var(--space-2);
+        }
+
+        .ebook-desc {
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+            line-height: var(--leading-relaxed);
+        }
+
+        .ebook-highlights {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-2);
+            margin-top: var(--space-4);
+            text-align: left;
+        }
+
+        .ebook-highlight {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+        }
+
+        .ebook-highlight-icon {
+            color: var(--green);
+            font-weight: bold;
+        }
+
+        /* Form */
+        .ebook-form {
+            background: var(--bg-elevated);
+            border-radius: var(--radius-xl);
+            padding: var(--space-8);
+            border: 1px solid var(--border-color);
+        }
+
+        .form-title {
+            font-size: var(--text-lg);
+            font-weight: var(--font-semibold);
+            margin-bottom: var(--space-6);
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: var(--space-4);
+        }
+
+        .form-label {
+            display: block;
+            font-size: var(--text-sm);
+            font-weight: var(--font-medium);
+            margin-bottom: var(--space-2);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: var(--space-3) var(--space-4);
+            font-size: var(--text-base);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            box-sizing: border-box;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--blue);
+        }
+
+        .form-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2386868b' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right var(--space-4) center;
+        }
+
+        .form-checkbox {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-2);
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+            cursor: pointer;
+        }
+
+        .form-checkbox input[type="checkbox"] {
+            margin-top: 2px;
+            cursor: pointer;
+        }
+
+        .form-submit {
+            width: 100%;
+            margin-top: var(--space-4);
+        }
+
+        .form-success {
+            display: none;
+            text-align: center;
+            padding: var(--space-8);
+        }
+
+        .form-success.show {
+            display: block;
+        }
+
+        .form-success-icon {
+            font-size: 3rem;
+            margin-bottom: var(--space-4);
+            color: var(--green);
+        }
+
+        .form-success h3 {
+            font-size: var(--text-xl);
+            margin-bottom: var(--space-2);
+        }
+
+        .form-success p {
+            color: var(--text-secondary);
+            margin-bottom: var(--space-4);
+        }
+
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+
+        /* Trust indicators */
+        .trust-section {
+            margin-top: var(--space-6);
+            padding-top: var(--space-6);
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .trust-text {
+            font-size: var(--text-xs);
+            color: var(--text-tertiary);
+        }
+
+        /* Footer */
+        .footer {
+            padding: var(--space-6);
+            text-align: center;
+            font-size: var(--text-sm);
+            color: var(--text-tertiary);
+        }
+
+        /* Loading state */
+        .btn.loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        .btn.loading::after {
+            content: '';
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            margin-left: var(--space-2);
+            border: 2px solid transparent;
+            border-top-color: currentColor;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Error message */
+        .form-error {
+            background: rgba(255, 59, 48, 0.1);
+            border: 1px solid var(--red);
+            border-radius: var(--radius-md);
+            padding: var(--space-3) var(--space-4);
+            margin-bottom: var(--space-4);
+            font-size: var(--text-sm);
+            color: var(--red);
+            display: none;
+        }
+
+        .form-error.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav container">
+            <a href="index.html" class="logo">SCM Labs</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="hero-badge-dot"></span>
+                무료 전자책
+            </div>
+
+            <h1 class="hero-title">SCM & 컨설팅<br>커리어 가이드</h1>
+            <p class="hero-subtitle">
+                글로벌 컨설팅펌 현직 컨설턴트가 들려주는<br>
+                SCM 커리어와 컨설팅 커리어를 만들어가는 이야기
+            </p>
+
+            <!-- Ebook Preview -->
+            <div class="ebook-preview">
+                <div class="ebook-icon">📘</div>
+                <div class="ebook-title">커리어 여정 가이드북</div>
+                <div class="ebook-desc">
+                    직무 설명서가 아닌, 실제 커리어를 만들어가는 과정과 고민을 담았습니다.
+                </div>
+                <div class="ebook-highlights">
+                    <div class="ebook-highlight">
+                        <span class="ebook-highlight-icon">✓</span>
+                        <span>SCM 직무로 커리어를 시작하게 된 계기</span>
+                    </div>
+                    <div class="ebook-highlight">
+                        <span class="ebook-highlight-icon">✓</span>
+                        <span>컨설팅펌 이직 과정과 준비 방법</span>
+                    </div>
+                    <div class="ebook-highlight">
+                        <span class="ebook-highlight-icon">✓</span>
+                        <span>커리어를 설계하며 배운 것들</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form -->
+            <div class="ebook-form" id="ebookFormContainer">
+                <div class="form-title">무료로 받아보기</div>
+                <div class="form-error" id="formError"></div>
+                <form id="ebookForm">
+                    <div class="form-group">
+                        <label class="form-label" for="name">이름 *</label>
+                        <input type="text" class="form-input" id="name" name="name" placeholder="홍길동" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="email">이메일 *</label>
+                        <input type="email" class="form-input" id="email" name="email" placeholder="example@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="affiliation">소속구분 *</label>
+                        <select class="form-input form-select" id="affiliation" name="affiliation" required>
+                            <option value="">선택해주세요</option>
+                            <option value="직장인">직장인</option>
+                            <option value="학생">학생</option>
+                            <option value="취업준비생">취업준비생</option>
+                            <option value="기타">기타</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-checkbox">
+                            <input type="checkbox" id="privacy" name="privacy_agreed" required>
+                            <span>개인정보 수집·이용에 동의합니다 (필수)</span>
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary form-submit" id="submitBtn">
+                        전자책 받기
+                    </button>
+                </form>
+
+                <div class="trust-section">
+                    <p class="trust-text">스팸 없이 전자책만 보내드립니다</p>
+                </div>
+            </div>
+
+            <!-- Success State -->
+            <div class="form-success" id="formSuccess">
+                <div class="form-success-icon">✓</div>
+                <h3>신청이 완료되었습니다!</h3>
+                <p>입력하신 이메일로 전자책 다운로드 링크를 보내드립니다.</p>
+                <a href="index.html" class="btn btn-secondary">홈으로 돌아가기</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2025 SCM Labs. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const ebookForm = document.getElementById('ebookForm');
+        const formContainer = document.getElementById('ebookFormContainer');
+        const formSuccess = document.getElementById('formSuccess');
+        const formError = document.getElementById('formError');
+        const submitBtn = document.getElementById('submitBtn');
+
+        ebookForm?.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            // Hide previous error
+            formError.classList.remove('show');
+
+            // Show loading state
+            submitBtn.classList.add('loading');
+            submitBtn.textContent = '처리 중...';
+
+            try {
+                const formData = new FormData(ebookForm);
+                const data = Object.fromEntries(formData.entries());
+                data.privacy_agreed = formData.get('privacy_agreed') === 'on';
+
+                const response = await fetch('/api/php/ebook-request.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    // Show success state
+                    formContainer.style.display = 'none';
+                    formSuccess.classList.add('show');
+                } else {
+                    throw new Error(result.error || '신청에 실패했습니다.');
+                }
+            } catch (error) {
+                formError.textContent = error.message;
+                formError.classList.add('show');
+                submitBtn.classList.remove('loading');
+                submitBtn.textContent = '전자책 받기';
+            }
+        });
+    </script>
+</body>
+</html>
