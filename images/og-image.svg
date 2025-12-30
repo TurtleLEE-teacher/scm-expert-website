@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a0a"/>
+      <stop offset="50%" style="stop-color:#1a1a1a"/>
+      <stop offset="100%" style="stop-color:#0a0a0a"/>
+    </linearGradient>
+    <linearGradient id="blue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0071e3"/>
+      <stop offset="100%" style="stop-color:#00a3ff"/>
+    </linearGradient>
+    <radialGradient id="glow1" cx="85%" cy="15%" r="50%">
+      <stop offset="0%" style="stop-color:#0071e3;stop-opacity:0.15"/>
+      <stop offset="100%" style="stop-color:#0071e3;stop-opacity:0"/>
+    </radialGradient>
+    <radialGradient id="glow2" cx="15%" cy="85%" r="50%">
+      <stop offset="0%" style="stop-color:#0071e3;stop-opacity:0.1"/>
+      <stop offset="100%" style="stop-color:#0071e3;stop-opacity:0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Grid pattern -->
+  <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
+    <path d="M 60 0 L 0 0 0 60" fill="none" stroke="rgba(255,255,255,0.02)" stroke-width="1"/>
+  </pattern>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+
+  <!-- Glows -->
+  <rect width="1200" height="630" fill="url(#glow1)"/>
+  <rect width="1200" height="630" fill="url(#glow2)"/>
+
+  <!-- Corner accent -->
+  <path d="M 900 630 Q 900 330 1200 330" fill="none" stroke="rgba(0,113,227,0.3)" stroke-width="1"/>
+
+  <!-- Top line accent -->
+  <rect x="1080" y="80" width="120" height="4" rx="2" fill="url(#blue)" opacity="0.8"/>
+
+  <!-- Logo -->
+  <text x="100" y="160" font-family="Inter, -apple-system, sans-serif" font-size="28" font-weight="700" fill="#ffffff">SCM <tspan fill="#0071e3">Labs</tspan></text>
+
+  <!-- Headline -->
+  <text x="100" y="280" font-family="Inter, -apple-system, sans-serif" font-size="72" font-weight="800" fill="#ffffff" letter-spacing="-2">커리어의</text>
+  <text x="100" y="365" font-family="Inter, -apple-system, sans-serif" font-size="72" font-weight="800" fill="url(#blue)" letter-spacing="-2">다음 레벨로</text>
+
+  <!-- Subheadline -->
+  <text x="100" y="430" font-family="Inter, -apple-system, sans-serif" font-size="26" font-weight="500" fill="rgba(255,255,255,0.6)">글로벌 Big4 컨설턴트와 함께하는</text>
+  <text x="100" y="465" font-family="Inter, -apple-system, sans-serif" font-size="26" font-weight="500" fill="rgba(255,255,255,0.6)">SCM 직무교육 &amp; 커리어 컨설팅</text>
+
+  <!-- Stats -->
+  <text x="100" y="555" font-family="Inter, -apple-system, sans-serif" font-size="32" font-weight="700" fill="#0071e3">100+</text>
+  <text x="100" y="580" font-family="Inter, -apple-system, sans-serif" font-size="14" font-weight="500" fill="rgba(255,255,255,0.5)" letter-spacing="1">MENTORING</text>
+
+  <text x="220" y="555" font-family="Inter, -apple-system, sans-serif" font-size="32" font-weight="700" fill="#0071e3">4.4x</text>
+  <text x="220" y="580" font-family="Inter, -apple-system, sans-serif" font-size="14" font-weight="500" fill="rgba(255,255,255,0.5)" letter-spacing="1">SALARY</text>
+
+  <text x="340" y="555" font-family="Inter, -apple-system, sans-serif" font-size="32" font-weight="700" fill="#0071e3">95%</text>
+  <text x="340" y="580" font-family="Inter, -apple-system, sans-serif" font-size="14" font-weight="500" fill="rgba(255,255,255,0.5)" letter-spacing="1">SATISFACTION</text>
+</svg>
