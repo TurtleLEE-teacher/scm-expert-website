@@ -474,25 +474,26 @@
             50% { background-position: 100% center; }
         }
 
-        /* Text Reveal Animation */
-        .hero-reveal {
-            animation: reveal-up 1s cubic-bezier(0.16, 1, 0.3, 1) both;
-        }
-        .hero-reveal-delay-1 { animation-delay: 0.1s; }
-        .hero-reveal-delay-2 { animation-delay: 0.25s; }
-        .hero-reveal-delay-3 { animation-delay: 0.4s; }
-        .hero-reveal-delay-4 { animation-delay: 0.55s; }
-        .hero-reveal-delay-5 { animation-delay: 0.7s; }
+        /* Text Reveal Animation - starts visible, animates in */
         @keyframes reveal-up {
-            0% {
+            from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(20px);
             }
-            100% {
+            to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
+        .hero-reveal {
+            opacity: 1;
+            animation: reveal-up 0.8s ease-out;
+        }
+        .hero-reveal-delay-1 { animation: reveal-up 0.8s ease-out 0.1s backwards; }
+        .hero-reveal-delay-2 { animation: reveal-up 0.8s ease-out 0.2s backwards; }
+        .hero-reveal-delay-3 { animation: reveal-up 0.8s ease-out 0.3s backwards; }
+        .hero-reveal-delay-4 { animation: reveal-up 0.8s ease-out 0.4s backwards; }
+        .hero-reveal-delay-5 { animation: reveal-up 0.8s ease-out 0.5s backwards; }
 
         /* Button Shine Effect */
         .btn-shine {
