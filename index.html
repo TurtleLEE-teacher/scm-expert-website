@@ -376,16 +376,13 @@
 
         /* Hero - Question Style */
         .hero {
-            min-height: 100vh !important;
-            display: flex !important;
-            flex-direction: column !important;
-            justify-content: flex-start !important;
-            align-items: center !important;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             text-align: center;
-            padding-top: calc(var(--header-height) + 80px) !important;
-            padding-left: var(--space-6);
-            padding-right: var(--space-6);
-            padding-bottom: var(--space-10);
+            padding: calc(var(--header-height) + var(--space-20)) var(--space-6) var(--space-20);
             position: relative;
             overflow: hidden;
         }
@@ -400,54 +397,6 @@
                         radial-gradient(ellipse at 80% 80%, rgba(88, 86, 214, 0.05) 0%, transparent 50%);
             pointer-events: none;
             z-index: 0;
-        }
-
-        /* Floating Orbs Animation */
-        .hero-orb {
-            position: absolute;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 0;
-            filter: blur(60px);
-        }
-        .hero-orb-1 {
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(0, 113, 227, 0.15) 0%, transparent 70%);
-            top: 10%;
-            right: -10%;
-            animation: float-orb-1 20s ease-in-out infinite;
-        }
-        .hero-orb-2 {
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(88, 86, 214, 0.12) 0%, transparent 70%);
-            bottom: 20%;
-            left: -5%;
-            animation: float-orb-2 25s ease-in-out infinite;
-        }
-        .hero-orb-3 {
-            width: 200px;
-            height: 200px;
-            background: radial-gradient(circle, rgba(0, 199, 190, 0.1) 0%, transparent 70%);
-            top: 60%;
-            right: 20%;
-            animation: float-orb-3 18s ease-in-out infinite;
-        }
-        @keyframes float-orb-1 {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            25% { transform: translate(-30px, 20px) scale(1.05); }
-            50% { transform: translate(-20px, -30px) scale(0.95); }
-            75% { transform: translate(20px, 10px) scale(1.02); }
-        }
-        @keyframes float-orb-2 {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(40px, -20px) scale(1.1); }
-            66% { transform: translate(-20px, 30px) scale(0.9); }
-        }
-        @keyframes float-orb-3 {
-            0%, 100% { transform: translate(0, 0); }
-            50% { transform: translate(-40px, -40px); }
         }
 
         .hero > * {
@@ -2105,28 +2054,23 @@
     <main id="main-content" role="main">
         <!-- Hero Section -->
         <section class="hero">
-            <!-- Floating Background Orbs -->
-            <div class="hero-orb hero-orb-1"></div>
-            <div class="hero-orb hero-orb-2"></div>
-            <div class="hero-orb hero-orb-3"></div>
-
-            <div class="hero-trust">
+            <div class="hero-trust fade-up">
                 <span class="hero-trust-dot"></span>
                 Big4 컨설팅펌 현직 컨설턴트
             </div>
-            <h1 class="hero-question">
+            <h1 class="hero-question fade-up">
                 커리어의 <span class="hero-highlight">다음 레벨</span>로
             </h1>
-            <p class="hero-answer">
+            <p class="hero-answer fade-up">
                 직무 역량 강화부터 1:1 커리어 설계까지<br>
                 당신의 시장 가치를 높이는 5주
             </p>
-            <div class="hero-cta">
+            <div class="hero-cta fade-up">
                 <a href="basic-package.html" class="btn btn-lg btn-primary btn-shine">프로그램 보기</a>
                 <button class="btn btn-lg btn-secondary" onclick="openModal()">무료 상담</button>
             </div>
 
-            <div class="hero-stats">
+            <div class="hero-stats fade-up">
                 <div class="hero-stat">
                     <span class="hero-stat-number" id="heroMaxStudents">5명</span>
                     <span class="hero-stat-label">소수정예</span>
