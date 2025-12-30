@@ -35,7 +35,7 @@ highlighter: rouge
 
 # SEO 설정
 lang: ko
-author: SCM Expert
+author: SCM Labs
 twitter:
   username: scmexpert
 facebook:
@@ -48,6 +48,6 @@ facebook:
 
 # 소셜 미디어
 social:
-  name: SCM Expert
+  name: SCM Labs
   links:
     - https://github.com/TurtleLEE-teacher

@@ -172,7 +172,7 @@ try {
  */
 function sendAdminNotification($data, $serviceName) {
     $to = 'contact@scmexpert.com';
-    $subject = '[SCM Expert] 새로운 고객 만족도 조사: ' . $serviceName;
+    $subject = '[SCM Labs] 새로운 고객 만족도 조사: ' . $serviceName;
     
     $message = "새로운 고객 만족도 조사가 접수되었습니다.\n\n";
     $message .= "=== 응답자 정보 ===\n";

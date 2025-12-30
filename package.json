@@ -1,7 +1,7 @@
 {
   "name": "scm-expert-website",
   "version": "1.0.0",
-  "description": "SCM Expert Website with Vercel Functions",
+  "description": "SCM Labs Website with Vercel Functions",
   "main": "index.js",
   "scripts": {
     "dev": "vercel dev",

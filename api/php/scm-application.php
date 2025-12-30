@@ -184,7 +184,7 @@ try {
  */
 function sendAdminNotification($data, $courseName, $priceInfo) {
     $to = 'contact@scmexpert.com';
-    $subject = '[SCM Expert] 새로운 수강 신청: ' . $courseName;
+    $subject = '[SCM Labs] 새로운 수강 신청: ' . $courseName;
     
     $message = "새로운 SCM 부트캠프 수강 신청이 접수되었습니다.\n\n";
     $message .= "=== 신청자 정보 ===\n";

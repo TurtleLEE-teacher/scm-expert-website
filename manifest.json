@@ -1,6 +1,6 @@
 {
-    "name": "SCM Expert - 글로벌 SCM 전문가 양성",
-    "short_name": "SCM Expert",
+    "name": "SCM Labs - 글로벌 SCM 전문가 양성",
+    "short_name": "SCM Labs",
     "description": "글로벌 컨설팅펌 현직 컨설턴트가 제공하는 SCM 전문 강의와 커리어 컨설팅 서비스",
     "start_url": "/",
     "display": "standalone",

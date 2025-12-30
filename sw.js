@@ -1,5 +1,5 @@
 /**
- * Service Worker for SCM Expert Website
+ * Service Worker for SCM Labs Website
  * 오프라인 지원 및 캐싱 전략
  */
 

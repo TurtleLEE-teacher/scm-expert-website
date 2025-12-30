@@ -117,7 +117,7 @@ try {
  */
 function sendNotificationEmail($data) {
     $to = 'contact@scmexpert.com'; // 관리자 이메일
-    $subject = '[SCM Expert] 새로운 문의: ' . $data['inquiry_type'];
+    $subject = '[SCM Labs] 새로운 문의: ' . $data['inquiry_type'];
     
     $message = "새로운 문의가 접수되었습니다.\n\n";
     $message .= "이름: " . $data['name'] . "\n";

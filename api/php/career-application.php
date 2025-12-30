@@ -280,7 +280,7 @@ function handleFileUpload($file) {
  */
 function sendAdminNotification($data, $consultingType, $priceInfo, $fileInfo) {
     $to = 'contact@scmexpert.com';
-    $subject = '[SCM Expert] 새로운 컨설팅 신청: ' . $consultingType;
+    $subject = '[SCM Labs] 새로운 컨설팅 신청: ' . $consultingType;
     
     $message = "새로운 커리어 컨설팅 신청이 접수되었습니다.\n\n";
     $message .= "=== 신청자 정보 ===\n";

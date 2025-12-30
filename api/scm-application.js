@@ -144,9 +144,9 @@ export default async function handler(req, res) {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            from: 'SCM Expert <onboarding@resend.dev>',
+            from: 'SCM Labs <onboarding@resend.dev>',
             to: input.email.trim(),
-            subject: `[SCM Expert] SCM 기초 완성 수강 신청이 접수되었습니다`,
+            subject: `[SCM Labs] SCM 기초 완성 수강 신청이 접수되었습니다`,
             html: `
               <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
                 <h2 style="color: #0071e3;">SCM 기초 완성 수강 신청 완료</h2>
@@ -172,7 +172,7 @@ export default async function handler(req, res) {
                 <p>문의사항이 있으시면 이 이메일로 회신해 주세요.</p>
 
                 <hr style="border: none; border-top: 1px solid #e5e5e5; margin: 30px 0;">
-                <p style="color: #86868b; font-size: 12px;">SCM Expert | scmmaster2030@gmail.com</p>
+                <p style="color: #86868b; font-size: 12px;">SCM Labs | scmmaster2030@gmail.com</p>
               </div>
             `
           })

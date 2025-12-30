@@ -1,4 +1,4 @@
-# SCM Expert Website - 정리된 프로젝트 구조
+# SCM Labs Website - 정리된 프로젝트 구조
 
 ## 📁 디렉토리 구조
 

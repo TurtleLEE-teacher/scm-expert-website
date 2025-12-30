@@ -1,5 +1,5 @@
 /**
- * SCM Expert Website - Enhanced JavaScript
+ * SCM Labs Website - Enhanced JavaScript
  * 성능 최적화 및 UX 개선을 위한 통합 스크립트
  */
 

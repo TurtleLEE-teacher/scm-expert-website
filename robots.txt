@@ -1,4 +1,4 @@
-# SCM Expert Website Robots.txt
+# SCM Labs Website Robots.txt
 User-agent: *
 Allow: /
 

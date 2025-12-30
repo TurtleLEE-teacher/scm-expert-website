@@ -107,7 +107,7 @@ class ClaudeHookNotifier {
                     details: {
                         timestamp,
                         toolUsed: eventData.tool_name,
-                        project: 'SCM Expert Website'
+                        project: 'SCM Labs Website'
                     }
                 });
                 break;
@@ -120,7 +120,7 @@ class ClaudeHookNotifier {
                     details: {
                         timestamp,
                         toolUsed: eventData.tool_name,
-                        project: 'SCM Expert Website'
+                        project: 'SCM Labs Website'
                     }
                 });
                 break;
@@ -133,7 +133,7 @@ class ClaudeHookNotifier {
                     details: {
                         timestamp,
                         toolUsed: eventData.tool_name,
-                        project: 'SCM Expert Website'
+                        project: 'SCM Labs Website'
                     }
                 });
                 break;
@@ -149,7 +149,7 @@ class ClaudeHookNotifier {
             status: 'success',
             details: {
                 timestamp: new Date().toISOString(),
-                project: 'SCM Expert Website',
+                project: 'SCM Labs Website',
                 note: '기본 알림 (상세 정보 파싱 실패)'
             }
         });
