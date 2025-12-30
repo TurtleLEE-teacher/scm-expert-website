@@ -36,6 +36,75 @@
     <!-- Design System CSS -->
     <link rel="stylesheet" href="css/design-system.css">
 
+    <!-- Schema.org 구조화 데이터 -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "EducationalOrganization",
+        "name": "SCM Labs",
+        "description": "글로벌 컨설팅펌 현직 컨설턴트가 제공하는 SCM 전문 강의와 커리어 컨설팅 서비스",
+        "url": "https://scm-expert-site.vercel.app",
+        "sameAs": [],
+        "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "SCM 교육 프로그램",
+            "itemListElement": [
+                {
+                    "@type": "Course",
+                    "name": "기본 패키지",
+                    "description": "5주 직무교육 + 1:1 컨설팅",
+                    "provider": {
+                        "@type": "EducationalOrganization",
+                        "name": "SCM Labs"
+                    },
+                    "courseMode": "online",
+                    "educationalLevel": "Beginner to Intermediate"
+                }
+            ]
+        }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "SCM이 뭔가요? 처음 접하는데 수강해도 될까요?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "SCM(Supply Chain Management)은 원자재 조달부터 생산, 유통, 고객 전달까지 전체 공급망을 최적화하는 분야입니다. 처음 접하시는 분도 걱정 마세요. 기본 패키지는 SCM의 기초 개념부터 시작해 실무에 바로 적용할 수 있는 수준까지 단계별로 구성되어 있습니다."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "강의 시간과 일정은 어떻게 되나요?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "기본 패키지는 매주 토요일 20:00~22:00, 총 5주 과정입니다. 직장인분들의 일정을 고려해 주말 저녁 시간으로 편성했습니다."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "수강료는 얼마인가요?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "기본 패키지는 50만원입니다 (5주 직무 교육 + 1:1 컨설팅 1회 포함). 정가 60만원에서 조기 등록 시 할인된 가격입니다."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "환불 정책은 어떻게 되나요?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "개강 전 100% 환불, 1주차 수강 후 80% 환불, 2주차 수강 후 50% 환불, 3주차 이후 환불 불가입니다."
+                }
+            }
+        ]
+    }
+    </script>
+
     <style>
         /* Logo */
         .logo {
@@ -2500,6 +2569,10 @@
                             <span class="stat-label">연봉 상승</span>
                         </div>
                         <div class="stat-item">
+                            <span class="stat-number">95%</span>
+                            <span class="stat-label">만족도</span>
+                        </div>
+                        <div class="stat-item">
                             <span class="stat-number">Big4</span>
                             <span class="stat-label">컨설팅펌</span>
                         </div>
@@ -2883,11 +2956,6 @@
             <div class="cta-buttons fade-up">
                 <a href="#solution" class="btn btn-lg btn-primary">패키지 보기</a>
                 <button class="btn btn-lg btn-secondary" onclick="openModal()">상담 문의</button>
-            </div>
-
-            <div class="cta-contact fade-up">
-                <p>직접 연락을 원하시면</p>
-                <a href="mailto:contact@scmexpert.com">contact@scmexpert.com</a>
             </div>
         </section>
     </main>
