@@ -10,7 +10,7 @@ class EmailConfig {
     const SMTP_USERNAME = 'ahfifa88@gmail.com';
     const SMTP_PASSWORD = ''; // 실제 비밀번호나 앱 비밀번호 필요
     const FROM_EMAIL = 'ahfifa88@gmail.com';
-    const FROM_NAME = 'SCM Expert';
+    const FROM_NAME = 'SCM Labs';
     const ADMIN_EMAIL = 'ahfifa88@gmail.com';
     
     // 개발/테스트 모드 (true시 실제 이메일 발송 안함)
@@ -57,7 +57,7 @@ class EmailService {
         $name = $customerData['name'];
         $inquiryType = $customerData['inquiry_type'];
         
-        $subject = '[SCM Expert] 문의가 접수되었습니다';
+        $subject = '[SCM Labs] 문의가 접수되었습니다';
         
         $html = $this->getInquiryConfirmationTemplate($customerData);
         $text = $this->getInquiryConfirmationTextTemplate($customerData);
@@ -70,7 +70,7 @@ class EmailService {
      */
     public function sendAdminNotification($inquiryData) {
         $to = EmailConfig::ADMIN_EMAIL;
-        $subject = '[SCM Expert] 새로운 문의가 접수되었습니다';
+        $subject = '[SCM Labs] 새로운 문의가 접수되었습니다';
         
         $html = $this->getAdminNotificationTemplate($inquiryData);
         $text = $this->getAdminNotificationTextTemplate($inquiryData);
@@ -143,12 +143,12 @@ class EmailService {
         <body>
             <div class='container'>
                 <div class='header'>
-                    <h1>SCM Expert</h1>
+                    <h1>SCM Labs</h1>
                     <p>문의 접수 확인</p>
                 </div>
                 <div class='content'>
                     <h2>안녕하세요, {$name}님!</h2>
-                    <p>SCM Expert에 문의해 주셔서 감사합니다.</p>
+                    <p>SCM Labs에 문의해 주셔서 감사합니다.</p>
                     <p>귀하의 문의가 성공적으로 접수되었습니다.</p>
                     
                     <div class='highlight'>
@@ -166,7 +166,7 @@ class EmailService {
                     </div>
                 </div>
                 <div class='footer'>
-                    <p>&copy; 2025 SCM Expert. All rights reserved.</p>
+                    <p>&copy; 2025 SCM Labs. All rights reserved.</p>
                     <p>글로벌 컨설팅펌 현직 컨설턴트의 전문 SCM 교육 및 컨설팅</p>
                 </div>
             </div>
@@ -184,11 +184,11 @@ class EmailService {
         $message = $data['message'];
         
         return "
-SCM Expert 문의 접수 확인
+SCM Labs 문의 접수 확인
 
 안녕하세요, {$name}님!
 
-SCM Expert에 문의해 주셔서 감사합니다.
+SCM Labs에 문의해 주셔서 감사합니다.
 귀하의 문의가 성공적으로 접수되었습니다.
 
 === 접수된 문의 내용 ===
@@ -202,7 +202,7 @@ SCM Expert에 문의해 주셔서 감사합니다.
 
 감사합니다.
 
-SCM Expert
+SCM Labs
 글로벌 컨설팅펌 현직 컨설턴트의 전문 SCM 교육 및 컨설팅
         ";
     }
@@ -243,7 +243,7 @@ SCM Expert
             <div class='container'>
                 <div class='header'>
                     <h1>🚨 새로운 문의 접수</h1>
-                    <p>SCM Expert 관리자 알림</p>
+                    <p>SCM Labs 관리자 알림</p>
                 </div>
                 <div class='content'>
                     <div class='urgent'>
@@ -289,7 +289,7 @@ SCM Expert
         $ipAddress = $data['ip_address'] ?? '';
         
         return "
-🚨 SCM Expert 새로운 문의 접수 알림
+🚨 SCM Labs 새로운 문의 접수 알림
 
 새로운 문의가 접수되었습니다. 빠른 확인 및 답변 부탁드립니다.
 
@@ -308,7 +308,7 @@ IP 주소: {$ipAddress}
 
 관리자 페이지: http://localhost/admin.php
 
-SCM Expert 자동 알림 시스템
+SCM Labs 자동 알림 시스템
         ";
     }
 }

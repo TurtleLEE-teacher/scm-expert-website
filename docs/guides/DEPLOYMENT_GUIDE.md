@@ -1,8 +1,8 @@
-# 🚀 SCM Expert 신청 시스템 배포 가이드
+# 🚀 SCM Labs 신청 시스템 배포 가이드
 
 ## 📋 시스템 개요
 
-SCM Expert 웹사이트에 완전한 신청 시스템이 구축되었습니다:
+SCM Labs 웹사이트에 완전한 신청 시스템이 구축되었습니다:
 - **SCM 부트캠프 신청 폼**: `scm-application.html`
 - **커리어 컨설팅 신청 폼**: `career-application.html` (파일 업로드 포함)
 - **Notion API 자동 연동**: 모든 신청이 Notion DB에 자동 저장
@@ -180,4 +180,4 @@ grep "application.php" access.log | wc -l
 - [ ] 로그 파일 생성 확인
 - [ ] 보안 설정 점검 완료
 
-🎉 **배포 완료!** 이제 SCM Expert 신청 시스템이 완전히 운영 가능합니다.
+🎉 **배포 완료!** 이제 SCM Labs 신청 시스템이 완전히 운영 가능합니다.
