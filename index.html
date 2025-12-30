@@ -475,25 +475,19 @@
         }
 
         /* Text Reveal Animation - starts visible, animates in */
-        @keyframes reveal-up {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+        /* Hero content - visible by default, no opacity animation */
         .hero-reveal {
             opacity: 1;
-            animation: reveal-up 0.8s ease-out;
+            transform: translateY(0);
         }
-        .hero-reveal-delay-1 { animation: reveal-up 0.8s ease-out 0.1s backwards; }
-        .hero-reveal-delay-2 { animation: reveal-up 0.8s ease-out 0.2s backwards; }
-        .hero-reveal-delay-3 { animation: reveal-up 0.8s ease-out 0.3s backwards; }
-        .hero-reveal-delay-4 { animation: reveal-up 0.8s ease-out 0.4s backwards; }
-        .hero-reveal-delay-5 { animation: reveal-up 0.8s ease-out 0.5s backwards; }
+        .hero-reveal-delay-1,
+        .hero-reveal-delay-2,
+        .hero-reveal-delay-3,
+        .hero-reveal-delay-4,
+        .hero-reveal-delay-5 {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
         /* Button Shine Effect */
         .btn-shine {
