@@ -1976,6 +1976,55 @@
                 font-size: var(--text-xs);
             }
         }
+
+        /* Ebook Banner */
+        .ebook-banner {
+            background: linear-gradient(135deg, rgba(0, 113, 227, 0.1) 0%, rgba(94, 92, 230, 0.1) 100%);
+            border: 1px solid rgba(0, 113, 227, 0.2);
+            border-radius: var(--radius-xl);
+            padding: var(--space-6) var(--space-8);
+            margin: var(--space-8) auto;
+            max-width: 700px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--space-6);
+        }
+        .ebook-banner-content {
+            display: flex;
+            align-items: center;
+            gap: var(--space-4);
+        }
+        .ebook-banner-icon {
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+        .ebook-banner-text h3 {
+            font-size: var(--text-base);
+            font-weight: var(--font-semibold);
+            margin-bottom: var(--space-1);
+        }
+        .ebook-banner-text p {
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+        }
+        .ebook-banner .btn {
+            flex-shrink: 0;
+            white-space: nowrap;
+        }
+        @media (max-width: 640px) {
+            .ebook-banner {
+                flex-direction: column;
+                text-align: center;
+                padding: var(--space-5);
+            }
+            .ebook-banner-content {
+                flex-direction: column;
+            }
+            .ebook-banner .btn {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
@@ -2096,6 +2145,18 @@
                 </svg>
             </a>
         </section>
+
+        <!-- Ebook Banner -->
+        <div class="ebook-banner fade-up">
+            <div class="ebook-banner-content">
+                <span class="ebook-banner-icon">📘</span>
+                <div class="ebook-banner-text">
+                    <h3>무료 전자책: SCM & 컨설팅 커리어 가이드</h3>
+                    <p>현직 컨설턴트의 커리어 여정을 담았습니다</p>
+                </div>
+            </div>
+            <a href="ebook.html" class="btn btn-secondary btn-sm">무료로 받기</a>
+        </div>
 
         <!-- Differentiation Section -->
         <section id="diff" class="diff-section">
