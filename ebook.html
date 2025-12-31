@@ -407,7 +407,7 @@
                 const data = Object.fromEntries(formData.entries());
                 data.privacy_agreed = formData.get('privacy_agreed') === 'on';
 
-                const response = await fetch('/api/ebook-request', {
+                const response = await fetch('https://scm-expert-site.vercel.app/api/ebook-request', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
