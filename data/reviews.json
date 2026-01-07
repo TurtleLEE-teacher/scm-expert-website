@@ -616,7 +616,7 @@
     {
       "id": "d704d185-3a22-498e-ad8d-d45f3fa1d2a3",
       "title": "전달력과 친절",
-      "content": "전달력과 친절",
+      "content": "수업 전달력이 좋고 친절하십니다",
       "rating": 5,
       "author": "서*",
       "date": "2021.09",
@@ -1176,7 +1176,7 @@
       "title": "실무 중심 교육 만족",
       "content": "실무 중심의 교육이라 만족스러웠습니다",
       "rating": 5,
-      "author": "송*",
+      "author": "",
       "date": "2020.01",
       "category": "bootcamp"
     },
@@ -1325,6 +1325,6 @@
       "category": "bootcamp"
     }
   ],
-  "lastUpdated": "2026-01-07T01:03:56.212Z",
+  "lastUpdated": "2026-01-07T03:59:17.689Z",
   "totalReviews": 147
 }
