@@ -1195,233 +1195,157 @@
             color: var(--blue);
         }
 
-        /* Reviews Section */
-        .reviews-section {
+        /* Featured Reviews Section - 대표 후기 */
+        .featured-reviews {
             padding: var(--space-24) var(--space-6);
-            background-color: var(--bg-secondary);
-            overflow: hidden;
+            background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
         }
-        .reviews-header {
+        .featured-reviews-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .featured-reviews-header {
             text-align: center;
             margin-bottom: var(--space-12);
         }
-        .reviews-header h2 {
+        .featured-reviews-header h2 {
             font-size: var(--text-3xl);
             font-weight: var(--font-bold);
-            margin-bottom: var(--space-4);
+            margin-bottom: var(--space-3);
         }
-        .reviews-stats {
-            display: flex;
-            justify-content: center;
-            gap: var(--space-8);
-            margin-bottom: var(--space-2);
-        }
-        .reviews-stats span {
+        .featured-reviews-header p {
             font-size: var(--text-lg);
             color: var(--text-secondary);
         }
-        .reviews-stats strong {
-            color: var(--blue);
-        }
-        .reviews-category {
-            margin-bottom: var(--space-12);
-        }
-        .reviews-category h3 {
-            font-size: var(--text-lg);
-            font-weight: var(--font-semibold);
-            margin-bottom: var(--space-6);
-            padding-left: var(--space-4);
-            border-left: 3px solid var(--blue);
-        }
-        .reviews-grid {
+        .featured-reviews-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: var(--space-4);
+            gap: var(--space-6);
+            margin-bottom: var(--space-10);
         }
         @media (max-width: 900px) {
-            .reviews-grid {
+            .featured-reviews-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
         }
         @media (max-width: 600px) {
-            .reviews-grid {
+            .featured-reviews-grid {
                 grid-template-columns: 1fr;
             }
         }
-        .review-card {
-            background-color: var(--bg-tertiary);
-            border-radius: var(--radius-lg);
-            padding: var(--space-6);
+        .featured-review-card {
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-xl);
+            padding: var(--space-8);
             border: 1px solid var(--border-color);
-            transition: transform var(--transition-base), border-color var(--transition-base);
+            position: relative;
+            transition: all 0.3s ease;
         }
-        .review-card:hover {
-            transform: translateY(-2px);
+        .featured-review-card:hover {
+            transform: translateY(-4px);
             border-color: var(--blue);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
         }
-        .review-card .review-title {
-            font-size: var(--text-base);
-            color: var(--text-primary);
-            font-weight: 600;
-            margin-bottom: var(--space-2);
+        .featured-review-card::before {
+            content: '"';
+            position: absolute;
+            top: var(--space-4);
+            left: var(--space-6);
+            font-size: 4rem;
+            font-family: Georgia, serif;
+            color: var(--blue);
+            opacity: 0.15;
+            line-height: 1;
         }
-        .review-card p {
-            font-size: var(--text-sm);
-            color: var(--text-secondary);
-            line-height: var(--leading-relaxed);
+        .featured-review-stars {
+            display: flex;
+            gap: 3px;
             margin-bottom: var(--space-4);
         }
-        .review-stars {
-            display: flex;
-            gap: 2px;
-            margin-bottom: var(--space-3);
-        }
-        .review-stars svg {
-            width: 14px;
-            height: 14px;
+        .featured-review-stars svg {
+            width: 18px;
+            height: 18px;
             fill: #fbbf24;
         }
-        .review-author {
+        .featured-review-card .review-text {
+            font-size: var(--text-base);
+            color: var(--text-primary);
+            line-height: 1.7;
+            margin-bottom: var(--space-6);
+            min-height: 80px;
+        }
+        .featured-review-author {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            padding-top: var(--space-4);
+            border-top: 1px solid var(--border-color);
+        }
+        .featured-review-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--blue) 0%, #00c6ff 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: var(--font-bold);
+            font-size: var(--text-sm);
+        }
+        .featured-review-info {
+            flex: 1;
+        }
+        .featured-review-name {
+            font-weight: var(--font-semibold);
+            font-size: var(--text-sm);
+            color: var(--text-primary);
+        }
+        .featured-review-role {
             font-size: var(--text-xs);
             color: var(--text-tertiary);
         }
-        .review-badge {
-            display: inline-block;
-            font-size: 10px;
-            font-weight: var(--font-medium);
-            padding: 2px 8px;
-            background-color: rgba(0, 113, 227, 0.15);
-            color: var(--blue);
+        .featured-reviews-cta {
+            text-align: center;
+        }
+        .featured-reviews-stats {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-6);
+            padding: var(--space-4) var(--space-8);
+            background: var(--bg-tertiary);
             border-radius: var(--radius-full);
-            margin-left: var(--space-2);
-        }
-        /* Infinite Scroll - JavaScript로 애니메이션 처리 */
-        .reviews-track-wrapper {
-            overflow: hidden;
-            position: relative;
-            width: 100%;
-        }
-        .reviews-track {
-            display: flex;
-            gap: var(--space-4);
-            width: max-content;
-            will-change: transform;
-        }
-        .reviews-track .review-card {
-            flex-shrink: 0;
-            width: 320px;
-            box-sizing: border-box;
-        }
-        .reviews-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: var(--space-4);
-        }
-
-        /* 더보기 버튼 및 확장 그리드 */
-        .reviews-expand-btn {
-            display: block;
-            margin: var(--space-6) auto 0;
-            padding: var(--space-3) var(--space-6);
-            background: transparent;
+            margin-bottom: var(--space-6);
             border: 1px solid var(--border-color);
-            border-radius: var(--radius-full);
-            color: var(--text-secondary);
+        }
+        .featured-reviews-stats span {
             font-size: var(--text-sm);
-            cursor: pointer;
-            transition: all 0.3s ease;
+            color: var(--text-secondary);
         }
-        .reviews-expand-btn:hover {
-            background: var(--bg-secondary);
-            color: var(--text-primary);
-            border-color: var(--blue);
+        .featured-reviews-stats strong {
+            color: var(--blue);
+            font-weight: var(--font-bold);
         }
-        .reviews-expand-btn svg {
-            width: 16px;
-            height: 16px;
-            margin-left: var(--space-2);
-            vertical-align: middle;
-            transition: transform 0.3s ease;
-        }
-        .reviews-expand-btn.expanded svg {
-            transform: rotate(180deg);
-        }
-        .reviews-grid-expanded {
-            display: none;
-            padding: var(--space-6) 0;
-        }
-        .reviews-grid-expanded.show {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: var(--space-4);
-            animation: fadeIn 0.4s ease;
-        }
-        .reviews-grid-expanded .review-card {
-            width: 100%;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* 페이지네이션 스타일 */
-        .reviews-pagination {
-            display: flex;
-            justify-content: center;
+        .featured-reviews-link {
+            display: inline-flex;
             align-items: center;
             gap: var(--space-2);
-            margin: var(--space-6) auto 0;
-            padding: var(--space-4) 0;
+            color: var(--blue);
+            font-size: var(--text-base);
+            font-weight: var(--font-medium);
+            text-decoration: none;
+            transition: all 0.2s ease;
         }
-        .reviews-pagination button {
-            min-width: 40px;
-            height: 40px;
-            padding: 0 var(--space-3);
-            background: transparent;
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-md);
-            color: var(--text-secondary);
-            font-size: var(--text-sm);
-            cursor: pointer;
-            transition: all 0.3s ease;
+        .featured-reviews-link:hover {
+            gap: var(--space-3);
         }
-        .reviews-pagination button:hover:not(:disabled) {
-            background: var(--bg-secondary);
-            color: var(--text-primary);
-            border-color: var(--blue);
+        .featured-reviews-link svg {
+            width: 20px;
+            height: 20px;
+            transition: transform 0.2s ease;
         }
-        .reviews-pagination button.active {
-            background: var(--blue);
-            color: white;
-            border-color: var(--blue);
-        }
-        .reviews-pagination button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-        .reviews-pagination .page-dots {
-            color: var(--text-secondary);
-            padding: 0 var(--space-2);
-        }
-
-        /* Reviews Loading/Empty States */
-        .reviews-loading,
-        .reviews-empty {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 150px;
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            text-align: center;
-            padding: var(--space-4);
-        }
-        .reviews-loading {
-            animation: pulse 1.5s ease-in-out infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 0.6; }
-            50% { opacity: 1; }
+        .featured-reviews-link:hover svg {
+            transform: translateX(4px);
         }
 
         /* Footer */
@@ -2580,67 +2504,86 @@
             </div>
         </section>
 
-        <!-- Reviews Section -->
-        <section id="reviews" class="reviews-section">
-            <div class="reviews-header">
-                <h2 class="fade-up">수강생 후기</h2>
-                <div class="reviews-stats fade-up">
-                    <span>후기 <strong id="reviewsCount">-</strong>개</span>
-                    <span>평점 <strong id="reviewsRating">-</strong>/5</span>
+        <!-- Featured Reviews Section - 대표 후기 -->
+        <section id="reviews" class="featured-reviews">
+            <div class="featured-reviews-container">
+                <div class="featured-reviews-header fade-up">
+                    <h2>수강생들의 이야기</h2>
+                    <p>실제 수강생들이 전하는 생생한 후기</p>
                 </div>
-            </div>
 
-            <!-- 1:1 컨설팅 후기 - 동적 로드 -->
-            <div class="reviews-category">
-                <h3 class="fade-up">1:1 커리어 컨설팅 후기</h3>
-                <div class="reviews-track-wrapper">
-                    <div class="reviews-track" id="consultingReviewsTrack">
-                        <!-- Notion 데이터에서 동적 로드 -->
-                        <div class="reviews-loading">후기를 불러오는 중...</div>
+                <div class="featured-reviews-grid">
+                    <!-- 대표 후기 1 -->
+                    <div class="featured-review-card fade-up">
+                        <div class="featured-review-stars">
+                            <svg viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                            <svg viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                            <svg viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                            <svg viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                            <svg viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                        </div>
+                        <p class="review-text">현직자 멘토님의 실무 경험을 바탕으로 한 피드백이 정말 도움이 됐습니다. 막연했던 SCM 직무가 구체적으로 그려졌어요.</p>
+                        <div class="featured-review-author">
+                            <div class="featured-review-avatar">K</div>
+                            <div class="featured-review-info">
+                                <div class="featured-review-name">김OO</div>
+                                <div class="featured-review-role">취업준비생 → 대기업 SCM 합격</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 대표 후기 2 -->
+                    <div class="featured-review-card fade-up">
+                        <div class="featured-review-stars">
+                            <svg viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                            <svg viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                            <svg viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                            <svg viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                            <svg viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                        </div>
+                        <p class="review-text">자소서 컨설팅 2회로 서류 합격률이 확 올랐습니다. 면접 준비까지 한 번에 해결되어 효율적이었어요.</p>
+                        <div class="featured-review-author">
+                            <div class="featured-review-avatar">P</div>
+                            <div class="featured-review-info">
+                                <div class="featured-review-name">박OO</div>
+                                <div class="featured-review-role">경력 2년차 → 컨설팅펌 이직</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 대표 후기 3 -->
+                    <div class="featured-review-card fade-up">
+                        <div class="featured-review-stars">
+                            <svg viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                            <svg viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                            <svg viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                            <svg viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                            <svg viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                        </div>
+                        <p class="review-text">5주 동안 배운 내용이 실제 면접에서 바로 활용됐습니다. 실무 케이스 기반이라 자신감이 생겼어요.</p>
+                        <div class="featured-review-author">
+                            <div class="featured-review-avatar">L</div>
+                            <div class="featured-review-info">
+                                <div class="featured-review-name">이OO</div>
+                                <div class="featured-review-role">비전공자 → 물류 스타트업 입사</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- 전체보기 버튼 -->
-                <button class="reviews-expand-btn" id="consultingExpandBtn" style="display: none;">
-                    <span>후기 전체보기</span>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="6 9 12 15 18 9"></polyline>
-                    </svg>
-                </button>
-
-                <!-- 확장된 후기 영역 (페이지네이션) -->
-                <div class="reviews-grid-expanded" id="consultingReviewsExpanded"></div>
-
-                <!-- 페이지네이션 -->
-                <div class="reviews-pagination" id="consultingPagination" style="display: none;"></div>
-            </div>
-
-            <!-- 직무부트캠프 후기 - 동적 로드 -->
-            <div class="reviews-category">
-                <h3 class="fade-up">직무부트캠프 후기</h3>
-                <div class="reviews-track-wrapper">
-                <div class="reviews-track" id="reviewsTrack">
-                    <!-- Notion 데이터에서 동적 로드 -->
-                    <div class="reviews-loading">후기를 불러오는 중...</div>
-                </div>
-                </div>
-
-                <!-- 더보기 버튼 - 동적으로 표시 -->
-                <button class="reviews-expand-btn" id="reviewsExpandBtn" style="display: none;">
-                    <span>후기 전체보기</span>
-                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M6 9l6 6 6-6"/>
-                    </svg>
-                </button>
-
-                <!-- 확장된 후기 그리드 - 동적 로드 -->
-                <div class="reviews-grid-expanded" id="reviewsGridExpanded">
-                    <!-- Notion 데이터에서 동적 로드 -->
-                </div>
-
-                <!-- 페이지네이션 - 동적으로 표시 -->
-                <div class="reviews-pagination" id="reviewsPagination" style="display: none;">
-                    <!-- JS에서 동적으로 생성 -->
+                <!-- 하단 CTA -->
+                <div class="featured-reviews-cta fade-up">
+                    <div class="featured-reviews-stats">
+                        <span>총 후기 <strong>100+</strong>개</span>
+                        <span>평균 평점 <strong>4.9</strong>/5</span>
+                    </div>
+                    <br>
+                    <a href="basic-package.html#reviews" class="featured-reviews-link">
+                        더 많은 후기 보기
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
                 </div>
             </div>
         </section>
@@ -3375,7 +3318,6 @@
             `;
         }
 
-        // 후기 로드는 reviews.js에서 처리됨
 
         // Notion 데이터에서 모집중인 기수 정보 가져오기
         async function loadRecruitingCourseInfo() {
@@ -3571,7 +3513,6 @@
         window.addEventListener('scroll', highlightNavOnScroll);
         highlightNavOnScroll(); // Run on page load
 
-        // 후기 슬라이드 애니메이션은 reviews.js에서 처리됨
     </script>
 
     <!-- Theme Toggle -->
@@ -3619,7 +3560,5 @@
         }
     </script>
 
-    <!-- Notion 후기 동적 로드 -->
-    <script src="./js/reviews.js"></script>
 </body>
 </html>

@@ -1279,6 +1279,211 @@
             font-weight: var(--font-medium);
             margin-bottom: 0;
         }
+
+        /* Reviews Section */
+        .reviews-section {
+            padding: var(--space-24) var(--space-6);
+            background-color: var(--bg-secondary);
+            overflow: hidden;
+        }
+        .reviews-header {
+            text-align: center;
+            margin-bottom: var(--space-12);
+        }
+        .reviews-header h2 {
+            font-size: var(--text-3xl);
+            font-weight: var(--font-bold);
+            margin-bottom: var(--space-4);
+        }
+        .reviews-stats {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-8);
+            margin-bottom: var(--space-2);
+        }
+        .reviews-stats span {
+            font-size: var(--text-lg);
+            color: var(--text-secondary);
+        }
+        .reviews-stats strong {
+            color: var(--blue);
+        }
+        .reviews-category {
+            margin-bottom: var(--space-12);
+        }
+        .reviews-category h3 {
+            font-size: var(--text-lg);
+            font-weight: var(--font-semibold);
+            margin-bottom: var(--space-6);
+            padding-left: var(--space-4);
+            border-left: 3px solid var(--blue);
+        }
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-4);
+        }
+        .review-card {
+            background-color: var(--bg-tertiary);
+            border-radius: var(--radius-lg);
+            padding: var(--space-6);
+            border: 1px solid var(--border-color);
+            transition: transform var(--transition-base), border-color var(--transition-base);
+        }
+        .review-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--blue);
+        }
+        .review-card p {
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+            line-height: var(--leading-relaxed);
+            margin-bottom: var(--space-4);
+        }
+        .review-stars {
+            display: flex;
+            gap: 2px;
+            margin-bottom: var(--space-3);
+        }
+        .review-stars svg {
+            width: 14px;
+            height: 14px;
+            fill: #fbbf24;
+        }
+        .review-author {
+            font-size: var(--text-xs);
+            color: var(--text-tertiary);
+        }
+        .review-badge {
+            display: inline-block;
+            font-size: 10px;
+            font-weight: var(--font-medium);
+            padding: 2px 8px;
+            background-color: rgba(0, 113, 227, 0.15);
+            color: var(--blue);
+            border-radius: var(--radius-full);
+            margin-left: var(--space-2);
+        }
+        /* Infinite Scroll */
+        .reviews-track-wrapper {
+            overflow: hidden;
+            position: relative;
+            width: 100%;
+        }
+        .reviews-track {
+            display: flex;
+            gap: var(--space-4);
+            width: max-content;
+            will-change: transform;
+        }
+        .reviews-track .review-card {
+            flex-shrink: 0;
+            width: 320px;
+            box-sizing: border-box;
+        }
+        /* 더보기 버튼 및 확장 그리드 */
+        .reviews-expand-btn {
+            display: block;
+            margin: var(--space-6) auto 0;
+            padding: var(--space-3) var(--space-6);
+            background: transparent;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-full);
+            color: var(--text-secondary);
+            font-size: var(--text-sm);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .reviews-expand-btn:hover {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border-color: var(--blue);
+        }
+        .reviews-expand-btn svg {
+            width: 16px;
+            height: 16px;
+            margin-left: var(--space-2);
+            vertical-align: middle;
+            transition: transform 0.3s ease;
+        }
+        .reviews-expand-btn.expanded svg {
+            transform: rotate(180deg);
+        }
+        .reviews-grid-expanded {
+            display: none;
+            padding: var(--space-6) 0;
+        }
+        .reviews-grid-expanded.show {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-4);
+            animation: reviewsFadeIn 0.4s ease;
+        }
+        .reviews-grid-expanded .review-card {
+            width: 100%;
+        }
+        @keyframes reviewsFadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* 페이지네이션 스타일 */
+        .reviews-pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: var(--space-2);
+            margin: var(--space-6) auto 0;
+            padding: var(--space-4) 0;
+        }
+        .reviews-pagination button {
+            min-width: 40px;
+            height: 40px;
+            padding: 0 var(--space-3);
+            background: transparent;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            font-size: var(--text-sm);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .reviews-pagination button:hover:not(:disabled) {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border-color: var(--blue);
+        }
+        .reviews-pagination button.active {
+            background: var(--blue);
+            color: white;
+            border-color: var(--blue);
+        }
+        .reviews-pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .reviews-pagination .page-dots {
+            color: var(--text-secondary);
+            padding: 0 var(--space-2);
+        }
+        /* Reviews Loading/Empty States */
+        .reviews-loading,
+        .reviews-empty {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 150px;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            text-align: center;
+            padding: var(--space-4);
+        }
+        .reviews-loading {
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
     </style>
 </head>
 <body>
@@ -1749,6 +1954,71 @@
                         💡 개별 구매 시 369,000원 → 통합 패키지 <strong>69,000원 할인</strong>
                     </p>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section id="reviews" class="reviews-section">
+        <div class="reviews-header">
+            <h2 class="fade-up">수강생 후기</h2>
+            <div class="reviews-stats fade-up">
+                <span>후기 <strong id="reviewsCount">-</strong>개</span>
+                <span>평점 <strong id="reviewsRating">-</strong>/5</span>
+            </div>
+        </div>
+
+        <!-- 1:1 컨설팅 후기 - 동적 로드 -->
+        <div class="reviews-category">
+            <h3 class="fade-up">1:1 커리어 컨설팅 후기</h3>
+            <div class="reviews-track-wrapper">
+                <div class="reviews-track" id="consultingReviewsTrack">
+                    <!-- Notion 데이터에서 동적 로드 -->
+                    <div class="reviews-loading">후기를 불러오는 중...</div>
+                </div>
+            </div>
+
+            <!-- 전체보기 버튼 -->
+            <button class="reviews-expand-btn" id="consultingExpandBtn" style="display: none;">
+                <span>후기 전체보기</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+            </button>
+
+            <!-- 확장된 후기 영역 (페이지네이션) -->
+            <div class="reviews-grid-expanded" id="consultingReviewsExpanded"></div>
+
+            <!-- 페이지네이션 -->
+            <div class="reviews-pagination" id="consultingPagination" style="display: none;"></div>
+        </div>
+
+        <!-- 직무부트캠프 후기 - 동적 로드 -->
+        <div class="reviews-category">
+            <h3 class="fade-up">직무부트캠프 후기</h3>
+            <div class="reviews-track-wrapper">
+            <div class="reviews-track" id="reviewsTrack">
+                <!-- Notion 데이터에서 동적 로드 -->
+                <div class="reviews-loading">후기를 불러오는 중...</div>
+            </div>
+            </div>
+
+            <!-- 더보기 버튼 - 동적으로 표시 -->
+            <button class="reviews-expand-btn" id="reviewsExpandBtn" style="display: none;">
+                <span>후기 전체보기</span>
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6"/>
+                </svg>
+            </button>
+
+            <!-- 확장된 후기 그리드 - 동적 로드 -->
+            <div class="reviews-grid-expanded" id="reviewsGridExpanded">
+                <!-- Notion 데이터에서 동적 로드 -->
+            </div>
+
+            <!-- 페이지네이션 - 동적으로 표시 -->
+            <div class="reviews-pagination" id="reviewsPagination" style="display: none;">
+                <!-- JS에서 동적으로 생성 -->
             </div>
         </div>
     </section>
@@ -2733,5 +3003,8 @@
             }
         })();
     </script>
+
+    <!-- Notion 후기 동적 로드 -->
+    <script src="./js/reviews.js"></script>
 </body>
 </html>
