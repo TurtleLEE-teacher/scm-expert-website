@@ -1195,23 +1195,52 @@
             color: var(--blue);
         }
 
-        /* Featured Reviews Section - 대표 후기 */
+        /* Featured Reviews Section - 대표 후기 (Premium Design) */
         .featured-reviews {
             padding: var(--space-24) var(--space-6);
             background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        /* 배경 장식 */
+        .featured-reviews::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -20%;
+            width: 60%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(0, 113, 227, 0.03) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .featured-reviews::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            right: -10%;
+            width: 50%;
+            height: 80%;
+            background: radial-gradient(circle, rgba(0, 198, 255, 0.03) 0%, transparent 70%);
+            pointer-events: none;
         }
         .featured-reviews-container {
             max-width: 1200px;
             margin: 0 auto;
+            position: relative;
+            z-index: 1;
         }
         .featured-reviews-header {
             text-align: center;
-            margin-bottom: var(--space-12);
+            margin-bottom: var(--space-16);
         }
         .featured-reviews-header h2 {
-            font-size: var(--text-3xl);
+            font-size: var(--text-4xl);
             font-weight: var(--font-bold);
-            margin-bottom: var(--space-3);
+            margin-bottom: var(--space-4);
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         .featured-reviews-header p {
             font-size: var(--text-lg);
@@ -1221,7 +1250,7 @@
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: var(--space-6);
-            margin-bottom: var(--space-10);
+            margin-bottom: var(--space-12);
         }
         @media (max-width: 900px) {
             .featured-reviews-grid {
@@ -1232,6 +1261,9 @@
             .featured-reviews-grid {
                 grid-template-columns: 1fr;
             }
+            .featured-reviews-header h2 {
+                font-size: var(--text-3xl);
+            }
         }
         .featured-review-card {
             background: var(--bg-tertiary);
@@ -1239,51 +1271,84 @@
             padding: var(--space-8);
             border: 1px solid var(--border-color);
             position: relative;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            overflow: hidden;
         }
-        .featured-review-card:hover {
-            transform: translateY(-4px);
-            border-color: var(--blue);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-        }
+        /* 카드 상단 그라데이션 라인 */
         .featured-review-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--blue) 0%, #00c6ff 50%, var(--blue) 100%);
+            background-size: 200% 100%;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        /* 따옴표 장식 */
+        .featured-review-card::after {
             content: '"';
             position: absolute;
-            top: var(--space-4);
-            left: var(--space-6);
-            font-size: 4rem;
-            font-family: Georgia, serif;
-            color: var(--blue);
-            opacity: 0.15;
-            line-height: 1;
+            top: var(--space-6);
+            right: var(--space-6);
+            font-size: 5rem;
+            font-family: Georgia, 'Times New Roman', serif;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--blue) 0%, #00c6ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            opacity: 0.12;
+            line-height: 0.8;
+            pointer-events: none;
+        }
+        .featured-review-card:hover {
+            transform: translateY(-8px);
+            border-color: transparent;
+            box-shadow:
+                0 20px 40px rgba(0, 113, 227, 0.12),
+                0 8px 16px rgba(0, 0, 0, 0.08);
+        }
+        .featured-review-card:hover::before {
+            opacity: 1;
+            animation: gradientFlow 2s linear infinite;
+        }
+        @keyframes gradientFlow {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
         }
         .featured-review-stars {
             display: flex;
-            gap: 3px;
-            margin-bottom: var(--space-4);
+            gap: 4px;
+            margin-bottom: var(--space-5);
         }
         .featured-review-stars svg {
-            width: 18px;
-            height: 18px;
-            fill: #fbbf24;
+            width: 20px;
+            height: 20px;
+            fill: url(#starGradient);
+            filter: drop-shadow(0 1px 2px rgba(251, 191, 36, 0.3));
         }
         .featured-review-card .review-text {
             font-size: var(--text-base);
             color: var(--text-primary);
-            line-height: 1.7;
+            line-height: 1.75;
             margin-bottom: var(--space-6);
-            min-height: 80px;
+            min-height: 85px;
+            position: relative;
+            z-index: 1;
         }
         .featured-review-author {
             display: flex;
             align-items: center;
-            gap: var(--space-3);
-            padding-top: var(--space-4);
-            border-top: 1px solid var(--border-color);
+            gap: var(--space-4);
+            padding-top: var(--space-5);
+            border-top: 1px solid var(--border-color-light);
         }
         .featured-review-avatar {
-            width: 44px;
-            height: 44px;
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
             background: linear-gradient(135deg, var(--blue) 0%, #00c6ff 100%);
             display: flex;
@@ -1291,7 +1356,9 @@
             justify-content: center;
             color: white;
             font-weight: var(--font-bold);
-            font-size: var(--text-sm);
+            font-size: var(--text-base);
+            box-shadow: 0 4px 12px rgba(0, 113, 227, 0.25);
+            flex-shrink: 0;
         }
         .featured-review-info {
             flex: 1;
@@ -1300,10 +1367,26 @@
             font-weight: var(--font-semibold);
             font-size: var(--text-sm);
             color: var(--text-primary);
+            margin-bottom: 2px;
         }
         .featured-review-role {
             font-size: var(--text-xs);
             color: var(--text-tertiary);
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+        .featured-review-role .success-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 2px 8px;
+            background: linear-gradient(135deg, rgba(52, 199, 89, 0.1) 0%, rgba(52, 199, 89, 0.05) 100%);
+            border: 1px solid rgba(52, 199, 89, 0.2);
+            border-radius: var(--radius-full);
+            font-size: 10px;
+            font-weight: var(--font-medium);
+            color: var(--green);
         }
         .featured-reviews-cta {
             text-align: center;
@@ -1311,12 +1394,21 @@
         .featured-reviews-stats {
             display: inline-flex;
             align-items: center;
-            gap: var(--space-6);
-            padding: var(--space-4) var(--space-8);
-            background: var(--bg-tertiary);
+            gap: var(--space-8);
+            padding: var(--space-5) var(--space-10);
+            background: linear-gradient(135deg, var(--bg-tertiary) 0%, var(--bg-secondary) 100%);
             border-radius: var(--radius-full);
             margin-bottom: var(--space-6);
             border: 1px solid var(--border-color);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+        }
+        .featured-reviews-stats .stat-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+        .featured-reviews-stats .stat-icon {
+            font-size: var(--text-lg);
         }
         .featured-reviews-stats span {
             font-size: var(--text-sm);
@@ -1325,24 +1417,31 @@
         .featured-reviews-stats strong {
             color: var(--blue);
             font-weight: var(--font-bold);
+            font-size: var(--text-lg);
         }
         .featured-reviews-link {
             display: inline-flex;
             align-items: center;
             gap: var(--space-2);
+            padding: var(--space-4) var(--space-6);
             color: var(--blue);
             font-size: var(--text-base);
-            font-weight: var(--font-medium);
+            font-weight: var(--font-semibold);
             text-decoration: none;
-            transition: all 0.2s ease;
+            border-radius: var(--radius-full);
+            transition: all 0.3s ease;
+            background: transparent;
+            border: 1px solid transparent;
         }
         .featured-reviews-link:hover {
+            background: rgba(0, 113, 227, 0.08);
+            border-color: rgba(0, 113, 227, 0.2);
             gap: var(--space-3);
         }
         .featured-reviews-link svg {
             width: 20px;
             height: 20px;
-            transition: transform 0.2s ease;
+            transition: transform 0.3s ease;
         }
         .featured-reviews-link:hover svg {
             transform: translateX(4px);
@@ -2506,6 +2605,16 @@
 
         <!-- Featured Reviews Section - 대표 후기 -->
         <section id="reviews" class="featured-reviews">
+            <!-- SVG 그라데이션 정의 -->
+            <svg width="0" height="0" style="position: absolute;">
+                <defs>
+                    <linearGradient id="starGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#fbbf24"/>
+                        <stop offset="100%" style="stop-color:#f59e0b"/>
+                    </linearGradient>
+                </defs>
+            </svg>
+
             <div class="featured-reviews-container">
                 <div class="featured-reviews-header fade-up">
                     <h2>수강생들의 이야기</h2>
@@ -2516,18 +2625,21 @@
                     <!-- 대표 후기 1 -->
                     <div class="featured-review-card fade-up">
                         <div class="featured-review-stars">
-                            <svg viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
-                            <svg viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
-                            <svg viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
-                            <svg viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
-                            <svg viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                            <svg viewBox="0 0 20 20"><path fill="url(#starGradient)" d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                            <svg viewBox="0 0 20 20"><path fill="url(#starGradient)" d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                            <svg viewBox="0 0 20 20"><path fill="url(#starGradient)" d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                            <svg viewBox="0 0 20 20"><path fill="url(#starGradient)" d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                            <svg viewBox="0 0 20 20"><path fill="url(#starGradient)" d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
                         </div>
                         <p class="review-text">현직자 멘토님의 실무 경험을 바탕으로 한 피드백이 정말 도움이 됐습니다. 막연했던 SCM 직무가 구체적으로 그려졌어요.</p>
                         <div class="featured-review-author">
                             <div class="featured-review-avatar">K</div>
                             <div class="featured-review-info">
                                 <div class="featured-review-name">김OO</div>
-                                <div class="featured-review-role">취업준비생 → 대기업 SCM 합격</div>
+                                <div class="featured-review-role">
+                                    취업준비생
+                                    <span class="success-badge">✓ 대기업 합격</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -2535,18 +2647,21 @@
                     <!-- 대표 후기 2 -->
                     <div class="featured-review-card fade-up">
                         <div class="featured-review-stars">
-                            <svg viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
-                            <svg viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
-                            <svg viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
-                            <svg viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
-                            <svg viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                            <svg viewBox="0 0 20 20"><path fill="url(#starGradient)" d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                            <svg viewBox="0 0 20 20"><path fill="url(#starGradient)" d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                            <svg viewBox="0 0 20 20"><path fill="url(#starGradient)" d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                            <svg viewBox="0 0 20 20"><path fill="url(#starGradient)" d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                            <svg viewBox="0 0 20 20"><path fill="url(#starGradient)" d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
                         </div>
                         <p class="review-text">자소서 컨설팅 2회로 서류 합격률이 확 올랐습니다. 면접 준비까지 한 번에 해결되어 효율적이었어요.</p>
                         <div class="featured-review-author">
                             <div class="featured-review-avatar">P</div>
                             <div class="featured-review-info">
                                 <div class="featured-review-name">박OO</div>
-                                <div class="featured-review-role">경력 2년차 → 컨설팅펌 이직</div>
+                                <div class="featured-review-role">
+                                    경력 2년차
+                                    <span class="success-badge">✓ 컨설팅펌 이직</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -2554,18 +2669,21 @@
                     <!-- 대표 후기 3 -->
                     <div class="featured-review-card fade-up">
                         <div class="featured-review-stars">
-                            <svg viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
-                            <svg viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
-                            <svg viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
-                            <svg viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
-                            <svg viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                            <svg viewBox="0 0 20 20"><path fill="url(#starGradient)" d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                            <svg viewBox="0 0 20 20"><path fill="url(#starGradient)" d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                            <svg viewBox="0 0 20 20"><path fill="url(#starGradient)" d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                            <svg viewBox="0 0 20 20"><path fill="url(#starGradient)" d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                            <svg viewBox="0 0 20 20"><path fill="url(#starGradient)" d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
                         </div>
                         <p class="review-text">5주 동안 배운 내용이 실제 면접에서 바로 활용됐습니다. 실무 케이스 기반이라 자신감이 생겼어요.</p>
                         <div class="featured-review-author">
                             <div class="featured-review-avatar">L</div>
                             <div class="featured-review-info">
                                 <div class="featured-review-name">이OO</div>
-                                <div class="featured-review-role">비전공자 → 물류 스타트업 입사</div>
+                                <div class="featured-review-role">
+                                    비전공자
+                                    <span class="success-badge">✓ 스타트업 입사</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -2574,8 +2692,14 @@
                 <!-- 하단 CTA -->
                 <div class="featured-reviews-cta fade-up">
                     <div class="featured-reviews-stats">
-                        <span>총 후기 <strong>100+</strong>개</span>
-                        <span>평균 평점 <strong>4.9</strong>/5</span>
+                        <div class="stat-item">
+                            <span class="stat-icon">💬</span>
+                            <span>총 후기 <strong>100+</strong>개</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-icon">⭐</span>
+                            <span>평균 평점 <strong>4.9</strong>/5</span>
+                        </div>
                     </div>
                     <br>
                     <a href="basic-package.html#reviews" class="featured-reviews-link">
