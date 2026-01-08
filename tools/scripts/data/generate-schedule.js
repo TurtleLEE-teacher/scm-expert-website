@@ -200,9 +200,9 @@ async function generateReviewsJSON() {
                 }
             }
 
-            // 작성자 추출
+            // 작성자 추출 (익명작성자 필드 우선 사용)
             let author = '';
-            const authorFields = ['작성자', '이름', 'author', 'Author', 'Name'];
+            const authorFields = ['익명작성자', '익명 작성자', '작성자', '이름', 'author', 'Author', 'Name'];
             for (const field of authorFields) {
                 if (props[field]?.rich_text?.[0]?.text?.content) {
                     author = props[field].rich_text[0].text.content;
