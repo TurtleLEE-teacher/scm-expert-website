@@ -2,6 +2,52 @@
   "success": true,
   "data": [
     {
+      "name": "컨설팅펌 직무 세션",
+      "date": "2026-01-30",
+      "type": "lecture",
+      "week": 1,
+      "label": "1주차 강의",
+      "hasAssignment": true,
+      "status": "준비중",
+      "batch": 1,
+      "maxStudents": 3,
+      "currentStudents": 0,
+      "notionData": {
+        "id": "2e987a19-32c4-80ba-91cc-f3d9b01a4431",
+        "title": "컨설팅펌 직무 세션",
+        "category": "컨설팅 직무",
+        "status": "준비중",
+        "description": "",
+        "price": 0,
+        "maxStudents": 3,
+        "currentStudents": 0,
+        "batch": 1
+      }
+    },
+    {
+      "name": "컨설팅펌 직무 세션",
+      "date": "2026-02-06",
+      "type": "assignment",
+      "week": 2,
+      "label": "2주차 피드백",
+      "hasAssignment": true,
+      "status": "준비중",
+      "batch": 1,
+      "maxStudents": 3,
+      "currentStudents": 0,
+      "notionData": {
+        "id": "2e987a19-32c4-80ba-91cc-f3d9b01a4431",
+        "title": "컨설팅펌 직무 세션",
+        "category": "컨설팅 직무",
+        "status": "준비중",
+        "description": "",
+        "price": 0,
+        "maxStudents": 3,
+        "currentStudents": 0,
+        "batch": 1
+      }
+    },
+    {
       "name": "SCM 기초 완성 강의 1기",
       "date": "2026-02-13",
       "type": "lecture",
@@ -20,6 +66,29 @@
         "description": "",
         "price": 169000,
         "maxStudents": 6,
+        "currentStudents": 0,
+        "batch": 1
+      }
+    },
+    {
+      "name": "컨설팅펌 직무 세션",
+      "date": "2026-02-13",
+      "type": "lecture",
+      "week": 3,
+      "label": "3주차 강의",
+      "hasAssignment": true,
+      "status": "준비중",
+      "batch": 1,
+      "maxStudents": 3,
+      "currentStudents": 0,
+      "notionData": {
+        "id": "2e987a19-32c4-80ba-91cc-f3d9b01a4431",
+        "title": "컨설팅펌 직무 세션",
+        "category": "컨설팅 직무",
+        "status": "준비중",
+        "description": "",
+        "price": 0,
+        "maxStudents": 3,
         "currentStudents": 0,
         "batch": 1
       }
@@ -48,6 +117,29 @@
       }
     },
     {
+      "name": "컨설팅펌 직무 세션",
+      "date": "2026-02-20",
+      "type": "assignment",
+      "week": 4,
+      "label": "4주차 피드백",
+      "hasAssignment": true,
+      "status": "준비중",
+      "batch": 1,
+      "maxStudents": 3,
+      "currentStudents": 0,
+      "notionData": {
+        "id": "2e987a19-32c4-80ba-91cc-f3d9b01a4431",
+        "title": "컨설팅펌 직무 세션",
+        "category": "컨설팅 직무",
+        "status": "준비중",
+        "description": "",
+        "price": 0,
+        "maxStudents": 3,
+        "currentStudents": 0,
+        "batch": 1
+      }
+    },
+    {
       "name": "SCM 기초 완성 강의 1기",
       "date": "2026-02-27",
       "type": "lecture",
@@ -66,6 +158,29 @@
         "description": "",
         "price": 169000,
         "maxStudents": 6,
+        "currentStudents": 0,
+        "batch": 1
+      }
+    },
+    {
+      "name": "컨설팅펌 직무 세션",
+      "date": "2026-02-27",
+      "type": "lecture",
+      "week": 5,
+      "label": "5주차 최종발표",
+      "hasAssignment": false,
+      "status": "준비중",
+      "batch": 1,
+      "maxStudents": 3,
+      "currentStudents": 0,
+      "notionData": {
+        "id": "2e987a19-32c4-80ba-91cc-f3d9b01a4431",
+        "title": "컨설팅펌 직무 세션",
+        "category": "컨설팅 직무",
+        "status": "준비중",
+        "description": "",
+        "price": 0,
+        "maxStudents": 3,
         "currentStudents": 0,
         "batch": 1
       }
@@ -347,6 +462,6 @@
       }
     }
   ],
-  "lastUpdated": "2026-01-15T06:21:33.842Z",
-  "totalSessions": 15
+  "lastUpdated": "2026-01-15T09:20:18.107Z",
+  "totalSessions": 20
 }
