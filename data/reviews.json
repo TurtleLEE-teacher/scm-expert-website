@@ -59,7 +59,7 @@
       "id": "7d0596a6-fe3f-4b69-b256-b3bf6509ec95",
       "title": "",
       "content": "내용이 길어 따로 문의 남기겠습니다",
-      "rating": 5,
+      "rating": 4,
       "author": "윤*",
       "date": "2024.02",
       "category": "bootcamp"
@@ -722,6 +722,15 @@
       "category": "bootcamp"
     },
     {
+      "id": "68ef651a-7b27-4b55-a5eb-440a7b96f203",
+      "title": "",
+      "content": "친절하시고 전문적이시며 피드백도 개인별로 디테일하게 신경써주십니다.",
+      "rating": 5,
+      "author": "최*",
+      "date": "2021.03",
+      "category": "bootcamp"
+    },
+    {
       "id": "78f0a077-7a8f-43c0-b5a4-842c5ad55b59",
       "title": "",
       "content": "고생 많으셨습니다. 멘토님 성실히 참여 못해 죄송합니다 다른 학생분들 과제를 보고 오히려 제가 더 많이 배웠습니다.",
@@ -1325,6 +1334,6 @@
       "category": "bootcamp"
     }
   ],
-  "lastUpdated": "2026-01-30T21:20:01.317Z",
-  "totalReviews": 147
+  "lastUpdated": "2026-01-31T01:10:49.396Z",
+  "totalReviews": 148
 }
