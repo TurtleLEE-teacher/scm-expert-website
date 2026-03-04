@@ -123,7 +123,7 @@
       "title": "",
       "content": "실무 관점으로 설명해주시고 같이 고민해주셔서 좋아요",
       "rating": 5,
-      "author": "윤*",
+      "author": "��*",
       "date": "2023.06",
       "category": "bootcamp"
     },
@@ -1165,7 +1165,7 @@
     {
       "id": "4f170710-6af7-4801-a7a3-760a13e02b8f",
       "title": "",
-      "content": "SAP를 실제로 사용하는 방법을 배울 수 있어서 좋았���니다",
+      "content": "SAP를 실제로 사용하는 방법을 배울 수 ��어서 좋았습니다",
       "rating": 5,
       "author": "임*",
       "date": "2020.01",
@@ -1334,6 +1334,6 @@
       "category": "bootcamp"
     }
   ],
-  "lastUpdated": "2026-03-04T06:36:25.040Z",
+  "lastUpdated": "2026-03-04T09:31:32.493Z",
   "totalReviews": 148
 }
