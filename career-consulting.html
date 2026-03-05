@@ -33,6 +33,9 @@
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#0071e3">
 
+    <!-- Pretendard Font -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css" />
+
     <!-- Design System CSS -->
     <link rel="stylesheet" href="css/design-system.css">
 
@@ -71,7 +74,7 @@
 
         /* ===== Hero ===== */
         .hero {
-            min-height: 80vh;
+            min-height: 60vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -597,8 +600,8 @@
             </div>
             <h1 class="hero-title fade-up">당신의 커리어,<br>다음 단계로</h1>
             <p class="hero-subtitle fade-up">
-                글로벌 Big4 컨설팅펌 시니어 매니저가<br>
-                이력서부터 면접까지 완벽하게 준비해드립니다
+                SCM·구매·물류 직무 전문<br>
+                Big4 컨설팅펌 시니어 매니저의 1:1 취업·이직 컨설팅
             </p>
             <button class="btn btn-primary btn-lg fade-up" onclick="openModal('career-consulting')">지금 신청하기</button>
         </section>
@@ -718,6 +721,12 @@
             <div class="price-benefit fade-up">
                 <p>SCM 교육 수강생 특별 혜택: 모든 패키지 30% 할인</p>
             </div>
+            <div style="text-align: center; margin-top: var(--space-6);" class="fade-up">
+                <p style="font-size: var(--text-sm); color: var(--text-tertiary);">
+                    직무교육 + 컨설팅을 한 번에 원하신다면?
+                    <a href="basic-package.html" style="color: var(--blue); font-weight: var(--font-medium);">기본 패키지(300,000원) 보기</a>
+                </p>
+            </div>
         </section>
 
         <!-- FAQ -->
@@ -768,6 +777,17 @@
                         <div class="faq-answer">
                             <div class="faq-answer-content">
                                 멘티 한 분 한 분의 커리어 성장에 온전히 집중하기 위해서입니다. 월 2기수 제한을 통해 각 멘티분께 충분한 시간과 에너지를 투자합니다.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="faq-item fade-up">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            기본 패키지와 차이가 뭔가요?
+                            <span class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+                        </button>
+                        <div class="faq-answer">
+                            <div class="faq-answer-content">
+                                <a href="basic-package.html" style="color: var(--blue);">기본 패키지</a>는 SCM 직무교육 5주 + 자소서 2회 + 면접 1회가 포함된 통합 과정입니다. 커리어 컨설팅은 직무교육 없이 이력서·면접 컨설팅에만 집중하는 별도 서비스입니다. SCM 직무역량까지 키우고 싶다면 기본 패키지를, 이미 직무역량은 있고 취업·이직 준비만 필요하다면 커리어 컨설팅을 추천드립니다.
                             </div>
                         </div>
                     </div>

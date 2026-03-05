@@ -6,8 +6,29 @@
     <title>기본 패키지 - 직무 지식 + 취업 준비 완성 | SCM Labs</title>
     <meta name="description" content="SCM 5주 캠프 + 자소서 2회 + 면접 1회. 직무 지식부터 취업 준비까지 한 번에 완성하세요.">
     <meta name="keywords" content="SCM 교육, 취업 준비, 자소서, 면접, 커리어 컨설팅, 직무 부트캠프">
+    <meta name="author" content="SCM Labs">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://scm-expert-site.vercel.app/basic-package.html">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="기본 패키지 - SCM 직무교육 + 커리어 컨설팅 | SCM Labs">
+    <meta property="og:description" content="SCM 5주 캠프 + 자소서 2회 + 면접 1회. 직무 지식부터 취업 준비까지 한 번에 완성하세요.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://scm-expert-site.vercel.app/basic-package.html">
+    <meta property="og:image" content="https://scm-expert-site.vercel.app/images/og-image.png">
+    <meta property="og:locale" content="ko_KR">
+    <meta property="og:site_name" content="SCM Labs">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="기본 패키지 - SCM 직무교육 + 커리어 컨설팅">
+    <meta name="twitter:description" content="SCM 5주 캠프 + 자소서 2회 + 면접 1회. 직무 지식부터 취업 준비까지 한 번에 완성하세요.">
+    <meta name="twitter:image" content="https://scm-expert-site.vercel.app/images/og-image.png">
+
     <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
     <link rel="apple-touch-icon" href="./images/apple-touch-icon.png">
+    <!-- Pretendard Font -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css" />
     <link rel="stylesheet" href="css/design-system.css">
 
     <style>
@@ -562,6 +583,58 @@
         .form-success h3 { font-size: var(--text-lg); font-weight: var(--font-bold); margin-bottom: var(--space-2); }
         .form-success p { color: var(--text-secondary); font-size: var(--text-sm); }
 
+        /* ===== FAQ Accordion ===== */
+        .faq-container { max-width: 700px; margin: 0 auto; }
+        .faq-list { display: flex; flex-direction: column; gap: var(--space-3); }
+        .faq-item {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+        }
+        [data-theme="light"] .faq-item { background: #fff; }
+        .faq-question {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--space-4);
+            width: 100%;
+            padding: var(--space-4) var(--space-5);
+            background: none;
+            border: none;
+            text-align: left;
+            cursor: pointer;
+            font-size: var(--text-sm);
+            font-weight: var(--font-medium);
+            color: var(--text-primary);
+            line-height: var(--leading-relaxed);
+        }
+        .faq-icon {
+            flex-shrink: 0;
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: var(--bg-tertiary);
+            color: var(--text-tertiary);
+            transition: transform 0.2s;
+        }
+        .faq-icon svg { width: 12px; height: 12px; }
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+            background: var(--blue);
+            color: white;
+        }
+        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
+        .faq-answer-content {
+            padding: 0 var(--space-5) var(--space-4);
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+            line-height: var(--leading-relaxed);
+        }
+
         /* ===== Footer ===== */
         .footer {
             padding: var(--space-6) var(--space-6);
@@ -582,9 +655,10 @@
             border-top: 1px solid var(--border-color);
             z-index: var(--z-fixed);
         }
-        .mobile-cta .btn { width: 100%; text-align: center; }
+        .mobile-cta .btn { flex: 1; text-align: center; }
+        .mobile-cta { gap: var(--space-3); }
         @media (max-width: 768px) {
-            .mobile-cta { display: block; }
+            .mobile-cta { display: flex; }
             .footer { padding-bottom: calc(var(--space-6) + 60px); }
         }
 
@@ -604,9 +678,8 @@
             <a href="index.html" class="logo">SCM Labs</a>
             <nav aria-label="주요 메뉴">
                 <ul class="nav-menu" id="navMenu" role="menubar">
-                    <li role="none"><a href="index.html" class="nav-link" role="menuitem">Home</a></li>
-                    <li role="none"><a href="basic-package.html" class="nav-link active" role="menuitem">프로그램</a></li>
-                    <li role="none"><a href="career-consulting.html" class="nav-link" role="menuitem">커리어 컨설팅</a></li>
+                    <li class="nav-item" role="none"><a href="basic-package.html" class="nav-link active" role="menuitem">프로그램</a></li>
+                    <li class="nav-item" role="none"><a href="career-consulting.html" class="nav-link" role="menuitem">커리어 컨설팅</a></li>
                 </ul>
             </nav>
             <button class="btn btn-sm btn-primary" onclick="openDemandModal()">수강 신청</button>
@@ -803,18 +876,44 @@
             <div class="section-header fade-up">
                 <h2>자주 묻는 질문</h2>
             </div>
-            <div class="faq-list">
-                <div class="faq-item fade-up">
-                    <h3>Q. SCM 경험이 전혀 없는데 수강 가능한가요?</h3>
-                    <p>네. 기초 과정은 경험이 없는 분들을 위해 설계되었습니다. 기초부터 차근차근 설명합니다.</p>
-                </div>
-                <div class="faq-item fade-up">
-                    <h3>Q. 직장을 다니면서도 수강할 수 있나요?</h3>
-                    <p>주당 2-3시간이면 충분합니다. 모든 세션은 녹화본으로 제공되어 언제든 복습 가능합니다.</p>
-                </div>
-                <div class="faq-item fade-up">
-                    <h3>Q. 환불은 가능한가요?</h3>
-                    <p>수강 시작 전 전액 환불, 1주차 후 80%, 2주차 후 50% 환불 가능합니다. 3주차 이후 환불 불가.</p>
+            <div class="faq-container">
+                <div class="faq-list">
+                    <div class="faq-item fade-up">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            SCM 경험이 전혀 없는데 수강 가능한가요?
+                            <span class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+                        </button>
+                        <div class="faq-answer">
+                            <div class="faq-answer-content">네. 기초 과정은 경험이 없는 분들을 위해 설계되었습니다. 기초부터 차근차근 설명합니다.</div>
+                        </div>
+                    </div>
+                    <div class="faq-item fade-up">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            직장을 다니면서도 수강할 수 있나요?
+                            <span class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+                        </button>
+                        <div class="faq-answer">
+                            <div class="faq-answer-content">주당 2-3시간이면 충분합니다. 모든 세션은 녹화본으로 제공되어 언제든 복습 가능합니다.</div>
+                        </div>
+                    </div>
+                    <div class="faq-item fade-up">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            환불은 가능한가요?
+                            <span class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+                        </button>
+                        <div class="faq-answer">
+                            <div class="faq-answer-content">수강 시작 전 전액 환불, 1주차 후 80%, 2주차 후 50% 환불 가능합니다. 3주차 이후 환불 불가.</div>
+                        </div>
+                    </div>
+                    <div class="faq-item fade-up">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            커리어 컨설팅만 따로 받을 수 있나요?
+                            <span class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+                        </button>
+                        <div class="faq-answer">
+                            <div class="faq-answer-content">네. 기본 패키지에는 자소서 2회 + 모의면접 1회가 포함되어 있지만, 더 심화된 컨설팅이 필요하시면 <a href="career-consulting.html" style="color: var(--blue);">커리어 컨설팅</a>을 별도로 신청하실 수 있습니다.</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -824,6 +923,9 @@
             <h2 class="fade-up">지금이 시작할 때입니다</h2>
             <p class="fade-up">직무 능력부터 커리어 준비까지, 한 번에 완성하세요</p>
             <button class="btn btn-primary btn-lg fade-up" onclick="openDemandModal()">대기 등록하기</button>
+            <p class="fade-up" style="margin-top: var(--space-4); font-size: var(--text-sm); color: var(--text-tertiary);">
+                커리어 컨설팅만 필요하신가요? <a href="career-consulting.html" style="color: var(--blue);">커리어 컨설팅 보기</a>
+            </p>
         </section>
     </main>
 
@@ -914,7 +1016,8 @@
 
     <!-- Mobile Sticky CTA -->
     <div class="mobile-cta">
-        <button class="btn btn-primary btn-sm" onclick="openDemandModal()">수강 대기 등록</button>
+        <button class="btn btn-primary" onclick="openDemandModal()">수강 신청</button>
+        <a href="career-consulting.html" class="btn btn-secondary">커리어 컨설팅</a>
     </div>
 
     <!-- Footer -->
@@ -938,6 +1041,21 @@
             });
         }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
         document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+        // FAQ accordion
+        function toggleFaq(btn) {
+            const item = btn.parentElement;
+            const answer = item.querySelector('.faq-answer');
+            const isActive = item.classList.contains('active');
+            document.querySelectorAll('.faq-item.active').forEach(i => {
+                i.classList.remove('active');
+                i.querySelector('.faq-answer').style.maxHeight = null;
+            });
+            if (!isActive) {
+                item.classList.add('active');
+                answer.style.maxHeight = answer.scrollHeight + 'px';
+            }
+        }
 
         // Demand Registration Modal
         const demandModalOverlay = document.getElementById('demandModalOverlay');
