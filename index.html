@@ -529,12 +529,19 @@
         .list-meta { font-size: var(--text-sm); color: var(--text-secondary); display: flex; gap: var(--space-3); flex-wrap: wrap; }
         .list-meta span { display: flex; align-items: center; gap: var(--space-1); }
         @media (max-width: 768px) {
-            .calendar-grid { gap: 2px; }
-            .calendar-day { padding: var(--space-2); min-height: 60px; }
-            .calendar-day-number { font-size: var(--text-xs); }
-            .calendar-event { font-size: 9px; padding: 1px 4px; }
-            .calendar-assignment { font-size: 8px; }
+            /* 모바일: 그리드 달력 숨기고 리스트 뷰 강제 */
+            .calendar-grid { display: none !important; }
+            .calendar-list { display: flex !important; }
+            .view-toggle { display: none; }
+            .calendar-list-item { padding: var(--space-3); gap: var(--space-3); }
+            .list-date { min-width: 40px; padding: var(--space-2); }
+            .list-day { font-size: var(--text-xl); }
+            .list-title { font-size: var(--text-sm); }
+            .list-meta { font-size: var(--text-xs); }
+            .month-tabs { gap: var(--space-2); }
+            .month-tab { padding: var(--space-2) var(--space-3); font-size: var(--text-sm); }
             .schedule-legend { flex-direction: column; align-items: center; }
+            .legend-items { flex-direction: column; gap: var(--space-2); }
         }
 
         /* ===== Instructor Section ===== */
@@ -1659,10 +1666,19 @@
             localStorage.setItem('calendarView', view);
         };
 
+        function getDefaultView() {
+            if (window.innerWidth <= 768) return 'list';
+            return localStorage.getItem('calendarView') || 'grid';
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             fetchNotionData();
-            const saved = localStorage.getItem('calendarView');
-            setCalendarView(saved || 'grid');
+            setCalendarView(getDefaultView());
+        });
+
+        window.addEventListener('resize', () => {
+            const isMobile = window.innerWidth <= 768;
+            if (isMobile && currentView !== 'list') setCalendarView('list');
         });
     })();
     </script>
