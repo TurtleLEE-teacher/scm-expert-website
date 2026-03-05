@@ -492,14 +492,50 @@
         .legend-item { display: flex; align-items: center; gap: var(--space-2); }
         .legend-color { width: 14px; height: 16px; border-radius: var(--radius-sm); }
         .legend-text { font-size: var(--text-sm); color: var(--text-secondary); }
-        .month-tabs { display: flex; justify-content: center; gap: var(--space-3); margin-bottom: var(--space-6); flex-wrap: wrap; }
-        .month-tab {
-            padding: var(--space-2) var(--space-4); background: var(--bg-tertiary); border: 1px solid var(--border-color);
-            border-radius: var(--radius-full); font-size: var(--text-sm); color: var(--text-secondary); cursor: pointer; transition: all var(--transition-fast);
+        /* Batch Navigation */
+        .batch-nav { display: flex; justify-content: center; align-items: center; gap: var(--space-4); margin-bottom: var(--space-6); }
+        .batch-nav-btn {
+            padding: var(--space-2) var(--space-5); background: var(--bg-tertiary); border: 1px solid var(--border-color);
+            border-radius: var(--radius-full); font-size: var(--text-sm); color: var(--text-secondary); cursor: pointer;
+            transition: all var(--transition-fast); display: flex; align-items: center; gap: var(--space-2);
         }
-        .month-tab:hover { border-color: var(--blue); }
-        .month-tab.active { background: var(--blue); color: #fff; border-color: var(--blue); }
+        .batch-nav-btn:hover:not(:disabled) { border-color: var(--blue); color: var(--blue); }
+        .batch-nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+        .batch-nav-current {
+            padding: var(--space-3) var(--space-6); background: var(--blue); color: #fff;
+            border-radius: var(--radius-full); font-size: var(--text-base); font-weight: var(--font-semibold);
+            border: none; min-width: 140px; text-align: center;
+        }
+        .batch-nav-current .batch-status {
+            font-size: var(--text-xs); font-weight: var(--font-normal); opacity: 0.85; display: block; margin-top: 2px;
+        }
         .batch-info { text-align: center; font-size: var(--text-base); color: var(--blue); margin-bottom: var(--space-6); }
+        /* Batch Reviews Panel */
+        .batch-reviews { margin-top: var(--space-8); display: none; }
+        .batch-reviews.active { display: block; }
+        .batch-reviews-header {
+            text-align: center; margin-bottom: var(--space-6);
+        }
+        .batch-reviews-header h3 { font-size: var(--text-xl); font-weight: var(--font-bold); color: var(--text-primary); margin-bottom: var(--space-2); }
+        .batch-reviews-header p { font-size: var(--text-sm); color: var(--text-secondary); }
+        .batch-reviews-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: var(--space-4); margin-bottom: var(--space-4);
+        }
+        .batch-review-card {
+            background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: var(--radius-md);
+            padding: var(--space-5); transition: all var(--transition-fast);
+        }
+        .batch-review-card:hover { border-color: var(--blue); transform: translateY(-2px); }
+        .batch-review-stars { color: #ffb400; font-size: var(--text-sm); margin-bottom: var(--space-3); }
+        .batch-review-text { font-size: var(--text-sm); color: var(--text-secondary); line-height: 1.6; margin-bottom: var(--space-3); display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+        .batch-review-author { font-size: var(--text-sm); font-weight: var(--font-semibold); color: var(--text-primary); }
+        .batch-review-date { font-size: var(--text-xs); color: var(--text-tertiary); margin-left: var(--space-2); }
+        .batch-reviews-more {
+            display: block; margin: var(--space-4) auto 0; padding: var(--space-3) var(--space-8);
+            background: transparent; border: 1px solid var(--blue); color: var(--blue);
+            border-radius: var(--radius-full); font-size: var(--text-sm); cursor: pointer; transition: all var(--transition-fast);
+        }
+        .batch-reviews-more:hover { background: var(--blue); color: #fff; }
         .view-toggle { display: flex; gap: var(--space-2); margin-bottom: var(--space-4); justify-content: center; }
         .view-toggle-btn {
             padding: var(--space-2) var(--space-4); background: var(--bg-tertiary); border: 1px solid var(--border-color);
@@ -538,8 +574,10 @@
             .list-day { font-size: var(--text-xl); }
             .list-title { font-size: var(--text-sm); }
             .list-meta { font-size: var(--text-xs); }
-            .month-tabs { gap: var(--space-2); }
-            .month-tab { padding: var(--space-2) var(--space-3); font-size: var(--text-sm); }
+            .batch-nav { gap: var(--space-2); }
+            .batch-nav-btn { padding: var(--space-2) var(--space-3); font-size: var(--text-xs); }
+            .batch-nav-current { padding: var(--space-2) var(--space-4); font-size: var(--text-sm); min-width: 100px; }
+            .batch-reviews-grid { grid-template-columns: 1fr; }
             .schedule-legend { flex-direction: column; align-items: center; }
             .legend-items { flex-direction: column; gap: var(--space-2); }
         }
@@ -1057,7 +1095,11 @@
                 <p>Notion 연동 실시간 강의 스케줄</p>
             </div>
             <div class="container" style="max-width: 960px;">
-                <div class="month-tabs" id="monthTabs"></div>
+                <div class="batch-nav" id="batchNav">
+                    <button class="batch-nav-btn" id="prevBatchBtn" onclick="navigateBatch(-1)">&larr; 이전 기수</button>
+                    <div class="batch-nav-current" id="batchNavCurrent">-</div>
+                    <button class="batch-nav-btn" id="nextBatchBtn" onclick="navigateBatch(1)">다음 기수 &rarr;</button>
+                </div>
                 <div class="batch-info" id="batchInfo">강의 일정을 불러오는 중...</div>
 
                 <div class="calendar-container fade-up">
@@ -1093,6 +1135,16 @@
                     <div class="calendar-list" id="calendarList"></div>
 
                     <div class="schedule-legend" id="scheduleLegend"></div>
+                </div>
+
+                <!-- Batch Reviews (shown for completed batches) -->
+                <div class="batch-reviews" id="batchReviews">
+                    <div class="batch-reviews-header">
+                        <h3 id="batchReviewsTitle">수강 후기</h3>
+                        <p id="batchReviewsSubtitle">수강생들의 실제 후기입니다</p>
+                    </div>
+                    <div class="batch-reviews-grid" id="batchReviewsGrid"></div>
+                    <button class="batch-reviews-more" id="batchReviewsMore" onclick="loadMoreReviews()">더보기</button>
                 </div>
             </div>
         </section>
@@ -1414,11 +1466,17 @@
     <!-- Schedule Calendar Script -->
     <script>
     (function() {
-        let notionData = [];
+        let allData = [];          // All schedule data (including completed batches)
+        let notionData = [];       // Current batch data for calendar display
+        let batchList = [];        // Sorted list of batch info [{batch, status, firstDate, lastDate}]
+        let currentBatchIndex = 0; // Index in batchList
         let currentDisplayMonth = null;
         let currentDisplayYear = null;
         let currentBatch = null;
         let currentView = 'grid';
+        let reviewsData = [];
+        let reviewsShown = 0;
+        const REVIEWS_PER_PAGE = 6;
 
         const statusConfig = {
             '준비중': { icon: '⏳', label: '준비중' },
@@ -1445,6 +1503,34 @@
 
         function getBatchColorIndex(n) { return ((n - 1) % 6) + 1; }
 
+        function getStatusText(s) {
+            if (!s) return '준비중';
+            if (s.includes('완료') || s.includes('종료')) return '종료';
+            if (s.includes('진행')) return '진행중';
+            if (s.includes('모집')) return '모집중';
+            return '준비중';
+        }
+
+        function isBatchCompleted(status) {
+            const st = getStatusText(status);
+            return st === '종료';
+        }
+
+        // Find the batch closest to today
+        function findCurrentBatchIndex() {
+            const today = new Date().toISOString().split('T')[0];
+            // First: find a batch whose date range includes today
+            for (let i = 0; i < batchList.length; i++) {
+                if (batchList[i].firstDate <= today && batchList[i].lastDate >= today) return i;
+            }
+            // Second: find the next upcoming batch
+            for (let i = 0; i < batchList.length; i++) {
+                if (batchList[i].firstDate > today) return i;
+            }
+            // Fallback: last batch
+            return batchList.length - 1;
+        }
+
         async function fetchNotionData() {
             try {
                 const response = await fetch('./data/schedule.json?t=' + Date.now());
@@ -1452,72 +1538,146 @@
                 const data = await response.json();
                 if (!data.success || !data.data || data.data.length === 0) throw new Error('no data');
 
-                notionData = [];
+                // Keep ALL data (don't filter out completed batches)
+                allData = [];
                 data.data.forEach(course => {
-                    if (course.status === '종료') return;
-                    if (course.schedule && course.schedule.length > 0) notionData.push(...course.schedule);
-                    else if (course.date) notionData.push(course);
+                    if (course.schedule && course.schedule.length > 0) allData.push(...course.schedule);
+                    else if (course.date) allData.push(course);
                 });
 
-                generateMonthTabs();
-                updateScheduleLegend();
+                // Build batch list
+                const batchMap = {};
+                allData.forEach(course => {
+                    const batch = extractBatchNumber(course);
+                    if (!batchMap[batch]) {
+                        batchMap[batch] = { batch, status: course.status || '준비중', firstDate: course.date, lastDate: course.date };
+                    } else {
+                        if (course.date < batchMap[batch].firstDate) batchMap[batch].firstDate = course.date;
+                        if (course.date > batchMap[batch].lastDate) batchMap[batch].lastDate = course.date;
+                    }
+                });
+                batchList = Object.values(batchMap).sort((a, b) => a.batch - b.batch);
 
-                if (notionData.length > 0) {
-                    const [year, month] = notionData[0].date.split('-').map(Number);
-                    updateCalendar(month, year);
-                }
+                // Find current batch based on today's date
+                currentBatchIndex = findCurrentBatchIndex();
+                selectBatch(currentBatchIndex);
+
             } catch (e) {
                 const batchInfo = document.getElementById('batchInfo');
                 if (batchInfo) batchInfo.textContent = '일정 데이터를 불러올 수 없습니다';
             }
         }
 
-        function generateMonthTabs() {
-            const monthTabs = document.getElementById('monthTabs');
-            if (!monthTabs || !notionData.length) return;
-
-            const batchMap = {};
-            notionData.forEach(course => {
-                const batch = extractBatchNumber(course);
-                if (!batchMap[batch]) batchMap[batch] = { batch, status: course.status || '준비중', firstDate: course.date };
-            });
-
-            const batches = Object.values(batchMap).sort((a, b) => a.batch - b.batch);
-            const getStatusText = s => s.includes('완료') || s.includes('종료') ? '완료' : s.includes('진행') ? '진행중' : s.includes('모집') ? '모집중' : '준비중';
-
-            monthTabs.innerHTML = batches.map((b, i) =>
-                `<div class="month-tab ${i === 0 ? 'active' : ''}" data-batch="${b.batch}">${b.batch}기 (${getStatusText(b.status)})</div>`
-            ).join('');
-
-            document.querySelectorAll('.month-tab').forEach(tab => {
-                tab.addEventListener('click', function() {
-                    document.querySelectorAll('.month-tab').forEach(t => t.classList.remove('active'));
-                    this.classList.add('active');
-                    const batch = parseInt(this.dataset.batch);
-                    const bd = notionData.find(item => extractBatchNumber(item) === batch);
-                    if (bd && bd.date) {
-                        const [year, month] = bd.date.split('-').map(Number);
-                        updateCalendar(month, year, batch);
-                    }
-                });
-            });
+        async function fetchReviews() {
+            if (reviewsData.length > 0) return;
+            try {
+                const response = await fetch('./data/reviews.json?t=' + Date.now());
+                if (!response.ok) return;
+                const data = await response.json();
+                reviewsData = (data.data || []).filter(r => r.category === 'bootcamp');
+            } catch (e) { /* silent */ }
         }
+
+        function selectBatch(index) {
+            if (index < 0 || index >= batchList.length) return;
+            currentBatchIndex = index;
+            const info = batchList[index];
+
+            // Filter data for this batch
+            notionData = allData.filter(item => extractBatchNumber(item) === info.batch);
+
+            // Update batch nav UI
+            updateBatchNav();
+            updateScheduleLegend();
+
+            // Show first month of this batch
+            if (notionData.length > 0) {
+                const [year, month] = notionData[0].date.split('-').map(Number);
+                updateCalendar(month, year, info.batch);
+            }
+
+            // Show/hide reviews based on batch status
+            updateBatchReviews();
+        }
+
+        function updateBatchNav() {
+            const info = batchList[currentBatchIndex];
+            const currentEl = document.getElementById('batchNavCurrent');
+            const prevBtn = document.getElementById('prevBatchBtn');
+            const nextBtn = document.getElementById('nextBatchBtn');
+
+            const statusText = getStatusText(info.status);
+            const statusLabel = statusText === '종료' ? '완료' : statusText;
+            currentEl.innerHTML = `${info.batch}기<span class="batch-status">${statusLabel}</span>`;
+
+            prevBtn.disabled = currentBatchIndex <= 0;
+            nextBtn.disabled = currentBatchIndex >= batchList.length - 1;
+        }
+
+        async function updateBatchReviews() {
+            const info = batchList[currentBatchIndex];
+            const panel = document.getElementById('batchReviews');
+            if (!panel) return;
+
+            if (isBatchCompleted(info.status)) {
+                await fetchReviews();
+                if (reviewsData.length > 0) {
+                    panel.classList.add('active');
+                    const title = document.getElementById('batchReviewsTitle');
+                    const subtitle = document.getElementById('batchReviewsSubtitle');
+                    title.textContent = `${info.batch}기 수강 후기`;
+                    subtitle.textContent = `부트캠프 수강생들의 실제 후기 (${reviewsData.length}개)`;
+                    reviewsShown = 0;
+                    document.getElementById('batchReviewsGrid').innerHTML = '';
+                    loadMoreReviews();
+                } else {
+                    panel.classList.remove('active');
+                }
+            } else {
+                panel.classList.remove('active');
+            }
+        }
+
+        window.loadMoreReviews = function() {
+            const grid = document.getElementById('batchReviewsGrid');
+            const moreBtn = document.getElementById('batchReviewsMore');
+            const end = Math.min(reviewsShown + REVIEWS_PER_PAGE, reviewsData.length);
+
+            for (let i = reviewsShown; i < end; i++) {
+                const r = reviewsData[i];
+                const stars = '★'.repeat(r.rating || 5) + '☆'.repeat(5 - (r.rating || 5));
+                const card = document.createElement('div');
+                card.className = 'batch-review-card fade-up';
+                card.innerHTML = `
+                    <div class="batch-review-stars">${stars}</div>
+                    <p class="batch-review-text">${r.content || ''}</p>
+                    <span class="batch-review-author">${r.author || '수강생'}<span class="batch-review-date">${r.date || ''}</span></span>`;
+                grid.appendChild(card);
+                // Trigger animation
+                requestAnimationFrame(() => card.classList.add('visible'));
+            }
+            reviewsShown = end;
+            moreBtn.style.display = reviewsShown >= reviewsData.length ? 'none' : 'block';
+        };
+
+        window.navigateBatch = function(direction) {
+            selectBatch(currentBatchIndex + direction);
+        };
 
         function updateScheduleLegend() {
             const legendEl = document.getElementById('scheduleLegend');
             if (!legendEl || !notionData.length) return;
 
-            const activeBatches = [...new Set(notionData.map(item => extractBatchNumber(item)))].sort((a, b) => a - b);
-            const activeStatuses = [...new Set(notionData.map(item => item.status || '준비중'))];
-            const statusOrder = ['준비중', '모집중', '진행중', '종료'];
-            const sortedStatuses = statusOrder.filter(s => activeStatuses.includes(s));
+            const info = batchList[currentBatchIndex];
+            const batchNum = info.batch;
+            const statusText = getStatusText(info.status);
 
             legendEl.innerHTML = `
                 <div class="legend-section">
-                    ${activeBatches.map(b => `<div class="legend-item"><span class="legend-color" style="background: ${batchConfig[getBatchColorIndex(b)].color}"></span><span class="legend-text">${b}기</span></div>`).join('')}
+                    <div class="legend-item"><span class="legend-color" style="background: ${batchConfig[getBatchColorIndex(batchNum)].color}"></span><span class="legend-text">${batchNum}기</span></div>
                 </div>
                 <div class="legend-section">
-                    ${sortedStatuses.map(s => `<div class="legend-item"><span class="legend-text">${statusConfig[s]?.icon || '⚪'} ${statusConfig[s]?.label || s}</span></div>`).join('')}
+                    <div class="legend-item"><span class="legend-text">${statusConfig[statusText]?.icon || '⚪'} ${statusConfig[statusText]?.label || statusText}</span></div>
                 </div>`;
         }
 
@@ -1600,10 +1760,14 @@
             });
 
             const batchInfo = document.getElementById('batchInfo');
-            if (monthData.length > 0 && batchInfo) {
-                const bn = extractBatchNumber(monthData[0]);
-                const st = monthData[0].status || '준비중';
-                batchInfo.textContent = `${bn}기 (${st.includes('종료') ? '완료' : st})`;
+            if (batchInfo) {
+                if (monthData.length > 0) {
+                    const [startM] = notionData[0].date.split('-').slice(1).map(Number);
+                    const [endM] = notionData[notionData.length - 1].date.split('-').slice(1).map(Number);
+                    batchInfo.textContent = `${startM}월 ~ ${endM}월 진행`;
+                } else {
+                    batchInfo.textContent = '이번 달에는 수업이 없습니다';
+                }
             }
 
             document.querySelector('.calendar-month').textContent = `${month}월`;
@@ -1623,12 +1787,13 @@
             if (newMonth > 12) { newMonth = 1; newYear++; }
             else if (newMonth < 1) { newMonth = 12; newYear--; }
 
-            const monthData = notionData.filter(c => { const [y, m] = c.date.split('-').map(Number); return m === newMonth && y === newYear; });
-            if (monthData.length > 0) {
-                const batch = extractBatchNumber(monthData[0]);
-                const tab = document.querySelector(`.month-tab[data-batch="${batch}"]`);
-                if (tab) { document.querySelectorAll('.month-tab').forEach(t => t.classList.remove('active')); tab.classList.add('active'); }
-                updateCalendar(newMonth, newYear, batch);
+            // Only navigate within current batch's months
+            const hasData = notionData.some(c => {
+                const [y, m] = c.date.split('-').map(Number);
+                return m === newMonth && y === newYear;
+            });
+            if (hasData) {
+                updateCalendar(newMonth, newYear, currentBatch);
             } else {
                 updateCalendar(newMonth, newYear);
             }
