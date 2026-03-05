@@ -442,6 +442,101 @@
             color: var(--blue);
         }
 
+        /* ===== Schedule Calendar ===== */
+        .calendar-container { max-width: 900px; margin: 0 auto; }
+        .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-6); }
+        .calendar-title { text-align: center; }
+        .calendar-month { font-size: var(--text-2xl); font-weight: var(--font-bold); color: var(--blue); }
+        .calendar-year { font-size: var(--text-base); color: var(--text-secondary); }
+        .calendar-nav-btn {
+            width: 40px; height: 40px; background: var(--bg-tertiary); border: 1px solid var(--border-color);
+            border-radius: 50%; color: var(--text-secondary); cursor: pointer; transition: all var(--transition-fast);
+            display: flex; align-items: center; justify-content: center; font-size: var(--text-lg);
+        }
+        .calendar-nav-btn:hover { background: var(--blue); color: #fff; border-color: var(--blue); }
+        .calendar-nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+        .calendar-grid {
+            display: grid; grid-template-columns: repeat(7, 1fr); gap: var(--space-2); margin-bottom: var(--space-6);
+        }
+        .calendar-day-header { text-align: center; font-size: var(--text-sm); font-weight: var(--font-semibold); color: var(--blue); padding: var(--space-2); }
+        .calendar-day {
+            background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: var(--radius-sm);
+            padding: var(--space-3); min-height: 80px; transition: all var(--transition-fast); display: flex; flex-direction: column; overflow: hidden;
+        }
+        .calendar-day:hover { border-color: var(--blue); }
+        .calendar-day.empty { background: transparent; border: none; }
+        .calendar-day.class-day { background: rgba(0, 113, 227, 0.1); border-color: var(--blue); }
+        .calendar-day.batch-1 { background: rgba(0, 113, 227, 0.12); border-color: #0071e3; }
+        .calendar-day.batch-1 .calendar-event { background: linear-gradient(135deg, #0071e3 0%, #00a1ff 100%); }
+        .calendar-day.batch-2 { background: rgba(52, 199, 89, 0.12); border-color: #34c759; }
+        .calendar-day.batch-2 .calendar-event { background: linear-gradient(135deg, #34c759 0%, #30d158 100%); }
+        .calendar-day.batch-3 { background: rgba(255, 149, 0, 0.12); border-color: #ff9500; }
+        .calendar-day.batch-3 .calendar-event { background: linear-gradient(135deg, #ff9500 0%, #ffb340 100%); }
+        .calendar-day.batch-4 { background: rgba(175, 82, 222, 0.12); border-color: #af52de; }
+        .calendar-day.batch-4 .calendar-event { background: linear-gradient(135deg, #af52de 0%, #da8fff 100%); }
+        .calendar-day.batch-5 { background: rgba(255, 45, 85, 0.12); border-color: #ff2d55; }
+        .calendar-day.batch-5 .calendar-event { background: linear-gradient(135deg, #ff2d55 0%, #ff6482 100%); }
+        .calendar-day.batch-6 { background: rgba(90, 200, 250, 0.12); border-color: #5ac8fa; }
+        .calendar-day.batch-6 .calendar-event { background: linear-gradient(135deg, #5ac8fa 0%, #70d7ff 100%); }
+        .status-badge { font-size: 10px; margin-left: auto; }
+        .calendar-day-number { font-size: var(--text-sm); color: var(--text-secondary); margin-bottom: var(--space-1); flex-shrink: 0; }
+        .calendar-day.class-day .calendar-day-number { color: var(--blue); font-weight: var(--font-semibold); }
+        .calendar-event {
+            font-size: var(--text-xs); background: var(--blue); color: #fff; padding: 3px 6px; border-radius: var(--radius-sm);
+            display: block; margin-bottom: var(--space-1); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%;
+        }
+        .calendar-session-type { font-size: 10px; color: var(--text-secondary); margin-bottom: 2px; }
+        .calendar-assignment { font-size: 10px; color: var(--blue); display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .schedule-legend { display: flex; flex-direction: column; align-items: center; gap: var(--space-4); }
+        .legend-section { display: flex; justify-content: center; gap: var(--space-6); flex-wrap: wrap; }
+        .legend-item { display: flex; align-items: center; gap: var(--space-2); }
+        .legend-color { width: 14px; height: 16px; border-radius: var(--radius-sm); }
+        .legend-text { font-size: var(--text-sm); color: var(--text-secondary); }
+        .month-tabs { display: flex; justify-content: center; gap: var(--space-3); margin-bottom: var(--space-6); flex-wrap: wrap; }
+        .month-tab {
+            padding: var(--space-2) var(--space-4); background: var(--bg-tertiary); border: 1px solid var(--border-color);
+            border-radius: var(--radius-full); font-size: var(--text-sm); color: var(--text-secondary); cursor: pointer; transition: all var(--transition-fast);
+        }
+        .month-tab:hover { border-color: var(--blue); }
+        .month-tab.active { background: var(--blue); color: #fff; border-color: var(--blue); }
+        .batch-info { text-align: center; font-size: var(--text-base); color: var(--blue); margin-bottom: var(--space-6); }
+        .view-toggle { display: flex; gap: var(--space-2); margin-bottom: var(--space-4); justify-content: center; }
+        .view-toggle-btn {
+            padding: var(--space-2) var(--space-4); background: var(--bg-tertiary); border: 1px solid var(--border-color);
+            border-radius: var(--radius-md); font-size: var(--text-sm); color: var(--text-secondary); cursor: pointer;
+            transition: all var(--transition-fast); display: flex; align-items: center; gap: var(--space-2);
+        }
+        .view-toggle-btn:hover { border-color: var(--blue); }
+        .view-toggle-btn.active { background: var(--blue); color: #fff; border-color: var(--blue); }
+        .view-toggle-btn svg { width: 16px; height: 16px; }
+        .calendar-list { display: none; flex-direction: column; gap: var(--space-3); margin-bottom: var(--space-6); }
+        .calendar-list.active { display: flex; }
+        .calendar-grid.hidden { display: none; }
+        .calendar-list-item {
+            display: flex; align-items: center; gap: var(--space-4); padding: var(--space-4);
+            background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: var(--radius-md); transition: all var(--transition-fast);
+        }
+        .calendar-list-item:hover { border-color: var(--blue); }
+        .calendar-list-item.class-day { background: rgba(0, 113, 227, 0.1); border-color: var(--blue); }
+        .list-date {
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            min-width: 60px; padding: var(--space-2) var(--space-3); background: var(--blue); border-radius: var(--radius-md); color: #fff;
+        }
+        .list-day { font-size: var(--text-2xl); font-weight: var(--font-bold); line-height: 1; }
+        .list-weekday { font-size: var(--text-xs); opacity: 0.9; }
+        .list-content { flex: 1; }
+        .list-title { font-size: var(--text-base); font-weight: var(--font-semibold); color: var(--text-primary); margin-bottom: var(--space-1); }
+        .list-meta { font-size: var(--text-sm); color: var(--text-secondary); display: flex; gap: var(--space-3); flex-wrap: wrap; }
+        .list-meta span { display: flex; align-items: center; gap: var(--space-1); }
+        @media (max-width: 768px) {
+            .calendar-grid { gap: 2px; }
+            .calendar-day { padding: var(--space-2); min-height: 60px; }
+            .calendar-day-number { font-size: var(--text-xs); }
+            .calendar-event { font-size: 9px; padding: 1px 4px; }
+            .calendar-assignment { font-size: 8px; }
+            .schedule-legend { flex-direction: column; align-items: center; }
+        }
+
         /* ===== Instructor Section ===== */
         .instructor-content {
             display: grid;
@@ -948,8 +1043,55 @@
             </div>
         </section>
 
+        <!-- Schedule Calendar -->
+        <section id="schedule" class="section section-alt">
+            <div class="section-header fade-up">
+                <h2>수업 일정</h2>
+                <p>Notion 연동 실시간 강의 스케줄</p>
+            </div>
+            <div class="container" style="max-width: 960px;">
+                <div class="month-tabs" id="monthTabs"></div>
+                <div class="batch-info" id="batchInfo">강의 일정을 불러오는 중...</div>
+
+                <div class="calendar-container fade-up">
+                    <div class="calendar-header">
+                        <button class="calendar-nav-btn" id="prevMonth" onclick="navigateMonth(-1)">&lt;</button>
+                        <div class="calendar-title">
+                            <div class="calendar-month">-</div>
+                            <div class="calendar-year">-</div>
+                        </div>
+                        <button class="calendar-nav-btn" id="nextMonth" onclick="navigateMonth(1)">&gt;</button>
+                    </div>
+
+                    <div class="view-toggle">
+                        <button class="view-toggle-btn active" id="gridViewBtn" onclick="setCalendarView('grid')">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect>
+                                <rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect>
+                            </svg>
+                            달력
+                        </button>
+                        <button class="view-toggle-btn" id="listViewBtn" onclick="setCalendarView('list')">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line>
+                                <line x1="8" y1="18" x2="21" y2="18"></line>
+                                <line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line>
+                                <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                            </svg>
+                            목록
+                        </button>
+                    </div>
+
+                    <div class="calendar-grid" id="calendarGrid"></div>
+                    <div class="calendar-list" id="calendarList"></div>
+
+                    <div class="schedule-legend" id="scheduleLegend"></div>
+                </div>
+            </div>
+        </section>
+
         <!-- Instructor -->
-        <section id="instructor" class="section section-alt">
+        <section id="instructor" class="section">
             <div class="section-header fade-up">
                 <h2>강사 소개</h2>
             </div>
@@ -1260,6 +1402,269 @@
                 submitBtn.textContent = originalText;
             }
         });
+    </script>
+
+    <!-- Schedule Calendar Script -->
+    <script>
+    (function() {
+        let notionData = [];
+        let currentDisplayMonth = null;
+        let currentDisplayYear = null;
+        let currentBatch = null;
+        let currentView = 'grid';
+
+        const statusConfig = {
+            '준비중': { icon: '⏳', label: '준비중' },
+            '모집중': { icon: '📢', label: '모집중' },
+            '진행중': { icon: '▶️', label: '진행중' },
+            '종료': { icon: '✅', label: '종료' }
+        };
+
+        const batchConfig = {
+            1: { color: '#0071e3' }, 2: { color: '#34c759' }, 3: { color: '#ff9500' },
+            4: { color: '#af52de' }, 5: { color: '#ff2d55' }, 6: { color: '#5ac8fa' }
+        };
+
+        function extractBatchNumber(item) {
+            if (item && typeof item === 'object') {
+                if (item.batch) return item.batch;
+                if (item.notionData?.batch) return item.notionData.batch;
+                const name = item.name || item.notionData?.title || '';
+                const match = name.match(/(\d+)기/);
+                return match ? parseInt(match[1]) : 1;
+            }
+            return 1;
+        }
+
+        function getBatchColorIndex(n) { return ((n - 1) % 6) + 1; }
+
+        async function fetchNotionData() {
+            try {
+                const response = await fetch('./data/schedule.json?t=' + Date.now());
+                if (!response.ok) throw new Error('load failed');
+                const data = await response.json();
+                if (!data.success || !data.data || data.data.length === 0) throw new Error('no data');
+
+                notionData = [];
+                data.data.forEach(course => {
+                    if (course.status === '종료') return;
+                    if (course.schedule && course.schedule.length > 0) notionData.push(...course.schedule);
+                    else if (course.date) notionData.push(course);
+                });
+
+                generateMonthTabs();
+                updateScheduleLegend();
+
+                if (notionData.length > 0) {
+                    const [year, month] = notionData[0].date.split('-').map(Number);
+                    updateCalendar(month, year);
+                }
+            } catch (e) {
+                const batchInfo = document.getElementById('batchInfo');
+                if (batchInfo) batchInfo.textContent = '일정 데이터를 불러올 수 없습니다';
+            }
+        }
+
+        function generateMonthTabs() {
+            const monthTabs = document.getElementById('monthTabs');
+            if (!monthTabs || !notionData.length) return;
+
+            const batchMap = {};
+            notionData.forEach(course => {
+                const batch = extractBatchNumber(course);
+                if (!batchMap[batch]) batchMap[batch] = { batch, status: course.status || '준비중', firstDate: course.date };
+            });
+
+            const batches = Object.values(batchMap).sort((a, b) => a.batch - b.batch);
+            const getStatusText = s => s.includes('완료') || s.includes('종료') ? '완료' : s.includes('진행') ? '진행중' : s.includes('모집') ? '모집중' : '준비중';
+
+            monthTabs.innerHTML = batches.map((b, i) =>
+                `<div class="month-tab ${i === 0 ? 'active' : ''}" data-batch="${b.batch}">${b.batch}기 (${getStatusText(b.status)})</div>`
+            ).join('');
+
+            document.querySelectorAll('.month-tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    document.querySelectorAll('.month-tab').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    const batch = parseInt(this.dataset.batch);
+                    const bd = notionData.find(item => extractBatchNumber(item) === batch);
+                    if (bd && bd.date) {
+                        const [year, month] = bd.date.split('-').map(Number);
+                        updateCalendar(month, year, batch);
+                    }
+                });
+            });
+        }
+
+        function updateScheduleLegend() {
+            const legendEl = document.getElementById('scheduleLegend');
+            if (!legendEl || !notionData.length) return;
+
+            const activeBatches = [...new Set(notionData.map(item => extractBatchNumber(item)))].sort((a, b) => a - b);
+            const activeStatuses = [...new Set(notionData.map(item => item.status || '준비중'))];
+            const statusOrder = ['준비중', '모집중', '진행중', '종료'];
+            const sortedStatuses = statusOrder.filter(s => activeStatuses.includes(s));
+
+            legendEl.innerHTML = `
+                <div class="legend-section">
+                    ${activeBatches.map(b => `<div class="legend-item"><span class="legend-color" style="background: ${batchConfig[getBatchColorIndex(b)].color}"></span><span class="legend-text">${b}기</span></div>`).join('')}
+                </div>
+                <div class="legend-section">
+                    ${sortedStatuses.map(s => `<div class="legend-item"><span class="legend-text">${statusConfig[s]?.icon || '⚪'} ${statusConfig[s]?.label || s}</span></div>`).join('')}
+                </div>`;
+        }
+
+        function generateDynamicCalendar(data, targetMonth, targetYear) {
+            let html = '';
+            ['일','월','화','수','목','금','토'].forEach(d => { html += `<div class="calendar-day-header">${d}</div>`; });
+
+            const firstDay = new Date(targetYear, targetMonth - 1, 1);
+            const daysInMonth = new Date(targetYear, targetMonth, 0).getDate();
+
+            for (let i = 0; i < firstDay.getDay(); i++) html += '<div class="calendar-day empty"></div>';
+
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dateStr = `${targetYear}-${String(targetMonth).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+                const session = data.find(item => item.date === dateStr);
+
+                if (session) {
+                    const batch = extractBatchNumber(session);
+                    const batchClass = `batch-${getBatchColorIndex(batch)}`;
+                    const status = session.status || '준비중';
+                    const statusIcon = statusConfig[status]?.icon || '⚪';
+                    const isLecture = session.type === 'lecture';
+                    const weekLabel = session.label || `${session.week}주차`;
+                    const assignmentDot = session.hasAssignment ? '<div class="calendar-assignment">\u2022 과제</div>' : '';
+
+                    html += `<div class="calendar-day class-day ${batchClass}" title="${session.name} - ${status}">
+                        <div class="calendar-day-number">${day} <span class="status-badge">${statusIcon}</span></div>
+                        <div class="calendar-event">${batch}기 ${weekLabel}</div>
+                        <div class="calendar-session-type">${isLecture ? '📚 수업' : '📝 피드백'}</div>
+                        ${assignmentDot}</div>`;
+                } else {
+                    html += `<div class="calendar-day"><div class="calendar-day-number">${day}</div></div>`;
+                }
+            }
+            return html;
+        }
+
+        const weeklyContent = {
+            1: { lecture: '현직자 직무 에센스 강의 및 Q&A', assignment: 'SCM 프로세스 도식화', desc: '직무 입문 방법, 실제 업무, 요구 역량 학습' },
+            2: { lecture: '리드멘토 개별 리뷰 및 피드백', assignment: 'SCM 이슈 분석', desc: '1차 과제 피드백 + 마인드맵 도식화' },
+            3: { lecture: 'SAP ERP 연결고리 이해', assignment: '재무 Integration 실습', desc: 'SCM과 SAP ERP 연계, 디지털 전환 사례' },
+            4: { lecture: '3차 업무 피드백 및 심화 학습', assignment: '프로세스 개선 포트폴리오', desc: 'SCM 트렌드 및 커리어 로드맵 수립' },
+            5: { lecture: '업무 발표 및 최종 피드백', assignment: null, desc: '포트폴리오 발표 + Resume 방향 정리' }
+        };
+
+        function generateListView(data, month, year) {
+            const weekdays = ['일','월','화','수','목','금','토'];
+            const sorted = [...data].sort((a, b) => new Date(a.date) - new Date(b.date));
+            if (!sorted.length) return '<div class="calendar-list-item" style="justify-content: center; color: var(--text-secondary);">이번 달에는 강의 일정이 없습니다.</div>';
+
+            return sorted.map(item => {
+                const [y, m, d] = item.date.split('-').map(Number);
+                const date = new Date(y, m - 1, d);
+                const batch = extractBatchNumber(item);
+                const batchClass = `batch-${getBatchColorIndex(batch)}`;
+                const week = item.week || 1;
+                const wc = weeklyContent[week] || weeklyContent[1];
+                const isLecture = item.type === 'lecture';
+                return `<div class="calendar-list-item class-day ${batchClass}">
+                    <div class="list-date"><span class="list-day">${d}</span><span class="list-weekday">${weekdays[date.getDay()]}</span></div>
+                    <div class="list-content">
+                        <div class="list-title">${week}주차 · ${wc.lecture}</div>
+                        <div class="list-meta"><span>${isLecture ? '📚' : '📝'} ${batch}기</span>${wc.assignment ? `<span>📋 ${wc.assignment}</span>` : ''}</div>
+                        <div style="font-size: var(--text-xs); color: var(--text-tertiary); margin-top: 4px;">${wc.desc}</div>
+                    </div></div>`;
+            }).join('');
+        }
+
+        function updateCalendar(month, year, batch) {
+            currentDisplayMonth = month;
+            currentDisplayYear = year;
+            if (batch !== undefined) currentBatch = batch;
+
+            const grid = document.getElementById('calendarGrid');
+            if (!grid) return;
+
+            const monthData = notionData.filter(item => {
+                const [iy, im] = item.date.split('-').map(Number);
+                return im === month && iy === year;
+            });
+
+            const batchInfo = document.getElementById('batchInfo');
+            if (monthData.length > 0 && batchInfo) {
+                const bn = extractBatchNumber(monthData[0]);
+                const st = monthData[0].status || '준비중';
+                batchInfo.textContent = `${bn}기 (${st.includes('종료') ? '완료' : st})`;
+            }
+
+            document.querySelector('.calendar-month').textContent = `${month}월`;
+            document.querySelector('.calendar-year').textContent = `${year}년`;
+            grid.innerHTML = generateDynamicCalendar(monthData, month, year);
+
+            const list = document.getElementById('calendarList');
+            if (list) list.innerHTML = generateListView(monthData, month, year);
+
+            updateNavigationButtons();
+        }
+
+        window.navigateMonth = function(direction) {
+            if (!currentDisplayMonth || !currentDisplayYear) return;
+            let newMonth = currentDisplayMonth + direction;
+            let newYear = currentDisplayYear;
+            if (newMonth > 12) { newMonth = 1; newYear++; }
+            else if (newMonth < 1) { newMonth = 12; newYear--; }
+
+            const monthData = notionData.filter(c => { const [y, m] = c.date.split('-').map(Number); return m === newMonth && y === newYear; });
+            if (monthData.length > 0) {
+                const batch = extractBatchNumber(monthData[0]);
+                const tab = document.querySelector(`.month-tab[data-batch="${batch}"]`);
+                if (tab) { document.querySelectorAll('.month-tab').forEach(t => t.classList.remove('active')); tab.classList.add('active'); }
+                updateCalendar(newMonth, newYear, batch);
+            } else {
+                updateCalendar(newMonth, newYear);
+            }
+        };
+
+        window.updateNavigationButtons = function() {
+            const prevBtn = document.getElementById('prevMonth');
+            const nextBtn = document.getElementById('nextMonth');
+            if (!prevBtn || !nextBtn || !notionData.length) return;
+
+            const checkMonth = (dir) => notionData.some(c => {
+                const [y, m] = c.date.split('-').map(Number);
+                let nm = currentDisplayMonth + dir, ny = currentDisplayYear;
+                if (nm > 12) { nm = 1; ny++; } else if (nm < 1) { nm = 12; ny--; }
+                return m === nm && y === ny;
+            });
+            prevBtn.disabled = !checkMonth(-1);
+            nextBtn.disabled = !checkMonth(1);
+        };
+
+        window.setCalendarView = function(view) {
+            currentView = view;
+            const grid = document.getElementById('calendarGrid');
+            const list = document.getElementById('calendarList');
+            const gridBtn = document.getElementById('gridViewBtn');
+            const listBtn = document.getElementById('listViewBtn');
+
+            if (view === 'grid') {
+                grid.classList.remove('hidden'); list.classList.remove('active');
+                gridBtn.classList.add('active'); listBtn.classList.remove('active');
+            } else {
+                grid.classList.add('hidden'); list.classList.add('active');
+                gridBtn.classList.remove('active'); listBtn.classList.add('active');
+            }
+            localStorage.setItem('calendarView', view);
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchNotionData();
+            const saved = localStorage.getItem('calendarView');
+            setCalendarView(saved || 'grid');
+        });
+    })();
     </script>
 
     <!-- Theme Toggle -->

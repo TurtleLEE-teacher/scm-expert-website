@@ -13,6 +13,10 @@
       "destination": "/api/scm-demand.js"
     },
     {
+      "source": "/api/consultation",
+      "destination": "/api/consultation.js"
+    },
+    {
       "source": "/api/ebook-request",
       "destination": "/api/ebook-request.js"
     }
