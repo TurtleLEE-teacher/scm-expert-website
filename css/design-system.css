@@ -260,8 +260,7 @@ html {
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text',
-               'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   font-size: var(--text-base);
   font-weight: var(--font-regular);
   line-height: var(--leading-relaxed);
