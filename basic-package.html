@@ -4,31 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>기본 패키지 - 직무 지식 + 취업 준비 완성 | SCM Labs</title>
-    <meta name="description" content="SCM 5주 캠프 + 자소서 2회 + 면접 1회. 직무 지식부터 취업 준비까지 한 번에 완성하세요. 취업준비생과 주니어 이직 준비생을 위한 완벽한 패키지.">
+    <meta name="description" content="SCM 5주 캠프 + 자소서 2회 + 면접 1회. 직무 지식부터 취업 준비까지 한 번에 완성하세요.">
     <meta name="keywords" content="SCM 교육, 취업 준비, 자소서, 면접, 커리어 컨설팅, 직무 부트캠프">
-    <meta name="author" content="SCM Labs">
-    <meta name="robots" content="index, follow">
-
-    <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
     <link rel="apple-touch-icon" href="./images/apple-touch-icon.png">
-
-    <!-- Design System CSS -->
     <link rel="stylesheet" href="css/design-system.css">
 
     <style>
-        /* Logo */
+        /* ===== Logo & Nav ===== */
         .logo {
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             font-weight: var(--font-semibold);
             color: var(--text-primary);
             text-decoration: none;
         }
-        [data-theme="light"] .logo {
-            color: #1d1d1f;
-        }
-
-        /* Mobile menu toggle */
         .menu-toggle {
             display: none;
             background: none;
@@ -42,1308 +31,301 @@
             height: 2px;
             background-color: var(--text-primary);
             margin: 4px 0;
-            transition: var(--transition-fast);
         }
         @media (max-width: 768px) {
-            .menu-toggle {
-                display: block;
-            }
-            .header .btn-sm {
-                display: none;
-            }
+            .menu-toggle { display: block; }
+            .header .btn-sm { display: none; }
         }
 
-        /* Contact Modal */
-        .modal-overlay {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(8px);
-            z-index: var(--z-modal-backdrop);
-            opacity: 0;
-            visibility: hidden;
-            transition: all var(--transition-base);
-        }
-        .modal-overlay.active { opacity: 1; visibility: visible; }
-        .modal-container {
-            position: fixed;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%) scale(0.95);
-            width: 90%; max-width: 500px; max-height: 90vh;
-            overflow-y: auto;
-            background: var(--bg-elevated);
-            border-radius: var(--radius-xl);
-            padding: var(--space-8);
-            z-index: var(--z-modal);
-            opacity: 0; visibility: hidden;
-            transition: all var(--transition-base);
-        }
-        .modal-container.active {
-            opacity: 1; visibility: visible;
-            transform: translate(-50%, -50%) scale(1);
-        }
-        .modal-close {
-            position: absolute; top: var(--space-4); right: var(--space-4);
-            background: none; border: none;
-            font-size: 1.5rem; cursor: pointer;
-            color: var(--text-secondary);
-        }
-        .modal-title {
-            font-size: var(--text-2xl);
-            font-weight: var(--font-bold);
-            margin-bottom: var(--space-2);
-            text-align: center;
-        }
-        .modal-subtitle {
-            font-size: var(--text-sm);
-            color: var(--text-secondary);
-            text-align: center;
-            margin-bottom: var(--space-6);
-        }
-        .form-group { margin-bottom: var(--space-4); }
-        .form-label {
-            display: block;
-            font-size: var(--text-sm);
-            font-weight: var(--font-medium);
-            margin-bottom: var(--space-2);
-        }
-        .form-input {
-            width: 100%;
-            padding: var(--space-3) var(--space-4);
-            font-size: var(--text-base);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-md);
-            background: var(--bg-secondary);
-            color: var(--text-primary);
-        }
-        .form-input:focus { outline: none; border-color: var(--blue); }
-        textarea.form-input { min-height: 100px; resize: vertical; }
-        .form-select {
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2386868b' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right var(--space-4) center;
-        }
-        .form-submit { width: 100%; margin-top: var(--space-4); }
-        .form-success { display: none; text-align: center; padding: var(--space-8); }
-        .form-success.show { display: block; }
-        .form-success-icon { font-size: 3rem; margin-bottom: var(--space-4); }
-
-        /* Hero */
+        /* ===== Hero ===== */
         .hero {
-            min-height: 80vh;
+            min-height: 60vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: calc(var(--header-height) + var(--space-16)) var(--space-6) var(--space-16);
+            padding: calc(var(--header-height) + var(--space-12)) var(--space-6) var(--space-10);
         }
         .hero-badge {
             display: inline-flex;
             align-items: center;
             gap: var(--space-2);
-            padding: var(--space-2) var(--space-4);
+            padding: var(--space-1) var(--space-4);
             background-color: var(--bg-secondary);
             border-radius: var(--radius-full);
-            font-size: var(--text-sm);
+            font-size: var(--text-xs);
             color: var(--text-secondary);
-            margin-bottom: var(--space-6);
+            margin-bottom: var(--space-5);
         }
         .hero-badge-dot {
-            width: 8px;
-            height: 8px;
+            width: 6px;
+            height: 6px;
             background-color: var(--blue);
             border-radius: 50%;
         }
         .hero-title {
-            font-size: clamp(2.5rem, 8vw, 4rem);
+            font-size: clamp(2rem, 7vw, 3.5rem);
             font-weight: var(--font-bold);
-            letter-spacing: var(--tracking-tighter);
+            letter-spacing: -0.03em;
             line-height: 1.1;
-            margin-bottom: var(--space-6);
-            max-width: 800px;
-            color: var(--text-primary);
+            margin-bottom: var(--space-4);
         }
         .hero-subtitle {
-            font-size: clamp(1rem, 2.5vw, 1.25rem);
+            font-size: clamp(0.9rem, 2.5vw, 1.15rem);
             color: var(--text-secondary);
-            margin-bottom: var(--space-8);
-            max-width: 700px;
-            line-height: var(--leading-relaxed);
+            margin-bottom: var(--space-6);
+            max-width: 600px;
+            line-height: 1.6;
+        }
+        .hero-stats {
+            display: flex;
+            gap: var(--space-5);
+            margin-top: var(--space-6);
+        }
+        .hero-stat {
+            text-align: center;
+            padding: var(--space-3) var(--space-4);
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+        }
+        .hero-stat-number {
+            display: block;
+            font-size: var(--text-xl);
+            font-weight: var(--font-bold);
+            color: var(--blue);
+        }
+        .hero-stat-label {
+            font-size: var(--text-xs);
+            color: var(--text-tertiary);
+        }
+        @media (max-width: 480px) {
+            .hero-stats { flex-wrap: wrap; gap: var(--space-3); }
         }
 
-        /* Section */
-        .page-section {
-            padding: var(--space-24) var(--space-6);
+        /* ===== Section Common ===== */
+        .section {
+            padding: var(--space-16) var(--space-6);
         }
-        .page-section.alt {
+        .section-alt {
             background-color: var(--bg-secondary);
         }
         .section-header {
             text-align: center;
-            margin-bottom: var(--space-16);
+            margin-bottom: var(--space-10);
         }
         .section-header h2 {
-            font-size: var(--text-3xl);
+            font-size: clamp(1.5rem, 4vw, 2.25rem);
             font-weight: var(--font-bold);
-            margin-bottom: var(--space-4);
+            margin-bottom: var(--space-3);
         }
         .section-header p {
-            font-size: var(--text-lg);
-            color: var(--text-secondary);
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        /* Package Overview */
-        .package-overview {
-            max-width: 900px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: var(--space-8);
-        }
-        @media (max-width: 768px) {
-            .package-overview {
-                grid-template-columns: 1fr;
-            }
-        }
-        .package-part {
-            padding: var(--space-8);
-            background: var(--bg-tertiary);
-            border-radius: var(--radius-lg);
-            border: 2px solid var(--border-color);
-        }
-        .package-part h3 {
-            font-size: var(--text-xl);
-            font-weight: var(--font-bold);
-            color: var(--blue);
-            margin-bottom: var(--space-4);
-            display: flex;
-            align-items: center;
-            gap: var(--space-2);
-        }
-        .package-part ul {
-            list-style: none;
-        }
-        .package-part li {
-            padding: var(--space-2) 0;
             font-size: var(--text-sm);
             color: var(--text-secondary);
-            display: flex;
-            align-items: center;
-            gap: var(--space-2);
-        }
-        .package-part li::before {
-            content: "✓";
-            color: var(--blue);
-            font-weight: var(--font-bold);
+            max-width: 550px;
+            margin: 0 auto;
         }
 
-        /* Curriculum Week Card */
+        /* ===== Curriculum ===== */
         .curriculum-grid {
-            max-width: 900px;
+            max-width: 800px;
             margin: 0 auto;
         }
         .week-card {
             display: flex;
-            gap: var(--space-6);
-            padding: var(--space-6);
-            margin-bottom: var(--space-4);
+            gap: var(--space-5);
+            padding: var(--space-5);
+            margin-bottom: var(--space-3);
             background-color: var(--bg-tertiary);
             border-radius: var(--radius-lg);
             border: 1px solid var(--border-color);
-            transition: transform var(--transition-base), border-color var(--transition-base);
-        }
-        .week-card:hover {
-            transform: translateY(-2px);
-            border-color: var(--blue);
         }
         .week-number {
-            width: 64px;
-            height: 64px;
+            width: 48px;
+            height: 48px;
             background: linear-gradient(135deg, var(--blue) 0%, #00c6ff 100%);
             border-radius: var(--radius-md);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: var(--text-2xl);
+            font-size: var(--text-xl);
             font-weight: var(--font-bold);
             color: #fff;
             flex-shrink: 0;
         }
         .week-content h3 {
-            font-size: var(--text-lg);
+            font-size: var(--text-base);
             font-weight: var(--font-semibold);
-            margin-bottom: var(--space-2);
+            margin-bottom: var(--space-1);
         }
         .week-content p {
             font-size: var(--text-sm);
             color: var(--text-secondary);
             line-height: var(--leading-relaxed);
-            margin-bottom: var(--space-3);
+            margin-bottom: var(--space-2);
         }
         .deliverable {
             display: inline-block;
-            padding: var(--space-1) var(--space-3);
-            background-color: rgba(0, 113, 227, 0.15);
+            padding: 2px var(--space-2);
+            background-color: rgba(0, 113, 227, 0.12);
             color: var(--blue);
             border-radius: var(--radius-full);
             font-size: var(--text-xs);
             font-weight: var(--font-medium);
-            margin-bottom: var(--space-3);
-        }
-        .week-tasks {
-            margin-top: var(--space-3);
-            padding: var(--space-3);
-            background-color: rgba(0, 113, 227, 0.05);
-            border-radius: var(--radius-md);
-            border-left: 3px solid var(--blue);
-        }
-        .week-tasks h4 {
-            font-size: var(--text-sm);
-            font-weight: var(--font-semibold);
-            color: var(--blue);
-            margin-bottom: var(--space-2);
-        }
-        .week-tasks p {
-            font-size: var(--text-sm);
-            color: var(--text-secondary);
-            margin-bottom: 0;
         }
         @media (max-width: 768px) {
-            .week-card {
-                flex-direction: column;
-                text-align: center;
-            }
-            .week-number {
-                margin: 0 auto;
-            }
+            .week-card { flex-direction: column; text-align: center; }
+            .week-number { margin: 0 auto; }
         }
 
-        /* Instructor Card */
-        .instructor-card {
-            display: grid;
-            grid-template-columns: 220px 1fr;
-            gap: var(--space-10);
-            align-items: start;
-            max-width: 900px;
-            margin: 0 auto;
-            padding: var(--space-8);
-            background-color: var(--bg-tertiary);
-            border-radius: var(--radius-lg);
-            border: 1px solid var(--border-color);
-        }
-        .instructor-image-wrapper {
-            text-align: center;
-        }
-        .instructor-image {
-            width: 180px;
-            height: 180px;
-            border-radius: 50%;
-            overflow: hidden;
-            border: 3px solid var(--blue);
-            margin: 0 auto var(--space-4);
-        }
-        .instructor-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .instructor-name {
-            font-size: var(--text-lg);
-            font-weight: var(--font-semibold);
-            color: var(--blue);
-        }
-        .instructor-title {
-            font-size: var(--text-sm);
-            color: var(--text-tertiary);
-        }
-        .instructor-info h3 {
-            font-size: var(--text-xl);
-            font-weight: var(--font-bold);
-            margin-bottom: var(--space-4);
-        }
-        .salary-highlight {
-            padding: var(--space-4);
-            background-color: rgba(0, 113, 227, 0.1);
-            border-radius: var(--radius-md);
-            margin-bottom: var(--space-6);
-        }
-        .salary-highlight p {
-            font-size: var(--text-lg);
-            color: var(--blue);
-            margin: 0;
-            font-weight: var(--font-semibold);
-        }
-        .instructor-info ul {
-            list-style: none;
-        }
-        .instructor-info li {
-            padding: var(--space-2) 0;
-            font-size: var(--text-sm);
-            color: var(--text-secondary);
-            display: flex;
-            align-items: center;
-            gap: var(--space-2);
-        }
-        .instructor-info li::before {
-            content: "";
-            width: 6px;
-            height: 6px;
-            background-color: var(--blue);
-            border-radius: 50%;
-            flex-shrink: 0;
-        }
-        .salary-proof {
-            margin-top: var(--space-6);
-            padding: var(--space-4);
-            background-color: var(--bg-secondary);
-            border-radius: var(--radius-md);
-        }
-        .salary-proof h4 {
-            font-size: var(--text-sm);
-            color: var(--blue);
-            margin-bottom: var(--space-4);
-            text-align: center;
-        }
-        .salary-images {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: var(--space-4);
-        }
-        .salary-images > div {
-            text-align: center;
-        }
-        .salary-images img {
-            width: 100%;
-            border-radius: var(--radius-sm);
-            margin-bottom: var(--space-2);
-        }
-        .salary-images p {
-            font-size: var(--text-xs);
-            color: var(--text-tertiary);
-        }
-        @media (max-width: 768px) {
-            .instructor-card {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-            .instructor-info li {
-                justify-content: center;
-            }
-        }
-
-        /* Showcase Section */
-        .showcase-container {
-            max-width: 800px;
-            margin: 0 auto;
-            text-align: center;
-        }
-        .showcase-badge {
-            display: inline-block;
-            padding: var(--space-2) var(--space-4);
-            background: var(--blue);
-            color: white;
-            border-radius: var(--radius-full);
-            font-size: var(--text-sm);
-            font-weight: var(--font-semibold);
-            margin-bottom: var(--space-6);
-        }
-        .showcase-image-wrapper {
-            border-radius: var(--radius-lg);
-            overflow: hidden;
-            border: 1px solid var(--border-color);
-            margin-bottom: var(--space-4);
-        }
-        .showcase-image-wrapper img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-        .showcase-caption {
-            font-size: var(--text-sm);
-            color: var(--text-secondary);
-            line-height: var(--leading-relaxed);
-        }
-
-        /* Process Steps */
-        .process-grid {
-            display: flex;
-            justify-content: center;
-            gap: var(--space-6);
-            max-width: 1000px;
-            margin: 0 auto;
-            flex-wrap: wrap;
-        }
-        .process-step {
-            flex: 1;
-            min-width: 250px;
-            text-align: center;
-            padding: var(--space-6);
-        }
-        .process-number {
-            width: 56px;
-            height: 56px;
-            background: linear-gradient(135deg, var(--blue) 0%, #00c6ff 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto var(--space-4);
-            font-size: var(--text-xl);
-            font-weight: var(--font-bold);
-            color: #fff;
-        }
-        .process-step h3 {
-            font-size: var(--text-lg);
-            font-weight: var(--font-bold);
-            margin-bottom: var(--space-2);
-        }
-        .process-step p {
-            font-size: var(--text-sm);
-            color: var(--text-secondary);
-            line-height: var(--leading-relaxed);
-        }
-
-        /* Price Card */
-        .price-card {
+        /* ===== Target ===== */
+        .target-list {
             max-width: 600px;
             margin: 0 auto;
-            padding: var(--space-10);
+            list-style: none;
+        }
+        .target-list li {
+            padding: var(--space-3) 0;
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-2);
+            line-height: var(--leading-relaxed);
+        }
+        .target-list li::before {
+            content: "&#10003;";
+            color: #34c759;
+            font-weight: var(--font-bold);
+            flex-shrink: 0;
+        }
+
+        /* ===== Pricing ===== */
+        .price-card {
+            max-width: 560px;
+            margin: 0 auto;
+            padding: var(--space-8);
             background: var(--bg-tertiary);
-            border-radius: var(--radius-lg);
+            border-radius: var(--radius-xl);
             border: 2px solid var(--blue);
             text-align: center;
         }
-        .price-badge {
-            display: inline-block;
-            padding: var(--space-2) var(--space-4);
-            background: var(--blue);
-            color: white;
-            border-radius: var(--radius-full);
+        .price-info-row {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-5);
+            margin-bottom: var(--space-5);
+            padding-bottom: var(--space-5);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .price-info-item { text-align: center; }
+        .price-info-label {
+            font-size: var(--text-xs);
+            color: var(--text-tertiary);
+        }
+        .price-info-value {
             font-size: var(--text-sm);
             font-weight: var(--font-semibold);
-            margin-bottom: var(--space-6);
+            color: var(--text-primary);
+        }
+        @media (max-width: 480px) {
+            .price-info-row { flex-direction: column; gap: var(--space-3); }
         }
         .price-amount {
-            font-size: var(--text-5xl);
+            font-size: var(--text-4xl);
             font-weight: var(--font-bold);
             color: var(--blue);
             margin-bottom: var(--space-2);
         }
         .price-desc {
-            font-size: var(--text-base);
-            color: var(--text-secondary);
-            margin-bottom: var(--space-8);
-        }
-        .price-info-row {
-            display: flex;
-            justify-content: center;
-            gap: var(--space-6);
-            margin-bottom: var(--space-6);
-            padding-bottom: var(--space-6);
-            border-bottom: 1px solid var(--border-color);
-        }
-        .price-info-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: var(--space-1);
-        }
-        .price-info-label {
-            font-size: var(--text-sm);
-            color: var(--text-tertiary);
-        }
-        .price-info-value {
-            font-size: var(--text-base);
-            font-weight: var(--font-semibold);
-            color: var(--text-primary);
-        }
-        @media (max-width: 480px) {
-            .price-info-row {
-                flex-direction: column;
-                gap: var(--space-3);
-            }
-        }
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: var(--space-4);
-        }
-        @media (max-width: 480px) {
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-        }
-        .form-checkbox {
-            display: flex;
-            align-items: flex-start;
-            gap: var(--space-2);
-            cursor: pointer;
             font-size: var(--text-sm);
             color: var(--text-secondary);
-        }
-        .form-checkbox input[type="checkbox"] {
-            margin-top: 2px;
-            width: 16px;
-            height: 16px;
-            accent-color: var(--blue);
-        }
-        .conditional-fields {
-            animation: fadeIn 0.2s ease;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-8px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* FAQ */
-        .faq-list {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        .faq-item {
-            padding: var(--space-6);
-            background: var(--bg-tertiary);
-            border-radius: var(--radius-lg);
-            border: 1px solid var(--border-color);
-            margin-bottom: var(--space-4);
-        }
-        .faq-item h3 {
-            font-size: var(--text-base);
-            font-weight: var(--font-semibold);
-            color: var(--blue);
-            margin-bottom: var(--space-3);
-        }
-        .faq-item p {
-            font-size: var(--text-sm);
-            color: var(--text-secondary);
-            line-height: var(--leading-relaxed);
-        }
-
-        /* CTA */
-        .cta-section {
-            text-align: center;
-            padding: var(--space-24) var(--space-6);
-        }
-        .cta-section h2 {
-            font-size: var(--text-3xl);
-            font-weight: var(--font-bold);
-            margin-bottom: var(--space-4);
-        }
-        .cta-section p {
-            font-size: var(--text-lg);
-            color: var(--text-secondary);
-            margin-bottom: var(--space-8);
-        }
-
-        /* Footer */
-        .footer {
-            padding: var(--space-10) var(--space-6);
-            text-align: center;
-            border-top: 1px solid var(--border-color);
-        }
-        .footer p {
-            font-size: var(--text-sm);
-            color: var(--text-tertiary);
-        }
-
-        /* Scroll Animation */
-        .fade-up {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-        }
-        .fade-up.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Calendar Styles */
-        .calendar-container {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-        .calendar-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
             margin-bottom: var(--space-6);
         }
-        .calendar-title {
-            text-align: center;
-        }
-        .calendar-month {
-            font-size: var(--text-2xl);
-            font-weight: var(--font-bold);
-            color: var(--blue);
-        }
-        .calendar-year {
-            font-size: var(--text-base);
-            color: var(--text-secondary);
-        }
-        .calendar-nav-btn {
-            width: 40px;
-            height: 40px;
-            background: var(--bg-tertiary);
-            border: 1px solid var(--border-color);
-            border-radius: 50%;
-            color: var(--text-secondary);
-            cursor: pointer;
-            transition: all var(--transition-fast);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: var(--text-lg);
-        }
-        .calendar-nav-btn:hover {
-            background: var(--blue);
-            color: #fff;
-            border-color: var(--blue);
-        }
-        .calendar-nav-btn:disabled {
-            opacity: 0.3;
-            cursor: not-allowed;
-        }
-        .calendar-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: var(--space-2);
+        .price-features {
+            text-align: left;
             margin-bottom: var(--space-6);
-        }
-        .calendar-day-header {
-            text-align: center;
-            font-size: var(--text-sm);
-            font-weight: var(--font-semibold);
-            color: var(--blue);
-            padding: var(--space-2);
-        }
-        .calendar-day {
-            background: var(--bg-tertiary);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-sm);
-            padding: var(--space-3);
-            min-height: 85px;
-            transition: all var(--transition-fast);
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            justify-content: flex-start;
-            gap: 2px;
-        }
-        .calendar-day:hover {
-            border-color: var(--blue);
-        }
-        .calendar-day.empty {
-            background: transparent;
-            border: none;
-        }
-        .calendar-day.class-day {
-            background: rgba(0, 113, 227, 0.1);
-            border-color: var(--blue);
-        }
-        /* Batch-specific colors (기수별 색상) */
-        .calendar-day.batch-1 {
-            background: rgba(0, 113, 227, 0.12);
-            border-color: #0071e3;
-        }
-        .calendar-day.batch-1 .calendar-event {
-            background: linear-gradient(135deg, #0071e3 0%, #00a1ff 100%);
-        }
-        .calendar-day.batch-2 {
-            background: rgba(52, 199, 89, 0.12);
-            border-color: #34c759;
-        }
-        .calendar-day.batch-2 .calendar-event {
-            background: linear-gradient(135deg, #34c759 0%, #30d158 100%);
-        }
-        .calendar-day.batch-3 {
-            background: rgba(255, 149, 0, 0.12);
-            border-color: #ff9500;
-        }
-        .calendar-day.batch-3 .calendar-event {
-            background: linear-gradient(135deg, #ff9500 0%, #ffb340 100%);
-        }
-        .calendar-day.batch-4 {
-            background: rgba(175, 82, 222, 0.12);
-            border-color: #af52de;
-        }
-        .calendar-day.batch-4 .calendar-event {
-            background: linear-gradient(135deg, #af52de 0%, #da8fff 100%);
-        }
-        .calendar-day.batch-5 {
-            background: rgba(255, 45, 85, 0.12);
-            border-color: #ff2d55;
-        }
-        .calendar-day.batch-5 .calendar-event {
-            background: linear-gradient(135deg, #ff2d55 0%, #ff6482 100%);
-        }
-        .calendar-day.batch-6 {
-            background: rgba(90, 200, 250, 0.12);
-            border-color: #5ac8fa;
-        }
-        .calendar-day.batch-6 .calendar-event {
-            background: linear-gradient(135deg, #5ac8fa 0%, #70d7ff 100%);
-        }
-        /* Status icon badge */
-        .status-badge {
-            font-size: 10px;
-            margin-left: auto;
-        }
-        .calendar-day-number {
-            font-size: var(--text-sm);
-            color: var(--text-secondary);
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            gap: 3px;
-            width: 100%;
-            justify-content: space-between;
-        }
-        .calendar-day.class-day .calendar-day-number {
-            color: var(--text-primary);
-            font-weight: var(--font-semibold);
-        }
-        .calendar-event {
-            font-size: 11px;
-            font-weight: var(--font-semibold);
-            color: #fff;
-            background: var(--blue);
-            padding: 3px 6px;
-            border-radius: var(--radius-sm);
-            margin-bottom: 3px;
-            line-height: 1.2;
-        }
-        .calendar-type {
-            font-size: 9px;
-            background: rgba(0, 113, 227, 0.15);
-            color: var(--blue);
-            padding: 2px 6px;
-            border-radius: 10px;
-            text-align: center;
-            font-weight: var(--font-medium);
-            display: inline-block;
-            width: fit-content;
-            margin: 0 auto;
-        }
-        .calendar-session-type {
-            font-size: 10px;
-            color: var(--text-secondary);
-            margin-bottom: 2px;
-        }
-        .calendar-assignment {
-            font-size: 10px;
-            color: var(--blue);
-            display: block;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .schedule-legend {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: var(--space-4);
-        }
-        .legend-section {
-            display: flex;
-            justify-content: center;
-            gap: var(--space-6);
-            flex-wrap: wrap;
-        }
-        .legend-section-title {
-            font-size: var(--text-xs);
-            color: var(--text-tertiary);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: var(--space-2);
-            text-align: center;
-        }
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: var(--space-2);
-        }
-        .legend-color {
-            width: 14px;
-            height: 14px;
-            border-radius: var(--radius-sm);
-        }
-        .legend-text {
-            font-size: var(--text-sm);
-            color: var(--text-secondary);
-        }
-        .month-tabs {
-            display: flex;
-            justify-content: center;
-            gap: var(--space-3);
-            margin-bottom: var(--space-6);
-            flex-wrap: wrap;
-        }
-        .month-tab {
-            padding: var(--space-2) var(--space-4);
-            background: var(--bg-tertiary);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-full);
-            font-size: var(--text-sm);
-            color: var(--text-secondary);
-            cursor: pointer;
-            transition: all var(--transition-fast);
-        }
-        .month-tab:hover {
-            border-color: var(--blue);
-        }
-        .month-tab.active {
-            background: var(--blue);
-            color: #fff;
-            border-color: var(--blue);
-        }
-        .batch-info {
-            text-align: center;
-            font-size: var(--text-base);
-            color: var(--blue);
-            margin-bottom: var(--space-6);
-        }
-        /* View Toggle Button */
-        .view-toggle {
-            display: flex;
-            gap: var(--space-2);
-            margin-bottom: var(--space-4);
-            justify-content: center;
-        }
-        .view-toggle-btn {
-            padding: var(--space-2) var(--space-4);
-            background: var(--bg-tertiary);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-md);
-            font-size: var(--text-sm);
-            color: var(--text-secondary);
-            cursor: pointer;
-            transition: all var(--transition-fast);
-            display: flex;
-            align-items: center;
-            gap: var(--space-2);
-        }
-        .view-toggle-btn:hover {
-            border-color: var(--blue);
-        }
-        .view-toggle-btn.active {
-            background: var(--blue);
-            color: #fff;
-            border-color: var(--blue);
-        }
-        .view-toggle-btn svg {
-            width: 16px;
-            height: 16px;
-        }
-
-        /* Calendar List View */
-        .calendar-list {
-            display: none;
-            flex-direction: column;
-            gap: var(--space-3);
-            margin-bottom: var(--space-6);
-        }
-        .calendar-list.active {
-            display: flex;
-        }
-        .calendar-grid.hidden {
-            display: none;
-        }
-        .calendar-list-item {
-            display: flex;
-            align-items: center;
-            gap: var(--space-4);
             padding: var(--space-4);
-            background: var(--bg-tertiary);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-md);
-            transition: all var(--transition-fast);
-        }
-        .calendar-list-item:hover {
-            border-color: var(--blue);
-        }
-        .calendar-list-item.class-day {
-            background: rgba(0, 113, 227, 0.1);
-            border-color: var(--blue);
-        }
-        /* List view batch-specific colors (기수별 색상) */
-        .calendar-list-item.batch-1 {
-            background: rgba(0, 113, 227, 0.1);
-            border-color: #0071e3;
-        }
-        .calendar-list-item.batch-1 .list-date {
-            background: linear-gradient(135deg, #0071e3 0%, #00a1ff 100%);
-        }
-        .calendar-list-item.batch-2 {
-            background: rgba(52, 199, 89, 0.1);
-            border-color: #34c759;
-        }
-        .calendar-list-item.batch-2 .list-date {
-            background: linear-gradient(135deg, #34c759 0%, #30d158 100%);
-        }
-        .calendar-list-item.batch-3 {
-            background: rgba(255, 149, 0, 0.1);
-            border-color: #ff9500;
-        }
-        .calendar-list-item.batch-3 .list-date {
-            background: linear-gradient(135deg, #ff9500 0%, #ffb340 100%);
-        }
-        .calendar-list-item.batch-4 {
-            background: rgba(175, 82, 222, 0.1);
-            border-color: #af52de;
-        }
-        .calendar-list-item.batch-4 .list-date {
-            background: linear-gradient(135deg, #af52de 0%, #da8fff 100%);
-        }
-        .calendar-list-item.batch-5 {
-            background: rgba(255, 45, 85, 0.1);
-            border-color: #ff2d55;
-        }
-        .calendar-list-item.batch-5 .list-date {
-            background: linear-gradient(135deg, #ff2d55 0%, #ff6482 100%);
-        }
-        .calendar-list-item.batch-6 {
-            background: rgba(90, 200, 250, 0.1);
-            border-color: #5ac8fa;
-        }
-        .calendar-list-item.batch-6 .list-date {
-            background: linear-gradient(135deg, #5ac8fa 0%, #70d7ff 100%);
-        }
-        .list-date {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-width: 60px;
-            padding: var(--space-2) var(--space-3);
-            background: var(--blue);
-            border-radius: var(--radius-md);
-            color: #fff;
-        }
-        .list-day {
-            font-size: var(--text-2xl);
-            font-weight: var(--font-bold);
-            line-height: 1;
-        }
-        .list-weekday {
-            font-size: var(--text-xs);
-            opacity: 0.9;
-        }
-        .list-content {
-            flex: 1;
-        }
-        .list-title {
-            font-size: var(--text-base);
-            font-weight: var(--font-semibold);
-            color: var(--text-primary);
-            margin-bottom: var(--space-1);
-        }
-        .list-meta {
-            font-size: var(--text-sm);
-            color: var(--text-secondary);
-            display: flex;
-            gap: var(--space-3);
-            flex-wrap: wrap;
-        }
-        .list-meta span {
-            display: flex;
-            align-items: center;
-            gap: var(--space-1);
-        }
-
-        /* Mobile optimizations */
-        @media (max-width: 768px) {
-            .calendar-grid {
-                gap: 2px;
-            }
-            .calendar-day {
-                padding: 6px;
-                min-height: 70px;
-                gap: 3px;
-            }
-            .calendar-day-number {
-                font-size: 11px;
-            }
-            .calendar-event {
-                font-size: 10px;
-            }
-            .calendar-type {
-                font-size: 8px;
-                padding: 1px 5px;
-            }
-            .schedule-legend {
-                flex-direction: column;
-                align-items: center;
-                gap: var(--space-3);
-            }
-        }
-        @media (max-width: 480px) {
-            .calendar-day {
-                padding: 5px;
-                min-height: 65px;
-                gap: 2px;
-            }
-            .calendar-day-number {
-                font-size: 10px;
-            }
-            .calendar-event {
-                font-size: 9px;
-            }
-            .calendar-type {
-                font-size: 7px;
-                padding: 1px 4px;
-            }
-        }
-
-        /* Target Audience Section */
-        .target-section {
-            padding: var(--space-16) var(--space-6);
-            background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
-        }
-        .target-container {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-        .target-header {
-            text-align: center;
-            margin-bottom: var(--space-10);
-        }
-        .target-header h2 {
-            font-size: var(--text-2xl);
-            font-weight: var(--font-bold);
-            margin-bottom: var(--space-3);
-        }
-        .target-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: var(--space-6);
-        }
-        @media (max-width: 768px) {
-            .target-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-        .target-card {
-            padding: var(--space-6);
+            background: var(--bg-secondary);
             border-radius: var(--radius-lg);
-            border: 1px solid var(--border-color);
         }
-        .target-card.recommended {
-            background: rgba(52, 199, 89, 0.08);
-            border-color: rgba(52, 199, 89, 0.3);
-        }
-        .target-card.not-for {
-            background: rgba(255, 59, 48, 0.05);
-            border-color: rgba(255, 59, 48, 0.2);
-        }
-        .target-card h3 {
-            font-size: var(--text-lg);
-            font-weight: var(--font-semibold);
-            margin-bottom: var(--space-4);
-            display: flex;
-            align-items: center;
-            gap: var(--space-2);
-        }
-        .target-card.recommended h3 {
-            color: #34c759;
-        }
-        .target-card.not-for h3 {
-            color: #ff3b30;
-        }
-        .target-card ul {
+        .price-features ul {
             list-style: none;
-        }
-        .target-card li {
-            padding: var(--space-2) 0;
             font-size: var(--text-sm);
             color: var(--text-secondary);
-            display: flex;
-            align-items: flex-start;
-            gap: var(--space-2);
-            line-height: var(--leading-relaxed);
         }
-        .target-card.recommended li::before {
-            content: "✓";
-            color: #34c759;
-            font-weight: var(--font-bold);
-            flex-shrink: 0;
-        }
-        .target-card.not-for li::before {
-            content: "✗";
-            color: #ff3b30;
-            font-weight: var(--font-bold);
-            flex-shrink: 0;
-        }
-
-        /* How It Works Section */
-        .how-section {
-            padding: var(--space-16) var(--space-6);
-        }
-        .how-container {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-        .how-header {
-            text-align: center;
-            margin-bottom: var(--space-10);
-        }
-        .how-header h2 {
-            font-size: var(--text-2xl);
-            font-weight: var(--font-bold);
-            margin-bottom: var(--space-3);
-        }
-        .how-header p {
-            color: var(--text-secondary);
-        }
-        .how-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: var(--space-4);
-        }
-        @media (max-width: 768px) {
-            .how-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        @media (max-width: 480px) {
-            .how-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-        .how-item {
-            text-align: center;
-            padding: var(--space-5);
-            background: var(--bg-tertiary);
-            border-radius: var(--radius-lg);
-            border: 1px solid var(--border-color);
-        }
-        .how-icon {
-            width: 48px;
-            height: 48px;
-            margin: 0 auto var(--space-3);
-            background: linear-gradient(135deg, var(--blue) 0%, #00c6ff 100%);
-            border-radius: 50%;
+        .price-features li {
+            padding: var(--space-1) 0;
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 1.25rem;
+            gap: var(--space-2);
         }
-        .how-item h3 {
-            font-size: var(--text-sm);
-            font-weight: var(--font-semibold);
-            margin-bottom: var(--space-2);
-        }
-        .how-item p {
-            font-size: var(--text-xs);
-            color: var(--text-secondary);
-            line-height: var(--leading-relaxed);
-        }
-        .how-note {
-            margin-top: var(--space-6);
-            padding: var(--space-4);
-            background: rgba(0, 113, 227, 0.08);
-            border-radius: var(--radius-md);
-            text-align: center;
-        }
-        .how-note p {
-            font-size: var(--text-sm);
-            color: var(--text-secondary);
-            margin: 0;
-        }
-        .how-note strong {
-            color: var(--blue);
-        }
+        .price-features li span { color: var(--blue); }
 
-        /* Week Outcome Badge */
-        .week-outcome {
-            margin-top: var(--space-3);
-            padding: var(--space-3);
-            background: linear-gradient(135deg, rgba(52, 199, 89, 0.1) 0%, rgba(0, 113, 227, 0.1) 100%);
-            border-radius: var(--radius-md);
-            border-left: 3px solid #34c759;
-        }
-        .week-outcome h4 {
-            font-size: var(--text-xs);
-            font-weight: var(--font-bold);
-            color: #34c759;
-            margin-bottom: var(--space-1);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .week-outcome p {
-            font-size: var(--text-sm);
-            color: var(--text-primary);
-            font-weight: var(--font-medium);
-            margin-bottom: 0;
-        }
-
-        /* Reviews Section */
+        /* ===== Reviews ===== */
         .reviews-section {
-            padding: var(--space-24) var(--space-6);
+            padding: var(--space-16) var(--space-6);
             background-color: var(--bg-secondary);
             overflow: hidden;
         }
         .reviews-header {
             text-align: center;
-            margin-bottom: var(--space-12);
+            margin-bottom: var(--space-8);
         }
         .reviews-header h2 {
-            font-size: var(--text-3xl);
+            font-size: clamp(1.5rem, 4vw, 2.25rem);
             font-weight: var(--font-bold);
-            margin-bottom: var(--space-4);
+            margin-bottom: var(--space-3);
         }
         .reviews-stats {
             display: flex;
             justify-content: center;
-            gap: var(--space-8);
-            margin-bottom: var(--space-2);
-        }
-        .reviews-stats span {
-            font-size: var(--text-lg);
+            gap: var(--space-6);
+            font-size: var(--text-sm);
             color: var(--text-secondary);
         }
-        .reviews-stats strong {
-            color: var(--blue);
-        }
+        .reviews-stats strong { color: var(--blue); }
         .reviews-category {
-            margin-bottom: var(--space-12);
+            margin-bottom: var(--space-8);
         }
         .reviews-category h3 {
-            font-size: var(--text-lg);
+            font-size: var(--text-base);
             font-weight: var(--font-semibold);
-            margin-bottom: var(--space-6);
-            padding-left: var(--space-4);
+            margin-bottom: var(--space-4);
+            padding-left: var(--space-3);
             border-left: 3px solid var(--blue);
         }
-        .reviews-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        .reviews-track-wrapper {
+            overflow: hidden;
+            position: relative;
+            width: 100%;
+        }
+        .reviews-track {
+            display: flex;
             gap: var(--space-4);
+            width: max-content;
+            will-change: transform;
         }
         .review-card {
             background-color: var(--bg-tertiary);
             border-radius: var(--radius-lg);
-            padding: var(--space-6);
+            padding: var(--space-5);
             border: 1px solid var(--border-color);
-            transition: transform var(--transition-base), border-color var(--transition-base);
-        }
-        .review-card:hover {
-            transform: translateY(-2px);
-            border-color: var(--blue);
+            flex-shrink: 0;
+            width: 300px;
+            box-sizing: border-box;
         }
         .review-card p {
             font-size: var(--text-sm);
             color: var(--text-secondary);
             line-height: var(--leading-relaxed);
-            margin-bottom: var(--space-4);
+            margin-bottom: var(--space-3);
         }
         .review-stars {
             display: flex;
             gap: 2px;
-            margin-bottom: var(--space-3);
+            margin-bottom: var(--space-2);
         }
         .review-stars svg {
             width: 14px;
@@ -1357,133 +339,262 @@
         .review-badge {
             display: inline-block;
             font-size: 10px;
-            font-weight: var(--font-medium);
-            padding: 2px 8px;
+            padding: 1px 6px;
             background-color: rgba(0, 113, 227, 0.15);
             color: var(--blue);
             border-radius: var(--radius-full);
             margin-left: var(--space-2);
         }
-        /* Infinite Scroll */
-        .reviews-track-wrapper {
-            overflow: hidden;
-            position: relative;
-            width: 100%;
-        }
-        .reviews-track {
-            display: flex;
-            gap: var(--space-4);
-            width: max-content;
-            will-change: transform;
-        }
-        .reviews-track .review-card {
-            flex-shrink: 0;
-            width: 320px;
-            box-sizing: border-box;
-        }
-        /* 더보기 버튼 및 확장 그리드 */
         .reviews-expand-btn {
             display: block;
-            margin: var(--space-6) auto 0;
-            padding: var(--space-3) var(--space-6);
+            margin: var(--space-5) auto 0;
+            padding: var(--space-2) var(--space-5);
             background: transparent;
             border: 1px solid var(--border-color);
             border-radius: var(--radius-full);
             color: var(--text-secondary);
             font-size: var(--text-sm);
             cursor: pointer;
-            transition: all 0.3s ease;
         }
         .reviews-expand-btn:hover {
-            background: var(--bg-secondary);
-            color: var(--text-primary);
             border-color: var(--blue);
         }
         .reviews-expand-btn svg {
             width: 16px;
             height: 16px;
-            margin-left: var(--space-2);
+            margin-left: var(--space-1);
             vertical-align: middle;
-            transition: transform 0.3s ease;
+            transition: transform 0.2s;
         }
-        .reviews-expand-btn.expanded svg {
-            transform: rotate(180deg);
-        }
+        .reviews-expand-btn.expanded svg { transform: rotate(180deg); }
         .reviews-grid-expanded {
             display: none;
-            padding: var(--space-6) 0;
+            padding: var(--space-5) 0;
         }
         .reviews-grid-expanded.show {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: var(--space-4);
-            animation: reviewsFadeIn 0.4s ease;
         }
-        .reviews-grid-expanded .review-card {
-            width: 100%;
-        }
-        @keyframes reviewsFadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        /* 페이지네이션 스타일 */
+        .reviews-grid-expanded .review-card { width: 100%; }
         .reviews-pagination {
             display: flex;
             justify-content: center;
-            align-items: center;
             gap: var(--space-2);
-            margin: var(--space-6) auto 0;
-            padding: var(--space-4) 0;
+            margin-top: var(--space-5);
         }
         .reviews-pagination button {
-            min-width: 40px;
-            height: 40px;
-            padding: 0 var(--space-3);
+            min-width: 36px;
+            height: 36px;
             background: transparent;
             border: 1px solid var(--border-color);
             border-radius: var(--radius-md);
             color: var(--text-secondary);
             font-size: var(--text-sm);
             cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .reviews-pagination button:hover:not(:disabled) {
-            background: var(--bg-secondary);
-            color: var(--text-primary);
-            border-color: var(--blue);
         }
         .reviews-pagination button.active {
             background: var(--blue);
             color: white;
             border-color: var(--blue);
         }
-        .reviews-pagination button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-        .reviews-pagination .page-dots {
-            color: var(--text-secondary);
-            padding: 0 var(--space-2);
-        }
-        /* Reviews Loading/Empty States */
-        .reviews-loading,
-        .reviews-empty {
+        .reviews-pagination button:disabled { opacity: 0.4; cursor: not-allowed; }
+        .reviews-loading {
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 150px;
+            min-height: 100px;
             color: var(--text-secondary);
-            font-size: 0.95rem;
+            font-size: var(--text-sm);
+        }
+
+        /* ===== FAQ ===== */
+        .faq-list {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .faq-item {
+            padding: var(--space-5);
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            margin-bottom: var(--space-3);
+        }
+        [data-theme="light"] .faq-item { background: #fff; }
+        .faq-item h3 {
+            font-size: var(--text-sm);
+            font-weight: var(--font-semibold);
+            color: var(--blue);
+            margin-bottom: var(--space-2);
+        }
+        .faq-item p {
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+            line-height: var(--leading-relaxed);
+        }
+
+        /* ===== CTA ===== */
+        .cta-section {
             text-align: center;
-            padding: var(--space-4);
+            padding: var(--space-16) var(--space-6);
         }
-        .reviews-loading {
-            animation: pulse 1.5s ease-in-out infinite;
+        .cta-section h2 {
+            font-size: var(--text-2xl);
+            font-weight: var(--font-bold);
+            margin-bottom: var(--space-3);
         }
-        @keyframes pulse {
-            0%, 100% { opacity: 0.6; }
-            50% { opacity: 1; }
+        .cta-section p {
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+            margin-bottom: var(--space-6);
         }
+
+        /* ===== Modal ===== */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            z-index: var(--z-modal-backdrop);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s;
+        }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.95);
+            width: 90%;
+            max-width: 480px;
+            max-height: 90vh;
+            overflow-y: auto;
+            background: var(--bg-elevated);
+            border-radius: var(--radius-xl);
+            padding: var(--space-8);
+            z-index: var(--z-modal);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s;
+        }
+        .modal-container.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1);
+        }
+        .modal-close {
+            position: absolute;
+            top: var(--space-4);
+            right: var(--space-4);
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+        }
+        .modal-title {
+            font-size: var(--text-xl);
+            font-weight: var(--font-bold);
+            margin-bottom: var(--space-2);
+            text-align: center;
+        }
+        .modal-subtitle {
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+            text-align: center;
+            margin-bottom: var(--space-5);
+        }
+        .form-group { margin-bottom: var(--space-4); }
+        .form-label {
+            display: block;
+            font-size: var(--text-sm);
+            font-weight: var(--font-medium);
+            margin-bottom: var(--space-2);
+        }
+        .form-input {
+            width: 100%;
+            padding: var(--space-3) var(--space-4);
+            font-size: var(--text-sm);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+        .form-input:focus { outline: none; border-color: var(--blue); }
+        textarea.form-input { min-height: 80px; resize: vertical; }
+        .form-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2386868b' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right var(--space-4) center;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-4);
+        }
+        @media (max-width: 480px) {
+            .form-row { grid-template-columns: 1fr; }
+        }
+        .form-checkbox {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            cursor: pointer;
+            font-size: var(--text-xs);
+            color: var(--text-secondary);
+        }
+        .form-checkbox input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--blue);
+        }
+        .conditional-fields { animation: fadeIn 0.2s ease; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .form-submit { width: 100%; margin-top: var(--space-4); }
+        .form-success { display: none; text-align: center; padding: var(--space-8); }
+        .form-success.show { display: block; }
+        .form-success-icon { font-size: 3rem; margin-bottom: var(--space-4); }
+        .form-success h3 { font-size: var(--text-lg); font-weight: var(--font-bold); margin-bottom: var(--space-2); }
+        .form-success p { color: var(--text-secondary); font-size: var(--text-sm); }
+
+        /* ===== Footer ===== */
+        .footer {
+            padding: var(--space-6) var(--space-6);
+            text-align: center;
+            border-top: 1px solid var(--border-color-light);
+        }
+        .footer p { font-size: var(--text-xs); color: var(--text-tertiary); }
+
+        /* ===== Mobile Sticky CTA ===== */
+        .mobile-cta {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: var(--space-3) var(--space-4);
+            background: var(--bg-elevated);
+            border-top: 1px solid var(--border-color);
+            z-index: var(--z-fixed);
+        }
+        .mobile-cta .btn { width: 100%; text-align: center; }
+        @media (max-width: 768px) {
+            .mobile-cta { display: block; }
+            .footer { padding-bottom: calc(var(--space-6) + 60px); }
+        }
+
+        /* ===== Scroll Animation ===== */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(16px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .fade-up.visible { opacity: 1; transform: translateY(0); }
     </style>
 </head>
 <body>
@@ -1495,38 +606,33 @@
                 <ul class="nav-menu" id="navMenu" role="menubar">
                     <li role="none"><a href="index.html" class="nav-link" role="menuitem">Home</a></li>
                     <li role="none"><a href="basic-package.html" class="nav-link active" role="menuitem">프로그램</a></li>
+                    <li role="none"><a href="career-consulting.html" class="nav-link" role="menuitem">커리어 컨설팅</a></li>
                 </ul>
             </nav>
-            <a href="#pricing" class="btn btn-sm btn-primary">신청하기</a>
-            <button class="menu-toggle" id="menuToggle" aria-label="메뉴 열기" aria-expanded="false" aria-controls="navMenu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
+            <button class="btn btn-sm btn-primary" onclick="openDemandModal()">수강 신청</button>
             <button class="theme-toggle" id="themeToggle" aria-label="테마 변경">
-                <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="12" cy="12" r="5"></circle>
-                    <line x1="12" y1="1" x2="12" y2="3"></line>
-                    <line x1="12" y1="21" x2="12" y2="23"></line>
-                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                    <line x1="1" y1="12" x2="3" y2="12"></line>
-                    <line x1="21" y1="12" x2="23" y2="12"></line>
-                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    <line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
                 </svg>
-                <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
                 </svg>
+            </button>
+            <button class="menu-toggle" id="menuToggle" aria-label="메뉴 열기">
+                <span></span><span></span><span></span>
             </button>
         </div>
     </header>
 
-    <!-- Hero Section -->
+    <!-- Hero -->
     <section class="hero">
         <div class="hero-badge fade-up">
             <span class="hero-badge-dot"></span>
-            <span>취업준비생 · 주니어 이직 추천</span>
+            취업준비생 · 주니어 이직 추천
         </div>
         <h1 class="hero-title fade-up">기본 패키지</h1>
         <p class="hero-subtitle fade-up">
@@ -1534,379 +640,97 @@
             직무 능력부터 커리어 준비까지 한 번에 완성하세요
         </p>
         <button class="btn btn-primary btn-lg fade-up" onclick="openDemandModal()">대기 등록하기</button>
-    </section>
-
-    <!-- Target Audience Section -->
-    <section class="target-section">
-        <div class="target-container">
-            <div class="target-header fade-up">
-                <h2>이런 분께 맞습니다</h2>
+        <div class="hero-stats fade-up">
+            <div class="hero-stat">
+                <span class="hero-stat-number">300,000원</span>
+                <span class="hero-stat-label">통합 가격</span>
             </div>
-
-            <div class="target-grid">
-                <div class="target-card recommended fade-up">
-                    <h3>이 프로그램이 딱 맞는 분</h3>
-                    <ul>
-                        <li>SCM/물류/구매 직무에 관심 있지만 어디서부터 시작할지 모르겠는 분</li>
-                        <li>자소서에 쓸 직무 관련 경험이 부족해 고민인 분</li>
-                        <li>현직자의 피드백을 받으며 커리어 방향성을 잡고 싶은 분</li>
-                        <li>이론만 배우는 게 아니라 실제 과제로 역량을 증명하고 싶은 분</li>
-                        <li>직무 전환이나 이직을 준비하며 체계적인 가이드가 필요한 분</li>
-                    </ul>
-                </div>
-
-                <div class="target-card not-for fade-up">
-                    <h3>이런 분께는 맞지 않아요</h3>
-                    <ul>
-                        <li>단기간에 스펙 한 줄만 추가하려는 분</li>
-                        <li>일방적으로 듣기만 하고 과제 참여 의지가 없는 분</li>
-                        <li>이미 SCM 실무 경험이 풍부한 경력 5년 이상인 분</li>
-                        <li>커리어 방향성보다 당장의 합격 공식만 원하시는 분</li>
-                    </ul>
-                </div>
+            <div class="hero-stat">
+                <span class="hero-stat-number">5주</span>
+                <span class="hero-stat-label">토요일 20-22시</span>
+            </div>
+            <div class="hero-stat">
+                <span class="hero-stat-number">6명</span>
+                <span class="hero-stat-label">소수정예</span>
             </div>
         </div>
     </section>
 
-    <!-- Package Overview -->
-    <section class="page-section alt">
-        <div class="container">
+    <main>
+        <!-- Curriculum -->
+        <section class="section section-alt">
             <div class="section-header fade-up">
-                <h2>패키지 구성</h2>
-                <p>직무 역량 강화와 커리어 설계를 하나로 통합한 프로그램</p>
+                <h2>5주 커리큘럼</h2>
+                <p>3회 라이브 세션 + 4회 실무 과제로 현업자 수준의 직무 이해도를 쌓습니다</p>
             </div>
-
-            <div class="package-overview">
-                <div class="package-part fade-up">
-                    <h3>📚 Part 1: 직무 5주 캠프 (기초)</h3>
-                    <ul>
-                        <li>5주간 SCM 실무 완성</li>
-                        <li>3회 라이브 세션 + 복습 VOD</li>
-                        <li>매주 실무 과제 + 1:1 피드백</li>
-                        <li>SCM 프로세스 포트폴리오 완성</li>
-                        <li>커리어 포트폴리오 완성</li>
-                    </ul>
-                </div>
-
-                <div class="package-part fade-up">
-                    <h3>💼 Part 2: 커리어 컨설팅</h3>
-                    <ul>
-                        <li>자기소개서 작성 및 첨삭 2회</li>
-                        <li>면접 준비 및 모의면접 1회</li>
-                        <li>1:1 온라인 피드백 (각 60분)</li>
-                        <li>서류 개선 후 재검토</li>
-                        <li>면접 예상 질문 리스트 제공</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- How It Works Section -->
-    <section class="how-section">
-        <div class="how-container">
-            <div class="how-header fade-up">
-                <h2>이렇게 진행됩니다</h2>
-                <p>직장인도 무리 없이 참여할 수 있는 구성</p>
-            </div>
-
-            <div class="how-grid">
-                <div class="how-item fade-up">
-                    <div class="how-icon">📅</div>
-                    <h3>라이브 세션</h3>
-                    <p>토요일 20:00-22:00<br>Zoom 실시간 진행</p>
-                </div>
-                <div class="how-item fade-up">
-                    <div class="how-icon">🎬</div>
-                    <h3>녹화본 제공</h3>
-                    <p>놓친 부분은 언제든<br>다시 복습 가능</p>
-                </div>
-                <div class="how-item fade-up">
-                    <div class="how-icon">📝</div>
-                    <h3>과제 피드백</h3>
-                    <p>제출 후 1:1 서면 피드백<br>+ 세션 중 리뷰</p>
-                </div>
-                <div class="how-item fade-up">
-                    <div class="how-icon">💬</div>
-                    <h3>커뮤니티</h3>
-                    <p>슬랙 채널에서<br>질문 및 네트워킹</p>
-                </div>
-            </div>
-
-            <div class="how-note fade-up">
-                <p>주당 <strong>2-3시간</strong> 투자로 충분합니다. 라이브 세션 + 과제 수행 시간 기준.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Instructor Section -->
-    <section class="page-section">
-        <div class="container">
-            <div class="section-header fade-up">
-                <h2>함께하는 전문가</h2>
-                <p>검증된 전문가가 여러분의 성장을 책임집니다</p>
-            </div>
-
-            <div class="instructor-card fade-up">
-                <div class="instructor-image-wrapper">
-                    <div class="instructor-image">
-                        <img src="images/portfolio/teacher.png" alt="강사 프로필" loading="lazy">
-                    </div>
-                    <p class="instructor-name">이선생</p>
-                    <p class="instructor-title">Big4 컨설팅펌 시니어 매니저</p>
-                </div>
-                <div class="instructor-info">
-                    <h3>연봉 4.4배 상승의 주인공</h3>
-                    <div class="salary-highlight">
-                        <p>2015년 2,983만원 → 2024년 1억 3,259만원</p>
-                    </div>
-                    <ul>
-                        <li>현) 글로벌 Big4 컨설팅펌 시니어 매니저</li>
-                        <li>전) 대기업 전자산업 구매/SCM 담당자</li>
-                        <li>한국생산성본부 SCM 부문 최연소 전문위원</li>
-                        <li>기업 신입/경력 면접관 실무 경험 보유</li>
-                        <li>2019년~ 현재 직무 멘토링 100회 이상 진행</li>
-                    </ul>
-                    <div class="salary-proof">
-                        <h4>연봉 상승 기록</h4>
-                        <div class="salary-images">
-                            <div>
-                                <img src="images/portfolio/salary_2015.png" alt="2015년 연봉" loading="lazy">
-                                <p>2015년 시작</p>
-                            </div>
-                            <div>
-                                <img src="images/portfolio/2024년연봉22.png" alt="2024년 연봉" loading="lazy">
-                                <p>2024년 현재</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Curriculum Section -->
-    <section class="page-section alt">
-        <div class="container">
-            <div class="section-header fade-up">
-                <h2>5주 직무 캠프 커리큘럼</h2>
-                <p>3회 라이브 세션 + 4회 실무 과제로 현업자 수준의 직무 이해도를 얻습니다</p>
-            </div>
-
             <div class="curriculum-grid">
                 <div class="week-card fade-up">
                     <div class="week-number">1</div>
                     <div class="week-content">
                         <h3>현직자 직무 에센스 강의 및 Q&A</h3>
-                        <p>직무 입문 방법, 직무담당자가 실제로 하는 일, 직무담당자로 일하는 장단점과 요구 역량을 배웁니다. 주차별 프로젝트 소개 및 선정 이유를 함께 살펴봅니다.</p>
-                        <span class="deliverable">1차 업무: SCM 프로세스 도식화</span>
-                        <div class="week-tasks">
-                            <h4>과제 내용</h4>
-                            <p>제공되는 키워드 및 가이드를 참고하여 SCM 프로세스를 도식화합니다. 생산, 출하, 구매 등 관심있는 영역을 집중 도식화할 수 있습니다.</p>
-                        </div>
-                        <div class="week-outcome">
-                            <h4>이 주차를 마치면</h4>
-                            <p>SCM 전체 프로세스의 큰 그림이 머릿속에 그려집니다</p>
-                        </div>
+                        <p>직무 입문 방법, 실제로 하는 일, 요구 역량을 배웁니다</p>
+                        <span class="deliverable">과제: SCM 프로세스 도식화</span>
                     </div>
                 </div>
-
                 <div class="week-card fade-up">
                     <div class="week-number">2</div>
                     <div class="week-content">
                         <h3>리드멘토 개별 리뷰 및 피드백</h3>
-                        <p>1차 업무에 대한 리드멘토의 상세한 개별 피드백을 받습니다. 부족한 부분을 보완하고 실무 관점에서의 조언을 얻을 수 있습니다.</p>
-                        <span class="deliverable">2차 업무: SCM 이슈 분석 (Keyword Study)</span>
-                        <div class="week-tasks">
-                            <h4>과제 내용</h4>
-                            <p>제공되는 SCM 키워드 관련 이슈에 대한 문제점 및 결과를 마인드맵으로 도식화합니다. 기준정보, 장단기 계획, 실행 단계를 분석합니다.</p>
-                        </div>
-                        <div class="week-outcome">
-                            <h4>이 주차를 마치면</h4>
-                            <p>내가 관심 있는 세부 영역이 명확해집니다 (구매/생산/물류 등)</p>
-                        </div>
+                        <p>1차 과제에 대한 상세 피드백 + 실무 관점 조언</p>
+                        <span class="deliverable">과제: SCM 이슈 분석 (Keyword Study)</span>
                     </div>
                 </div>
-
                 <div class="week-card fade-up">
                     <div class="week-number">3</div>
                     <div class="week-content">
                         <h3>SAP ERP 연결고리 이해</h3>
-                        <p>과제 기반의 SAP 온라인 교육 샘플을 시연합니다. SCM과 SAP ERP의 연결고리를 이해하고, IT 및 디지털 전환 사례를 학습합니다.</p>
-                        <span class="deliverable">3차 업무: 재무 Integration 실습</span>
-                        <div class="week-tasks">
-                            <h4>과제 내용</h4>
-                            <p>재무 Integration과 SCM을 연계하여 기업 수익성 관점에서 데이터를 분석하고 실무 역량을 높입니다.</p>
-                        </div>
-                        <div class="week-outcome">
-                            <h4>이 주차를 마치면</h4>
-                            <p>SCM이 기업 전체와 어떻게 연결되는지 설명할 수 있습니다</p>
-                        </div>
+                        <p>SCM과 SAP ERP 연계, 디지털 전환 사례 학습</p>
+                        <span class="deliverable">과제: 재무 Integration 실습</span>
                     </div>
                 </div>
-
                 <div class="week-card fade-up">
                     <div class="week-number">4</div>
                     <div class="week-content">
                         <h3>3차 업무 피드백 및 심화 학습</h3>
-                        <p>3차 업무에 대한 피드백을 받고 SCM 트렌드 및 산업 현황을 파악합니다. 공급망 관리 커리어 로드맵 수립에 대한 조언을 얻습니다.</p>
-                        <span class="deliverable">4차 업무: 프로세스 개선 포트폴리오 작성</span>
-                        <div class="week-tasks">
-                            <h4>과제 내용</h4>
-                            <p>1차, 2차, 3차 과제를 취합하여 프로세스 개선 포트폴리오를 작성합니다.</p>
-                        </div>
-                        <div class="week-outcome">
-                            <h4>이 주차를 마치면</h4>
-                            <p>나만의 커리어 포트폴리오 초안이 완성됩니다</p>
-                        </div>
+                        <p>SCM 트렌드 파악 + 커리어 로드맵 수립</p>
+                        <span class="deliverable">과제: 프로세스 개선 포트폴리오 작성</span>
                     </div>
                 </div>
-
                 <div class="week-card fade-up">
                     <div class="week-number">5</div>
                     <div class="week-content">
                         <h3>업무 발표 및 최종 피드백</h3>
-                        <p>완성된 프로세스 개선 포트폴리오를 발표하고 리드멘토의 4차 업무 피드백을 받습니다. Resume 방향성까지 정리하여 커리어 설계에 바로 활용할 수 있습니다.</p>
-                        <span class="deliverable">결과물: SCM 프로세스 개선 포트폴리오 + Resume 방향성</span>
-                        <div class="week-tasks">
-                            <h4>최종 혜택</h4>
-                            <p>직무 이해도 기반 커리어 포트폴리오 완성. 이력서/자기소개서 작성 시 활용 가능한 직무경험 정리.</p>
-                        </div>
-                        <div class="week-outcome">
-                            <h4>5주 과정을 마치면</h4>
-                            <p>포트폴리오 + Resume 방향성까지, 커리어 설계의 기반이 완성됩니다</p>
-                        </div>
+                        <p>포트폴리오 발표 + Resume 방향성 정리</p>
+                        <span class="deliverable">결과물: SCM 포트폴리오 + Resume 방향성</span>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Assignment Showcase Section -->
-    <section class="page-section">
-        <div class="container">
+        <!-- Target Audience -->
+        <section class="section">
             <div class="section-header fade-up">
-                <h2>실제 과제 예시</h2>
-                <p>매주 이런 실무 과제를 수행하며 역량을 키웁니다</p>
+                <h2>이런 분께 맞습니다</h2>
             </div>
+            <ul class="target-list fade-up">
+                <li>SCM/물류/구매 직무에 관심 있지만 어디서부터 시작할지 모르겠는 분</li>
+                <li>자소서에 쓸 직무 관련 경험이 부족해 고민인 분</li>
+                <li>현직자의 피드백을 받으며 커리어 방향성을 잡고 싶은 분</li>
+                <li>직무 전환이나 이직을 준비하며 체계적인 가이드가 필요한 분</li>
+            </ul>
+        </section>
 
-            <div class="showcase-container fade-up">
-                <div class="showcase-badge">초급반 과제 예시</div>
-                <div class="showcase-image-wrapper">
-                    <img src="images/beginner-assignment.png" alt="SCM 초급반 과제 예시 - 프로세스 도식화 및 이슈 분석" loading="lazy">
-                </div>
-                <p class="showcase-caption">
-                    실제 기업 데이터를 활용한 SCM 프로세스 도식화 및 이슈 분석 과제 예시입니다.<br>
-                    매주 피드백을 받으며 포트폴리오 수준의 결과물을 완성합니다.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Consulting Process -->
-    <section class="page-section alt">
-        <div class="container">
-            <div class="section-header fade-up">
-                <h2>커리어 컨설팅 프로세스</h2>
-                <p>현직 컨설턴트의 1:1 맞춤 컨설팅으로 커리어 설계를 완성합니다</p>
-            </div>
-
-            <div class="process-grid">
-                <div class="process-step fade-up">
-                    <div class="process-number">1</div>
-                    <h3>자소서 분석 & 전략</h3>
-                    <p>자기소개서를 면밀히 분석하여 지원 기업과 직무에 최적화된 개선 방향을 제시합니다</p>
-                </div>
-
-                <div class="process-step fade-up">
-                    <div class="process-number">2</div>
-                    <h3>1:1 맞춤 피드백</h3>
-                    <p>온라인 화상 미팅을 통해 구체적인 피드백을 제공하고 실제 면접관 관점에서의 조언을 전달합니다</p>
-                </div>
-
-                <div class="process-step fade-up">
-                    <div class="process-number">3</div>
-                    <h3>실전 모의면접</h3>
-                    <p>실제 면접과 동일한 환경에서 모의면접을 진행하고 즉각적인 피드백으로 면접 스킬을 향상시킵니다</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Schedule Section -->
-    <section class="page-section">
-        <div class="container">
-            <div class="section-header fade-up">
-                <h2>수업 일정</h2>
-                <p>모집 중인 강의 일정을 확인하세요</p>
-            </div>
-
-            <div class="month-tabs" id="monthTabs"></div>
-            <div class="batch-info" id="batchInfo">강의 일정을 불러오는 중...</div>
-
-            <div class="calendar-container fade-up">
-                <div class="calendar-header">
-                    <button class="calendar-nav-btn" id="prevMonth" onclick="navigateMonth(-1)">&lt;</button>
-                    <div class="calendar-title">
-                        <div class="calendar-month">8월</div>
-                        <div class="calendar-year">2025년</div>
-                    </div>
-                    <button class="calendar-nav-btn" id="nextMonth" onclick="navigateMonth(1)">&gt;</button>
-                </div>
-
-                <!-- View Toggle -->
-                <div class="view-toggle">
-                    <button class="view-toggle-btn active" id="gridViewBtn" onclick="setCalendarView('grid')">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <rect x="3" y="3" width="7" height="7"></rect>
-                            <rect x="14" y="3" width="7" height="7"></rect>
-                            <rect x="3" y="14" width="7" height="7"></rect>
-                            <rect x="14" y="14" width="7" height="7"></rect>
-                        </svg>
-                        달력
-                    </button>
-                    <button class="view-toggle-btn" id="listViewBtn" onclick="setCalendarView('list')">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <line x1="8" y1="6" x2="21" y2="6"></line>
-                            <line x1="8" y1="12" x2="21" y2="12"></line>
-                            <line x1="8" y1="18" x2="21" y2="18"></line>
-                            <circle cx="4" cy="6" r="1.5" fill="currentColor"></circle>
-                            <circle cx="4" cy="12" r="1.5" fill="currentColor"></circle>
-                            <circle cx="4" cy="18" r="1.5" fill="currentColor"></circle>
-                        </svg>
-                        리스트
-                    </button>
-                </div>
-
-                <div class="calendar-grid" id="calendarGrid">
-                    <!-- Calendar will be generated by JavaScript -->
-                </div>
-
-                <div class="calendar-list" id="calendarList">
-                    <!-- List view will be generated by JavaScript -->
-                </div>
-
-                <div class="schedule-legend" id="scheduleLegend">
-                    <!-- 동적으로 생성됩니다 -->
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Pricing Section -->
-    <section class="page-section alt" id="pricing">
-        <div class="container">
+        <!-- Pricing & Registration -->
+        <section class="section section-alt" id="pricing">
             <div class="section-header fade-up">
                 <h2>수강 대기 등록</h2>
                 <p>정원이 충족되면 개강 일정을 확정하여 안내드립니다</p>
             </div>
-
             <div class="price-card fade-up">
-                <div class="price-badge">기본 패키지</div>
                 <div class="price-info-row">
                     <div class="price-info-item">
                         <span class="price-info-label">일정</span>
-                        <span class="price-info-value">매주 토요일 20:00-22:00</span>
+                        <span class="price-info-value">토요일 20:00-22:00</span>
                     </div>
                     <div class="price-info-item">
                         <span class="price-info-label">기간</span>
@@ -1914,199 +738,94 @@
                     </div>
                     <div class="price-info-item">
                         <span class="price-info-label">정원</span>
-                        <span class="price-info-value">6명 (소수 정예)</span>
+                        <span class="price-info-value">6명</span>
                     </div>
                 </div>
                 <div class="price-amount">300,000원</div>
-                <p class="price-desc">
-                    직무 역량 강화 + 커리어 설계를 하나로
-                </p>
-
-                <!-- 투자 가치 상세 -->
-                <div style="text-align: left; margin: var(--space-6) 0; padding: var(--space-5); background: var(--bg-secondary); border-radius: var(--radius-lg);">
-                    <p style="font-size: var(--text-sm); font-weight: var(--font-semibold); color: var(--text-primary); margin-bottom: var(--space-3);">이 금액으로 얻는 것:</p>
-                    <ul style="list-style: none; font-size: var(--text-sm); color: var(--text-secondary);">
-                        <li style="padding: var(--space-1) 0; display: flex; align-items: center; gap: var(--space-2);">
-                            <span style="color: var(--blue);">✓</span> 5주간 현직 컨설턴트의 밀착 피드백
-                        </li>
-                        <li style="padding: var(--space-1) 0; display: flex; align-items: center; gap: var(--space-2);">
-                            <span style="color: var(--blue);">✓</span> SCM 직무 커리어 포트폴리오 1건
-                        </li>
-                        <li style="padding: var(--space-1) 0; display: flex; align-items: center; gap: var(--space-2);">
-                            <span style="color: var(--blue);">✓</span> 자기소개서 첨삭 2회 (각 60분)
-                        </li>
-                        <li style="padding: var(--space-1) 0; display: flex; align-items: center; gap: var(--space-2);">
-                            <span style="color: var(--blue);">✓</span> 모의면접 1회 + 예상 질문 리스트
-                        </li>
-                        <li style="padding: var(--space-1) 0; display: flex; align-items: center; gap: var(--space-2);">
-                            <span style="color: var(--blue);">✓</span> 슬랙 커뮤니티 + 네트워킹 기회
-                        </li>
-                        <li style="padding: var(--space-1) 0; display: flex; align-items: center; gap: var(--space-2);">
-                            <span style="color: var(--blue);">✓</span> 라이브 세션 녹화본 무제한 복습
-                        </li>
+                <p class="price-desc">직무 역량 강화 + 커리어 설계를 하나로</p>
+                <div class="price-features">
+                    <ul>
+                        <li><span>&#10003;</span> 5주간 현직 컨설턴트의 밀착 피드백</li>
+                        <li><span>&#10003;</span> SCM 직무 커리어 포트폴리오 1건</li>
+                        <li><span>&#10003;</span> 자기소개서 첨삭 2회 (각 60분)</li>
+                        <li><span>&#10003;</span> 모의면접 1회 + 예상 질문 리스트</li>
+                        <li><span>&#10003;</span> 슬랙 커뮤니티 + 네트워킹 기회</li>
+                        <li><span>&#10003;</span> 라이브 세션 녹화본 무제한 복습</li>
                     </ul>
                 </div>
-
                 <button class="btn btn-primary btn-lg" style="width: 100%;" onclick="openDemandModal()">대기 등록하기</button>
-
-                <div style="margin-top: var(--space-6); padding: var(--space-4); background: rgba(0, 113, 227, 0.1); border-radius: var(--radius-md);">
-                    <p style="font-size: var(--text-sm); color: var(--blue); margin: 0;">
-                        💡 개별 구매 시 369,000원 → 통합 패키지 <strong>69,000원 할인</strong>
-                    </p>
-                </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Reviews Section -->
-    <section id="reviews" class="reviews-section">
-        <div class="reviews-header">
-            <h2 class="fade-up">수강생 후기</h2>
-            <div class="reviews-stats fade-up">
-                <span>후기 <strong id="reviewsCount">-</strong>개</span>
-                <span>평점 <strong id="reviewsRating">-</strong>/5</span>
-            </div>
-        </div>
-
-        <!-- 1:1 컨설팅 후기 - 동적 로드 -->
-        <div class="reviews-category">
-            <h3 class="fade-up">1:1 커리어 컨설팅 후기</h3>
-            <div class="reviews-track-wrapper">
-                <div class="reviews-track" id="consultingReviewsTrack">
-                    <!-- Notion 데이터에서 동적 로드 -->
-                    <div class="reviews-loading">후기를 불러오는 중...</div>
+        <!-- Reviews -->
+        <section id="reviews" class="reviews-section">
+            <div class="reviews-header">
+                <h2 class="fade-up">수강생 후기</h2>
+                <div class="reviews-stats fade-up">
+                    <span>후기 <strong id="reviewsCount">-</strong>개</span>
+                    <span>평점 <strong id="reviewsRating">-</strong>/5</span>
                 </div>
             </div>
 
-            <!-- 전체보기 버튼 -->
-            <button class="reviews-expand-btn" id="consultingExpandBtn" style="display: none;">
-                <span>후기 전체보기</span>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polyline points="6 9 12 15 18 9"></polyline>
-                </svg>
-            </button>
-
-            <!-- 확장된 후기 영역 (페이지네이션) -->
-            <div class="reviews-grid-expanded" id="consultingReviewsExpanded"></div>
-
-            <!-- 페이지네이션 -->
-            <div class="reviews-pagination" id="consultingPagination" style="display: none;"></div>
-        </div>
-
-        <!-- 직무부트캠프 후기 - 동적 로드 -->
-        <div class="reviews-category">
-            <h3 class="fade-up">직무부트캠프 후기</h3>
-            <div class="reviews-track-wrapper">
-            <div class="reviews-track" id="reviewsTrack">
-                <!-- Notion 데이터에서 동적 로드 -->
-                <div class="reviews-loading">후기를 불러오는 중...</div>
-            </div>
+            <div class="reviews-category">
+                <h3 class="fade-up">1:1 커리어 컨설팅 후기</h3>
+                <div class="reviews-track-wrapper">
+                    <div class="reviews-track" id="consultingReviewsTrack">
+                        <div class="reviews-loading">후기를 불러오는 중...</div>
+                    </div>
+                </div>
+                <button class="reviews-expand-btn" id="consultingExpandBtn" style="display: none;">
+                    <span>후기 전체보기</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </button>
+                <div class="reviews-grid-expanded" id="consultingReviewsExpanded"></div>
+                <div class="reviews-pagination" id="consultingPagination" style="display: none;"></div>
             </div>
 
-            <!-- 더보기 버튼 - 동적으로 표시 -->
-            <button class="reviews-expand-btn" id="reviewsExpandBtn" style="display: none;">
-                <span>후기 전체보기</span>
-                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M6 9l6 6 6-6"/>
-                </svg>
-            </button>
-
-            <!-- 확장된 후기 그리드 - 동적 로드 -->
-            <div class="reviews-grid-expanded" id="reviewsGridExpanded">
-                <!-- Notion 데이터에서 동적 로드 -->
+            <div class="reviews-category">
+                <h3 class="fade-up">직무부트캠프 후기</h3>
+                <div class="reviews-track-wrapper">
+                    <div class="reviews-track" id="reviewsTrack">
+                        <div class="reviews-loading">후기를 불러오는 중...</div>
+                    </div>
+                </div>
+                <button class="reviews-expand-btn" id="reviewsExpandBtn" style="display: none;">
+                    <span>후기 전체보기</span>
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                </button>
+                <div class="reviews-grid-expanded" id="reviewsGridExpanded"></div>
+                <div class="reviews-pagination" id="reviewsPagination" style="display: none;"></div>
             </div>
+        </section>
 
-            <!-- 페이지네이션 - 동적으로 표시 -->
-            <div class="reviews-pagination" id="reviewsPagination" style="display: none;">
-                <!-- JS에서 동적으로 생성 -->
-            </div>
-        </div>
-    </section>
-
-    <!-- FAQ Section -->
-    <section class="page-section alt">
-        <div class="container">
+        <!-- FAQ -->
+        <section class="section">
             <div class="section-header fade-up">
                 <h2>자주 묻는 질문</h2>
             </div>
-
             <div class="faq-list">
                 <div class="faq-item fade-up">
-                    <h3>Q. 강의와 컨설팅은 동시에 진행되나요?</h3>
-                    <p>5주 강의를 먼저 진행하고, 강의 기간 중 또는 종료 후 편한 시기에 컨설팅을 받으실 수 있습니다. 유연하게 일정 조율이 가능합니다.</p>
-                </div>
-
-                <div class="faq-item fade-up">
                     <h3>Q. SCM 경험이 전혀 없는데 수강 가능한가요?</h3>
-                    <p>네, 가능합니다. 기초 과정은 SCM 경험이 없는 분들을 위해 설계되었습니다. 기초부터 차근차근 설명하며, 실무 용어도 쉽게 풀어서 설명드립니다.</p>
+                    <p>네. 기초 과정은 경험이 없는 분들을 위해 설계되었습니다. 기초부터 차근차근 설명합니다.</p>
                 </div>
-
                 <div class="faq-item fade-up">
                     <h3>Q. 직장을 다니면서도 수강할 수 있나요?</h3>
-                    <p>네, 충분히 가능합니다. 주당 평균 2-3시간 정도만 투자하시면 되며, 모든 세션은 녹화본으로 제공되어 언제든 복습 가능합니다.</p>
+                    <p>주당 2-3시간이면 충분합니다. 모든 세션은 녹화본으로 제공되어 언제든 복습 가능합니다.</p>
                 </div>
-
                 <div class="faq-item fade-up">
                     <h3>Q. 환불은 가능한가요?</h3>
-                    <p>수강 시작 전까지는 전액 환불이 가능합니다. 1주차 수강 후에는 2/3, 2주차 수강 후에는 1/2 환불이 가능하며, 3주차부터는 환불이 불가능합니다.</p>
+                    <p>수강 시작 전 전액 환불, 1주차 후 80%, 2주차 후 50% 환불 가능합니다. 3주차 이후 환불 불가.</p>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- CTA Section -->
-    <section class="cta-section">
-        <h2 class="fade-up">지금이 시작할 때입니다</h2>
-        <p class="fade-up">직무 능력부터 커리어 준비까지, 한 번에 완성하세요</p>
-        <button class="btn btn-primary btn-lg fade-up" onclick="openDemandModal()">대기 등록하기</button>
-    </section>
-
-    <!-- Contact Modal -->
-    <div class="modal-overlay" id="contactModalOverlay"></div>
-    <div class="modal-container" id="contactModal">
-        <button class="modal-close" id="modalClose" aria-label="닫기">&times;</button>
-        <div id="contactForm">
-            <h2 class="modal-title">무료 상담 신청</h2>
-            <p class="modal-subtitle">24시간 내 담당자가 연락드립니다</p>
-            <form id="inquiryForm">
-                <div class="form-group">
-                    <label class="form-label" for="name">이름 *</label>
-                    <input type="text" class="form-input" id="name" name="name" placeholder="홍길동" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="email">이메일 *</label>
-                    <input type="email" class="form-input" id="email" name="email" placeholder="example@email.com" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="phone">연락처</label>
-                    <input type="tel" class="form-input" id="phone" name="phone" placeholder="010-0000-0000">
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="service">관심 서비스 *</label>
-                    <select class="form-input form-select" id="service" name="service" required>
-                        <option value="">선택해주세요</option>
-                        <option value="basic-package">기본 패키지 (직무 캠프 + 컨설팅)</option>
-                        <option value="scm-camp">SCM 직무 5주 캠프</option>
-                        <option value="career-consulting">커리어 컨설팅</option>
-                        <option value="resume">자기소개서 컨설팅</option>
-                        <option value="interview">면접 컨설팅</option>
-                        <option value="other">기타 문의</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="message">문의 내용</label>
-                    <textarea class="form-input" id="message" name="message" placeholder="궁금하신 점을 적어주세요"></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary form-submit">상담 신청하기</button>
-            </form>
-        </div>
-        <div class="form-success" id="formSuccess">
-            <div class="form-success-icon">✓</div>
-            <h3>신청이 완료되었습니다!</h3>
-            <p>입력하신 연락처로 24시간 내 연락드리겠습니다.</p>
-            <button class="btn btn-secondary" style="margin-top: var(--space-6);" onclick="closeModal()">닫기</button>
-        </div>
-    </div>
+        <!-- CTA -->
+        <section class="cta-section section-alt">
+            <h2 class="fade-up">지금이 시작할 때입니다</h2>
+            <p class="fade-up">직무 능력부터 커리어 준비까지, 한 번에 완성하세요</p>
+            <button class="btn btn-primary btn-lg fade-up" onclick="openDemandModal()">대기 등록하기</button>
+        </section>
+    </main>
 
     <!-- Demand Registration Modal -->
     <div class="modal-overlay" id="demandModalOverlay"></div>
@@ -2148,7 +867,6 @@
                         </select>
                     </div>
                 </div>
-                <!-- 직장인 필드 -->
                 <div id="workerFields" class="conditional-fields" style="display: none;">
                     <div class="form-row">
                         <div class="form-group">
@@ -2161,7 +879,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- 학생 필드 -->
                 <div id="studentFields" class="conditional-fields" style="display: none;">
                     <div class="form-row">
                         <div class="form-group">
@@ -2170,7 +887,7 @@
                         </div>
                         <div class="form-group">
                             <label class="form-label" for="demand-grade">학년</label>
-                            <input type="text" class="form-input" id="demand-grade" name="grade" placeholder="예: 3학년, 대학원생">
+                            <input type="text" class="form-input" id="demand-grade" name="grade" placeholder="예: 3학년">
                         </div>
                     </div>
                 </div>
@@ -2188,11 +905,16 @@
             </form>
         </div>
         <div class="form-success" id="demandFormSuccess">
-            <div class="form-success-icon">✓</div>
+            <div class="form-success-icon">&#10003;</div>
             <h3>대기 등록이 완료되었습니다!</h3>
             <p>기수가 확정되면 안내드리겠습니다.</p>
             <button class="btn btn-secondary" style="margin-top: var(--space-6);" onclick="closeDemandModal()">닫기</button>
         </div>
+    </div>
+
+    <!-- Mobile Sticky CTA -->
+    <div class="mobile-cta">
+        <button class="btn btn-primary btn-sm" onclick="openDemandModal()">수강 대기 등록</button>
     </div>
 
     <!-- Footer -->
@@ -2201,103 +923,21 @@
     </footer>
 
     <script>
-        // Mobile menu toggle
+        // Mobile menu
         const menuToggle = document.getElementById('menuToggle');
         const navMenu = document.getElementById('navMenu');
-
-        menuToggle?.addEventListener('click', () => {
-            navMenu.classList.toggle('active');
-            menuToggle.setAttribute('aria-expanded', navMenu.classList.contains('active'));
-        });
-
-        // Close menu on link click
+        menuToggle?.addEventListener('click', () => navMenu.classList.toggle('active'));
         navMenu?.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                navMenu.classList.remove('active');
-            });
+            link.addEventListener('click', () => navMenu.classList.remove('active'));
         });
 
-        // Scroll Animation
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
+        // Scroll animation
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
+                if (entry.isIntersecting) entry.target.classList.add('visible');
             });
-        }, observerOptions);
-
-        document.querySelectorAll('.fade-up').forEach(el => {
-            observer.observe(el);
-        });
-
-        // Smooth scroll for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    const headerOffset = 60;
-                    const elementPosition = target.getBoundingClientRect().top;
-                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-                    window.scrollTo({
-                        top: offsetPosition,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-
-        // Modal Functions
-        const modalOverlay = document.getElementById('contactModalOverlay');
-        const modal = document.getElementById('contactModal');
-        const modalClose = document.getElementById('modalClose');
-        const inquiryForm = document.getElementById('inquiryForm');
-        const formSuccess = document.getElementById('formSuccess');
-        const contactForm = document.getElementById('contactForm');
-
-        function openModal(service = '') {
-            modalOverlay.classList.add('active');
-            modal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-            if (service) {
-                const serviceSelect = document.getElementById('service');
-                if (serviceSelect) serviceSelect.value = service;
-            }
-        }
-
-        function closeModal() {
-            modalOverlay.classList.remove('active');
-            modal.classList.remove('active');
-            document.body.style.overflow = '';
-            setTimeout(() => {
-                contactForm.style.display = 'block';
-                formSuccess.classList.remove('show');
-                inquiryForm.reset();
-            }, 300);
-        }
-
-        modalOverlay?.addEventListener('click', closeModal);
-        modalClose?.addEventListener('click', closeModal);
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
-        });
-
-        inquiryForm?.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const formData = new FormData(inquiryForm);
-            const data = Object.fromEntries(formData.entries());
-            const inquiries = JSON.parse(localStorage.getItem('scm_inquiries') || '[]');
-            inquiries.push({ ...data, timestamp: new Date().toISOString() });
-            localStorage.setItem('scm_inquiries', JSON.stringify(inquiries));
-            contactForm.style.display = 'none';
-            formSuccess.classList.add('show');
-        });
+        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+        document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 
         // Demand Registration Modal
         const demandModalOverlay = document.getElementById('demandModalOverlay');
@@ -2312,90 +952,54 @@
         const waitingMonthSelect = document.getElementById('demand-waiting-month');
         const demandPhoneInput = document.getElementById('demand-phone');
 
-        // 희망 기수 옵션 생성 (Notion 강의관리 DB에서 모집중/준비중 기수만 표시)
+        // 희망 기수 옵션 생성
         async function generateWaitingMonthOptions() {
             if (!waitingMonthSelect) return;
-
             try {
                 const response = await fetch('./data/schedule.json?t=' + Date.now());
-                if (!response.ok) throw new Error('스케줄 데이터 로드 실패');
-
+                if (!response.ok) throw new Error('로드 실패');
                 const data = await response.json();
-                if (!data.success || !data.data) throw new Error('데이터 형식 오류');
+                if (!data.success || !data.data) throw new Error('데이터 오류');
 
-                // 모집중 또는 준비중인 강의만 필터링하고, 중복 제거 (notionData.id 기준)
                 const courseMap = new Map();
                 data.data.forEach(item => {
                     if ((item.status === '모집중' || item.status === '준비중') && item.notionData?.id) {
-                        const courseId = item.notionData.id;
-                        if (!courseMap.has(courseId)) {
-                            // 첫 번째 세션 날짜를 저장
-                            const date = new Date(item.date);
-                            courseMap.set(courseId, {
+                        if (!courseMap.has(item.notionData.id)) {
+                            courseMap.set(item.notionData.id, {
                                 title: item.notionData.title || item.name,
-                                date: date,
-                                status: item.status,
-                                batch: item.batch
+                                date: new Date(item.date),
+                                status: item.status
                             });
                         }
                     }
                 });
 
-                // 날짜순 정렬
                 const courses = Array.from(courseMap.values()).sort((a, b) => a.date - b.date);
-
-                if (courses.length === 0) {
-                    // 모집중인 기수가 없을 때
-                    const option = document.createElement('option');
-                    option.value = '';
-                    option.textContent = '현재 모집중인 기수가 없습니다';
-                    option.disabled = true;
-                    waitingMonthSelect.appendChild(option);
-                    return;
-                }
-
-                // 옵션 생성
                 courses.forEach(course => {
-                    const year = course.date.getFullYear();
-                    const month = course.date.getMonth() + 1;
-                    const statusLabel = course.status === '모집중' ? '모집중' : '예정';
-                    const optionText = `${course.title} (${year}년 ${month}월 시작) - ${statusLabel}`;
-
                     const option = document.createElement('option');
                     option.value = course.title;
-                    option.textContent = optionText;
+                    option.textContent = `${course.title} (${course.date.getFullYear()}년 ${course.date.getMonth() + 1}월) - ${course.status === '모집중' ? '모집중' : '예정'}`;
                     waitingMonthSelect.appendChild(option);
                 });
-
             } catch (error) {
                 console.warn('기수 옵션 로드 실패:', error.message);
-                // 폴백: 기본 옵션
-                const option = document.createElement('option');
-                option.value = '';
-                option.textContent = '기수 정보를 불러올 수 없습니다';
-                option.disabled = true;
-                waitingMonthSelect.appendChild(option);
             }
         }
         generateWaitingMonthOptions();
 
-        // 소속구분에 따른 조건부 필드 표시
+        // 소속구분 조건부 필드
         affiliationSelect?.addEventListener('change', function() {
-            const value = this.value;
-            workerFields.style.display = value === '직장인' ? 'block' : 'none';
-            studentFields.style.display = value === '학생' ? 'block' : 'none';
+            workerFields.style.display = this.value === '직장인' ? 'block' : 'none';
+            studentFields.style.display = this.value === '학생' ? 'block' : 'none';
         });
 
-        // 전화번호 자동 포맷팅
+        // 전화번호 포맷팅
         demandPhoneInput?.addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\D/g, '');
-            if (value.length > 11) value = value.slice(0, 11);
-            if (value.length > 7) {
-                value = value.replace(/(\d{3})(\d{4})(\d{0,4})/, '$1-$2-$3');
-            } else if (value.length > 3) {
-                value = value.replace(/(\d{3})(\d{0,4})/, '$1-$2');
-            }
-            e.target.value = value;
+            let v = e.target.value.replace(/\D/g, '');
+            if (v.length > 11) v = v.slice(0, 11);
+            if (v.length > 7) v = v.replace(/(\d{3})(\d{4})(\d{0,4})/, '$1-$2-$3');
+            else if (v.length > 3) v = v.replace(/(\d{3})(\d{0,4})/, '$1-$2');
+            e.target.value = v;
         });
 
         function openDemandModal() {
@@ -2403,7 +1007,6 @@
             demandModal.classList.add('active');
             document.body.style.overflow = 'hidden';
         }
-
         function closeDemandModal() {
             demandModalOverlay.classList.remove('active');
             demandModal.classList.remove('active');
@@ -2440,14 +1043,12 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
                 });
-
                 const result = await response.json();
-
                 if (result.success) {
                     demandFormContainer.style.display = 'none';
                     demandFormSuccess.classList.add('show');
                 } else {
-                    alert(result.error || '등록에 실패했습니다. 다시 시도해주세요.');
+                    alert(result.error || '등록에 실패했습니다.');
                 }
             } catch (error) {
                 console.error('Demand registration error:', error);
@@ -2458,547 +1059,19 @@
             }
         });
 
-        // Calendar Data
-        let notionData = [];
-        let currentDisplayMonth = null;
-        let currentDisplayYear = null;
-
-        // Fetch Notion Data
-        async function fetchNotionData() {
-            try {
-                const response = await fetch('./data/schedule.json?t=' + Date.now());
-
-                if (!response.ok) {
-                    throw new Error(`Data load failed: ${response.status}`);
-                }
-
-                const data = await response.json();
-
-                if (data.success && data.data && data.data.length > 0) {
-                    notionData = [];
-
-                    data.data.forEach(course => {
-                        // 종료 상태는 달력에서 제외
-                        if (course.status === '종료') return;
-
-                        if (course.schedule && course.schedule.length > 0) {
-                            notionData.push(...course.schedule);
-                        } else if (course.date) {
-                            notionData.push(course);
-                        }
-                    });
-
-                    console.log(`Notion data loaded (${notionData.length} lectures)`);
-
-                    generateMonthTabs();
-                    updateScheduleLegend();
-
-                    if (notionData.length > 0) {
-                        const firstCourse = notionData[0];
-                        const [year, month, day] = firstCourse.date.split('-').map(Number);
-                        const firstDate = new Date(year, month - 1, day);
-                        updateCalendar(firstDate.getMonth() + 1, firstDate.getFullYear());
-                    }
-                    return;
-                } else {
-                    throw new Error('Invalid data format');
-                }
-
-            } catch (error) {
-                console.warn('Data load failed:', error.message);
-                loadDefaultData();
-            }
-        }
-
-        // Default Data (Fallback when API/JSON fails)
-        function loadDefaultData() {
-            notionData = [
-                { "name": "SCM 기초 완성 강의 1기", "date": "2025-02-07", "type": "lecture", "week": 1, "label": "1주차 강의", "hasAssignment": true, "status": "모집중", "notionData": { "category": "SCM 기초" } },
-                { "name": "SCM 기초 완성 강의 1기", "date": "2025-02-14", "type": "assignment", "week": 2, "label": "2주차 피드백", "hasAssignment": true, "status": "모집중", "notionData": { "category": "SCM 기초" } },
-                { "name": "SCM 기초 완성 강의 1기", "date": "2025-02-21", "type": "lecture", "week": 3, "label": "3주차 강의", "hasAssignment": true, "status": "모집중", "notionData": { "category": "SCM 기초" } },
-                { "name": "SCM 기초 완성 강의 1기", "date": "2025-02-28", "type": "assignment", "week": 4, "label": "4주차 피드백", "hasAssignment": true, "status": "모집중", "notionData": { "category": "SCM 기초" } },
-                { "name": "SCM 기초 완성 강의 1기", "date": "2025-03-07", "type": "lecture", "week": 5, "label": "5주차 최종발표", "hasAssignment": false, "status": "모집중", "notionData": { "category": "SCM 기초" } }
-            ];
-
-            generateMonthTabs();
-            updateScheduleLegend();
-
-            const firstCourse = notionData[0];
-            const [year, month, day] = firstCourse.date.split('-').map(Number);
-            const firstDate = new Date(year, month - 1, day);
-            updateCalendar(firstDate.getMonth() + 1, firstDate.getFullYear());
-
-            const batchInfo = document.getElementById('batchInfo');
-            if (batchInfo) {
-                batchInfo.textContent = 'SCM 기초 완성 강의 1기 - 2월 (모집중)';
-            }
-        }
-
-        // Generate Batch Tabs (기수별 탭 생성)
-        function generateMonthTabs() {
-            const monthTabs = document.getElementById('monthTabs');
-            if (!monthTabs || !notionData || notionData.length === 0) return;
-
-            // 기수별로 그룹화 (중복 제거)
-            const batchMap = {};
-            notionData.forEach(course => {
-                const batch = extractBatchNumber(course);
-                if (!batchMap[batch]) {
-                    batchMap[batch] = {
-                        batch: batch,
-                        status: course.status || '준비중',
-                        // 해당 기수의 첫 번째 날짜 정보 저장
-                        firstDate: course.date
-                    };
-                }
-            });
-
-            // 기수 순으로 정렬
-            const batches = Object.values(batchMap).sort((a, b) => a.batch - b.batch);
-
-            const getStatusText = (status) => {
-                if (status.includes('완료') || status.includes('종료')) return '완료';
-                if (status.includes('진행')) return '진행중';
-                if (status.includes('모집')) return '모집중';
-                return '준비중';
-            };
-
-            let tabsHTML = '';
-            batches.forEach((batchInfo, index) => {
-                const isActive = index === 0 ? 'active' : '';
-                const statusText = getStatusText(batchInfo.status);
-
-                tabsHTML += `
-                    <div class="month-tab ${isActive}" data-batch="${batchInfo.batch}">
-                        ${batchInfo.batch}기 (${statusText})
-                    </div>
-                `;
-            });
-
-            monthTabs.innerHTML = tabsHTML;
-
-            document.querySelectorAll('.month-tab').forEach(tab => {
-                tab.addEventListener('click', function() {
-                    document.querySelectorAll('.month-tab').forEach(t => t.classList.remove('active'));
-                    this.classList.add('active');
-
-                    const batch = parseInt(this.dataset.batch);
-                    // 해당 기수의 첫 번째 날짜로 달력 이동
-                    const batchData = notionData.find(item => extractBatchNumber(item) === batch);
-                    if (batchData && batchData.date) {
-                        const [year, month] = batchData.date.split('-').map(Number);
-                        updateCalendar(month, year, batch);
-                    }
-                });
-            });
-        }
-
-        // Extract batch number (우선순위: item.batch > item.notionData.batch > 이름에서 추출)
-        function extractBatchNumber(item) {
-            // item이 객체인 경우: batch 필드 우선 확인
-            if (item && typeof item === 'object') {
-                if (item.batch) return item.batch;
-                if (item.notionData?.batch) return item.notionData.batch;
-                // batch 필드가 없으면 이름에서 추출
-                const courseName = item.name || item.notionData?.title || '';
-                const match = courseName.match(/(\d+)기/);
-                return match ? parseInt(match[1]) : 1;
-            }
-            // item이 문자열인 경우 (하위 호환성)
-            if (!item) return 1;
-            const match = String(item).match(/(\d+)기/);
-            return match ? parseInt(match[1]) : 1;
-        }
-
-        // 기수 번호를 색상 인덱스로 변환 (7기 이상은 1~6 순환)
-        function getBatchColorIndex(batchNumber) {
-            return ((batchNumber - 1) % 6) + 1;
-        }
-
-        // 상태별 아이콘 매핑 (직관적인 이모지 사용)
-        const statusConfig = {
-            '준비중': { icon: '⏳', label: '준비중' },
-            '모집중': { icon: '📢', label: '모집중' },
-            '진행중': { icon: '▶️', label: '진행중' },
-            '종료': { icon: '✅', label: '종료' }
-        };
-
-        // 기수별 색상 매핑
-        const batchConfig = {
-            1: { color: '#0071e3', label: '1기' },
-            2: { color: '#34c759', label: '2기' },
-            3: { color: '#ff9500', label: '3기' },
-            4: { color: '#af52de', label: '4기' },
-            5: { color: '#ff2d55', label: '5기' },
-            6: { color: '#5ac8fa', label: '6기' }
-        };
-
-        // 동적 범례 생성 (기수별 색상 + 상태별 아이콘)
-        function updateScheduleLegend() {
-            const legendEl = document.getElementById('scheduleLegend');
-            if (!legendEl || !notionData || notionData.length === 0) return;
-
-            // 현재 데이터에 있는 기수들 추출 (batch 필드 우선, 없으면 이름에서 추출)
-            const activeBatches = [...new Set(notionData.map(item => extractBatchNumber(item)))].sort((a, b) => a - b);
-
-            // 현재 데이터에 있는 상태들 추출
-            const activeStatuses = [...new Set(notionData.map(item => item.status || '준비중'))];
-            const statusOrder = ['준비중', '모집중', '진행중', '종료'];
-            const sortedStatuses = statusOrder.filter(s => activeStatuses.includes(s));
-
-            // 기수별 색상 범례 (7기 이상은 색상 순환)
-            let batchLegendHTML = '';
-            activeBatches.forEach(batch => {
-                const colorIndex = getBatchColorIndex(batch);
-                const colorConfig = batchConfig[colorIndex];
-                batchLegendHTML += `
-                    <div class="legend-item">
-                        <span class="legend-color" style="background: ${colorConfig.color}"></span>
-                        <span class="legend-text">${batch}기</span>
-                    </div>
-                `;
-            });
-
-            // 상태별 아이콘 범례
-            let statusLegendHTML = '';
-            sortedStatuses.forEach(status => {
-                const config = statusConfig[status] || statusConfig['준비중'];
-                statusLegendHTML += `
-                    <div class="legend-item">
-                        <span class="legend-text">${config.icon} ${config.label}</span>
-                    </div>
-                `;
-            });
-
-            legendEl.innerHTML = `
-                <div class="legend-section">
-                    ${batchLegendHTML}
-                </div>
-                <div class="legend-section">
-                    ${statusLegendHTML}
-                </div>
-            `;
-        }
-
-        // Generate Calendar
-        function generateDynamicCalendar(data, targetMonth, targetYear) {
-            const firstDay = new Date(targetYear, targetMonth - 1, 1);
-            const lastDay = new Date(targetYear, targetMonth, 0);
-            const daysInMonth = lastDay.getDate();
-            const startingDayOfWeek = firstDay.getDay();
-
-            let calendarHTML = '';
-
-            const dayHeaders = ['일', '월', '화', '수', '목', '금', '토'];
-            dayHeaders.forEach(day => {
-                calendarHTML += `<div class="calendar-day-header">${day}</div>`;
-            });
-
-            for (let i = 0; i < startingDayOfWeek; i++) {
-                calendarHTML += '<div class="calendar-day empty"></div>';
-            }
-
-            for (let day = 1; day <= daysInMonth; day++) {
-                const dateString = `${targetYear}-${String(targetMonth).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-                const sessionData = data.find(item => item.date === dateString);
-
-                if (sessionData) {
-                    const batchNumber = extractBatchNumber(sessionData);
-                    const batchColorIndex = getBatchColorIndex(batchNumber);
-                    const batchClass = `batch-${batchColorIndex}`;
-                    const status = sessionData.status || '준비중';
-                    const isLecture = sessionData.type === 'lecture';
-                    const typeLabel = isLecture ? '강의' : '피드백';
-                    const statusIcon = statusConfig[status]?.icon || '⚪';
-
-                    const tooltipText = `${sessionData.name} - ${sessionData.week}주차 (${typeLabel}) - ${status}${sessionData.hasAssignment ? ' · 과제 있음' : ''}`;
-
-                    calendarHTML += `
-                        <div class="calendar-day class-day ${batchClass}" title="${tooltipText}">
-                            <div class="calendar-day-number">${day} <span class="status-badge">${statusIcon}</span></div>
-                            <div class="calendar-event">${batchNumber}기 ${sessionData.week}주</div>
-                            <div class="calendar-type">${typeLabel}</div>
-                        </div>
-                    `;
-                } else {
-                    calendarHTML += `
-                        <div class="calendar-day">
-                            <div class="calendar-day-number">${day}</div>
-                        </div>
-                    `;
-                }
-            }
-
-            return calendarHTML;
-        }
-
-        // Update Calendar
-        let currentBatch = null; // 현재 선택된 기수
-
-        function updateCalendar(month, year, batch = null) {
-            currentDisplayMonth = month;
-            currentDisplayYear = year;
-            if (batch !== null) currentBatch = batch;
-
-            const calendarGrid = document.getElementById('calendarGrid');
-            if (!calendarGrid) return;
-
-            const monthData = notionData.filter(item => {
-                const [itemYear, itemMonth, itemDay] = item.date.split('-').map(Number);
-                const itemDate = new Date(itemYear, itemMonth - 1, itemDay);
-                return itemDate.getMonth() + 1 === month && itemDate.getFullYear() === year;
-            });
-
-            const batchInfo = document.getElementById('batchInfo');
-            if (monthData.length > 0) {
-                const batchNum = extractBatchNumber(monthData[0]);
-                const status = monthData[0].status || '준비중';
-                const statusText = status.includes('종료') ? '완료' : status;
-                batchInfo.textContent = `${batchNum}기 (${statusText})`;
-            }
-
-            document.querySelector('.calendar-month').textContent = `${month}월`;
-            document.querySelector('.calendar-year').textContent = `${year}년`;
-
-            calendarGrid.innerHTML = generateDynamicCalendar(monthData, month, year);
-
-            updateNavigationButtons();
-        }
-
-        // Navigate Month
-        window.navigateMonth = function(direction) {
-            if (!currentDisplayMonth || !currentDisplayYear) return;
-
-            let newMonth = currentDisplayMonth + direction;
-            let newYear = currentDisplayYear;
-
-            if (newMonth > 12) {
-                newMonth = 1;
-                newYear++;
-            } else if (newMonth < 1) {
-                newMonth = 12;
-                newYear--;
-            }
-
-            // 해당 월에 데이터가 있는지 확인
-            const monthData = notionData && notionData.filter(course => {
-                const [courseYear, courseMonth] = course.date.split('-').map(Number);
-                return courseMonth === newMonth && courseYear === newYear;
-            });
-
-            if (monthData && monthData.length > 0) {
-                // 해당 월의 기수를 찾아서 탭 활성화
-                const batch = extractBatchNumber(monthData[0]);
-                const targetTab = document.querySelector(`.month-tab[data-batch="${batch}"]`);
-                if (targetTab) {
-                    document.querySelectorAll('.month-tab').forEach(tab => tab.classList.remove('active'));
-                    targetTab.classList.add('active');
-                }
-                updateCalendar(newMonth, newYear, batch);
-            } else {
-                // 데이터가 없어도 달력은 이동
-                updateCalendar(newMonth, newYear);
-            }
-        };
-
-        // Update Navigation Buttons
-        window.updateNavigationButtons = function() {
-            const prevBtn = document.getElementById('prevMonth');
-            const nextBtn = document.getElementById('nextMonth');
-
-            if (!prevBtn || !nextBtn || !notionData) return;
-
-            const hasPrevData = notionData.some(course => {
-                const [courseYear, courseMonth, courseDay] = course.date.split('-').map(Number);
-                const courseDate = new Date(courseYear, courseMonth - 1, courseDay);
-                let prevMonth = currentDisplayMonth - 1;
-                let prevYear = currentDisplayYear;
-                if (prevMonth < 1) {
-                    prevMonth = 12;
-                    prevYear--;
-                }
-                return courseDate.getMonth() + 1 === prevMonth && courseDate.getFullYear() === prevYear;
-            });
-
-            const hasNextData = notionData.some(course => {
-                const [courseYear, courseMonth, courseDay] = course.date.split('-').map(Number);
-                const courseDate = new Date(courseYear, courseMonth - 1, courseDay);
-                let nextMonth = currentDisplayMonth + 1;
-                let nextYear = currentDisplayYear;
-                if (nextMonth > 12) {
-                    nextMonth = 1;
-                    nextYear++;
-                }
-                return courseDate.getMonth() + 1 === nextMonth && courseDate.getFullYear() === nextYear;
-            });
-
-            prevBtn.disabled = !hasPrevData;
-            nextBtn.disabled = !hasNextData;
-        };
-
-        // Calendar View State
-        let currentView = 'grid'; // Default to grid (calendar) view
-
-        // 주차별 실제 커리큘럼 내용
-        const weeklyContent = {
-            1: {
-                lecture: '현직자 직무 에센스 강의 및 Q&A',
-                assignment: 'SCM 프로세스 도식화',
-                desc: '직무 입문 방법, 실제 업무, 요구 역량 학습'
-            },
-            2: {
-                lecture: '리드멘토 개별 리뷰 및 피드백',
-                assignment: 'SCM 이슈 분석 (Keyword Study)',
-                desc: '1차 과제 피드백 + 마인드맵 도식화'
-            },
-            3: {
-                lecture: 'SAP ERP 연결고리 이해',
-                assignment: '재무 Integration 실습',
-                desc: 'SCM과 SAP ERP 연계, 디지털 전환 사례'
-            },
-            4: {
-                lecture: '3차 업무 피드백 및 심화 학습',
-                assignment: '프로세스 개선 포트폴리오 작성',
-                desc: 'SCM 트렌드 및 커리어 로드맵 수립'
-            },
-            5: {
-                lecture: '업무 발표 및 최종 피드백',
-                assignment: null,
-                desc: '포트폴리오 발표 + Resume 방향 정리'
-            }
-        };
-
-        // Generate List View
-        function generateListView(data, targetMonth, targetYear) {
-            const weekdays = ['일', '월', '화', '수', '목', '금', '토'];
-            let listHTML = '';
-
-            const sortedData = [...data].sort((a, b) => new Date(a.date) - new Date(b.date));
-
-            sortedData.forEach(item => {
-                const [year, month, day] = item.date.split('-').map(Number);
-                const date = new Date(year, month - 1, day);
-                const weekday = weekdays[date.getDay()];
-
-                // 기수 추출 (예: "SCM 기초 완성 강의 1기" → 1)
-                const batchMatch = item.name?.match(/(\d+)기/);
-                const batch = batchMatch ? parseInt(batchMatch[1]) : 1;
-                const batchColorIndex = getBatchColorIndex(batch);
-                const batchClass = `batch-${batchColorIndex}`;
-                const status = item.status || '준비중';
-                const statusIcon = statusConfig[status]?.icon || '⚪';
-
-                const isLecture = item.type === 'lecture';
-                const typeIcon = isLecture ? '📚' : '📝';
-                const week = item.week || 1;
-                const weekContent = weeklyContent[week] || weeklyContent[1];
-
-                // 주차별 실제 내용
-                const title = weekContent.lecture;
-                const assignment = weekContent.assignment;
-                const desc = weekContent.desc;
-
-                listHTML += `
-                    <div class="calendar-list-item class-day ${batchClass}">
-                        <div class="list-date">
-                            <span class="list-day">${day}</span>
-                            <span class="list-weekday">${weekday}</span>
-                        </div>
-                        <div class="list-content">
-                            <div class="list-title">${week}주차 · ${title}</div>
-                            <div class="list-meta">
-                                <span>${typeIcon} ${batch}기</span>
-                                <span>${statusIcon} ${status}</span>
-                                ${assignment ? `<span>📋 ${assignment}</span>` : ''}
-                            </div>
-                            <div style="font-size: var(--text-xs); color: var(--text-tertiary); margin-top: 4px;">${desc}</div>
-                        </div>
-                    </div>
-                `;
-            });
-
-            if (listHTML === '') {
-                listHTML = '<div class="calendar-list-item" style="justify-content: center; color: var(--text-secondary);">이번 달에는 강의 일정이 없습니다.</div>';
-            }
-
-            return listHTML;
-        }
-
-        // Set Calendar View
-        window.setCalendarView = function(view) {
-            currentView = view;
-            const calendarGrid = document.getElementById('calendarGrid');
-            const calendarList = document.getElementById('calendarList');
-            const gridBtn = document.getElementById('gridViewBtn');
-            const listBtn = document.getElementById('listViewBtn');
-
-            if (view === 'grid') {
-                calendarGrid.classList.remove('hidden');
-                calendarGrid.classList.add('force-grid');
-                calendarList.classList.remove('active');
-                gridBtn.classList.add('active');
-                listBtn.classList.remove('active');
-            } else {
-                calendarGrid.classList.add('hidden');
-                calendarGrid.classList.remove('force-grid');
-                calendarList.classList.add('active');
-                gridBtn.classList.remove('active');
-                listBtn.classList.add('active');
-            }
-
-            localStorage.setItem('calendarView', view);
-        };
-
-        // Override updateCalendar to also update list view
-        const originalUpdateCalendar = updateCalendar;
-        updateCalendar = function(month, year) {
-            originalUpdateCalendar(month, year);
-
-            const calendarList = document.getElementById('calendarList');
-            if (calendarList) {
-                const monthData = notionData.filter(item => {
-                    const [itemYear, itemMonth] = item.date.split('-').map(Number);
-                    return itemMonth === month && itemYear === year;
-                });
-                calendarList.innerHTML = generateListView(monthData, month, year);
-            }
-        };
-
-        // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
-            fetchNotionData();
-
-            // Restore saved view preference (default to grid/calendar)
-            const savedView = localStorage.getItem('calendarView');
-            if (savedView) {
-                setCalendarView(savedView);
-            } else {
-                setCalendarView('grid');
-            }
-        });
-
         // Theme Toggle
         (function() {
             const themeToggle = document.getElementById('themeToggle');
             const html = document.documentElement;
-
             const savedTheme = localStorage.getItem('theme');
-            if (savedTheme) {
-                html.setAttribute('data-theme', savedTheme);
-            }
-
+            if (savedTheme) html.setAttribute('data-theme', savedTheme);
             if (themeToggle) {
                 themeToggle.addEventListener('click', () => {
-                    const currentTheme = html.getAttribute('data-theme');
-                    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-
-                    if (newTheme === 'dark') {
-                        html.removeAttribute('data-theme');
-                    } else {
-                        html.setAttribute('data-theme', newTheme);
-                    }
-
-                    localStorage.setItem('theme', newTheme);
+                    const current = html.getAttribute('data-theme');
+                    const next = current === 'light' ? 'dark' : 'light';
+                    if (next === 'dark') html.removeAttribute('data-theme');
+                    else html.setAttribute('data-theme', next);
+                    localStorage.setItem('theme', next);
                 });
             }
         })();
