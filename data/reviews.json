@@ -38,15 +38,6 @@
       "category": "consulting"
     },
     {
-      "id": "fe29e673-97c4-4cab-9693-0d958239e340",
-      "title": "",
-      "content": "꼼꼼하게 멘토링을 해주셨고, 전반적인 실무 내용을 알 수 있게 되었습니다.",
-      "rating": 5,
-      "author": "하*",
-      "date": "2025.12",
-      "category": "bootcamp"
-    },
-    {
       "id": "7d0596a6-fe3f-4b69-b256-b3bf6509ec95",
       "title": "",
       "content": "내용이 길어 따로 문의 남기겠습니다",
@@ -328,7 +319,7 @@
     {
       "id": "c93800a8-8659-448f-8083-9a1e67d03515",
       "title": "",
-      "content": "각자 결과물에 대한 피드백도 상세하게 제공해주시고, 레퍼런스들도 풍부하게 제공해주셔서 스스로 많이 얻어갈 수 있게 기회를 제공해주십니다.",
+      "content": "각자 ��과물에 대한 피드백도 상세하게 제공해주시고, 레퍼런스들도 풍부하게 제공해주셔서 스스로 많이 얻어갈 수 있게 기회를 제공해주십니다.",
       "rating": 5,
       "author": "임*",
       "date": "2022.08",
@@ -674,6 +665,15 @@
       "rating": 5,
       "author": "명*",
       "date": "2021.07",
+      "category": "bootcamp"
+    },
+    {
+      "id": "fe29e673-97c4-4cab-9693-0d958239e340",
+      "title": "",
+      "content": "꼼꼼하게 멘토링을 해주셨고, 전반적인 실무 내용을 알 수 있게 되었습니다.",
+      "rating": 5,
+      "author": "하*",
+      "date": "2021.06",
       "category": "bootcamp"
     },
     {
@@ -1073,15 +1073,6 @@
       "category": "bootcamp"
     },
     {
-      "id": "23ffd106-6dd6-4fbc-90e1-4ddc2211b985",
-      "title": "",
-      "content": "과제 피드백을 정말 잘해주셔서 감사합니다!",
-      "rating": 5,
-      "author": "김*",
-      "date": "2020.02",
-      "category": "bootcamp"
-    },
-    {
       "id": "33ecb441-bedf-4b1e-b0c4-abf1621e3b2d",
       "title": "",
       "content": "현업자이시기에 자세한 설명이 좋았습니다.",
@@ -1282,7 +1273,7 @@
     {
       "id": "bf0c6889-748d-496a-b49e-57e33cd8deae",
       "title": "",
-      "content": "현업의 노하우를 전수받을 수 있어서 좋았습니다",
+      "content": "현업의 노���우를 전수받을 수 있어서 좋았습니다",
       "rating": 5,
       "author": "차*",
       "date": "2019.12",
@@ -1334,6 +1325,6 @@
       "category": "bootcamp"
     }
   ],
-  "lastUpdated": "2026-03-08T01:17:40.401Z",
-  "totalReviews": 148
+  "lastUpdated": "2026-03-08T04:28:20.085Z",
+  "totalReviews": 147
 }
