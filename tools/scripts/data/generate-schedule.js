@@ -7,126 +7,137 @@ const fs = require('fs');
 const { readFileSync } = require('fs');
 
 // 설정 파일에서 API 키 읽기
-let NOTION_API_KEY, NOTION_DATABASE_ID;
+let NOTION_API_KEY;
+const NOTION_COHORT_DB_ID = '23787a1932c481bba2c1d5f33256cc37';
+const NOTION_LECTURE_DB_ID = '6f892938f4884cd0ba09b858e500e025';
 const NOTION_REVIEWS_DB_ID = '243951127368492d906a3d36861aacd2';
 
 try {
     const configContent = readFileSync('./includes/config.php', 'utf8');
     const apiKeyMatch = configContent.match(/'NOTION_API_KEY'\s*=>\s*'([^']+)'/);
-    const dbIdMatch = configContent.match(/'NOTION_COURSES_DB_ID'\s*=>\s*'([^']+)'/);
 
-    if (apiKeyMatch && dbIdMatch) {
+    if (apiKeyMatch) {
         NOTION_API_KEY = apiKeyMatch[1];
-        NOTION_DATABASE_ID = dbIdMatch[1];
     }
 } catch (error) {
     console.error('❌ config.php 파일을 읽을 수 없습니다:', error.message);
     process.exit(1);
 }
 
-if (!NOTION_API_KEY || !NOTION_DATABASE_ID) {
-    console.error('❌ Notion API 키 또는 데이터베이스 ID가 설정되지 않았습니다.');
+if (!NOTION_API_KEY) {
+    console.error('❌ Notion API 키가 설정되지 않았습니다.');
     process.exit(1);
+}
+
+async function fetchNotionDB(dbId, label, pageSize = 50) {
+    console.log(`🔍 ${label} 데이터 가져오는 중...`);
+    const response = await fetch(`https://api.notion.com/v1/databases/${dbId}/query`, {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${NOTION_API_KEY}`,
+            'Notion-Version': '2022-06-28',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ page_size: pageSize })
+    });
+    if (!response.ok) throw new Error(`${label} HTTP ${response.status}: ${response.statusText}`);
+    const data = await response.json();
+    console.log(`✅ ${label}: ${data.results.length}개 레코드`);
+    return data;
 }
 
 async function generateScheduleJSON() {
     try {
-        console.log('🔍 Notion 데이터 가져오는 중...');
-        
-        // Notion API 호출
-        const response = await fetch(`https://api.notion.com/v1/databases/${NOTION_DATABASE_ID}/query`, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${NOTION_API_KEY}`,
-                'Notion-Version': '2022-06-28',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                page_size: 50,
-                sorts: [
-                    { property: '개강일', direction: 'ascending' }
-                ]
-            })
-        });
+        // 1. Cohort Management 가져오기
+        const cohortData = await fetchNotionDB(NOTION_COHORT_DB_ID, 'Cohort Management');
 
-        if (!response.ok) {
-            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        // 2. Lecture Management 가져오기 + 스키마 발견
+        const lectureData = await fetchNotionDB(NOTION_LECTURE_DB_ID, 'Lecture Management', 100);
+
+        // Lecture Management 스키마 출력
+        if (lectureData.results.length > 0) {
+            console.log('\n📋 Lecture Management 스키마:');
+            const props = lectureData.results[0].properties;
+            Object.keys(props).forEach(key => {
+                console.log(`  - ${key} (${props[key].type})`);
+            });
+            lectureData.results.forEach((record, idx) => {
+                const p = record.properties;
+                console.log(`\n📄 Lecture #${idx + 1}:`);
+                Object.keys(p).forEach(key => {
+                    const prop = p[key];
+                    let value = '(empty)';
+                    if (prop.type === 'title' && prop.title?.[0]) value = prop.title[0].text?.content || '';
+                    else if (prop.type === 'rich_text' && prop.rich_text?.[0]) value = prop.rich_text[0].text?.content || '';
+                    else if (prop.type === 'number' && prop.number !== null) value = prop.number;
+                    else if (prop.type === 'select' && prop.select) value = prop.select.name;
+                    else if (prop.type === 'date' && prop.date) value = prop.date.start;
+                    else if (prop.type === 'relation' && prop.relation?.length > 0) value = prop.relation.map(r => r.id).join(', ');
+                    else if (prop.type === 'rollup' && prop.rollup) value = JSON.stringify(prop.rollup);
+                    else if (prop.type === 'checkbox') value = prop.checkbox;
+                    console.log(`  ${key}: ${value}`);
+                });
+            });
         }
 
-        const rawData = await response.json();
-        console.log(`✅ ${rawData.results.length}개 강의 데이터 받음`);
-        
-        // 캘린더 형식으로 변환 (GitHub Actions와 동일한 로직)
+        // 3. Cohort 데이터 변환 (기존 로직 유지)
         const calendarData = [];
-        
-        rawData.results.forEach((course, index) => {
+
+        cohortData.results.forEach((course, index) => {
             const props = course.properties;
-            const title = props.강의명?.title?.[0]?.text?.content || `강의 ${index + 1}`;
-            const category = props.카테고리?.select?.name || 'SCM 기초';
+            const title = props.기수명?.title?.[0]?.text?.content || `강의 ${index + 1}`;
+            const category = props.강의종류?.select?.name || 'SCM 기초';
             const status = props.상태?.select?.name || '준비중';
-            const startDate = props.개강일?.date?.start;
-            const description = props.강의설명?.rich_text?.[0]?.text?.content || '';
-            const maxStudents = props.최대인원?.number || 10;
+            const description = props.비고?.rich_text?.[0]?.text?.content || '';
+            const price = props.수강료?.number || 0;
+            const maxStudents = props.최대인원?.number || 20;
             const currentStudents = props.현재등록인원?.number || 0;
 
-            // 기수 번호 추출 (숫자 필드 또는 타이틀에서 추출)
             let batch = props.기수?.number;
             if (!batch) {
-                // 기수 필드가 없으면 타이틀에서 숫자 추출
                 const batchMatch = title.match(/(\d+)기/);
                 batch = batchMatch ? parseInt(batchMatch[1]) : (index + 1);
             }
 
-            // 삭제되지 않은 모든 강의 포함 (개강일 없어도 포함)
-            if (!course.archived && !course.in_trash) {
-                calendarData.push({
-                    name: title,
-                    date: startDate || null,
-                    tags: [
-                        title,
-                        `카테고리: ${category}`,
-                        description || '상세 설명 없음'
-                    ],
-                    status: status,
-                    batch: batch,
-                    maxStudents: maxStudents,
-                    currentStudents: currentStudents,
-                    notionData: {
-                        id: course.id,
-                        title,
-                        category,
-                        status,
-                        startDate,
-                        description,
-                        batch,
-                        maxStudents,
-                        currentStudents
-                    }
-                });
+            if (course.archived || course.in_trash) return;
 
-                console.log(`📚 ${index + 1}. ${title} (${batch}기, ${status}) - ${startDate || '날짜 없음'}`);
-            }
+            const courseInfo = { id: course.id, title, category, status, description, price, maxStudents, currentStudents, batch };
+
+            const lecture1 = props['강의(1)']?.date?.start;
+            const lecture2 = props['강의(2)']?.date?.start;
+            const lecture3 = props['강의(3)']?.date?.start;
+            const assignment1 = props['과제세션(1)']?.date?.start;
+            const assignment2 = props['과제세션(2)']?.date?.start;
+
+            if (lecture1) calendarData.push({ name: title, date: lecture1, type: 'lecture', week: 1, label: '1주차 강의', hasAssignment: true, status, batch, maxStudents, currentStudents, notionData: courseInfo });
+            if (assignment1) calendarData.push({ name: title, date: assignment1, type: 'assignment', week: 2, label: '2주차 피드백', hasAssignment: true, status, batch, maxStudents, currentStudents, notionData: courseInfo });
+            if (lecture2) calendarData.push({ name: title, date: lecture2, type: 'lecture', week: 3, label: '3주차 강의', hasAssignment: true, status, batch, maxStudents, currentStudents, notionData: courseInfo });
+            if (assignment2) calendarData.push({ name: title, date: assignment2, type: 'assignment', week: 4, label: '4주차 피드백', hasAssignment: true, status, batch, maxStudents, currentStudents, notionData: courseInfo });
+            if (lecture3) calendarData.push({ name: title, date: lecture3, type: 'lecture', week: 5, label: '5주차 최종발표', hasAssignment: false, status, batch, maxStudents, currentStudents, notionData: courseInfo });
+
+            console.log(`📚 ${index + 1}. ${title} (${batch}기, ${status})`);
         });
-        
-        // 출력 데이터 구성
+
+        // 4. TODO: Lecture Management 데이터 병합 (스키마 확인 후 구현)
+        console.log('\n⚠️  Lecture Management 스키마를 위에서 확인하세요.');
+        console.log('⚠️  필드 매핑 확인 후 변환 로직을 업데이트하세요.\n');
+
+        calendarData.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+        if (!fs.existsSync('data')) fs.mkdirSync('data');
+
         const output = {
             success: true,
             data: calendarData,
             lastUpdated: new Date().toISOString(),
-            totalCourses: calendarData.length
+            totalSessions: calendarData.length
         };
-        
-        // data 디렉토리 생성
-        if (!fs.existsSync('data')) {
-            fs.mkdirSync('data');
-        }
-        
-        // JSON 파일 저장
+
         fs.writeFileSync('data/schedule.json', JSON.stringify(output, null, 2));
-        console.log(`✅ ${calendarData.length}개 강의 데이터가 data/schedule.json에 저장되었습니다.`);
-        
+        console.log(`✅ ${calendarData.length}개 세션 데이터가 data/schedule.json에 저장되었습니다.`);
+
         return output;
-        
+
     } catch (error) {
         console.error('❌ 스케줄 생성 실패:', error.message);
         process.exit(1);
