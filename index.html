@@ -478,8 +478,9 @@
         .calendar-day.batch-5 .calendar-event { background: linear-gradient(135deg, #ff2d55 0%, #ff6482 100%); }
         .calendar-day.batch-6 { background: rgba(90, 200, 250, 0.12); border-color: #5ac8fa; }
         .calendar-day.batch-6 .calendar-event { background: linear-gradient(135deg, #5ac8fa 0%, #70d7ff 100%); }
-        .calendar-day.today { outline: 2px solid var(--blue); outline-offset: -2px; position: relative; }
-        .calendar-day.today .calendar-day-number::after { content: '오늘'; font-size: 9px; color: var(--blue); font-weight: var(--font-bold); margin-left: 4px; }
+        .calendar-day.today { background: rgba(0, 113, 227, 0.18); border-color: var(--blue); box-shadow: inset 0 0 0 2px var(--blue); }
+        .calendar-day.today .calendar-day-number { color: var(--blue); font-weight: var(--font-bold); }
+        .calendar-day.today .calendar-day-number::after { content: '오늘'; font-size: 9px; background: var(--blue); color: #fff; padding: 1px 5px; border-radius: 8px; margin-left: 4px; vertical-align: middle; }
         .status-badge { font-size: 10px; margin-left: auto; }
         .calendar-day-number { font-size: var(--text-sm); color: var(--text-secondary); margin-bottom: var(--space-1); flex-shrink: 0; }
         .calendar-day.class-day .calendar-day-number { color: var(--blue); font-weight: var(--font-semibold); }
@@ -555,7 +556,9 @@
             background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: var(--radius-md); transition: all var(--transition-fast);
         }
         .calendar-list-item:hover { border-color: var(--blue); }
-        .calendar-list-item.today { outline: 2px solid var(--blue); outline-offset: -2px; }
+        .calendar-list-item.today { background: rgba(0, 113, 227, 0.18); box-shadow: inset 0 0 0 2px var(--blue); }
+        .batch-group-header { font-size: var(--text-base); font-weight: var(--font-bold); color: var(--text-primary); padding: var(--space-3) 0 var(--space-2); border-bottom: 2px solid var(--blue); margin-bottom: var(--space-2); display: flex; align-items: center; gap: var(--space-2); }
+        .batch-group-header .batch-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
         .calendar-list-item.class-day { background: rgba(0, 113, 227, 0.1); border-color: var(--blue); }
         .list-date {
             display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -1741,23 +1744,40 @@
             const sorted = [...data].sort((a, b) => new Date(a.date) - new Date(b.date));
             if (!sorted.length) return '<div class="calendar-list-item" style="justify-content: center; color: var(--text-secondary);">이번 달에는 강의 일정이 없습니다.</div>';
 
-            return sorted.map(item => {
-                const [y, m, d] = item.date.split('-').map(Number);
-                const date = new Date(y, m - 1, d);
-                const isToday = item.date === todayStr;
+            // Group by batch
+            const groups = {};
+            sorted.forEach(item => {
                 const batch = extractBatchNumber(item);
-                const batchClass = `batch-${getBatchColorIndex(batch)}`;
-                const week = item.week || 1;
-                const wc = weeklyContent[week] || weeklyContent[1];
-                const isLecture = item.type === 'lecture';
-                return `<div class="calendar-list-item class-day ${batchClass}${isToday ? ' today' : ''}">
-                    <div class="list-date"><span class="list-day">${d}</span><span class="list-weekday">${weekdays[date.getDay()]}${isToday ? ' (오늘)' : ''}</span></div>
-                    <div class="list-content">
-                        <div class="list-title">${week}주차 · ${wc.lecture}</div>
-                        <div class="list-meta"><span>${isLecture ? '📚' : '📝'} ${batch}기</span>${wc.assignment ? `<span>📋 ${wc.assignment}</span>` : ''}</div>
-                        <div style="font-size: var(--text-xs); color: var(--text-tertiary); margin-top: 4px;">${wc.desc}</div>
-                    </div></div>`;
-            }).join('');
+                if (!groups[batch]) groups[batch] = [];
+                groups[batch].push(item);
+            });
+
+            let html = '';
+            Object.keys(groups).sort((a, b) => a - b).forEach(batch => {
+                const batchNum = parseInt(batch);
+                const color = batchConfig[getBatchColorIndex(batchNum)].color;
+                const batchStatus = batchList.find(b => b.batch === batchNum);
+                const status = batchStatus ? computeBatchStatus(batchStatus) : '준비중';
+                html += `<div class="batch-group-header"><span class="batch-dot" style="background:${color}"></span>${batchNum}기 (${status})</div>`;
+
+                groups[batch].forEach(item => {
+                    const [y, m, d] = item.date.split('-').map(Number);
+                    const date = new Date(y, m - 1, d);
+                    const isToday = item.date === todayStr;
+                    const batchClass = `batch-${getBatchColorIndex(batchNum)}`;
+                    const week = item.week || 1;
+                    const wc = weeklyContent[week] || weeklyContent[1];
+                    const isLecture = item.type === 'lecture';
+                    html += `<div class="calendar-list-item class-day ${batchClass}${isToday ? ' today' : ''}">
+                        <div class="list-date"><span class="list-day">${d}</span><span class="list-weekday">${m}월 ${d}일 ${weekdays[date.getDay()]}${isToday ? ' (오늘)' : ''}</span></div>
+                        <div class="list-content">
+                            <div class="list-title">${week}주차 · ${wc.lecture}</div>
+                            <div class="list-meta"><span>${isLecture ? '📚' : '📝'} ${batchNum}기</span>${wc.assignment ? `<span>📋 ${wc.assignment}</span>` : ''}</div>
+                            <div style="font-size: var(--text-xs); color: var(--text-tertiary); margin-top: 4px;">${wc.desc}</div>
+                        </div></div>`;
+                });
+            });
+            return html;
         }
 
         function updateCalendar(month, year, batch) {
