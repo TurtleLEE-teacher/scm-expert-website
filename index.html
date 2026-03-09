@@ -478,6 +478,8 @@
         .calendar-day.batch-5 .calendar-event { background: linear-gradient(135deg, #ff2d55 0%, #ff6482 100%); }
         .calendar-day.batch-6 { background: rgba(90, 200, 250, 0.12); border-color: #5ac8fa; }
         .calendar-day.batch-6 .calendar-event { background: linear-gradient(135deg, #5ac8fa 0%, #70d7ff 100%); }
+        .calendar-day.today { outline: 2px solid var(--blue); outline-offset: -2px; position: relative; }
+        .calendar-day.today .calendar-day-number::after { content: '오늘'; font-size: 9px; color: var(--blue); font-weight: var(--font-bold); margin-left: 4px; }
         .status-badge { font-size: 10px; margin-left: auto; }
         .calendar-day-number { font-size: var(--text-sm); color: var(--text-secondary); margin-bottom: var(--space-1); flex-shrink: 0; }
         .calendar-day.class-day .calendar-day-number { color: var(--blue); font-weight: var(--font-semibold); }
@@ -553,6 +555,7 @@
             background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: var(--radius-md); transition: all var(--transition-fast);
         }
         .calendar-list-item:hover { border-color: var(--blue); }
+        .calendar-list-item.today { outline: 2px solid var(--blue); outline-offset: -2px; }
         .calendar-list-item.class-day { background: rgba(0, 113, 227, 0.1); border-color: var(--blue); }
         .list-date {
             display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -1503,17 +1506,21 @@
 
         function getBatchColorIndex(n) { return ((n - 1) % 6) + 1; }
 
-        function getStatusText(s) {
-            if (!s) return '준비중';
-            if (s.includes('완료') || s.includes('종료')) return '종료';
-            if (s.includes('진행')) return '진행중';
-            if (s.includes('모집')) return '모집중';
+        // 오늘 날짜 기준으로 기수 상태를 동적 계산
+        function computeBatchStatus(batchInfo) {
+            const today = new Date().toISOString().split('T')[0];
+            if (today > batchInfo.lastDate) return '종료';
+            if (today >= batchInfo.firstDate && today <= batchInfo.lastDate) return '진행중';
+            // 개강 2주 전부터 모집중
+            const twoWeeksBefore = new Date(batchInfo.firstDate);
+            twoWeeksBefore.setDate(twoWeeksBefore.getDate() - 14);
+            const recruitStart = twoWeeksBefore.toISOString().split('T')[0];
+            if (today >= recruitStart) return '모집중';
             return '준비중';
         }
 
-        function isBatchCompleted(status) {
-            const st = getStatusText(status);
-            return st === '종료';
+        function isBatchCompleted(batchInfo) {
+            return computeBatchStatus(batchInfo) === '종료';
         }
 
         // Find the batch closest to today
@@ -1590,11 +1597,11 @@
             updateBatchNav();
             updateScheduleLegend();
 
-            // Show first month of this batch
-            if (notionData.length > 0) {
-                const [year, month] = notionData[0].date.split('-').map(Number);
-                updateCalendar(month, year, info.batch);
-            }
+            // Show today's month as default
+            const now = new Date();
+            const todayMonth = now.getMonth() + 1;
+            const todayYear = now.getFullYear();
+            updateCalendar(todayMonth, todayYear, info.batch);
 
             // Show/hide reviews based on batch status
             updateBatchReviews();
@@ -1606,7 +1613,7 @@
             const prevBtn = document.getElementById('prevBatchBtn');
             const nextBtn = document.getElementById('nextBatchBtn');
 
-            const statusText = getStatusText(info.status);
+            const statusText = computeBatchStatus(info);
             const statusLabel = statusText === '종료' ? '완료' : statusText;
             currentEl.innerHTML = `${info.batch}기<span class="batch-status">${statusLabel}</span>`;
 
@@ -1619,7 +1626,7 @@
             const panel = document.getElementById('batchReviews');
             if (!panel) return;
 
-            if (isBatchCompleted(info.status)) {
+            if (isBatchCompleted(info)) {
                 await fetchReviews();
                 if (reviewsData.length > 0) {
                     panel.classList.add('active');
@@ -1670,7 +1677,7 @@
 
             const info = batchList[currentBatchIndex];
             const batchNum = info.batch;
-            const statusText = getStatusText(info.status);
+            const statusText = computeBatchStatus(info);
 
             legendEl.innerHTML = `
                 <div class="legend-section">
@@ -1685,6 +1692,8 @@
             let html = '';
             ['일','월','화','수','목','금','토'].forEach(d => { html += `<div class="calendar-day-header">${d}</div>`; });
 
+            const now = new Date();
+            const todayStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
             const firstDay = new Date(targetYear, targetMonth - 1, 1);
             const daysInMonth = new Date(targetYear, targetMonth, 0).getDate();
 
@@ -1692,6 +1701,8 @@
 
             for (let day = 1; day <= daysInMonth; day++) {
                 const dateStr = `${targetYear}-${String(targetMonth).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+                const isToday = dateStr === todayStr;
+                const todayClass = isToday ? ' today' : '';
                 const session = data.find(item => item.date === dateStr);
 
                 if (session) {
@@ -1703,13 +1714,13 @@
                     const weekLabel = session.label || `${session.week}주차`;
                     const assignmentDot = session.hasAssignment ? '<div class="calendar-assignment">\u2022 과제</div>' : '';
 
-                    html += `<div class="calendar-day class-day ${batchClass}" title="${session.name} - ${status}">
+                    html += `<div class="calendar-day class-day ${batchClass}${todayClass}" title="${session.name} - ${status}">
                         <div class="calendar-day-number">${day} <span class="status-badge">${statusIcon}</span></div>
                         <div class="calendar-event">${batch}기 ${weekLabel}</div>
                         <div class="calendar-session-type">${isLecture ? '📚 수업' : '📝 피드백'}</div>
                         ${assignmentDot}</div>`;
                 } else {
-                    html += `<div class="calendar-day"><div class="calendar-day-number">${day}</div></div>`;
+                    html += `<div class="calendar-day${todayClass}"><div class="calendar-day-number">${day}</div></div>`;
                 }
             }
             return html;
@@ -1725,19 +1736,22 @@
 
         function generateListView(data, month, year) {
             const weekdays = ['일','월','화','수','목','금','토'];
+            const now = new Date();
+            const todayStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
             const sorted = [...data].sort((a, b) => new Date(a.date) - new Date(b.date));
             if (!sorted.length) return '<div class="calendar-list-item" style="justify-content: center; color: var(--text-secondary);">이번 달에는 강의 일정이 없습니다.</div>';
 
             return sorted.map(item => {
                 const [y, m, d] = item.date.split('-').map(Number);
                 const date = new Date(y, m - 1, d);
+                const isToday = item.date === todayStr;
                 const batch = extractBatchNumber(item);
                 const batchClass = `batch-${getBatchColorIndex(batch)}`;
                 const week = item.week || 1;
                 const wc = weeklyContent[week] || weeklyContent[1];
                 const isLecture = item.type === 'lecture';
-                return `<div class="calendar-list-item class-day ${batchClass}">
-                    <div class="list-date"><span class="list-day">${d}</span><span class="list-weekday">${weekdays[date.getDay()]}</span></div>
+                return `<div class="calendar-list-item class-day ${batchClass}${isToday ? ' today' : ''}">
+                    <div class="list-date"><span class="list-day">${d}</span><span class="list-weekday">${weekdays[date.getDay()]}${isToday ? ' (오늘)' : ''}</span></div>
                     <div class="list-content">
                         <div class="list-title">${week}주차 · ${wc.lecture}</div>
                         <div class="list-meta"><span>${isLecture ? '📚' : '📝'} ${batch}기</span>${wc.assignment ? `<span>📋 ${wc.assignment}</span>` : ''}</div>
