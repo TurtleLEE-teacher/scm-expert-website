@@ -51,39 +51,13 @@ async function generateScheduleJSON() {
         // 1. Cohort Management 가져오기
         const cohortData = await fetchNotionDB(NOTION_COHORT_DB_ID, 'Cohort Management');
 
-        // 2. Lecture Management 가져오기 + 스키마 발견
+        // 2. Lecture Management 가져오기
         const lectureData = await fetchNotionDB(NOTION_LECTURE_DB_ID, 'Lecture Management', 100);
 
-        // Lecture Management 스키마 출력
-        if (lectureData.results.length > 0) {
-            console.log('\n📋 Lecture Management 스키마:');
-            const props = lectureData.results[0].properties;
-            Object.keys(props).forEach(key => {
-                console.log(`  - ${key} (${props[key].type})`);
-            });
-            lectureData.results.forEach((record, idx) => {
-                const p = record.properties;
-                console.log(`\n📄 Lecture #${idx + 1}:`);
-                Object.keys(p).forEach(key => {
-                    const prop = p[key];
-                    let value = '(empty)';
-                    if (prop.type === 'title' && prop.title?.[0]) value = prop.title[0].text?.content || '';
-                    else if (prop.type === 'rich_text' && prop.rich_text?.[0]) value = prop.rich_text[0].text?.content || '';
-                    else if (prop.type === 'number' && prop.number !== null) value = prop.number;
-                    else if (prop.type === 'select' && prop.select) value = prop.select.name;
-                    else if (prop.type === 'date' && prop.date) value = prop.date.start;
-                    else if (prop.type === 'relation' && prop.relation?.length > 0) value = prop.relation.map(r => r.id).join(', ');
-                    else if (prop.type === 'rollup' && prop.rollup) value = JSON.stringify(prop.rollup);
-                    else if (prop.type === 'checkbox') value = prop.checkbox;
-                    console.log(`  ${key}: ${value}`);
-                });
-            });
-        }
-
-        // 3. Cohort 데이터 변환 (기존 로직 유지)
-        const calendarData = [];
-
+        // 3. Cohort 메타데이터 맵 구축 (ID → 기수 정보)
+        const cohortMap = {};
         cohortData.results.forEach((course, index) => {
+            if (course.archived || course.in_trash) return;
             const props = course.properties;
             const title = props.기수명?.title?.[0]?.text?.content || `강의 ${index + 1}`;
             const category = props.강의종류?.select?.name || 'SCM 기초';
@@ -92,35 +66,102 @@ async function generateScheduleJSON() {
             const price = props.수강료?.number || 0;
             const maxStudents = props.최대인원?.number || 20;
             const currentStudents = props.현재등록인원?.number || 0;
-
             let batch = props.기수?.number;
             if (!batch) {
                 const batchMatch = title.match(/(\d+)기/);
                 batch = batchMatch ? parseInt(batchMatch[1]) : (index + 1);
             }
-
-            if (course.archived || course.in_trash) return;
-
-            const courseInfo = { id: course.id, title, category, status, description, price, maxStudents, currentStudents, batch };
-
-            const lecture1 = props['강의(1)']?.date?.start;
-            const lecture2 = props['강의(2)']?.date?.start;
-            const lecture3 = props['강의(3)']?.date?.start;
-            const assignment1 = props['과제세션(1)']?.date?.start;
-            const assignment2 = props['과제세션(2)']?.date?.start;
-
-            if (lecture1) calendarData.push({ name: title, date: lecture1, type: 'lecture', week: 1, label: '1주차 강의', hasAssignment: true, status, batch, maxStudents, currentStudents, notionData: courseInfo });
-            if (assignment1) calendarData.push({ name: title, date: assignment1, type: 'assignment', week: 2, label: '2주차 피드백', hasAssignment: true, status, batch, maxStudents, currentStudents, notionData: courseInfo });
-            if (lecture2) calendarData.push({ name: title, date: lecture2, type: 'lecture', week: 3, label: '3주차 강의', hasAssignment: true, status, batch, maxStudents, currentStudents, notionData: courseInfo });
-            if (assignment2) calendarData.push({ name: title, date: assignment2, type: 'assignment', week: 4, label: '4주차 피드백', hasAssignment: true, status, batch, maxStudents, currentStudents, notionData: courseInfo });
-            if (lecture3) calendarData.push({ name: title, date: lecture3, type: 'lecture', week: 5, label: '5주차 최종발표', hasAssignment: false, status, batch, maxStudents, currentStudents, notionData: courseInfo });
-
-            console.log(`📚 ${index + 1}. ${title} (${batch}기, ${status})`);
+            cohortMap[course.id] = {
+                id: course.id, title, category, status, description,
+                price, maxStudents, currentStudents, batch
+            };
+            console.log(`  ✓ 기수 등록: ${title} (${batch}기)`);
         });
 
-        // 4. TODO: Lecture Management 데이터 병합 (스키마 확인 후 구현)
-        console.log('\n⚠️  Lecture Management 스키마를 위에서 확인하세요.');
-        console.log('⚠️  필드 매핑 확인 후 변환 로직을 업데이트하세요.\n');
+        // 4. Lecture 데이터 → calendarData 변환
+        const calendarData = [];
+
+        if (lectureData.results && lectureData.results.length > 0) {
+            lectureData.results.forEach((lecture) => {
+                if (lecture.archived || lecture.in_trash) return;
+                const p = lecture.properties;
+
+                const lectureName = p.강의명?.title?.[0]?.text?.content || '';
+                const lectureDate = p.강의일시?.date?.start;
+                const weekNum = p.주차?.number || 0;
+                const lectureType = p.유형?.select?.name || '';
+                const cohortRelation = p.기수?.relation?.[0]?.id || '';
+
+                if (!lectureDate) return;
+
+                const cohort = cohortMap[cohortRelation] || {
+                    id: cohortRelation, title: lectureName.split(' - ')[0] || '알 수 없음',
+                    category: 'SCM 기초', status: '준비중', description: '',
+                    price: 0, maxStudents: 20, currentStudents: 0, batch: 0
+                };
+
+                let overallWeek, label, type, hasAssignment;
+                if (lectureType === '강의') {
+                    type = 'lecture';
+                    overallWeek = weekNum * 2 - 1;
+                    hasAssignment = weekNum < 3;
+                    if (weekNum === 1) label = '1주차 강의';
+                    else if (weekNum === 2) label = '3주차 강의';
+                    else if (weekNum === 3) label = '5주차 최종발표';
+                    else label = `${overallWeek}주차 강의`;
+                } else if (lectureType === '과제세션') {
+                    type = 'assignment';
+                    overallWeek = weekNum * 2;
+                    hasAssignment = true;
+                    if (weekNum === 1) label = '2주차 피드백';
+                    else if (weekNum === 2) label = '4주차 피드백';
+                    else label = `${overallWeek}주차 피드백`;
+                } else {
+                    type = 'lecture';
+                    overallWeek = weekNum;
+                    label = `${weekNum}주차`;
+                    hasAssignment = false;
+                }
+
+                calendarData.push({
+                    name: cohort.title, date: lectureDate, type, week: overallWeek,
+                    label, hasAssignment, status: cohort.status, batch: cohort.batch,
+                    maxStudents: cohort.maxStudents, currentStudents: cohort.currentStudents,
+                    notionData: cohort
+                });
+
+                console.log(`  📅 ${lectureName} → ${lectureDate} (week ${overallWeek}, ${type})`);
+            });
+            console.log(`\n✅ Lecture Management에서 ${calendarData.length}개 세션 변환 완료`);
+        } else {
+            // Lecture Management 데이터가 없으면 Cohort의 날짜 필드로 폴백
+            console.log('⚠️  Lecture 데이터 없음 → Cohort 날짜 필드로 폴백');
+            Object.values(cohortMap).forEach(cohort => {
+                const course = cohortData.results.find(r => r.id === cohort.id);
+                if (!course) return;
+                const props = course.properties;
+                const dates = [
+                    { key: '강의(1)', week: 1, type: 'lecture', label: '1주차 강의', hasAssignment: true },
+                    { key: '과제세션(1)', week: 2, type: 'assignment', label: '2주차 피드백', hasAssignment: true },
+                    { key: '강의(2)', week: 3, type: 'lecture', label: '3주차 강의', hasAssignment: true },
+                    { key: '과제세션(2)', week: 4, type: 'assignment', label: '4주차 피드백', hasAssignment: true },
+                    { key: '강의(3)', week: 5, type: 'lecture', label: '5주차 최종발표', hasAssignment: false }
+                ];
+                dates.forEach(d => {
+                    const date = props[d.key]?.date?.start;
+                    if (date) {
+                        calendarData.push({
+                            name: cohort.title, date, type: d.type, week: d.week,
+                            label: d.label, hasAssignment: d.hasAssignment,
+                            status: cohort.status, batch: cohort.batch,
+                            maxStudents: cohort.maxStudents, currentStudents: cohort.currentStudents,
+                            notionData: cohort
+                        });
+                    }
+                });
+            });
+            console.log(`✅ Cohort 폴백으로 ${calendarData.length}개 세션 변환 완료`);
+        }
 
         calendarData.sort((a, b) => new Date(a.date) - new Date(b.date));
 
