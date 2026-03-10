@@ -1648,15 +1648,20 @@
                 currentBatchIndex = findCurrentBatchIndex();
                 selectBatch(currentBatchIndex);
 
-                // 간트 뷰가 기본이면 데이터 로드 후 다시 렌더링
-                if (currentView === 'gantt') {
-                    const gantt = document.getElementById('calendarGantt');
-                    if (gantt) gantt.innerHTML = generateGanttView(ganttYear);
-                }
+                // 데이터 로드 완료 후 현재 뷰 다시 렌더링
+                setCalendarView(currentView);
 
             } catch (e) {
                 const batchInfo = document.getElementById('batchInfo');
-                if (batchInfo) batchInfo.textContent = '일정 데이터를 불러올 수 없습니다';
+                if (batchInfo) {
+                    batchInfo.textContent = '일정 데이터를 불러올 수 없습니다';
+                    batchInfo.style.display = '';
+                }
+                // 간트 뷰에서도 에러 표시
+                const gantt = document.getElementById('calendarGantt');
+                if (gantt && currentView === 'gantt') {
+                    gantt.innerHTML = '<div class="gantt-empty">일정 데이터를 불러올 수 없습니다.</div>';
+                }
             }
         }
 
@@ -2135,9 +2140,10 @@
             return localStorage.getItem('calendarView') || 'gantt';
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            fetchNotionData();
-            setCalendarView(getDefaultView());
+        document.addEventListener('DOMContentLoaded', async () => {
+            const view = getDefaultView();
+            setCalendarView(view);
+            await fetchNotionData();
         });
 
         window.addEventListener('resize', () => {
