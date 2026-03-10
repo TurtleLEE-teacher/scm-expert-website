@@ -1188,7 +1188,15 @@
                     </div>
 
                     <div class="view-toggle">
-                        <button class="view-toggle-btn active" id="gridViewBtn" onclick="setCalendarView('grid')">
+                        <button class="view-toggle-btn" id="ganttViewBtn" onclick="setCalendarView('gantt')">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="4" width="13" height="4" rx="1"></rect>
+                                <rect x="7" y="10" width="14" height="4" rx="1"></rect>
+                                <rect x="5" y="16" width="10" height="4" rx="1"></rect>
+                            </svg>
+                            연간
+                        </button>
+                        <button class="view-toggle-btn" id="gridViewBtn" onclick="setCalendarView('grid')">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect>
                                 <rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect>
@@ -1203,14 +1211,6 @@
                                 <line x1="3" y1="18" x2="3.01" y2="18"></line>
                             </svg>
                             목록
-                        </button>
-                        <button class="view-toggle-btn" id="ganttViewBtn" onclick="setCalendarView('gantt')">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="3" y="4" width="13" height="4" rx="1"></rect>
-                                <rect x="7" y="10" width="14" height="4" rx="1"></rect>
-                                <rect x="5" y="16" width="10" height="4" rx="1"></rect>
-                            </svg>
-                            연간
                         </button>
                     </div>
 
@@ -2002,16 +2002,17 @@
                 const batchNum = cohort.batch;
                 const colorIdx = getBatchColorIndex(batchNum);
                 const color = batchConfig[colorIdx].color;
-                const batchInfo = batchList.find(b => b.batch === batchNum);
-                const status = batchInfo ? computeBatchStatus(batchInfo) : '준비중';
-                const statusIcon = statusConfig[status]?.icon || '⚪';
-                const isCompleted = status === '종료';
+
+                // 프로그램 자체의 마지막 세션 날짜로 종료 판정
+                const cohortLastDate = cohort.sessions.reduce((max, s) => s.date > max ? s.date : max, cohort.sessions[0].date);
+                const isCompleted = todayStr > cohortLastDate;
+                const statusIcon = isCompleted ? '✅' : (statusConfig[computeBatchStatus(batchList.find(b => b.batch === batchNum) || {firstDate: cohortLastDate, lastDate: cohortLastDate})]?.icon || '⚪');
 
                 html += `<div class="gantt-row${isCompleted ? ' gantt-row-completed' : ''}">`;
                 html += `<div class="gantt-row-label">
                     <span class="gantt-row-dot" style="background:${isCompleted ? '#888' : color}"></span>
                     <span style="${isCompleted ? 'text-decoration:line-through; opacity:0.6;' : ''}">${cohort.title}</span>
-                    <span class="gantt-row-status">${statusIcon} ${isCompleted ? '종료' : ''}</span>
+                    <span class="gantt-row-status">${statusIcon}${isCompleted ? ' 종료' : ''}</span>
                 </div>`;
 
                 // Cells for each month
