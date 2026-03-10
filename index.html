@@ -488,6 +488,12 @@
             font-size: var(--text-xs); background: var(--blue); color: #fff; padding: 3px 6px; border-radius: var(--radius-sm);
             display: block; margin-bottom: var(--space-1); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%;
         }
+        .calendar-category {
+            font-size: 9px; font-weight: var(--font-bold); padding: 1px 5px; border-radius: 3px;
+            display: inline-block; margin-bottom: 2px; letter-spacing: 0.3px;
+        }
+        .calendar-category.cat-scm { background: #0071e3; color: #fff; }
+        .calendar-category.cat-consulting { background: #ff9500; color: #fff; }
         .calendar-session-type { font-size: 10px; color: var(--text-secondary); margin-bottom: 2px; }
         .calendar-assignment { font-size: 10px; color: var(--blue); display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .schedule-legend { display: flex; flex-direction: column; align-items: center; gap: var(--space-4); }
@@ -566,7 +572,7 @@
             align-items: center; min-height: 48px; border-bottom: 1px solid var(--border-color);
             transition: background var(--transition-fast);
         }
-        .gantt-row:hover { background: rgba(0, 113, 227, 0.04); }
+        .gantt-row:hover { background: rgba(0, 113, 227, 0.04); cursor: pointer; }
         .gantt-row-label {
             font-size: var(--text-sm); font-weight: var(--font-semibold); color: var(--text-primary);
             padding: var(--space-2) var(--space-3); display: flex; align-items: center; gap: var(--space-2);
@@ -1811,9 +1817,14 @@
                     const isLecture = session.type === 'lecture';
                     const weekLabel = session.label || `${session.week}주차`;
                     const assignmentDot = session.hasAssignment ? '<div class="calendar-assignment">\u2022 과제</div>' : '';
+                    const category = session.notionData?.category || '';
+                    const isConsulting = category.includes('컨설팅');
+                    const catLabel = isConsulting ? '컨설팅' : 'SCM';
+                    const catClass = isConsulting ? 'cat-consulting' : 'cat-scm';
 
                     html += `<div class="calendar-day class-day ${batchClass}${todayClass}" title="${session.name} - ${status}">
                         <div class="calendar-day-number">${day} <span class="status-badge">${statusIcon}</span></div>
+                        <span class="calendar-category ${catClass}">${catLabel}</span>
                         <div class="calendar-event">${batch}기 ${weekLabel}</div>
                         <div class="calendar-session-type">${isLecture ? '📚 수업' : '📝 피드백'}</div>
                         ${assignmentDot}</div>`;
@@ -1863,9 +1874,14 @@
                     const week = item.week || 1;
                     const wc = weeklyContent[week] || weeklyContent[1];
                     const isLecture = item.type === 'lecture';
+                    const category = item.notionData?.category || '';
+                    const isConsulting = category.includes('컨설팅');
+                    const catLabel = isConsulting ? '컨설팅' : 'SCM';
+                    const catClass = isConsulting ? 'cat-consulting' : 'cat-scm';
                     html += `<div class="calendar-list-item class-day ${batchClass}${isToday ? ' today' : ''}">
                         <div class="list-date"><span class="list-day">${d}</span><span class="list-weekday">${m}월 ${d}일 ${weekdays[date.getDay()]}${isToday ? ' (오늘)' : ''}</span></div>
                         <div class="list-content">
+                            <span class="calendar-category ${catClass}">${catLabel}</span>
                             <div class="list-title">${week}주차 · ${wc.lecture}</div>
                             <div class="list-meta"><span>${isLecture ? '📚' : '📝'} ${batchNum}기</span>${wc.assignment ? `<span>📋 ${wc.assignment}</span>` : ''}</div>
                             <div style="font-size: var(--text-xs); color: var(--text-tertiary); margin-top: 4px;">${wc.desc}</div>
@@ -2010,11 +2026,12 @@
                 const color = batchConfig[colorIdx].color;
 
                 // 프로그램 자체의 마지막 세션 날짜로 종료 판정
+                const cohortFirstDate = cohort.sessions.reduce((min, s) => s.date < min ? s.date : min, cohort.sessions[0].date);
                 const cohortLastDate = cohort.sessions.reduce((max, s) => s.date > max ? s.date : max, cohort.sessions[0].date);
                 const isCompleted = todayStr > cohortLastDate;
                 const statusIcon = isCompleted ? '✅' : (statusConfig[computeBatchStatus(batchList.find(b => b.batch === batchNum) || {firstDate: cohortLastDate, lastDate: cohortLastDate})]?.icon || '⚪');
 
-                html += `<div class="gantt-row${isCompleted ? ' gantt-row-completed' : ''}">`;
+                html += `<div class="gantt-row${isCompleted ? ' gantt-row-completed' : ''}" onclick="navigateToCohortCalendar(${batchNum}, '${cohortFirstDate}')">`;
                 html += `<div class="gantt-row-label">
                     <span class="gantt-row-dot" style="background:${isCompleted ? '#888' : color}"></span>
                     <span style="${isCompleted ? 'text-decoration:line-through; opacity:0.6;' : ''}">${cohort.title}</span>
@@ -2061,6 +2078,15 @@
             ganttYear += dir;
             const gantt = document.getElementById('calendarGantt');
             if (gantt) gantt.innerHTML = generateGanttView(ganttYear);
+        };
+
+        window.navigateToCohortCalendar = function(batchNum, firstDate) {
+            const idx = batchList.findIndex(b => b.batch === batchNum);
+            if (idx === -1) return;
+            setCalendarView('grid');
+            selectBatch(idx);
+            const [y, m] = firstDate.split('-').map(Number);
+            updateCalendar(m, y, batchNum);
         };
 
         window.setCalendarView = function(view) {
