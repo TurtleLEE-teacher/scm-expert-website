@@ -1888,7 +1888,7 @@
                     const isConsulting = category.includes('컨설팅');
                     const catLabel = isConsulting ? '컨설팅' : 'SCM';
                     const catClass = isConsulting ? 'cat-consulting' : 'cat-scm';
-                    html += `<div class="calendar-list-item class-day ${catClass}${isToday ? ' today' : ''}">`;
+                    html += `<div class="calendar-list-item class-day ${catClass}${isToday ? ' today' : ''}">
                         <div class="list-date"><span class="list-day">${d}</span><span class="list-weekday">${m}월 ${d}일 ${weekdays[date.getDay()]}${isToday ? ' (오늘)' : ''}</span></div>
                         <div class="list-content">
                             <span class="calendar-category ${catClass}">${catLabel}</span>
