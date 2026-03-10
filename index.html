@@ -466,18 +466,10 @@
         .calendar-day:hover { border-color: var(--blue); }
         .calendar-day.empty { background: transparent; border: none; }
         .calendar-day.class-day { background: rgba(0, 113, 227, 0.1); border-color: var(--blue); }
-        .calendar-day.batch-1 { background: rgba(0, 113, 227, 0.12); border-color: #0071e3; }
-        .calendar-day.batch-1 .calendar-event { background: linear-gradient(135deg, #0071e3 0%, #00a1ff 100%); }
-        .calendar-day.batch-2 { background: rgba(52, 199, 89, 0.12); border-color: #34c759; }
-        .calendar-day.batch-2 .calendar-event { background: linear-gradient(135deg, #34c759 0%, #30d158 100%); }
-        .calendar-day.batch-3 { background: rgba(255, 149, 0, 0.12); border-color: #ff9500; }
-        .calendar-day.batch-3 .calendar-event { background: linear-gradient(135deg, #ff9500 0%, #ffb340 100%); }
-        .calendar-day.batch-4 { background: rgba(175, 82, 222, 0.12); border-color: #af52de; }
-        .calendar-day.batch-4 .calendar-event { background: linear-gradient(135deg, #af52de 0%, #da8fff 100%); }
-        .calendar-day.batch-5 { background: rgba(255, 45, 85, 0.12); border-color: #ff2d55; }
-        .calendar-day.batch-5 .calendar-event { background: linear-gradient(135deg, #ff2d55 0%, #ff6482 100%); }
-        .calendar-day.batch-6 { background: rgba(90, 200, 250, 0.12); border-color: #5ac8fa; }
-        .calendar-day.batch-6 .calendar-event { background: linear-gradient(135deg, #5ac8fa 0%, #70d7ff 100%); }
+        .calendar-day.cat-scm { background: rgba(0, 113, 227, 0.10); border-color: #0071e3; }
+        .calendar-day.cat-scm .calendar-event { background: linear-gradient(135deg, #0071e3 0%, #00a1ff 100%); }
+        .calendar-day.cat-consulting { background: rgba(255, 149, 0, 0.10); border-color: #ff9500; }
+        .calendar-day.cat-consulting .calendar-event { background: linear-gradient(135deg, #ff9500 0%, #ffb340 100%); }
         .calendar-day.today { background: rgba(0, 113, 227, 0.18); border-color: var(--blue); box-shadow: inset 0 0 0 2px var(--blue); }
         .calendar-day.today .calendar-day-number { color: var(--blue); font-weight: var(--font-bold); }
         .calendar-day.today .calendar-day-number::after { content: '오늘'; font-size: 9px; background: var(--blue); color: #fff; padding: 1px 5px; border-radius: 8px; margin-left: 4px; vertical-align: middle; }
@@ -1780,12 +1772,24 @@
             if (!legendEl || !notionData.length) return;
 
             const info = batchList[currentBatchIndex];
-            const batchNum = info.batch;
             const statusText = computeBatchStatus(info);
+
+            // 현재 배치에 포함된 카테고리 확인
+            const categories = new Set();
+            notionData.forEach(item => {
+                const cat = item.notionData?.category || '';
+                categories.add(cat.includes('컨설팅') ? 'consulting' : 'scm');
+            });
+
+            let catLegend = '';
+            if (categories.has('scm')) catLegend += '<div class="legend-item"><span class="legend-color" style="background: #0071e3"></span><span class="legend-text">SCM</span></div>';
+            if (categories.has('consulting')) catLegend += '<div class="legend-item"><span class="legend-color" style="background: #ff9500"></span><span class="legend-text">컨설팅</span></div>';
 
             legendEl.innerHTML = `
                 <div class="legend-section">
-                    <div class="legend-item"><span class="legend-color" style="background: ${batchConfig[getBatchColorIndex(batchNum)].color}"></span><span class="legend-text">${batchNum}기</span></div>
+                    ${catLegend}
+                    <div class="legend-item" style="margin-left: 12px;"><span class="legend-text">📚 수업</span></div>
+                    <div class="legend-item"><span class="legend-text">📝 피드백</span></div>
                 </div>
                 <div class="legend-section">
                     <div class="legend-item"><span class="legend-text">${statusConfig[statusText]?.icon || '⚪'} ${statusConfig[statusText]?.label || statusText}</span></div>
@@ -1811,7 +1815,6 @@
 
                 if (session) {
                     const batch = extractBatchNumber(session);
-                    const batchClass = `batch-${getBatchColorIndex(batch)}`;
                     const status = session.status || '준비중';
                     const statusIcon = statusConfig[status]?.icon || '⚪';
                     const isLecture = session.type === 'lecture';
@@ -1822,7 +1825,7 @@
                     const catLabel = isConsulting ? '컨설팅' : 'SCM';
                     const catClass = isConsulting ? 'cat-consulting' : 'cat-scm';
 
-                    html += `<div class="calendar-day class-day ${batchClass}${todayClass}" title="${session.name} - ${status}">
+                    html += `<div class="calendar-day class-day ${catClass}${todayClass}" title="${session.name} - ${status}">
                         <div class="calendar-day-number">${day} <span class="status-badge">${statusIcon}</span></div>
                         <span class="calendar-category ${catClass}">${catLabel}</span>
                         <div class="calendar-event">${batch}기 ${weekLabel}</div>
@@ -1861,16 +1864,18 @@
             let html = '';
             Object.keys(groups).sort((a, b) => a - b).forEach(batch => {
                 const batchNum = parseInt(batch);
-                const color = batchConfig[getBatchColorIndex(batchNum)].color;
+                // 이 배치 그룹의 첫 아이템에서 카테고리 확인
+                const firstItem = groups[batch][0];
+                const grpCategory = firstItem?.notionData?.category || '';
+                const grpColor = grpCategory.includes('컨설팅') ? '#ff9500' : '#0071e3';
                 const batchStatus = batchList.find(b => b.batch === batchNum);
                 const status = batchStatus ? computeBatchStatus(batchStatus) : '준비중';
-                html += `<div class="batch-group-header"><span class="batch-dot" style="background:${color}"></span>${batchNum}기 (${status})</div>`;
+                html += `<div class="batch-group-header"><span class="batch-dot" style="background:${grpColor}"></span>${batchNum}기 (${status})</div>`;
 
                 groups[batch].forEach(item => {
                     const [y, m, d] = item.date.split('-').map(Number);
                     const date = new Date(y, m - 1, d);
                     const isToday = item.date === todayStr;
-                    const batchClass = `batch-${getBatchColorIndex(batchNum)}`;
                     const week = item.week || 1;
                     const wc = weeklyContent[week] || weeklyContent[1];
                     const isLecture = item.type === 'lecture';
@@ -1878,7 +1883,7 @@
                     const isConsulting = category.includes('컨설팅');
                     const catLabel = isConsulting ? '컨설팅' : 'SCM';
                     const catClass = isConsulting ? 'cat-consulting' : 'cat-scm';
-                    html += `<div class="calendar-list-item class-day ${batchClass}${isToday ? ' today' : ''}">
+                    html += `<div class="calendar-list-item class-day ${catClass}${isToday ? ' today' : ''}">`;
                         <div class="list-date"><span class="list-day">${d}</span><span class="list-weekday">${m}월 ${d}일 ${weekdays[date.getDay()]}${isToday ? ' (오늘)' : ''}</span></div>
                         <div class="list-content">
                             <span class="calendar-category ${catClass}">${catLabel}</span>
@@ -2019,11 +2024,14 @@
             });
             html += '</div>';
 
+            // Category color mapping
+            const categoryColors = { scm: '#0071e3', consulting: '#ff9500' };
+
             // Data rows
             yearCohorts.forEach(cohort => {
                 const batchNum = cohort.batch;
-                const colorIdx = getBatchColorIndex(batchNum);
-                const color = batchConfig[colorIdx].color;
+                const isConsulting = (cohort.category || '').includes('컨설팅');
+                const color = isConsulting ? categoryColors.consulting : categoryColors.scm;
 
                 // 프로그램 자체의 마지막 세션 날짜로 종료 판정
                 const cohortFirstDate = cohort.sessions.reduce((min, s) => s.date < min ? s.date : min, cohort.sessions[0].date);
