@@ -539,6 +539,72 @@
             border-radius: var(--radius-full); font-size: var(--text-sm); cursor: pointer; transition: all var(--transition-fast);
         }
         .batch-reviews-more:hover { background: var(--blue); color: #fff; }
+        /* Gantt Chart View */
+        .calendar-gantt { display: none; margin-bottom: var(--space-6); }
+        .calendar-gantt.active { display: block; }
+        .gantt-year-selector { display: flex; justify-content: center; align-items: center; gap: var(--space-4); margin-bottom: var(--space-6); }
+        .gantt-year-btn {
+            width: 36px; height: 36px; background: var(--bg-tertiary); border: 1px solid var(--border-color);
+            border-radius: 50%; color: var(--text-secondary); cursor: pointer; font-size: var(--text-base);
+            display: flex; align-items: center; justify-content: center; transition: all var(--transition-fast);
+        }
+        .gantt-year-btn:hover { background: var(--blue); color: #fff; border-color: var(--blue); }
+        .gantt-year-label { font-size: var(--text-xl); font-weight: var(--font-bold); color: var(--text-primary); min-width: 80px; text-align: center; }
+        .gantt-chart { position: relative; overflow-x: auto; }
+        .gantt-header {
+            display: grid; grid-template-columns: 160px repeat(12, 1fr); gap: 0;
+            border-bottom: 2px solid var(--border-color); margin-bottom: var(--space-2);
+        }
+        .gantt-header-label {
+            font-size: var(--text-xs); font-weight: var(--font-semibold); color: var(--text-secondary);
+            text-align: center; padding: var(--space-2) var(--space-1);
+        }
+        .gantt-header-label:first-child { text-align: left; color: var(--text-tertiary); }
+        .gantt-header-label.current-month { color: var(--blue); font-weight: var(--font-bold); }
+        .gantt-row {
+            display: grid; grid-template-columns: 160px repeat(12, 1fr); gap: 0;
+            align-items: center; min-height: 48px; border-bottom: 1px solid var(--border-color);
+            transition: background var(--transition-fast);
+        }
+        .gantt-row:hover { background: rgba(0, 113, 227, 0.04); }
+        .gantt-row-label {
+            font-size: var(--text-sm); font-weight: var(--font-semibold); color: var(--text-primary);
+            padding: var(--space-2) var(--space-3); display: flex; align-items: center; gap: var(--space-2);
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .gantt-row-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+        .gantt-row-status { font-size: 10px; color: var(--text-tertiary); margin-left: auto; }
+        .gantt-cell {
+            position: relative; height: 36px; border-left: 1px solid var(--border-color);
+        }
+        .gantt-cell.current-month { background: rgba(0, 113, 227, 0.04); }
+        .gantt-bar {
+            position: absolute; top: 6px; height: 24px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 10px; font-weight: var(--font-semibold); color: #fff;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+            padding: 0 8px; min-width: 20px; z-index: 1;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+        }
+        .gantt-bar.lecture { opacity: 1; }
+        .gantt-bar.assignment { opacity: 0.7; border: 1px dashed rgba(255,255,255,0.5); }
+        .gantt-today-line {
+            position: absolute; top: 0; bottom: 0; width: 2px; background: var(--blue);
+            z-index: 2; pointer-events: none;
+        }
+        .gantt-today-label {
+            position: absolute; top: -18px; transform: translateX(-50%);
+            font-size: 9px; background: var(--blue); color: #fff; padding: 1px 6px;
+            border-radius: 8px; white-space: nowrap;
+        }
+        .gantt-empty { text-align: center; padding: var(--space-8); color: var(--text-tertiary); font-size: var(--text-sm); }
+        @media (max-width: 768px) {
+            .gantt-header, .gantt-row { grid-template-columns: 100px repeat(12, 1fr); }
+            .gantt-row-label { font-size: var(--text-xs); padding: var(--space-1) var(--space-2); }
+            .gantt-header-label { font-size: 10px; }
+            .gantt-bar { font-size: 9px; padding: 0 4px; height: 20px; top: 8px; }
+        }
+
         .view-toggle { display: flex; gap: var(--space-2); margin-bottom: var(--space-4); justify-content: center; }
         .view-toggle-btn {
             padding: var(--space-2) var(--space-4); background: var(--bg-tertiary); border: 1px solid var(--border-color);
@@ -1135,10 +1201,19 @@
                             </svg>
                             목록
                         </button>
+                        <button class="view-toggle-btn" id="ganttViewBtn" onclick="setCalendarView('gantt')">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="4" width="13" height="4" rx="1"></rect>
+                                <rect x="7" y="10" width="14" height="4" rx="1"></rect>
+                                <rect x="5" y="16" width="10" height="4" rx="1"></rect>
+                            </svg>
+                            연간
+                        </button>
                     </div>
 
                     <div class="calendar-grid" id="calendarGrid"></div>
                     <div class="calendar-list" id="calendarList"></div>
+                    <div class="calendar-gantt" id="calendarGantt"></div>
 
                     <div class="schedule-legend" id="scheduleLegend"></div>
                 </div>
@@ -1600,11 +1675,22 @@
             updateBatchNav();
             updateScheduleLegend();
 
-            // Show today's month as default
+            // Show the best month for this batch
             const now = new Date();
-            const todayMonth = now.getMonth() + 1;
-            const todayYear = now.getFullYear();
-            updateCalendar(todayMonth, todayYear, info.batch);
+            const todayStr = now.toISOString().split('T')[0];
+            let showMonth, showYear;
+
+            if (info.firstDate <= todayStr && info.lastDate >= todayStr) {
+                // Batch is active now - show today's month
+                showMonth = now.getMonth() + 1;
+                showYear = now.getFullYear();
+            } else {
+                // Batch is in future or past - show its first month
+                const [y, m] = info.firstDate.split('-').map(Number);
+                showMonth = m;
+                showYear = y;
+            }
+            updateCalendar(showMonth, showYear, info.batch);
 
             // Show/hide reviews based on batch status
             updateBatchReviews();
@@ -1848,19 +1934,153 @@
             nextBtn.disabled = !checkMonth(1);
         };
 
+        let ganttYear = new Date().getFullYear();
+
+        function generateGanttView(year) {
+            const months = ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
+            const now = new Date();
+            const currentMonth = now.getMonth() + 1;
+            const currentYear = now.getFullYear();
+            const todayStr = now.toISOString().split('T')[0];
+
+            // Group all data by cohort (using notionData.id as key)
+            const cohortGroups = {};
+            allData.forEach(item => {
+                const cohortId = item.notionData?.id || `batch-${item.batch}`;
+                if (!cohortGroups[cohortId]) {
+                    cohortGroups[cohortId] = {
+                        title: item.notionData?.title || item.name || `${item.batch}기`,
+                        batch: item.batch,
+                        category: item.notionData?.category || 'SCM 기초',
+                        sessions: []
+                    };
+                }
+                cohortGroups[cohortId].sessions.push(item);
+            });
+
+            // Sort cohorts by first date
+            const sortedCohorts = Object.values(cohortGroups).sort((a, b) => {
+                const aFirst = a.sessions.reduce((min, s) => s.date < min ? s.date : min, a.sessions[0].date);
+                const bFirst = b.sessions.reduce((min, s) => s.date < min ? s.date : min, b.sessions[0].date);
+                return aFirst.localeCompare(bFirst);
+            });
+
+            // Filter cohorts that have sessions in this year
+            const yearCohorts = sortedCohorts.filter(c =>
+                c.sessions.some(s => s.date.startsWith(String(year)))
+            );
+
+            let html = '';
+
+            // Year selector
+            html += `<div class="gantt-year-selector">
+                <button class="gantt-year-btn" onclick="navigateGanttYear(-1)">&lt;</button>
+                <span class="gantt-year-label">${year}년</span>
+                <button class="gantt-year-btn" onclick="navigateGanttYear(1)">&gt;</button>
+            </div>`;
+
+            if (yearCohorts.length === 0) {
+                html += `<div class="gantt-empty">${year}년에는 등록된 일정이 없습니다.</div>`;
+                return html;
+            }
+
+            // Header row
+            html += '<div class="gantt-chart">';
+            html += '<div class="gantt-header">';
+            html += '<div class="gantt-header-label">프로그램</div>';
+            months.forEach((m, i) => {
+                const isCurrent = (i + 1 === currentMonth && year === currentYear);
+                html += `<div class="gantt-header-label${isCurrent ? ' current-month' : ''}">${m}</div>`;
+            });
+            html += '</div>';
+
+            // Data rows
+            yearCohorts.forEach(cohort => {
+                const batchNum = cohort.batch;
+                const colorIdx = getBatchColorIndex(batchNum);
+                const color = batchConfig[colorIdx].color;
+                const batchInfo = batchList.find(b => b.batch === batchNum);
+                const status = batchInfo ? computeBatchStatus(batchInfo) : '준비중';
+                const statusIcon = statusConfig[status]?.icon || '⚪';
+
+                html += '<div class="gantt-row">';
+                html += `<div class="gantt-row-label">
+                    <span class="gantt-row-dot" style="background:${color}"></span>
+                    ${cohort.title}
+                    <span class="gantt-row-status">${statusIcon}</span>
+                </div>`;
+
+                // Cells for each month
+                for (let m = 1; m <= 12; m++) {
+                    const isCurrent = (m === currentMonth && year === currentYear);
+                    html += `<div class="gantt-cell${isCurrent ? ' current-month' : ''}" data-month="${m}">`;
+
+                    // Find sessions in this month for this cohort
+                    const monthSessions = cohort.sessions.filter(s => {
+                        const [sy, sm] = s.date.split('-').map(Number);
+                        return sy === year && sm === m;
+                    }).sort((a, b) => a.date.localeCompare(b.date));
+
+                    monthSessions.forEach(session => {
+                        const day = parseInt(session.date.split('-')[2]);
+                        const daysInMonth = new Date(year, m, 0).getDate();
+                        const leftPct = ((day - 1) / daysInMonth) * 100;
+                        const widthPct = Math.max((1 / daysInMonth) * 100, 8);
+                        const isLecture = session.type === 'lecture';
+                        const isPast = session.date < todayStr;
+
+                        html += `<div class="gantt-bar ${isLecture ? 'lecture' : 'assignment'}"
+                            style="left:${leftPct}%; width:${widthPct}%; background:${color};${isPast ? 'opacity:0.4;' : ''}"
+                            title="${session.date} · ${session.label} (${isLecture ? '강의' : '피드백'})">
+                        </div>`;
+                    });
+
+                    html += '</div>';
+                }
+
+                html += '</div>';
+            });
+
+            html += '</div>';
+            return html;
+        }
+
+        window.navigateGanttYear = function(dir) {
+            ganttYear += dir;
+            const gantt = document.getElementById('calendarGantt');
+            if (gantt) gantt.innerHTML = generateGanttView(ganttYear);
+        };
+
         window.setCalendarView = function(view) {
             currentView = view;
             const grid = document.getElementById('calendarGrid');
             const list = document.getElementById('calendarList');
+            const gantt = document.getElementById('calendarGantt');
             const gridBtn = document.getElementById('gridViewBtn');
             const listBtn = document.getElementById('listViewBtn');
+            const ganttBtn = document.getElementById('ganttViewBtn');
+            const calHeader = document.querySelector('.calendar-header');
+            const batchNav = document.getElementById('batchNav');
+            const batchInfoEl = document.getElementById('batchInfo');
+
+            // Reset all
+            grid.classList.add('hidden'); list.classList.remove('active'); gantt.classList.remove('active');
+            gridBtn.classList.remove('active'); listBtn.classList.remove('active'); ganttBtn.classList.remove('active');
 
             if (view === 'grid') {
-                grid.classList.remove('hidden'); list.classList.remove('active');
-                gridBtn.classList.add('active'); listBtn.classList.remove('active');
-            } else {
-                grid.classList.add('hidden'); list.classList.add('active');
-                gridBtn.classList.remove('active'); listBtn.classList.add('active');
+                grid.classList.remove('hidden');
+                gridBtn.classList.add('active');
+                calHeader.style.display = ''; batchNav.style.display = ''; batchInfoEl.style.display = '';
+            } else if (view === 'list') {
+                list.classList.add('active');
+                listBtn.classList.add('active');
+                calHeader.style.display = ''; batchNav.style.display = ''; batchInfoEl.style.display = '';
+            } else if (view === 'gantt') {
+                gantt.classList.add('active');
+                ganttBtn.classList.add('active');
+                gantt.innerHTML = generateGanttView(ganttYear);
+                // Hide batch nav and month nav in gantt view
+                calHeader.style.display = 'none'; batchNav.style.display = 'none'; batchInfoEl.style.display = 'none';
             }
             localStorage.setItem('calendarView', view);
         };
