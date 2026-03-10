@@ -552,7 +552,7 @@
         .gantt-year-label { font-size: var(--text-xl); font-weight: var(--font-bold); color: var(--text-primary); min-width: 80px; text-align: center; }
         .gantt-chart { position: relative; overflow-x: auto; }
         .gantt-header {
-            display: grid; grid-template-columns: 160px repeat(12, 1fr); gap: 0;
+            display: grid; grid-template-columns: 220px repeat(12, 1fr); gap: 0;
             border-bottom: 2px solid var(--border-color); margin-bottom: var(--space-2);
         }
         .gantt-header-label {
@@ -562,7 +562,7 @@
         .gantt-header-label:first-child { text-align: left; color: var(--text-tertiary); }
         .gantt-header-label.current-month { color: var(--blue); font-weight: var(--font-bold); }
         .gantt-row {
-            display: grid; grid-template-columns: 160px repeat(12, 1fr); gap: 0;
+            display: grid; grid-template-columns: 220px repeat(12, 1fr); gap: 0;
             align-items: center; min-height: 48px; border-bottom: 1px solid var(--border-color);
             transition: background var(--transition-fast);
         }
@@ -602,7 +602,7 @@
         .gantt-row-completed .gantt-row-status { color: #999; }
         .gantt-empty { text-align: center; padding: var(--space-8); color: var(--text-tertiary); font-size: var(--text-sm); }
         @media (max-width: 768px) {
-            .gantt-header, .gantt-row { grid-template-columns: 100px repeat(12, 1fr); }
+            .gantt-header, .gantt-row { grid-template-columns: 140px repeat(12, 1fr); }
             .gantt-row-label { font-size: var(--text-xs); padding: var(--space-1) var(--space-2); }
             .gantt-header-label { font-size: 10px; }
             .gantt-bar { font-size: 9px; padding: 0 4px; height: 20px; top: 8px; }
@@ -1649,6 +1649,12 @@
                 // Find current batch based on today's date
                 currentBatchIndex = findCurrentBatchIndex();
                 selectBatch(currentBatchIndex);
+
+                // 간트 뷰가 기본이면 데이터 로드 후 다시 렌더링
+                if (currentView === 'gantt') {
+                    const gantt = document.getElementById('calendarGantt');
+                    if (gantt) gantt.innerHTML = generateGanttView(ganttYear);
+                }
 
             } catch (e) {
                 const batchInfo = document.getElementById('batchInfo');
