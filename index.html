@@ -597,6 +597,9 @@
             font-size: 9px; background: var(--blue); color: #fff; padding: 1px 6px;
             border-radius: 8px; white-space: nowrap;
         }
+        .gantt-row-completed { background: rgba(128, 128, 128, 0.05); }
+        .gantt-row-completed:hover { background: rgba(128, 128, 128, 0.08); }
+        .gantt-row-completed .gantt-row-status { color: #999; }
         .gantt-empty { text-align: center; padding: var(--space-8); color: var(--text-tertiary); font-size: var(--text-sm); }
         @media (max-width: 768px) {
             .gantt-header, .gantt-row { grid-template-columns: 100px repeat(12, 1fr); }
@@ -2002,12 +2005,13 @@
                 const batchInfo = batchList.find(b => b.batch === batchNum);
                 const status = batchInfo ? computeBatchStatus(batchInfo) : '준비중';
                 const statusIcon = statusConfig[status]?.icon || '⚪';
+                const isCompleted = status === '종료';
 
-                html += '<div class="gantt-row">';
+                html += `<div class="gantt-row${isCompleted ? ' gantt-row-completed' : ''}">`;
                 html += `<div class="gantt-row-label">
-                    <span class="gantt-row-dot" style="background:${color}"></span>
-                    ${cohort.title}
-                    <span class="gantt-row-status">${statusIcon}</span>
+                    <span class="gantt-row-dot" style="background:${isCompleted ? '#888' : color}"></span>
+                    <span style="${isCompleted ? 'text-decoration:line-through; opacity:0.6;' : ''}">${cohort.title}</span>
+                    <span class="gantt-row-status">${statusIcon} ${isCompleted ? '종료' : ''}</span>
                 </div>`;
 
                 // Cells for each month
@@ -2027,10 +2031,11 @@
                         const leftPct = ((day - 1) / daysInMonth) * 100;
                         const widthPct = Math.max((1 / daysInMonth) * 100, 8);
                         const isLecture = session.type === 'lecture';
-                        const isPast = session.date < todayStr;
+                        const barColor = isCompleted ? '#999' : color;
+                        const barOpacity = isCompleted ? 'opacity:0.35;' : '';
 
                         html += `<div class="gantt-bar ${isLecture ? 'lecture' : 'assignment'}"
-                            style="left:${leftPct}%; width:${widthPct}%; background:${color};${isPast ? 'opacity:0.4;' : ''}"
+                            style="left:${leftPct}%; width:${widthPct}%; background:${barColor};${barOpacity}"
                             title="${session.date} · ${session.label} (${isLecture ? '강의' : '피드백'})">
                         </div>`;
                     });
@@ -2086,8 +2091,7 @@
         };
 
         function getDefaultView() {
-            if (window.innerWidth <= 768) return 'list';
-            return localStorage.getItem('calendarView') || 'grid';
+            return localStorage.getItem('calendarView') || 'gantt';
         }
 
         document.addEventListener('DOMContentLoaded', () => {
