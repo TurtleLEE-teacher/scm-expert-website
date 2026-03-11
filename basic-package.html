@@ -152,52 +152,158 @@
         .curriculum-grid {
             max-width: 800px;
             margin: 0 auto;
+            position: relative;
         }
+        .curriculum-grid::before {
+            content: '';
+            position: absolute;
+            left: 31px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--border-color);
+        }
+        @media (max-width: 768px) {
+            .curriculum-grid::before { left: 23px; }
+        }
+
         .week-card {
             display: flex;
             gap: var(--space-5);
-            padding: var(--space-5);
-            margin-bottom: var(--space-3);
-            background-color: var(--bg-tertiary);
-            border-radius: var(--radius-lg);
-            border: 1px solid var(--border-color);
+            margin-bottom: var(--space-6);
+            position: relative;
+        }
+        .week-marker {
+            flex-shrink: 0;
+            width: 64px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-1);
+            z-index: 1;
         }
         .week-number {
-            width: 48px;
-            height: 48px;
+            width: 40px;
+            height: 40px;
             background: linear-gradient(135deg, var(--blue) 0%, #00c6ff 100%);
-            border-radius: var(--radius-md);
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: var(--text-xl);
+            font-size: var(--text-base);
             font-weight: var(--font-bold);
             color: #fff;
-            flex-shrink: 0;
         }
-        .week-content h3 {
+        .week-number.bonus { background: linear-gradient(135deg, #34c759, #30d158); }
+        .week-label {
+            font-size: 10px;
+            color: var(--text-tertiary);
+            font-weight: var(--font-medium);
+            white-space: nowrap;
+        }
+        .week-body { flex: 1; min-width: 0; }
+        .week-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            margin-bottom: var(--space-3);
+            flex-wrap: wrap;
+        }
+        .week-title {
             font-size: var(--text-base);
             font-weight: var(--font-semibold);
-            margin-bottom: var(--space-1);
+            color: var(--text-primary);
         }
-        .week-content p {
+        .session-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 2px var(--space-2);
+            border-radius: var(--radius-full);
+            font-size: 11px;
+            font-weight: var(--font-medium);
+        }
+        .session-badge.live { background: rgba(0, 113, 227, 0.12); color: var(--blue); }
+        .session-badge.async { background: rgba(52, 199, 89, 0.12); color: #34c759; }
+        .session-badge.consulting { background: rgba(175, 82, 222, 0.12); color: #af52de; }
+        .session-badge-dot {
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: currentColor;
+        }
+        .week-desc {
             font-size: var(--text-sm);
             color: var(--text-secondary);
             line-height: var(--leading-relaxed);
+            margin-bottom: var(--space-3);
+        }
+        .week-details {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-3);
+        }
+        .detail-block {
+            padding: var(--space-4);
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+        }
+        .detail-block.assignment { border-left: 3px solid var(--blue); }
+        .detail-block.feedback { border-left: 3px solid #34c759; }
+        .detail-block.bonus-block {
+            border-left: 3px solid #af52de;
+            background: linear-gradient(135deg, rgba(175, 82, 222, 0.04), rgba(175, 82, 222, 0.02));
+        }
+        .detail-label {
+            font-size: 11px;
+            font-weight: var(--font-semibold);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
             margin-bottom: var(--space-2);
         }
+        .detail-block.assignment .detail-label { color: var(--blue); }
+        .detail-block.feedback .detail-label { color: #34c759; }
+        .detail-block.bonus-block .detail-label { color: #af52de; }
+        .detail-content {
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+            line-height: var(--leading-relaxed);
+        }
+        .detail-content ul {
+            list-style: none;
+            margin: 0; padding: 0;
+        }
+        .detail-content li {
+            padding: 2px 0;
+            padding-left: var(--space-4);
+            position: relative;
+        }
+        .detail-content li::before {
+            content: '';
+            position: absolute;
+            left: 6px; top: 10px;
+            width: 4px; height: 4px;
+            background: var(--text-tertiary);
+            border-radius: 50%;
+        }
         .deliverable {
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
             padding: 2px var(--space-2);
             background-color: rgba(0, 113, 227, 0.12);
             color: var(--blue);
             border-radius: var(--radius-full);
             font-size: var(--text-xs);
             font-weight: var(--font-medium);
+            margin-top: var(--space-2);
         }
+        .deliverable.choice { background-color: rgba(175, 82, 222, 0.12); color: #af52de; }
+
         @media (max-width: 768px) {
-            .week-card { flex-direction: column; text-align: center; }
-            .week-number { margin: 0 auto; }
+            .week-marker { width: 48px; }
+            .week-number { width: 36px; height: 36px; font-size: var(--text-sm); }
+            .week-card { gap: var(--space-3); }
         }
 
         /* ===== Target ===== */
@@ -891,59 +997,182 @@
         <section class="section section-alt">
             <div class="section-header fade-up">
                 <h2>5주 커리큘럼 + 1:1 커리어 컨설팅</h2>
-                <p>라이브 세션과 실무 과제로 직무 역량을 쌓고, 과정을 완주한 분에게 1:1 컨설팅을 제공합니다</p>
+                <p>라이브 세션 3회 + 서면 피드백 2회 + 실무 과제 4건으로 구성됩니다</p>
             </div>
             <div class="curriculum-grid">
+
+                <!-- Week 1 -->
                 <div class="week-card fade-up">
-                    <div class="week-number">1</div>
-                    <div class="week-content">
-                        <h3>현직자 직무 에센스 강의 및 Q&A</h3>
-                        <p>Big 4 현직 컨설턴트가 SCM 조달-생산-유통 프로세스를 조감도로 설명합니다. 실제 프로젝트 사례 기반으로 직무 입문 방법, 현업에서 하는 일, 요구 역량을 배웁니다.</p>
-                        <span class="deliverable">과제: SCM 프로세스 도식화</span>
+                    <div class="week-marker">
+                        <div class="week-number">1</div>
+                        <span class="week-label">LIVE</span>
+                    </div>
+                    <div class="week-body">
+                        <div class="week-header">
+                            <span class="week-title">SCM 프로세스 전반 이해</span>
+                            <span class="session-badge live"><span class="session-badge-dot"></span>라이브 세션</span>
+                        </div>
+                        <p class="week-desc">Big 4 현직 컨설턴트가 SCM 조달-생산-유통 프로세스를 조감도로 설명합니다. 직무 입문 방법, 현업에서 실제로 하는 일, 요구 역량을 실제 프로젝트 사례와 함께 배웁니다.</p>
+                        <div class="week-details">
+                            <div class="detail-block assignment">
+                                <div class="detail-label">과제</div>
+                                <div class="detail-content">
+                                    <ul>
+                                        <li>SCM 주요 영역(생산/출하/구매)을 포함한 전체 프로세스 흐름도 작성</li>
+                                        <li>각 프로세스 간 연관관계를 도식화</li>
+                                        <li>관심 영역에 대한 심화 프로세스 작성</li>
+                                    </ul>
+                                    <span class="deliverable">결과물: PPT 1장 (프로세스 도식화)</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
+                <!-- Week 2 -->
                 <div class="week-card fade-up">
-                    <div class="week-number">2</div>
-                    <div class="week-content">
-                        <h3>리드멘토 개별 리뷰 및 피드백</h3>
-                        <p>1주차 과제(프로세스 도식화)를 1:1로 리뷰하며 실무 관점에서 상세 피드백합니다. SCM 이슈 키워드를 선정하고 분석하는 방법을 안내합니다.</p>
-                        <span class="deliverable">과제: SCM 이슈 분석 (Keyword Study)</span>
+                    <div class="week-marker">
+                        <div class="week-number">2</div>
+                        <span class="week-label">피드백</span>
+                    </div>
+                    <div class="week-body">
+                        <div class="week-header">
+                            <span class="week-title">1차 과제 리뷰 + SCM 이슈 분석</span>
+                            <span class="session-badge async"><span class="session-badge-dot"></span>서면 피드백</span>
+                        </div>
+                        <p class="week-desc">1주차 과제(프로세스 도식화)에 대해 멘토가 서면으로 상세 피드백합니다. SCM 현장에서 발생하는 이슈 키워드를 선정하고 분석하는 방법을 안내합니다.</p>
+                        <div class="week-details">
+                            <div class="detail-block feedback">
+                                <div class="detail-label">멘토 피드백</div>
+                                <div class="detail-content">1주차 프로세스 도식화에 대한 실무 관점 서면 리뷰</div>
+                            </div>
+                            <div class="detail-block assignment">
+                                <div class="detail-label">과제</div>
+                                <div class="detail-content">
+                                    <ul>
+                                        <li>SCM 프로세스상 주요 이슈를 분석하고 개선점 도출</li>
+                                        <li>이슈별 원인과 영향도를 도식화</li>
+                                        <li>기준정보/계획/실행 단계별 해결방안 제시</li>
+                                    </ul>
+                                    <span class="deliverable">결과물: SCM 이슈 분석 (Keyword Study)</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
+                <!-- Week 3 -->
                 <div class="week-card fade-up">
-                    <div class="week-number">3</div>
-                    <div class="week-content">
-                        <h3>SAP ERP 연결고리 이해</h3>
-                        <p>SCM과 SAP ERP가 실무에서 어떻게 연계되는지, 디지털 전환이 SCM에 미치는 영향을 실제 구축 사례와 함께 학습합니다.</p>
-                        <span class="deliverable">과제: 재무 Integration 실습</span>
+                    <div class="week-marker">
+                        <div class="week-number">3</div>
+                        <span class="week-label">LIVE</span>
+                    </div>
+                    <div class="week-body">
+                        <div class="week-header">
+                            <span class="week-title">SAP ERP(SCP) 연계 + 2차 과제 발표</span>
+                            <span class="session-badge live"><span class="session-badge-dot"></span>라이브 세션</span>
+                        </div>
+                        <p class="week-desc">SCM과 SAP ERP(공급망계획)가 실무에서 어떻게 연계되는지, 디지털 전환이 SCM에 미치는 영향을 실제 구축 사례와 함께 학습합니다. 2차 과제 발표 및 피드백도 함께 진행합니다.</p>
+                        <div class="week-details">
+                            <div class="detail-block assignment">
+                                <div class="detail-label">과제</div>
+                                <div class="detail-content">
+                                    <ul>
+                                        <li>Raw 데이터 기반으로 손익계산서 구성</li>
+                                        <li>분기별 매출액/매출원가/매출총이익 변동 분석</li>
+                                        <li>Excel 활용 데이터 분석 및 차트 시각화</li>
+                                    </ul>
+                                    <span class="deliverable">결과물: 손익계산서 + 차트 (Excel)</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
+                <!-- Week 4 -->
                 <div class="week-card fade-up">
-                    <div class="week-number">4</div>
-                    <div class="week-content">
-                        <h3>3차 업무 피드백 및 심화 학습</h3>
-                        <p>키워드 분석 과제를 심층 리뷰하고, 최신 SCM 트렌드(ESG, 리쇼어링, AI 활용)를 파악합니다. 이를 바탕으로 포트폴리오를 작성하기 시작합니다.</p>
-                        <span class="deliverable">과제: 프로세스 개선 포트폴리오 작성</span>
+                    <div class="week-marker">
+                        <div class="week-number">4</div>
+                        <span class="week-label">피드백</span>
+                    </div>
+                    <div class="week-body">
+                        <div class="week-header">
+                            <span class="week-title">3차 과제 리뷰 + PI 보고서 작성</span>
+                            <span class="session-badge async"><span class="session-badge-dot"></span>서면 피드백</span>
+                        </div>
+                        <p class="week-desc">3주차 과제(손익분석)에 대한 심층 피드백을 받고, 1~3차 과제를 종합하여 SCM 프로세스 혁신(PI) 보고서를 작성합니다.</p>
+                        <div class="week-details">
+                            <div class="detail-block feedback">
+                                <div class="detail-label">멘토 피드백</div>
+                                <div class="detail-content">3주차 손익분석 과제에 대한 실무 관점 서면 리뷰</div>
+                            </div>
+                            <div class="detail-block assignment">
+                                <div class="detail-label">과제</div>
+                                <div class="detail-content">
+                                    <ul>
+                                        <li>1~3차 과제 내용을 통합한 SCM 프로세스 혁신 도식화</li>
+                                        <li>PI 보고서 작성 (최종 발표용)</li>
+                                    </ul>
+                                    <span class="deliverable">결과물: SCM PI 보고서 (PPT)</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
+                <!-- Week 5 -->
                 <div class="week-card fade-up">
-                    <div class="week-number">5</div>
-                    <div class="week-content">
-                        <h3>업무 발표 및 최종 피드백</h3>
-                        <p>완성된 포트폴리오를 발표하고 현직자 관점의 최종 피드백을 받습니다. 자소서·이력서에 활용할 방향성과 면접 대비 포인트를 정리합니다.</p>
-                        <span class="deliverable">결과물: SCM 포트폴리오 + Resume 방향성</span>
+                    <div class="week-marker">
+                        <div class="week-number">5</div>
+                        <span class="week-label">LIVE</span>
+                    </div>
+                    <div class="week-body">
+                        <div class="week-header">
+                            <span class="week-title">최종 보고서 발표 + 피드백</span>
+                            <span class="session-badge live"><span class="session-badge-dot"></span>라이브 세션</span>
+                        </div>
+                        <p class="week-desc">완성된 PI 보고서를 발표하고 현직자 관점의 최종 피드백을 받습니다. 자소서·이력서에 활용할 방향성과 면접 대비 포인트를 함께 정리합니다.</p>
+                        <div class="week-details">
+                            <div class="detail-block assignment">
+                                <div class="detail-label">최종 결과물</div>
+                                <div class="detail-content">
+                                    <ul>
+                                        <li>SCM 프로세스 혁신(PI) 보고서</li>
+                                        <li>커리어 방향성 + Resume 활용 포인트</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="week-card fade-up" style="border: 1px solid var(--blue); background: linear-gradient(135deg, rgba(0, 113, 227, 0.05), rgba(0, 198, 255, 0.05));">
-                    <div class="week-number" style="background: linear-gradient(135deg, #34c759, #30d158);">+</div>
-                    <div class="week-content">
-                        <h3>1:1 커리어 컨설팅 (수료 후 2주 내)</h3>
-                        <p>5주 과정의 발표와 과제를 모두 완료한 분에게 1:1 컨설팅을 제공합니다. 본인의 준비 상황에 따라 아래 중 하나를 선택합니다.</p>
-                        <span class="deliverable">자소서 방향성 리뷰</span>
-                        <span class="deliverable">면접 준비 / 모의면접</span>
-                        <span class="deliverable">포트폴리오 구성 (노션)</span>
+
+                <!-- Bonus: 1:1 Consulting -->
+                <div class="week-card fade-up">
+                    <div class="week-marker">
+                        <div class="week-number bonus">+</div>
+                        <span class="week-label">보너스</span>
+                    </div>
+                    <div class="week-body">
+                        <div class="week-header">
+                            <span class="week-title">1:1 커리어 컨설팅</span>
+                            <span class="session-badge consulting"><span class="session-badge-dot"></span>개인별 일정</span>
+                        </div>
+                        <p class="week-desc">5주 과정의 발표와 과제를 모두 완료한 분에게, 수료 후 2주 내 개인별 일정을 잡아 1:1 컨설팅을 진행합니다. 본인의 준비 상황에 따라 아래 중 하나를 선택합니다.</p>
+                        <div class="week-details">
+                            <div class="detail-block bonus-block">
+                                <div class="detail-label">택 1</div>
+                                <div class="detail-content">
+                                    <ul>
+                                        <li><strong>자소서 방향성 리뷰</strong> — 자소서 전체 방향성을 잡아주는 1:1 세션</li>
+                                        <li><strong>면접 준비 / 모의면접</strong> — 준비 수준에 따라 방향성 코칭 또는 모의면접 진행</li>
+                                        <li><strong>포트폴리오 구성 (노션)</strong> — 노션 기반 포트폴리오 구조 설계 및 가이드</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
             </div>
         </section>
 
