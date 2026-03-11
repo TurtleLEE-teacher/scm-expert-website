@@ -194,7 +194,7 @@
             font-weight: var(--font-bold);
             color: #fff;
         }
-        .week-number.bonus { background: linear-gradient(135deg, #34c759, #30d158); }
+        .week-number.bonus { background: var(--blue); }
         .week-label {
             font-size: 10px;
             color: var(--text-tertiary);
@@ -223,9 +223,9 @@
             font-size: 11px;
             font-weight: var(--font-medium);
         }
-        .session-badge.live { background: rgba(0, 113, 227, 0.12); color: var(--blue); }
-        .session-badge.async { background: rgba(52, 199, 89, 0.12); color: #34c759; }
-        .session-badge.consulting { background: rgba(175, 82, 222, 0.12); color: #af52de; }
+        .session-badge.live { background: rgba(0, 113, 227, 0.10); color: var(--blue); }
+        .session-badge.async { background: var(--bg-secondary); color: var(--text-secondary); }
+        .session-badge.consulting { background: rgba(0, 113, 227, 0.10); color: var(--blue); }
         .session-badge-dot {
             width: 6px; height: 6px;
             border-radius: 50%;
@@ -249,10 +249,9 @@
             border: 1px solid var(--border-color);
         }
         .detail-block.assignment { border-left: 3px solid var(--blue); }
-        .detail-block.feedback { border-left: 3px solid #34c759; }
+        .detail-block.feedback { border-left: 3px solid var(--border-color); }
         .detail-block.bonus-block {
-            border-left: 3px solid #af52de;
-            background: linear-gradient(135deg, rgba(175, 82, 222, 0.04), rgba(175, 82, 222, 0.02));
+            border-left: 3px solid var(--blue);
         }
         .detail-label {
             font-size: 11px;
@@ -262,8 +261,8 @@
             margin-bottom: var(--space-2);
         }
         .detail-block.assignment .detail-label { color: var(--blue); }
-        .detail-block.feedback .detail-label { color: #34c759; }
-        .detail-block.bonus-block .detail-label { color: #af52de; }
+        .detail-block.feedback .detail-label { color: var(--text-secondary); }
+        .detail-block.bonus-block .detail-label { color: var(--blue); }
         .detail-content {
             font-size: var(--text-sm);
             color: var(--text-secondary);
@@ -298,7 +297,7 @@
             font-weight: var(--font-medium);
             margin-top: var(--space-2);
         }
-        .deliverable.choice { background-color: rgba(175, 82, 222, 0.12); color: #af52de; }
+        .deliverable.choice { background-color: rgba(0, 113, 227, 0.08); color: var(--blue); }
 
         @media (max-width: 768px) {
             .week-marker { width: 48px; }
@@ -323,7 +322,7 @@
         }
         .target-list li::before {
             content: "\2713";
-            color: #34c759;
+            color: var(--blue);
             font-weight: var(--font-bold);
             flex-shrink: 0;
         }
@@ -594,9 +593,9 @@
             margin-top: var(--space-6);
             text-align: center;
             padding: var(--space-5);
-            background: linear-gradient(135deg, rgba(0, 113, 227, 0.08), rgba(0, 198, 255, 0.08));
+            background: var(--bg-tertiary);
             border-radius: var(--radius-lg);
-            border: 1px solid rgba(0, 113, 227, 0.2);
+            border: 1px solid var(--border-color);
         }
         .painpoints-answer p {
             font-size: var(--text-base);
@@ -680,6 +679,27 @@
             font-size: var(--text-sm);
             color: var(--text-secondary);
             margin-bottom: var(--space-2);
+        }
+
+        /* ===== Section Image ===== */
+        .section-image {
+            max-width: 800px;
+            margin: 0 auto var(--space-8);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+        .section-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .section-image figcaption {
+            padding: var(--space-2) var(--space-4);
+            font-size: var(--text-xs);
+            color: var(--text-tertiary);
+            text-align: center;
+            background: var(--bg-secondary);
         }
 
         /* ===== CTA ===== */
@@ -999,6 +1019,10 @@
                 <h2>5주 커리큘럼 + 1:1 커리어 컨설팅</h2>
                 <p>라이브 세션 3회 + 서면 피드백 2회 + 실무 과제 4건으로 구성됩니다</p>
             </div>
+            <figure class="section-image fade-up">
+                <img src="./images/portfolio/KakaoTalk_20240707_182241785.jpg" alt="소수정예 라이브 세션 현장" loading="lazy">
+                <figcaption>소수정예 오프라인 세션 현장 (온라인도 동일한 밀착 피드백)</figcaption>
+            </figure>
             <div class="curriculum-grid">
 
                 <!-- Week 1 -->
@@ -1182,6 +1206,10 @@
                 <h2>이렇게 진행됩니다</h2>
                 <p>온라인 소수정예로 밀착 관리합니다</p>
             </div>
+            <figure class="section-image fade-up">
+                <img src="./images/portfolio/초급반과정및과제.png" alt="실제 과제 및 실무 화면 예시" loading="lazy">
+                <figcaption>실제 과제에서 다루는 SAP ERP 화면 및 데이터 분석 예시</figcaption>
+            </figure>
             <div class="process-grid">
                 <div class="process-card fade-up">
                     <div class="process-icon">&#128250;</div>
@@ -1402,6 +1430,9 @@
 
         <!-- CTA -->
         <section class="cta-section section-alt">
+            <figure class="section-image fade-up" style="margin-bottom: var(--space-6);">
+                <img src="./images/portfolio/KakaoTalk_20240707_182241785_01.jpg" alt="강의 현장" loading="lazy">
+            </figure>
             <h2 class="fade-up">지금이 시작할 때입니다</h2>
             <p class="fade-up" style="max-width: 480px; margin: 0 auto var(--space-3);">
                 5주 직무 트레이닝 + 실전 포트폴리오 + 1:1 커리어 컨설팅<br>
