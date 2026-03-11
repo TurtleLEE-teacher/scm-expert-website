@@ -322,6 +322,9 @@
         }
         .service-card:hover { border-color: rgba(0, 113, 227, 0.4); }
         .service-card.recommended { border: 2px solid var(--blue); }
+        .service-card.coming-soon {
+            opacity: 0.45; pointer-events: none; position: relative;
+        }
         .service-card-badge {
             display: inline-block;
             padding: 2px 10px;
@@ -332,6 +335,9 @@
             font-weight: var(--font-medium);
             margin-bottom: var(--space-4);
             align-self: flex-start;
+        }
+        .service-card-badge.badge-muted {
+            background: var(--text-tertiary);
         }
         .service-card h3 {
             font-size: var(--text-xl);
@@ -1091,8 +1097,9 @@
                 <h2>SCM 커리어 부트캠프</h2>
                 <p>직무교육부터 취업 준비까지, 5주 안에 끝내는 올인원 프로그램</p>
             </div>
-            <div class="service-grid" style="max-width: 520px; margin: 0 auto;">
+            <div class="service-grid">
                 <div class="service-card recommended fade-up">
+                    <span class="service-card-badge">Basic</span>
                     <div class="service-price">300,000원</div>
                     <p class="service-price-note">5주 과정 · 최대 5명 · 매주 토 20:00</p>
                     <ul>
@@ -1103,6 +1110,19 @@
                         <li>슬랙 커뮤니티 + 네트워킹</li>
                     </ul>
                     <a href="basic-package.html" class="btn btn-primary" style="width: 100%;">자세히 보기</a>
+                </div>
+                <div class="service-card coming-soon fade-up">
+                    <span class="service-card-badge badge-muted">Advanced · Open 예정</span>
+                    <div class="service-price" style="color: var(--text-tertiary);">500,000원</div>
+                    <p class="service-price-note">심화 과정 · 준비 중</p>
+                    <ul>
+                        <li>Basic 전체 과정 포함</li>
+                        <li>실전 프로젝트 수행</li>
+                        <li>현직자 네트워킹 세션</li>
+                        <li>심화 면접 컨설팅</li>
+                        <li>수료 후 커리어 팔로업</li>
+                    </ul>
+                    <span class="btn btn-secondary" style="width: 100%; text-align: center; opacity: 0.5;">준비 중</span>
                 </div>
             </div>
             <div class="service-note fade-up" style="margin-top: var(--space-6);">
