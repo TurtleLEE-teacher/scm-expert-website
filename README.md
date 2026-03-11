@@ -1,126 +1,65 @@
-# 🎓 SCM 전문가 양성 웹사이트
+# SCM Labs - SCM 커리어 부트캠프
 
-[![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Live-brightgreen?style=flat-square&logo=github)](https://turtlelee-teacher.github.io/scm-expert-website)
-[![Performance](https://img.shields.io/badge/Performance-95%2B-brightgreen?style=flat-square)](https://developers.google.com/speed/pagespeed/insights/)
-[![Accessibility](https://img.shields.io/badge/Accessibility-WCAG%202.1%20AA-blue?style=flat-square)](https://www.w3.org/WAI/WCAG21/quickref/)
+> 글로벌 Big 4 컨설팅펌 현직 컨설턴트가 제공하는 SCM 직무 트레이닝 + 커리어 컨설팅
 
-> 글로벌 컨설팅펌 현직 컨설턴트가 제공하는 SCM 전문 강의와 커리어 컨설팅 서비스
+**[https://turtlelee-teacher.github.io/scm-expert-website](https://turtlelee-teacher.github.io/scm-expert-website)**
 
-## 🌐 실시간 웹사이트
+## 서비스
 
-**👉 [https://turtlelee-teacher.github.io/scm-expert-website](https://turtlelee-teacher.github.io/scm-expert-website)**
+| 페이지 | 설명 |
+|--------|------|
+| [`index.html`](index.html) | 메인 랜딩 페이지 |
+| [`basic-package.html`](basic-package.html) | SCM 커리어 부트캠프 (5주 트레이닝 + 1:1 컨설팅) |
+| [`career-consulting.html`](career-consulting.html) | 커리어 컨설팅 (자소서/면접/포트폴리오) |
+| [`career-application.html`](career-application.html) | 커리어 컨설팅 신청 폼 |
+| [`survey-form.html`](survey-form.html) | 수강생 설문조사 |
+| [`privacy-policy.html`](privacy-policy.html) | 개인정보처리방침 |
 
-## ✨ 주요 특징
+## 기술 스택
 
-### 🎯 전문 서비스
-- **SCM 기초 완성 강의**: 20시간 분량의 실무 중심 커리큘럼
-- **커리어 컨설팅**: 이력서 작성부터 면접 준비까지 1:1 맞춤 지원
-- **현직 전문가**: 글로벌 컨설팅펌 현역 컨설턴트 직강
+- **Frontend**: HTML5, CSS3 (design-system.css), Vanilla JS (ES6+)
+- **Backend**: PHP 7.4+, SQLite, Notion API
+- **폰트**: Pretendard
+- **배포**: GitHub Pages
 
-### 🚀 기술적 우수성
-- **95+ 성능 점수**: 최적화된 로딩 속도 (1초 미만)
-- **완벽한 반응형**: 모든 디바이스에서 최적화된 경험
-- **접근성 준수**: WCAG 2.1 AA 기준 완전 준수
-- **SEO 최적화**: 검색 엔진 친화적 구조
-
-## 🛠️ 기술 스택
-
-### Frontend
-- **HTML5**: 시맨틱 마크업
-- **CSS3**: 통합 최적화 스타일시트 (17개 → 1개)
-- **JavaScript**: ES6+ 클래스 기반 구조
-- **성능 최적화**: Critical CSS, 지연 로딩, 비동기 리소스
-
-### Backend
-- **PHP 7.4+**: 서버사이드 로직
-- **SQLite**: 경량 데이터베이스
-- **Notion API**: 외부 데이터 연동
-
-### 개발 & 배포
-- **Git**: 버전 관리
-- **GitHub Pages**: 자동 배포
-- **환경변수**: 보안 설정 관리
-
-## 📊 성능 지표
-
-| 항목 | 점수 | 개선율 |
-|------|------|--------|
-| **Performance** | 95+ | +67% |
-| **Accessibility** | 95+ | +58% |
-| **Best Practices** | 100 | +40% |
-| **SEO** | 95+ | +36% |
-
-## 🚀 빠른 시작
-
-### 로컬 개발 환경 설정
+## 로컬 실행
 
 ```bash
-# 저장소 클론
 git clone https://github.com/TurtleLEE-teacher/scm-expert-website.git
 cd scm-expert-website
-
-# 환경변수 설정
-cp .env.example .env
-# .env 파일에서 실제 API 키 입력
-
-# 로컬 서버 실행
 php -S localhost:8000
 ```
 
-## 📁 프로젝트 구조
+## 프로젝트 구조
 
 ```
 scm-expert-website/
-├── 📄 index.html              # 🎯 메인 랜딩 페이지
-├── 📄 career-consulting.html  # 💼 커리어 컨설팅 서비스 페이지
-├── 📄 scm-basic.html         # 📚 SCM 기초 강의 페이지
-├── 📄 _config.yml            # ⚙️ GitHub Pages 설정
-├── 📄 CLAUDE.md              # 🤖 Claude Code 프로젝트 지침
-├── 📂 css/
-│   └── 📄 optimized.css      # 🎨 통합 최적화 스타일시트 (749+ 라인)
-├── 📂 js/
-│   └── 📄 enhanced.js        # ⚡ 고도화된 JavaScript (ES6+)
-├── 📂 images/                # 🖼️ 이미지 리소스
-│   ├── 📂 portfolio/         # 포트폴리오 관련 이미지
-│   └── 🏢 기업 로고 이미지들
-├── 📂 includes/              # 🔧 PHP 백엔드 클래스
-│   ├── 📄 config.php         # 🔐 보안 설정 관리
-│   ├── 📄 database.php       # 🗄️ SQLite 데이터베이스 연결
-│   ├── 📄 notion-api.php     # 📝 Notion API 연동 클래스
-│   ├── 📄 notion.php         # 🔗 Notion 통합 헬퍼
-│   └── 📄 email.php          # 📧 이메일 발송 기능
-├── 📂 api/                   # 🔌 API 엔드포인트
-│   ├── 📄 get-notion-schedule.php  # 📅 Notion 일정 조회
-│   ├── 📄 notion-config.php       # ⚙️ Notion 설정
-│   └── 📄 test-notion-api.php      # 🧪 API 테스트
-└── 📂 old/                   # 📦 아카이브 폴더
-    ├── 📂 css_archive/       # 이전 CSS 파일들
-    ├── 📂 js_archive/        # 이전 JavaScript 파일들
-    ├── 📂 html_archive/      # 백업 HTML 파일들
-    ├── 📂 documentation_archive/  # 프로젝트 문서 백업
-    └── 📂 backup_files/      # 개발 과정 백업 파일들
+├── index.html                 # 메인 랜딩
+├── basic-package.html         # 부트캠프 (메인 상품)
+├── career-consulting.html     # 커리어 컨설팅
+├── career-application.html    # 컨설팅 신청 폼
+├── survey-form.html           # 설문조사
+├── privacy-policy.html        # 개인정보처리방침
+├── css/
+│   └── design-system.css      # 디자인 시스템 (공통 스타일)
+├── js/
+│   ├── reviews.js             # Notion 후기 동적 로드
+│   └── enhanced.js            # 인터랙션
+├── images/
+│   └── portfolio/             # 강의 현장 사진, 실무 화면 등
+├── api/                       # Vercel Serverless Functions
+│   ├── scm-demand.js          # 수강 대기 등록 API
+│   └── ...
+├── includes/                  # PHP 백엔드 클래스
+│   ├── notion-api.php         # Notion API 연동
+│   └── database.php           # SQLite 연결
+├── data/
+│   └── schedule.json          # 강의 일정 데이터
+└── CLAUDE.md                  # Claude Code 프로젝트 지침
 ```
 
-## 🔧 환경 설정
+## 레거시 파일 (미사용)
 
-### 필수 환경변수
-
-```env
-# Notion API 설정
-NOTION_API_KEY=your_notion_api_key_here
-NOTION_DATABASE_ID=your_database_id_here
-
-# 환경 설정
-ENVIRONMENT=production
-DEBUG_MODE=false
-```
-
-## 📞 지원 및 문의
-
-- **이메일**: contact@scmexpert.com
-- **전화**: 010-1234-5678
-- **GitHub Issues**: [Issues 페이지](https://github.com/TurtleLEE-teacher/scm-expert-website/issues)
-
----
-
-**⭐ 이 프로젝트가 도움이 되었다면 Star를 눌러주세요!**
+- `scm-basic.html` → `basic-package.html`로 대체됨
+- `scm-application.html` → 구버전 수강 신청 폼
+- `debug-*.html`, `test-*.html` → 개발용 테스트 페이지
