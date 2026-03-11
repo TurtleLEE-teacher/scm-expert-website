@@ -454,6 +454,128 @@
             line-height: var(--leading-relaxed);
         }
 
+        /* ===== Pain Points ===== */
+        .painpoints {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .painpoints-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-4);
+        }
+        @media (max-width: 480px) {
+            .painpoints-grid { grid-template-columns: 1fr; }
+        }
+        .painpoint-card {
+            padding: var(--space-5);
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+        }
+        .painpoint-card .painpoint-q {
+            font-size: var(--text-base);
+            font-weight: var(--font-semibold);
+            color: var(--text-primary);
+            margin-bottom: var(--space-2);
+        }
+        .painpoint-card .painpoint-desc {
+            font-size: var(--text-sm);
+            color: var(--text-tertiary);
+            line-height: var(--leading-relaxed);
+        }
+        .painpoints-answer {
+            margin-top: var(--space-6);
+            text-align: center;
+            padding: var(--space-5);
+            background: linear-gradient(135deg, rgba(0, 113, 227, 0.08), rgba(0, 198, 255, 0.08));
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(0, 113, 227, 0.2);
+        }
+        .painpoints-answer p {
+            font-size: var(--text-base);
+            font-weight: var(--font-semibold);
+            color: var(--blue);
+        }
+
+        /* ===== Process ===== */
+        .process-grid {
+            max-width: 700px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-4);
+        }
+        @media (max-width: 480px) {
+            .process-grid { grid-template-columns: 1fr; }
+        }
+        .process-card {
+            padding: var(--space-5);
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            text-align: center;
+        }
+        .process-card .process-icon {
+            font-size: 1.5rem;
+            margin-bottom: var(--space-3);
+        }
+        .process-card h3 {
+            font-size: var(--text-sm);
+            font-weight: var(--font-semibold);
+            margin-bottom: var(--space-2);
+        }
+        .process-card p {
+            font-size: var(--text-xs);
+            color: var(--text-secondary);
+            line-height: var(--leading-relaxed);
+        }
+
+        /* ===== Outcome ===== */
+        .outcome-grid {
+            max-width: 700px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-4);
+        }
+        @media (max-width: 480px) {
+            .outcome-grid { grid-template-columns: 1fr; }
+        }
+        .outcome-card {
+            padding: var(--space-5);
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+        }
+        .outcome-card h3 {
+            font-size: var(--text-sm);
+            font-weight: var(--font-semibold);
+            margin-bottom: var(--space-2);
+        }
+        .outcome-card p {
+            font-size: var(--text-xs);
+            color: var(--text-secondary);
+            line-height: var(--leading-relaxed);
+        }
+
+        /* ===== Refund Policy ===== */
+        .refund-policy {
+            margin-top: var(--space-5);
+            padding: var(--space-4);
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            font-size: var(--text-xs);
+            color: var(--text-tertiary);
+            line-height: var(--leading-relaxed);
+        }
+        .refund-policy strong {
+            display: block;
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+            margin-bottom: var(--space-2);
+        }
+
         /* ===== CTA ===== */
         .cta-section {
             text-align: center;
@@ -728,10 +850,43 @@
                 <span class="hero-stat-number">6명</span>
                 <span class="hero-stat-label">소수정예</span>
             </div>
+            <div class="hero-stat">
+                <span class="hero-stat-number">Big 4</span>
+                <span class="hero-stat-label">현직 컨설턴트</span>
+            </div>
         </div>
     </section>
 
     <main>
+        <!-- Pain Points -->
+        <section class="section">
+            <div class="section-header fade-up">
+                <h2>이런 고민, 하고 계신가요?</h2>
+            </div>
+            <div class="painpoints">
+                <div class="painpoints-grid">
+                    <div class="painpoint-card fade-up">
+                        <p class="painpoint-q">"SCM이 뭔지 감이 안 잡혀요"</p>
+                        <p class="painpoint-desc">채용공고를 봐도 실제로 어떤 일을 하는지 모르겠고, 어디서부터 공부해야 할지 막막합니다</p>
+                    </div>
+                    <div class="painpoint-card fade-up">
+                        <p class="painpoint-q">"자소서에 쓸 경험이 없어요"</p>
+                        <p class="painpoint-desc">인턴 경험도 없고 직무 관련 프로젝트도 없어서 지원서를 채울 수가 없습니다</p>
+                    </div>
+                    <div class="painpoint-card fade-up">
+                        <p class="painpoint-q">"면접에서 직무 질문이 두려워요"</p>
+                        <p class="painpoint-desc">SCM 프로세스, ERP, 디지털 전환 질문이 나오면 자신 있게 답할 수가 없습니다</p>
+                    </div>
+                    <div class="painpoint-card fade-up">
+                        <p class="painpoint-q">"혼자 준비하니 방향을 모르겠어요"</p>
+                        <p class="painpoint-desc">유튜브, 블로그로 공부하지만 현업과 동떨어진 느낌이고 피드백 받을 곳이 없습니다</p>
+                    </div>
+                </div>
+                <div class="painpoints-answer fade-up">
+                    <p>이 부트캠프가 5주 안에 해결합니다</p>
+                </div>
+            </div>
+        </section>
         <!-- Curriculum -->
         <section class="section section-alt">
             <div class="section-header fade-up">
@@ -743,7 +898,7 @@
                     <div class="week-number">1</div>
                     <div class="week-content">
                         <h3>현직자 직무 에센스 강의 및 Q&A</h3>
-                        <p>직무 입문 방법, 실제로 하는 일, 요구 역량을 배웁니다</p>
+                        <p>Big 4 현직 컨설턴트가 SCM 조달-생산-유통 프로세스를 조감도로 설명합니다. 실제 프로젝트 사례 기반으로 직무 입문 방법, 현업에서 하는 일, 요구 역량을 배웁니다.</p>
                         <span class="deliverable">과제: SCM 프로세스 도식화</span>
                     </div>
                 </div>
@@ -751,7 +906,7 @@
                     <div class="week-number">2</div>
                     <div class="week-content">
                         <h3>리드멘토 개별 리뷰 및 피드백</h3>
-                        <p>1차 과제에 대한 상세 피드백 + 실무 관점 조언</p>
+                        <p>1주차 과제(프로세스 도식화)를 1:1로 리뷰하며 실무 관점에서 상세 피드백합니다. SCM 이슈 키워드를 선정하고 분석하는 방법을 안내합니다.</p>
                         <span class="deliverable">과제: SCM 이슈 분석 (Keyword Study)</span>
                     </div>
                 </div>
@@ -759,7 +914,7 @@
                     <div class="week-number">3</div>
                     <div class="week-content">
                         <h3>SAP ERP 연결고리 이해</h3>
-                        <p>SCM과 SAP ERP 연계, 디지털 전환 사례 학습</p>
+                        <p>SCM과 SAP ERP가 실무에서 어떻게 연계되는지, 디지털 전환이 SCM에 미치는 영향을 실제 구축 사례와 함께 학습합니다.</p>
                         <span class="deliverable">과제: 재무 Integration 실습</span>
                     </div>
                 </div>
@@ -767,7 +922,7 @@
                     <div class="week-number">4</div>
                     <div class="week-content">
                         <h3>3차 업무 피드백 및 심화 학습</h3>
-                        <p>SCM 트렌드 파악 + 커리어 로드맵 수립</p>
+                        <p>키워드 분석 과제를 심층 리뷰하고, 최신 SCM 트렌드(ESG, 리쇼어링, AI 활용)를 파악합니다. 이를 바탕으로 포트폴리오를 작성하기 시작합니다.</p>
                         <span class="deliverable">과제: 프로세스 개선 포트폴리오 작성</span>
                     </div>
                 </div>
@@ -775,24 +930,80 @@
                     <div class="week-number">5</div>
                     <div class="week-content">
                         <h3>업무 발표 및 최종 피드백</h3>
-                        <p>포트폴리오 발표 + Resume 방향성 정리</p>
+                        <p>완성된 포트폴리오를 발표하고 현직자 관점의 최종 피드백을 받습니다. 자소서·이력서에 활용할 방향성과 면접 대비 포인트를 정리합니다.</p>
                         <span class="deliverable">결과물: SCM 포트폴리오 + Resume 방향성</span>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Target Audience -->
+        <!-- How It Works -->
         <section class="section">
+            <div class="section-header fade-up">
+                <h2>이렇게 진행됩니다</h2>
+                <p>온라인 소수정예로 밀착 관리합니다</p>
+            </div>
+            <div class="process-grid">
+                <div class="process-card fade-up">
+                    <div class="process-icon">&#128250;</div>
+                    <h3>매주 토요일 라이브 세션</h3>
+                    <p>20:00-22:00 Zoom 라이브로 진행. 녹화본이 제공되어 복습도 가능합니다.</p>
+                </div>
+                <div class="process-card fade-up">
+                    <div class="process-icon">&#128221;</div>
+                    <h3>과제 제출 + 1:1 피드백</h3>
+                    <p>매주 실무 과제를 제출하면 48시간 내 멘토가 서면으로 상세히 피드백합니다.</p>
+                </div>
+                <div class="process-card fade-up">
+                    <div class="process-icon">&#128172;</div>
+                    <h3>슬랙 채널 수시 질의응답</h3>
+                    <p>궁금한 점은 언제든 슬랙 채널에서 질문. 멘토와 동기들과 실시간 소통합니다.</p>
+                </div>
+                <div class="process-card fade-up">
+                    <div class="process-icon">&#128101;</div>
+                    <h3>최대 6명 소수정예</h3>
+                    <p>소규모라 개인별 상황에 맞는 맞춤 피드백이 가능합니다.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Target Audience -->
+        <section class="section section-alt">
             <div class="section-header fade-up">
                 <h2>이런 분께 맞습니다</h2>
             </div>
             <ul class="target-list fade-up">
-                <li>SCM/물류/구매 직무에 관심 있지만 어디서부터 시작할지 모르겠는 분</li>
-                <li>자소서에 쓸 직무 관련 경험이 부족해 고민인 분</li>
-                <li>현직자의 피드백을 받으며 커리어 방향성을 잡고 싶은 분</li>
-                <li>직무 전환이나 이직을 준비하며 체계적인 가이드가 필요한 분</li>
+                <li>SCM/물류/구매 직무에 관심은 있지만 채용공고를 봐도 무슨 일인지 감이 안 잡히는 분</li>
+                <li>인턴 경험이 없어서 자소서에 쓸 직무 관련 경험이 부족해 막막한 분</li>
+                <li>현직자에게 직접 피드백을 받으며 커리어 방향성을 확실히 잡고 싶은 분</li>
+                <li>직무 전환이나 이직을 준비 중이지만 독학으로는 한계를 느끼는 분</li>
             </ul>
+        </section>
+
+        <!-- Outcome -->
+        <section class="section">
+            <div class="section-header fade-up">
+                <h2>5주 후, 이렇게 달라집니다</h2>
+                <p>수료생이 가져가는 구체적인 성과</p>
+            </div>
+            <div class="outcome-grid">
+                <div class="outcome-card fade-up">
+                    <h3>SCM 직무 포트폴리오 1건 완성</h3>
+                    <p>프로세스 도식화부터 이슈 분석까지, 자소서와 면접에 바로 활용할 수 있는 실전 포트폴리오를 만듭니다.</p>
+                </div>
+                <div class="outcome-card fade-up">
+                    <h3>자소서 2회 + 모의면접 1회</h3>
+                    <p>현직 컨설턴트가 직접 자소서를 첨삭하고 모의면접을 진행합니다. 예상 질문 리스트도 제공됩니다.</p>
+                </div>
+                <div class="outcome-card fade-up">
+                    <h3>SCM 직무 면접 자신감</h3>
+                    <p>프로세스, ERP, 디지털 전환까지 핵심 주제를 직접 경험했기 때문에 면접에서 근거 있는 답변이 가능합니다.</p>
+                </div>
+                <div class="outcome-card fade-up">
+                    <h3>현직자 네트워크</h3>
+                    <p>수료 후에도 슬랙 커뮤니티에서 멘토, 동기들과 지속적으로 교류하며 커리어 정보를 나눕니다.</p>
+                </div>
+            </div>
         </section>
 
         <!-- Pricing & Registration -->
@@ -829,6 +1040,10 @@
                     </ul>
                 </div>
                 <button class="btn btn-primary btn-lg" style="width: 100%;" onclick="openDemandModal()">대기 등록하기</button>
+                <div class="refund-policy">
+                    <strong>환불 규정</strong>
+                    수강 시작 전 전액 환불 / 1주차 후 80% / 2주차 후 50% 환불 가능 (3주차 이후 환불 불가)
+                </div>
             </div>
         </section>
 
@@ -916,6 +1131,33 @@
                             <div class="faq-answer-content">네. SCM 커리어 부트캠프에는 자소서 2회 + 모의면접 1회가 포함되어 있지만, 더 심화된 컨설팅이 필요하시면 <a href="career-consulting.html" style="color: var(--blue);">커리어 컨설팅</a>을 별도로 신청하실 수 있습니다.</div>
                         </div>
                     </div>
+                    <div class="faq-item fade-up">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            포트폴리오가 실제 취업에 도움이 되나요?
+                            <span class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+                        </button>
+                        <div class="faq-answer">
+                            <div class="faq-answer-content">네. 부트캠프에서 만드는 포트폴리오는 SCM 프로세스 분석, 이슈 리서치 등 실무와 동일한 과제를 기반으로 합니다. 자소서에 직접 활용할 수 있고, 면접에서 구체적 경험으로 어필할 수 있습니다.</div>
+                        </div>
+                    </div>
+                    <div class="faq-item fade-up">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            다른 SCM 교육 프로그램과 뭐가 다른가요?
+                            <span class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+                        </button>
+                        <div class="faq-answer">
+                            <div class="faq-answer-content">대형 플랫폼 강의는 녹화 영상 위주에 수강생이 많아 개인 피드백이 어렵습니다. SCM Labs는 최대 6명 소수정예에 현직 Big 4 컨설턴트가 1:1 피드백을 직접 제공합니다. 직무교육과 취업 컨설팅(자소서+면접)을 하나의 과정에서 해결할 수 있다는 점이 가장 큰 차이입니다.</div>
+                        </div>
+                    </div>
+                    <div class="faq-item fade-up">
+                        <button class="faq-question" onclick="toggleFaq(this)">
+                            수료 후에도 질문할 수 있나요?
+                            <span class="faq-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+                        </button>
+                        <div class="faq-answer">
+                            <div class="faq-answer-content">네. 수료 후에도 슬랙 커뮤니티에 계속 남아 멘토와 동기들에게 질문하고 커리어 정보를 공유할 수 있습니다.</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -923,10 +1165,16 @@
         <!-- CTA -->
         <section class="cta-section section-alt">
             <h2 class="fade-up">지금이 시작할 때입니다</h2>
-            <p class="fade-up">직무 능력부터 커리어 준비까지, 한 번에 완성하세요</p>
+            <p class="fade-up" style="max-width: 480px; margin: 0 auto var(--space-3);">
+                5주간 SCM 직무 역량 + 포트폴리오 + 자소서 + 면접까지<br>
+                현직 Big 4 컨설턴트의 밀착 피드백으로 완성하세요
+            </p>
+            <p class="fade-up" style="font-size: var(--text-xs); color: var(--text-tertiary); margin-bottom: var(--space-6);">
+                300,000원 · 토요일 20-22시 · 최대 6명
+            </p>
             <button class="btn btn-primary btn-lg fade-up" onclick="openDemandModal()">대기 등록하기</button>
             <p class="fade-up" style="margin-top: var(--space-4); font-size: var(--text-sm); color: var(--text-tertiary);">
-                커리어 컨설팅만 필요하신가요? <a href="career-consulting.html" style="color: var(--blue);">커리어 컨설팅 보기</a>
+                궁금한 점이 있으신가요? <a href="career-consulting.html" style="color: var(--blue);">커리어 컨설팅만 따로 보기</a>
             </p>
         </section>
     </main>
