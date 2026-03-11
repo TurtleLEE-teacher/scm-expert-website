@@ -103,6 +103,9 @@
     </script>
 
     <style>
+        /* ===== Scroll offset for fixed header ===== */
+        html { scroll-padding-top: calc(var(--header-height) + var(--space-4)); }
+
         /* ===== Logo ===== */
         .logo {
             font-size: 1.25rem;
@@ -1012,10 +1015,16 @@
             <nav aria-label="주요 메뉴">
                 <ul class="nav-menu" id="navMenu" role="menubar">
                     <li class="nav-item" role="none">
-                        <a href="basic-package.html" class="nav-link" role="menuitem">프로그램</a>
+                        <a href="#services" class="nav-link" role="menuitem">서비스</a>
                     </li>
                     <li class="nav-item" role="none">
-                        <a href="career-consulting.html" class="nav-link" role="menuitem">커리어 컨설팅</a>
+                        <a href="#schedule" class="nav-link" role="menuitem">일정</a>
+                    </li>
+                    <li class="nav-item" role="none">
+                        <a href="#instructor" class="nav-link" role="menuitem">강사 소개</a>
+                    </li>
+                    <li class="nav-item" role="none">
+                        <a href="#faq" class="nav-link" role="menuitem">FAQ</a>
                     </li>
                 </ul>
             </nav>
@@ -1443,6 +1452,22 @@
         navMenu?.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => navMenu.classList.remove('active'));
         });
+
+        // Nav active state on scroll
+        const navLinks = document.querySelectorAll('.nav-menu .nav-link[href^="#"]');
+        const sections = Array.from(navLinks).map(link => document.querySelector(link.getAttribute('href'))).filter(Boolean);
+        function updateActiveNav() {
+            const scrollY = window.scrollY + 100;
+            let currentId = '';
+            sections.forEach(section => {
+                if (section.offsetTop <= scrollY) currentId = section.id;
+            });
+            navLinks.forEach(link => {
+                link.classList.toggle('active', link.getAttribute('href') === '#' + currentId);
+            });
+        }
+        window.addEventListener('scroll', updateActiveNav, { passive: true });
+        updateActiveNav();
 
         // FAQ Accordion
         document.querySelectorAll('.faq-question').forEach(button => {
