@@ -741,27 +741,35 @@
         .big4-logos {
             display: flex;
             align-items: center;
-            gap: var(--space-4);
-            padding: var(--space-4);
+            gap: var(--space-5);
+            padding: var(--space-5) var(--space-6);
             background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
             border-radius: var(--radius-lg);
             margin-bottom: var(--space-5);
         }
         @media (max-width: 768px) {
-            .big4-logos { justify-content: center; }
+            .big4-logos {
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: var(--space-4);
+                padding: var(--space-4);
+            }
         }
         .big4-logos img {
-            height: 28px;
+            height: 32px;
             width: auto;
-            opacity: 0.7;
-            filter: grayscale(30%);
+            opacity: 0.65;
             transition: opacity 0.2s;
         }
-        .big4-logos img:hover { opacity: 1; filter: grayscale(0%); }
-        .big4-logos .logo-label {
-            font-size: var(--text-xs);
-            color: var(--text-tertiary);
-            white-space: nowrap;
+        .big4-logos img:hover { opacity: 1; }
+        .big4-logos .logo-divider {
+            width: 1px;
+            height: 24px;
+            background: var(--border-color);
+        }
+        @media (max-width: 768px) {
+            .big4-logos .logo-divider { display: none; }
         }
         .stats-row {
             display: flex;
@@ -1326,11 +1334,13 @@
                         <li>입사 후 평균 연봉 상승률 4.4배 달성 (멘티 기준)</li>
                     </ul>
                     <div class="big4-logos">
-                        <span class="logo-label">경력</span>
-                        <img src="./images/portfolio/dlo.png" alt="Deloitte" loading="lazy">
-                        <img src="./images/portfolio/ey.png" alt="EY" loading="lazy">
-                        <img src="./images/portfolio/pwc.png" alt="PwC" loading="lazy">
-                        <img src="./images/portfolio/삼정kpmg.png" alt="삼정KPMG" loading="lazy">
+                        <img src="./images/logo-deloitte.svg" alt="Deloitte" loading="lazy">
+                        <span class="logo-divider"></span>
+                        <img src="./images/logo-ey.svg" alt="EY" loading="lazy">
+                        <span class="logo-divider"></span>
+                        <img src="./images/logo-pwc.svg" alt="PwC" loading="lazy">
+                        <span class="logo-divider"></span>
+                        <img src="./images/logo-kpmg.svg" alt="KPMG" loading="lazy">
                     </div>
                     <div class="stats-row">
                         <div class="stat-item">
