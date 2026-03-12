@@ -477,8 +477,6 @@
         .calendar-day.class-day { background: rgba(0, 113, 227, 0.1); border-color: var(--blue); }
         .calendar-day.cat-scm { background: rgba(0, 113, 227, 0.10); border-color: #0071e3; }
         .calendar-day.cat-scm .calendar-event { background: linear-gradient(135deg, #0071e3 0%, #00a1ff 100%); }
-        .calendar-day.cat-consulting { background: rgba(255, 149, 0, 0.10); border-color: #ff9500; }
-        .calendar-day.cat-consulting .calendar-event { background: linear-gradient(135deg, #ff9500 0%, #ffb340 100%); }
         .calendar-day.today { background: rgba(0, 113, 227, 0.18); border-color: var(--blue); box-shadow: inset 0 0 0 2px var(--blue); }
         .calendar-day.today .calendar-day-number { color: var(--blue); font-weight: var(--font-bold); }
         .calendar-day.today .calendar-day-number::after { content: '오늘'; font-size: 9px; background: var(--blue); color: #fff; padding: 1px 5px; border-radius: 8px; margin-left: 4px; vertical-align: middle; }
@@ -494,7 +492,6 @@
             display: inline-block; margin-bottom: 2px; letter-spacing: 0.3px;
         }
         .calendar-category.cat-scm { background: #0071e3; color: #fff; }
-        .calendar-category.cat-consulting { background: #ff9500; color: #fff; }
         .calendar-session-type { font-size: 10px; color: var(--text-secondary); margin-bottom: 2px; }
         .calendar-assignment { font-size: 10px; color: var(--blue); display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .schedule-legend { display: flex; flex-direction: column; align-items: center; gap: var(--space-4); }
@@ -1662,10 +1659,17 @@
                 const data = await response.json();
                 if (!data.success || !data.data || data.data.length === 0) throw new Error('no data');
 
-                // Keep ALL data (don't filter out completed batches)
+                // Keep ALL data, but exclude consulting (1:1 개별 일정으로 진행)
                 allData = [];
                 data.data.forEach(course => {
-                    if (course.schedule && course.schedule.length > 0) allData.push(...course.schedule);
+                    const cat = course.category || course.notionData?.category || '';
+                    if (cat.includes('컨설팅')) return; // 컨설팅은 1:1 개별 진행이므로 일정에서 제외
+                    if (course.schedule && course.schedule.length > 0) {
+                        allData.push(...course.schedule.filter(s => {
+                            const sCat = s.notionData?.category || '';
+                            return !sCat.includes('컨설팅');
+                        }));
+                    }
                     else if (course.date) allData.push(course);
                 });
 
@@ -1817,16 +1821,7 @@
             const info = batchList[currentBatchIndex];
             const statusText = computeBatchStatus(info);
 
-            // 현재 배치에 포함된 카테고리 확인
-            const categories = new Set();
-            notionData.forEach(item => {
-                const cat = item.notionData?.category || '';
-                categories.add(cat.includes('컨설팅') ? 'consulting' : 'scm');
-            });
-
-            let catLegend = '';
-            if (categories.has('scm')) catLegend += '<div class="legend-item"><span class="legend-color" style="background: #0071e3"></span><span class="legend-text">SCM</span></div>';
-            if (categories.has('consulting')) catLegend += '<div class="legend-item"><span class="legend-color" style="background: #ff9500"></span><span class="legend-text">컨설팅</span></div>';
+            let catLegend = '<div class="legend-item"><span class="legend-color" style="background: #0071e3"></span><span class="legend-text">SCM</span></div>';
 
             legendEl.innerHTML = `
                 <div class="legend-section">
@@ -1863,14 +1858,9 @@
                     const isLecture = session.type === 'lecture';
                     const weekLabel = session.label || `${session.week}주차`;
                     const assignmentDot = session.hasAssignment ? '<div class="calendar-assignment">\u2022 과제</div>' : '';
-                    const category = session.notionData?.category || '';
-                    const isConsulting = category.includes('컨설팅');
-                    const catLabel = isConsulting ? '컨설팅' : 'SCM';
-                    const catClass = isConsulting ? 'cat-consulting' : 'cat-scm';
-
-                    html += `<div class="calendar-day class-day ${catClass}${todayClass}" title="${session.name} - ${status}">
+                    html += `<div class="calendar-day class-day cat-scm${todayClass}" title="${session.name} - ${status}">
                         <div class="calendar-day-number">${day} <span class="status-badge">${statusIcon}</span></div>
-                        <span class="calendar-category ${catClass}">${catLabel}</span>
+                        <span class="calendar-category cat-scm">SCM</span>
                         <div class="calendar-event">${batch}기 ${weekLabel}</div>
                         <div class="calendar-session-type">${isLecture ? '📚 수업' : '📝 피드백'}</div>
                         ${assignmentDot}</div>`;
@@ -1909,8 +1899,7 @@
                 const batchNum = parseInt(batch);
                 // 이 배치 그룹의 첫 아이템에서 카테고리 확인
                 const firstItem = groups[batch][0];
-                const grpCategory = firstItem?.notionData?.category || '';
-                const grpColor = grpCategory.includes('컨설팅') ? '#ff9500' : '#0071e3';
+                const grpColor = '#0071e3';
                 const batchStatus = batchList.find(b => b.batch === batchNum);
                 const status = batchStatus ? computeBatchStatus(batchStatus) : '준비중';
                 html += `<div class="batch-group-header"><span class="batch-dot" style="background:${grpColor}"></span>${batchNum}기 (${status})</div>`;
@@ -1922,14 +1911,10 @@
                     const week = item.week || 1;
                     const wc = weeklyContent[week] || weeklyContent[1];
                     const isLecture = item.type === 'lecture';
-                    const category = item.notionData?.category || '';
-                    const isConsulting = category.includes('컨설팅');
-                    const catLabel = isConsulting ? '컨설팅' : 'SCM';
-                    const catClass = isConsulting ? 'cat-consulting' : 'cat-scm';
-                    html += `<div class="calendar-list-item class-day ${catClass}${isToday ? ' today' : ''}">
+                    html += `<div class="calendar-list-item class-day cat-scm${isToday ? ' today' : ''}">
                         <div class="list-date"><span class="list-day">${d}</span><span class="list-weekday">${m}월 ${d}일 ${weekdays[date.getDay()]}${isToday ? ' (오늘)' : ''}</span></div>
                         <div class="list-content">
-                            <span class="calendar-category ${catClass}">${catLabel}</span>
+                            <span class="calendar-category cat-scm">SCM</span>
                             <div class="list-title">${week}주차 · ${wc.lecture}</div>
                             <div class="list-meta"><span>${isLecture ? '📚' : '📝'} ${batchNum}기</span>${wc.assignment ? `<span>📋 ${wc.assignment}</span>` : ''}</div>
                             <div style="font-size: var(--text-xs); color: var(--text-tertiary); margin-top: 4px;">${wc.desc}</div>
@@ -2067,14 +2052,12 @@
             });
             html += '</div>';
 
-            // Category color mapping
-            const categoryColors = { scm: '#0071e3', consulting: '#ff9500' };
+            const scmColor = '#0071e3';
 
             // Data rows
             yearCohorts.forEach(cohort => {
                 const batchNum = cohort.batch;
-                const isConsulting = (cohort.category || '').includes('컨설팅');
-                const color = isConsulting ? categoryColors.consulting : categoryColors.scm;
+                const color = scmColor;
 
                 // 프로그램 자체의 마지막 세션 날짜로 종료 판정
                 const cohortFirstDate = cohort.sessions.reduce((min, s) => s.date < min ? s.date : min, cohort.sessions[0].date);
