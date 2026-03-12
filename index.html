@@ -674,10 +674,10 @@
         /* ===== Instructor Section ===== */
         .instructor-content {
             display: grid;
-            grid-template-columns: 200px 1fr;
+            grid-template-columns: 220px 1fr;
             gap: var(--space-8);
-            align-items: center;
-            max-width: 800px;
+            align-items: start;
+            max-width: 860px;
             margin: 0 auto;
         }
         @media (max-width: 768px) {
@@ -705,13 +705,63 @@
         .instructor-title {
             font-size: var(--text-sm);
             color: var(--blue);
-            margin-bottom: var(--space-4);
+            margin-bottom: var(--space-3);
         }
-        .instructor-info > p {
+        .instructor-bio {
             font-size: var(--text-sm);
             color: var(--text-secondary);
             line-height: var(--leading-relaxed);
+            margin-bottom: var(--space-4);
+        }
+        .instructor-highlights {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 var(--space-5);
+        }
+        .instructor-highlights li {
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+            padding: var(--space-1) 0;
+            display: flex;
+            align-items: baseline;
+            gap: var(--space-2);
+        }
+        @media (max-width: 768px) {
+            .instructor-highlights li { justify-content: center; }
+        }
+        .instructor-highlights li::before {
+            content: '';
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: var(--blue);
+            flex-shrink: 0;
+            margin-top: 6px;
+        }
+        .big4-logos {
+            display: flex;
+            align-items: center;
+            gap: var(--space-4);
+            padding: var(--space-4);
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
             margin-bottom: var(--space-5);
+        }
+        @media (max-width: 768px) {
+            .big4-logos { justify-content: center; }
+        }
+        .big4-logos img {
+            height: 28px;
+            width: auto;
+            opacity: 0.7;
+            filter: grayscale(30%);
+            transition: opacity 0.2s;
+        }
+        .big4-logos img:hover { opacity: 1; filter: grayscale(0%); }
+        .big4-logos .logo-label {
+            font-size: var(--text-xs);
+            color: var(--text-tertiary);
+            white-space: nowrap;
         }
         .stats-row {
             display: flex;
@@ -1114,7 +1164,7 @@
                         <li>매주 실무 과제 + 1:1 피드백</li>
                         <li>1:1 커리어 컨설팅 1회 (자소서/면접/포트폴리오 택1)</li>
                         <li>SCM 직무 포트폴리오 완성</li>
-                        <li>슬랙 커뮤니티 + 네트워킹</li>
+                        <li>카카오톡 커뮤니티 + 네트워킹</li>
                     </ul>
                     <a href="basic-package.html" class="btn btn-primary" style="width: 100%;">자세히 보기</a>
                 </div>
@@ -1257,12 +1307,31 @@
             </div>
             <div class="instructor-content fade-up">
                 <div class="instructor-image">
-                    <img src="./images/portfolio/teacher.png" alt="이선생 프로필" loading="lazy">
+                    <img src="./images/portfolio/my-notion-face-portrait.png" alt="이선생 프로필" loading="lazy">
                 </div>
                 <div class="instructor-info">
                     <h3>이선생</h3>
-                    <p class="instructor-title">현직 SCM 컨설턴트 · Big4 컨설팅펌</p>
-                    <p>글로벌 Big4 컨설팅펌에서 다수의 SCM 프로젝트를 수행하며, 멘토링을 통해 함께 성장하는 것을 지향합니다.</p>
+                    <p class="instructor-title">현직 SCM 컨설턴트 · 글로벌 Big 4 컨설팅펌</p>
+                    <p class="instructor-bio">
+                        글로벌 Big 4 컨설팅펌에서 SCM/물류 분야 프로젝트를 다수 수행하고 있는 현직 컨설턴트입니다.
+                        S&OP 수립, 수요예측, 재고 최적화, SAP ERP 기반 SCM 프로세스 혁신(PI) 등
+                        실제 기업 현장에서 쌓은 실무 경험을 바탕으로 강의합니다.
+                    </p>
+                    <ul class="instructor-highlights">
+                        <li>글로벌 Big 4 컨설팅펌 재직 (SCM/전략 부문)</li>
+                        <li>대기업·중견기업 SCM 컨설팅 프로젝트 10건 이상 수행</li>
+                        <li>SAP ERP(MM/PP/SD) 기반 프로세스 혁신 전문</li>
+                        <li>S&OP, 수요예측, 재고 최적화, 물류 네트워크 설계</li>
+                        <li>비전공자 100명 이상 멘토링 → 대기업·컨설팅펌 취업 성공</li>
+                        <li>입사 후 평균 연봉 상승률 4.4배 달성 (멘티 기준)</li>
+                    </ul>
+                    <div class="big4-logos">
+                        <span class="logo-label">경력</span>
+                        <img src="./images/portfolio/dlo.png" alt="Deloitte" loading="lazy">
+                        <img src="./images/portfolio/ey.png" alt="EY" loading="lazy">
+                        <img src="./images/portfolio/pwc.png" alt="PwC" loading="lazy">
+                        <img src="./images/portfolio/삼정kpmg.png" alt="삼정KPMG" loading="lazy">
+                    </div>
                     <div class="stats-row">
                         <div class="stat-item">
                             <span class="stat-number">100+</span>
@@ -1280,7 +1349,8 @@
                     <div class="cert-badges">
                         <span class="cert-badge">CPIM</span>
                         <span class="cert-badge">CPSM</span>
-                        <span class="cert-badge">SCM 프로젝트 10+</span>
+                        <span class="cert-badge">SAP SCM</span>
+                        <span class="cert-badge">프로젝트 10+</span>
                     </div>
                 </div>
             </div>
@@ -1351,7 +1421,7 @@
                         </button>
                         <div class="faq-answer">
                             <div class="faq-answer-content">
-                                <p>네. 수료생 전용 슬랙 채널에서 지속 네트워킹, 강의 자료 평생 접근, 추가 컨설팅 할인 혜택, 채용 정보 공유가 제공됩니다.</p>
+                                <p>네. 수료생 전용 카카오톡 오픈채팅방에서 지속 네트워킹, 강의 자료 평생 접근, 추가 컨설팅 할인 혜택, 채용 정보 공유가 제공됩니다.</p>
                             </div>
                         </div>
                     </div>
