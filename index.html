@@ -742,8 +742,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: var(--space-5);
-            padding: var(--space-4) var(--space-6);
+            gap: var(--space-6);
+            padding: var(--space-6) var(--space-8);
             background: #fff;
             border: 1px solid var(--border-color);
             border-radius: var(--radius-lg);
@@ -752,26 +752,33 @@
         @media (max-width: 768px) {
             .big4-logos {
                 flex-wrap: wrap;
-                gap: var(--space-3);
-                padding: var(--space-3);
+                gap: var(--space-4);
+                padding: var(--space-5) var(--space-4);
             }
         }
         .big4-logos img {
-            height: 36px;
             width: auto;
             object-fit: contain;
-            opacity: 0.7;
+            opacity: 0.75;
             transition: opacity 0.2s;
         }
         .big4-logos img:hover { opacity: 1; }
+        /* 로고별 시각적 무게감 개별 조정 */
+        .big4-logos img[alt="Deloitte"]  { height: 44px; } /* 가로로 긴 워드마크 */
+        .big4-logos img[alt="EY"]        { height: 60px; } /* 정사각형 → 높이 키워야 균형 */
+        .big4-logos img[alt="PwC"]       { height: 50px; } /* 중간 비율 */
+        .big4-logos img[alt="삼정KPMG"]  { height: 48px; } /* 중간 비율 */
         .big4-logos .logo-divider {
             width: 1px;
-            height: 28px;
+            height: 36px;
             background: var(--border-color);
         }
         @media (max-width: 768px) {
             .big4-logos .logo-divider { display: none; }
-            .big4-logos img { height: 28px; }
+            .big4-logos img[alt="Deloitte"]  { height: 32px; }
+            .big4-logos img[alt="EY"]        { height: 44px; }
+            .big4-logos img[alt="PwC"]       { height: 36px; }
+            .big4-logos img[alt="삼정KPMG"]  { height: 34px; }
         }
         .stats-row {
             display: flex;
