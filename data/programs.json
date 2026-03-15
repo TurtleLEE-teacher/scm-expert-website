@@ -12,6 +12,7 @@
       "shortTitle": "SCM 입문반",
       "badge": "입문반",
       "status": "active",
+      "visibility": "listed",
       "recommended": true,
       "price": "300,000원",
       "priceNote": "5주 과정 · 최대 6명 · 라이브 3회 + 서면 2회",
@@ -220,6 +221,7 @@
     {
       "id": "scm-advanced",
       "category": "scm",
+      "visibility": "listed",
       "title": "SCM 실무 과정 · 심화반",
       "shortTitle": "SCM 심화반",
       "badge": "심화반",
@@ -239,6 +241,7 @@
     {
       "id": "master-data",
       "category": "scm",
+      "visibility": "listed",
       "title": "기준정보 방법론",
       "shortTitle": "기준정보 방법론",
       "badge": "기준정보",
@@ -257,6 +260,7 @@
     {
       "id": "mrp-basics",
       "category": "scm",
+      "visibility": "listed",
       "title": "MRP 기초",
       "shortTitle": "MRP 기초",
       "badge": "MRP",
@@ -275,6 +279,7 @@
     {
       "id": "inventory-management",
       "category": "operations",
+      "visibility": "unlisted",
       "title": "전략적 재고관리 및 운영방안",
       "shortTitle": "전략적 재고관리",
       "badge": "재고관리",
@@ -293,6 +298,7 @@
     {
       "id": "purchasing-basics",
       "category": "operations",
+      "visibility": "unlisted",
       "title": "구매 기초",
       "shortTitle": "구매 기초",
       "badge": "구매",
@@ -311,6 +317,7 @@
     {
       "id": "ops-consulting-intro",
       "category": "operations",
+      "visibility": "unlisted",
       "title": "오퍼레이션 컨설팅 직무소개",
       "shortTitle": "Ops 컨설팅 직무",
       "badge": "직무소개",
@@ -329,6 +336,7 @@
     {
       "id": "titan-tools",
       "category": "consulting-skills",
+      "visibility": "unlisted",
       "title": "컨설턴트가 쓰는 타이탄의 도구",
       "shortTitle": "타이탄의 도구",
       "badge": "생산성도구",
@@ -347,6 +355,7 @@
     {
       "id": "consulting-writing",
       "category": "consulting-skills",
+      "visibility": "unlisted",
       "title": "컨설팅 문서작성 스킬",
       "shortTitle": "문서작성 스킬",
       "badge": "문서작성",

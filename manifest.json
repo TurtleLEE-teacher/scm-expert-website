@@ -1,7 +1,7 @@
 {
-    "name": "SCM Labs - 실무 역량 강화 전문 교육",
+    "name": "SCM Labs - SCM 실무 교육 · 커리어 컨설팅",
     "short_name": "SCM Labs",
-    "description": "글로벌 컨설팅펌 현직 컨설턴트가 제공하는 SCM · 오퍼레이션 · 컨설팅 스킬 전문 교육과 커리어 컨설팅 서비스",
+    "description": "글로벌 컨설팅펌 현직 컨설턴트가 제공하는 SCM 실무 교육과 커리어 컨설팅 서비스",
     "start_url": "/",
     "display": "standalone",
     "background_color": "#ffffff",

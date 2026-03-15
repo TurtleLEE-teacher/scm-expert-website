@@ -56,7 +56,7 @@
         const badgeClass = program.status !== 'active' ? 'badge-muted' : '';
         const badgeText = program.status === 'active'
             ? program.badge
-            : `${program.badge} · ${program.status === 'coming-soon' ? 'Open 예정' : '예정'}`;
+            : `${program.badge} · 준비 중`;
 
         const priceStyle = program.status !== 'active' ? ' style="color: var(--text-tertiary);"' : '';
 
@@ -94,8 +94,18 @@
 
         try {
             const data = await fetchPrograms();
-            renderCategoryTabs(data.categories, servicesSection);
-            renderServiceGrid(data.programs, servicesSection);
+
+            // visibility가 unlisted인 프로그램 제외 (미설정 시 listed로 간주)
+            const listedPrograms = data.programs.filter(p => p.visibility !== 'unlisted');
+            const visibleCategories = data.categories.filter(cat =>
+                listedPrograms.some(p => p.category === cat.id)
+            );
+
+            // 카테고리가 2개 이상일 때만 탭 렌더링
+            if (visibleCategories.length > 1) {
+                renderCategoryTabs(visibleCategories, servicesSection);
+            }
+            renderServiceGrid(listedPrograms, servicesSection);
         } catch (error) {
             console.error('프로그램 로드 실패:', error);
         }
