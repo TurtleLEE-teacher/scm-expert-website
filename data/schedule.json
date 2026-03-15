@@ -22,8 +22,7 @@
         "maxStudents": 3,
         "currentStudents": 0,
         "batch": 1
-      },
-      "programId": "consulting-job-session"
+      }
     },
     {
       "name": "컨설팅펌 직무 세션",
@@ -46,8 +45,7 @@
         "maxStudents": 3,
         "currentStudents": 0,
         "batch": 1
-      },
-      "programId": "consulting-job-session"
+      }
     },
     {
       "name": "SCM 기초 완성 강의 1기",
@@ -70,8 +68,7 @@
         "maxStudents": 6,
         "currentStudents": 0,
         "batch": 1
-      },
-      "programId": "scm-basic"
+      }
     },
     {
       "name": "컨설팅펌 직무 세션",
@@ -94,8 +91,7 @@
         "maxStudents": 3,
         "currentStudents": 0,
         "batch": 1
-      },
-      "programId": "consulting-job-session"
+      }
     },
     {
       "name": "SCM 기초 완성 강의 1기",
@@ -118,8 +114,7 @@
         "maxStudents": 6,
         "currentStudents": 0,
         "batch": 1
-      },
-      "programId": "scm-basic"
+      }
     },
     {
       "name": "컨설팅펌 직무 세션",
@@ -142,8 +137,7 @@
         "maxStudents": 3,
         "currentStudents": 0,
         "batch": 1
-      },
-      "programId": "consulting-job-session"
+      }
     },
     {
       "name": "SCM 기초 완성 강의 1기",
@@ -166,8 +160,7 @@
         "maxStudents": 6,
         "currentStudents": 0,
         "batch": 1
-      },
-      "programId": "scm-basic"
+      }
     },
     {
       "name": "컨설팅펌 직무 세션",
@@ -190,8 +183,7 @@
         "maxStudents": 3,
         "currentStudents": 0,
         "batch": 1
-      },
-      "programId": "consulting-job-session"
+      }
     },
     {
       "name": "SCM 기초 완성 강의 1기",
@@ -214,8 +206,7 @@
         "maxStudents": 6,
         "currentStudents": 0,
         "batch": 1
-      },
-      "programId": "scm-basic"
+      }
     },
     {
       "name": "SCM 기초 완성 강의 1기",
@@ -238,8 +229,7 @@
         "maxStudents": 6,
         "currentStudents": 0,
         "batch": 1
-      },
-      "programId": "scm-basic"
+      }
     },
     {
       "name": "SCM 기초 완성 강의 2기",
@@ -262,8 +252,7 @@
         "maxStudents": 6,
         "currentStudents": 0,
         "batch": 2
-      },
-      "programId": "scm-basic"
+      }
     },
     {
       "name": "SCM 기초 완성 강의 2기",
@@ -286,8 +275,7 @@
         "maxStudents": 6,
         "currentStudents": 0,
         "batch": 2
-      },
-      "programId": "scm-basic"
+      }
     },
     {
       "name": "SCM 기초 완성 강의 2기",
@@ -310,8 +298,7 @@
         "maxStudents": 6,
         "currentStudents": 0,
         "batch": 2
-      },
-      "programId": "scm-basic"
+      }
     },
     {
       "name": "SCM 기초 완성 강의 2기",
@@ -334,8 +321,7 @@
         "maxStudents": 6,
         "currentStudents": 0,
         "batch": 2
-      },
-      "programId": "scm-basic"
+      }
     },
     {
       "name": "SCM 기초 완성 강의 2기",
@@ -358,8 +344,7 @@
         "maxStudents": 6,
         "currentStudents": 0,
         "batch": 2
-      },
-      "programId": "scm-basic"
+      }
     },
     {
       "name": "SCM 기초 완성 강의 3기",
@@ -382,8 +367,7 @@
         "maxStudents": 6,
         "currentStudents": 0,
         "batch": 3
-      },
-      "programId": "scm-basic"
+      }
     },
     {
       "name": "SCM 기초 완성 강의 3기",
@@ -406,8 +390,7 @@
         "maxStudents": 6,
         "currentStudents": 0,
         "batch": 3
-      },
-      "programId": "scm-basic"
+      }
     },
     {
       "name": "SCM 기초 완성 강의 3기",
@@ -430,8 +413,7 @@
         "maxStudents": 6,
         "currentStudents": 0,
         "batch": 3
-      },
-      "programId": "scm-basic"
+      }
     },
     {
       "name": "SCM 기초 완성 강의 3기",
@@ -454,8 +436,7 @@
         "maxStudents": 6,
         "currentStudents": 0,
         "batch": 3
-      },
-      "programId": "scm-basic"
+      }
     },
     {
       "name": "SCM 기초 완성 강의 3기",
@@ -478,10 +459,9 @@
         "maxStudents": 6,
         "currentStudents": 0,
         "batch": 3
-      },
-      "programId": "scm-basic"
+      }
     }
   ],
-  "lastUpdated": "2026-03-15T04:59:30.844Z",
+  "lastUpdated": "2026-03-15T06:44:31.023Z",
   "totalSessions": 20
 }
