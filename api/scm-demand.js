@@ -119,7 +119,13 @@ export default async function handler(req, res) {
         // 상태 필드 (select 타입)
         '상태': {
           select: { name: '대기중' }
-        }
+        },
+        // 프로그램 필드 (select 타입) - 다중 프로그램 구분용
+        ...(input.program_id ? {
+          '프로그램': {
+            select: { name: input.program_id }
+          }
+        } : {})
       }
     };
 

@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>프로그램 | SCM Labs</title>
+    <meta name="description" content="SCM Labs의 전문 교육 프로그램">
+    <meta name="author" content="SCM Labs">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="프로그램 | SCM Labs">
+    <meta property="og:description" content="글로벌 컨설팅펌 현직 컨설턴트가 제공하는 전문 교육 프로그램">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://scm-expert-site.vercel.app/images/og-image.png">
+    <meta property="og:locale" content="ko_KR">
+    <meta property="og:site_name" content="SCM Labs">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="프로그램 | SCM Labs">
+    <meta name="twitter:description" content="글로벌 컨설팅펌 현직 컨설턴트가 제공하는 전문 교육 프로그램">
+    <meta name="twitter:image" content="https://scm-expert-site.vercel.app/images/og-image.png">
+
+    <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
+    <link rel="apple-touch-icon" href="./images/apple-touch-icon.png">
+    <!-- Pretendard Font -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css" />
+    <link rel="stylesheet" href="css/design-system.css">
+
+    <style>
+        /* ===== Logo & Nav ===== */
+        .logo {
+            font-size: 1.25rem;
+            font-weight: var(--font-semibold);
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            padding: var(--space-2);
+            cursor: pointer;
+        }
+        .menu-toggle span {
+            display: block;
+            width: 18px;
+            height: 2px;
+            background-color: var(--text-primary);
+            margin: 4px 0;
+        }
+        @media (max-width: 768px) {
+            .menu-toggle { display: block; }
+            .header .btn-sm { display: none; }
+        }
+
+        /* ===== Hero ===== */
+        .hero {
+            min-height: 60vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: calc(var(--header-height) + var(--space-12)) var(--space-6) var(--space-10);
+        }
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-1) var(--space-4);
+            background-color: var(--bg-secondary);
+            border-radius: var(--radius-full);
+            font-size: var(--text-xs);
+            color: var(--text-secondary);
+            margin-bottom: var(--space-5);
+        }
+        .hero-badge-dot {
+            width: 6px;
+            height: 6px;
+            background-color: var(--blue);
+            border-radius: 50%;
+        }
+        .hero-title {
+            font-size: clamp(2rem, 7vw, 3.5rem);
+            font-weight: var(--font-bold);
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: var(--space-4);
+        }
+        .hero-subtitle {
+            font-size: clamp(0.9rem, 2.5vw, 1.15rem);
+            color: var(--text-secondary);
+            margin-bottom: var(--space-6);
+            max-width: 600px;
+            line-height: 1.6;
+        }
+        .hero-stats {
+            display: flex;
+            gap: var(--space-8);
+            margin-top: var(--space-8);
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .hero-stat { text-align: center; }
+        .hero-stat-number {
+            display: block;
+            font-size: var(--text-xl);
+            font-weight: var(--font-bold);
+            color: var(--blue);
+        }
+        .hero-stat-label {
+            font-size: var(--text-xs);
+            color: var(--text-tertiary);
+        }
+
+        /* ===== Pain Points ===== */
+        .painpoints { max-width: 800px; margin: 0 auto; }
+        .painpoints-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-4);
+        }
+        @media (max-width: 480px) { .painpoints-grid { grid-template-columns: 1fr; } }
+        .painpoint-card {
+            padding: var(--space-5);
+            background-color: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+        }
+        .painpoint-q {
+            font-weight: var(--font-semibold);
+            margin-bottom: var(--space-2);
+            color: var(--text-primary);
+        }
+        .painpoint-desc {
+            font-size: var(--text-sm);
+            color: var(--text-tertiary);
+            line-height: 1.5;
+        }
+        .painpoints-answer {
+            margin-top: var(--space-6);
+            text-align: center;
+        }
+        .painpoints-answer p {
+            font-size: var(--text-lg);
+            font-weight: var(--font-semibold);
+            color: var(--blue);
+        }
+
+        /* ===== Curriculum ===== */
+        .curriculum-grid {
+            max-width: 720px;
+            margin: 0 auto;
+            position: relative;
+            padding-left: var(--space-6);
+        }
+        .curriculum-grid::before {
+            content: '';
+            position: absolute;
+            left: 22px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--border-color);
+        }
+        .week-card {
+            display: flex;
+            gap: var(--space-5);
+            margin-bottom: var(--space-6);
+            position: relative;
+        }
+        .week-marker {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-1);
+            min-width: 44px;
+        }
+        .week-number {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: var(--blue);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: var(--font-bold);
+            font-size: var(--text-sm);
+            position: relative;
+            z-index: 1;
+        }
+        .week-number.bonus { background-color: var(--green); }
+        .week-label {
+            font-size: 10px;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .week-body {
+            flex: 1;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: var(--space-5);
+        }
+        .week-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: var(--space-3);
+            margin-bottom: var(--space-3);
+            flex-wrap: wrap;
+        }
+        .week-title {
+            font-weight: var(--font-semibold);
+            font-size: var(--text-base);
+        }
+        .session-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-1);
+            padding: 2px var(--space-2);
+            border-radius: var(--radius-full);
+            font-size: 11px;
+            white-space: nowrap;
+        }
+        .session-badge.live { background: rgba(0,122,255,0.15); color: var(--blue); }
+        .session-badge.async { background: rgba(255,149,0,0.15); color: var(--orange); }
+        .session-badge.consulting { background: rgba(48,209,88,0.15); color: var(--green); }
+        .session-badge-dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: currentColor;
+        }
+        .week-desc {
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: var(--space-4);
+        }
+        .week-details { display: flex; flex-direction: column; gap: var(--space-3); }
+        .detail-block {
+            padding: var(--space-3) var(--space-4);
+            border-radius: var(--radius-md);
+            border-left: 3px solid;
+        }
+        .detail-block.assignment { background: rgba(0,122,255,0.06); border-color: var(--blue); }
+        .detail-block.feedback { background: rgba(255,149,0,0.06); border-color: var(--orange); }
+        .detail-block.bonus-block { background: rgba(48,209,88,0.06); border-color: var(--green); }
+        .detail-label {
+            font-size: 11px;
+            font-weight: var(--font-semibold);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-tertiary);
+            margin-bottom: var(--space-2);
+        }
+        .detail-content { font-size: var(--text-sm); color: var(--text-secondary); line-height: 1.5; }
+        .detail-content ul { list-style: none; padding: 0; }
+        .detail-content li { padding-left: var(--space-4); position: relative; margin-bottom: var(--space-1); }
+        .detail-content li::before { content: ''; position: absolute; left: 0; top: 8px; width: 4px; height: 4px; border-radius: 50%; background: var(--text-tertiary); }
+        .deliverable {
+            display: block;
+            margin-top: var(--space-2);
+            font-size: var(--text-xs);
+            color: var(--text-tertiary);
+            font-style: italic;
+        }
+
+        /* ===== Section Image ===== */
+        .section-image {
+            max-width: 720px;
+            margin: 0 auto var(--space-8);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+        }
+        .section-image img { width: 100%; display: block; }
+        .section-image figcaption {
+            padding: var(--space-3);
+            font-size: var(--text-xs);
+            color: var(--text-tertiary);
+            text-align: center;
+        }
+
+        /* ===== Process Grid ===== */
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-4);
+            max-width: 720px;
+            margin: 0 auto;
+        }
+        @media (max-width: 480px) { .process-grid { grid-template-columns: 1fr; } }
+        .process-card {
+            padding: var(--space-5);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+        }
+        .process-icon { font-size: 2rem; margin-bottom: var(--space-3); }
+        .process-card h3 { font-size: var(--text-base); margin-bottom: var(--space-2); }
+        .process-card p { font-size: var(--text-sm); color: var(--text-secondary); line-height: 1.5; }
+
+        /* ===== Target Audience ===== */
+        .target-list {
+            max-width: 640px;
+            margin: 0 auto;
+            list-style: none;
+            padding: 0;
+        }
+        .target-list li {
+            padding: var(--space-3) 0;
+            padding-left: var(--space-6);
+            position: relative;
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .target-list li::before {
+            content: '&#10003;';
+            position: absolute;
+            left: 0;
+            color: var(--blue);
+            font-weight: bold;
+        }
+
+        /* ===== Outcomes ===== */
+        .outcome-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-4);
+            max-width: 720px;
+            margin: 0 auto;
+        }
+        @media (max-width: 480px) { .outcome-grid { grid-template-columns: 1fr; } }
+        .outcome-card {
+            padding: var(--space-5);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+        }
+        .outcome-card h3 { font-size: var(--text-base); margin-bottom: var(--space-2); }
+        .outcome-card p { font-size: var(--text-sm); color: var(--text-secondary); line-height: 1.5; }
+
+        /* ===== Pricing ===== */
+        .price-card {
+            max-width: 480px;
+            margin: 0 auto;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-xl);
+            padding: var(--space-8);
+            text-align: center;
+        }
+        .price-info-row {
+            display: flex;
+            justify-content: space-around;
+            gap: var(--space-4);
+            margin-bottom: var(--space-6);
+            flex-wrap: wrap;
+        }
+        .price-info-label {
+            display: block;
+            font-size: var(--text-xs);
+            color: var(--text-tertiary);
+            margin-bottom: var(--space-1);
+        }
+        .price-info-value {
+            font-size: var(--text-sm);
+            font-weight: var(--font-semibold);
+        }
+        .price-amount {
+            font-size: var(--text-4xl);
+            font-weight: var(--font-bold);
+            margin-bottom: var(--space-2);
+        }
+        .price-desc {
+            color: var(--text-secondary);
+            font-size: var(--text-sm);
+            margin-bottom: var(--space-6);
+        }
+        .price-features {
+            text-align: left;
+            margin-bottom: var(--space-6);
+        }
+        .price-features ul { list-style: none; padding: 0; }
+        .price-features li {
+            padding: var(--space-2) 0;
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+        }
+        .price-features li span { color: var(--green); margin-right: var(--space-2); }
+        .refund-policy {
+            margin-top: var(--space-4);
+            padding: var(--space-3);
+            background: var(--bg-primary);
+            border-radius: var(--radius-md);
+            font-size: var(--text-xs);
+            color: var(--text-tertiary);
+            line-height: 1.5;
+        }
+        .refund-policy strong { display: block; margin-bottom: var(--space-1); }
+
+        /* ===== FAQ ===== */
+        .faq-container { max-width: 640px; margin: 0 auto; }
+        .faq-item {
+            border-bottom: 1px solid var(--border-color);
+        }
+        .faq-question {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--space-4) 0;
+            background: none;
+            border: none;
+            font-size: var(--text-sm);
+            color: var(--text-primary);
+            cursor: pointer;
+            text-align: left;
+            gap: var(--space-3);
+        }
+        .faq-icon { flex-shrink: 0; transition: transform var(--transition-fast); }
+        .faq-icon svg { width: 16px; height: 16px; }
+        .faq-item.active .faq-icon { transform: rotate(180deg); }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height var(--transition-base);
+        }
+        .faq-answer-content {
+            padding: 0 0 var(--space-4);
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* ===== CTA Section ===== */
+        .cta-section {
+            text-align: center;
+            padding: var(--space-16) var(--space-6);
+        }
+        .cta-section h2 {
+            font-size: var(--text-3xl);
+            font-weight: var(--font-bold);
+            margin-bottom: var(--space-4);
+        }
+
+        /* ===== Reviews Section ===== */
+        .reviews-section { padding: var(--space-12) var(--space-6); }
+        .reviews-header {
+            text-align: center;
+            margin-bottom: var(--space-8);
+        }
+        .reviews-header h2 {
+            font-size: var(--text-3xl);
+            font-weight: var(--font-bold);
+            margin-bottom: var(--space-3);
+        }
+        .reviews-stats {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-6);
+            font-size: var(--text-sm);
+            color: var(--text-tertiary);
+        }
+
+        /* ===== Mobile CTA Bar ===== */
+        .mobile-cta {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: var(--space-3) var(--space-4);
+            background: var(--bg-elevated);
+            border-top: 1px solid var(--border-color);
+            z-index: var(--z-fixed);
+        }
+        .mobile-cta .btn { flex: 1; text-align: center; }
+        .mobile-cta { gap: var(--space-3); }
+        @media (max-width: 768px) {
+            .mobile-cta { display: flex; }
+            .footer { padding-bottom: calc(var(--space-6) + 60px); }
+        }
+
+        /* ===== Scroll Animation ===== */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(16px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .fade-up.visible { opacity: 1; transform: translateY(0); }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" role="banner">
+        <div class="header-content">
+            <a href="index.html" class="logo">SCM Labs</a>
+            <nav aria-label="주요 메뉴">
+                <ul class="nav-menu" id="navMenu" role="menubar">
+                    <li class="nav-item" role="none"><a href="index.html#services" class="nav-link" role="menuitem">프로그램</a></li>
+                    <li class="nav-item" role="none"><a href="index.html#schedule" class="nav-link" role="menuitem">일정</a></li>
+                    <li class="nav-item" role="none"><a href="index.html#instructor" class="nav-link" role="menuitem">강사 소개</a></li>
+                    <li class="nav-item" role="none"><a href="index.html#faq" class="nav-link" role="menuitem">FAQ</a></li>
+                </ul>
+            </nav>
+            <button class="btn btn-sm btn-primary" onclick="openDemandModal()">수강 신청</button>
+            <button class="theme-toggle" id="themeToggle" aria-label="테마 변경">
+                <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+                <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+            </button>
+            <button class="menu-toggle" id="menuToggle" aria-label="메뉴 열기">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero (dynamically rendered) -->
+    <div id="programHero"></div>
+
+    <!-- Main Content (dynamically rendered) -->
+    <main id="programContent">
+        <div class="section" style="text-align: center; padding: var(--space-16);">
+            <p style="color: var(--text-tertiary);">프로그램 정보를 불러오는 중...</p>
+        </div>
+    </main>
+
+    <!-- Demand Registration Modal -->
+    <div class="modal-overlay" id="demandModalOverlay"></div>
+    <div class="modal-container" id="demandModal">
+        <button class="modal-close" id="demandModalClose" aria-label="닫기">&times;</button>
+        <div id="demandFormContainer">
+            <h2 class="modal-title">수강 대기 등록</h2>
+            <p class="modal-subtitle">기수가 확정되면 안내드리겠습니다</p>
+            <form id="demandForm">
+                <input type="hidden" id="demand-program-id" name="program_id" value="">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="demand-name">이름 *</label>
+                        <input type="text" class="form-input" id="demand-name" name="name" placeholder="홍길동" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="demand-phone">연락처 *</label>
+                        <input type="tel" class="form-input" id="demand-phone" name="phone" placeholder="010-0000-0000" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="demand-email">이메일 *</label>
+                    <input type="email" class="form-input" id="demand-email" name="email" placeholder="example@email.com" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="demand-affiliation">소속구분 *</label>
+                        <select class="form-input form-select" id="demand-affiliation" name="affiliation" required>
+                            <option value="">선택해주세요</option>
+                            <option value="직장인">직장인</option>
+                            <option value="학생">학생</option>
+                            <option value="취업준비생">취업준비생</option>
+                            <option value="기타">기타</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="demand-waiting-month">희망 기수 *</label>
+                        <select class="form-input form-select" id="demand-waiting-month" name="waiting_month" required>
+                            <option value="">선택해주세요</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="workerFields" class="conditional-fields" style="display: none;">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="demand-company">회사명</label>
+                            <input type="text" class="form-input" id="demand-company" name="company" placeholder="회사명">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="demand-position">직책</label>
+                            <input type="text" class="form-input" id="demand-position" name="position" placeholder="직책">
+                        </div>
+                    </div>
+                </div>
+                <div id="studentFields" class="conditional-fields" style="display: none;">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="demand-major">전공</label>
+                            <input type="text" class="form-input" id="demand-major" name="major" placeholder="전공">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="demand-grade">학년</label>
+                            <input type="text" class="form-input" id="demand-grade" name="grade" placeholder="예: 3학년">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="demand-notes">특이사항</label>
+                    <textarea class="form-input" id="demand-notes" name="notes" placeholder="문의사항이나 요청사항이 있으시면 적어주세요"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-checkbox">
+                        <input type="checkbox" id="demand-privacy" name="privacy_agreed" required>
+                        <span>개인정보 수집·이용에 동의합니다 (필수)</span>
+                    </label>
+                </div>
+                <button type="submit" class="btn btn-primary form-submit">대기 등록하기</button>
+            </form>
+        </div>
+        <div class="form-success" id="demandFormSuccess">
+            <div class="form-success-icon">&#10003;</div>
+            <h3>대기 등록이 완료되었습니다!</h3>
+            <p>기수가 확정되면 안내드리겠습니다.</p>
+            <button class="btn btn-secondary" style="margin-top: var(--space-6);" onclick="closeDemandModal()">닫기</button>
+        </div>
+    </div>
+
+    <!-- Mobile Sticky CTA -->
+    <div class="mobile-cta">
+        <button class="btn btn-primary" onclick="openDemandModal()">수강 신청</button>
+        <a href="career-consulting.html" class="btn btn-secondary">커리어 컨설팅</a>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2025 SCM Labs. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Mobile menu
+        const menuToggle = document.getElementById('menuToggle');
+        const navMenu = document.getElementById('navMenu');
+        menuToggle?.addEventListener('click', () => navMenu.classList.toggle('active'));
+        navMenu?.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => navMenu.classList.remove('active'));
+        });
+
+        // Scroll animation (initial)
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+        document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+        // FAQ accordion
+        function toggleFaq(btn) {
+            const item = btn.parentElement;
+            const answer = item.querySelector('.faq-answer');
+            const isActive = item.classList.contains('active');
+            document.querySelectorAll('.faq-item.active').forEach(i => {
+                i.classList.remove('active');
+                i.querySelector('.faq-answer').style.maxHeight = null;
+            });
+            if (!isActive) {
+                item.classList.add('active');
+                answer.style.maxHeight = answer.scrollHeight + 'px';
+            }
+        }
+
+        // Demand Registration Modal
+        const demandModalOverlay = document.getElementById('demandModalOverlay');
+        const demandModal = document.getElementById('demandModal');
+        const demandModalClose = document.getElementById('demandModalClose');
+        const demandForm = document.getElementById('demandForm');
+        const demandFormContainer = document.getElementById('demandFormContainer');
+        const demandFormSuccess = document.getElementById('demandFormSuccess');
+        const affiliationSelect = document.getElementById('demand-affiliation');
+        const workerFields = document.getElementById('workerFields');
+        const studentFields = document.getElementById('studentFields');
+        const waitingMonthSelect = document.getElementById('demand-waiting-month');
+        const demandPhoneInput = document.getElementById('demand-phone');
+
+        // 희망 기수 옵션 생성
+        async function generateWaitingMonthOptions() {
+            if (!waitingMonthSelect) return;
+            try {
+                const response = await fetch('./data/schedule.json?t=' + Date.now());
+                if (!response.ok) throw new Error('로드 실패');
+                const data = await response.json();
+                if (!data.success || !data.data) throw new Error('데이터 오류');
+
+                const courseMap = new Map();
+                data.data.forEach(item => {
+                    if ((item.status === '모집중' || item.status === '준비중') && item.notionData?.id) {
+                        if (!courseMap.has(item.notionData.id)) {
+                            courseMap.set(item.notionData.id, {
+                                title: item.notionData.title || item.name,
+                                date: new Date(item.date),
+                                status: item.status
+                            });
+                        }
+                    }
+                });
+
+                const courses = Array.from(courseMap.values()).sort((a, b) => a.date - b.date);
+                courses.forEach(course => {
+                    const option = document.createElement('option');
+                    option.value = course.title;
+                    option.textContent = `${course.title} (${course.date.getFullYear()}년 ${course.date.getMonth() + 1}월) - ${course.status === '모집중' ? '모집중' : '예정'}`;
+                    waitingMonthSelect.appendChild(option);
+                });
+            } catch (error) {
+                console.warn('기수 옵션 로드 실패:', error.message);
+            }
+        }
+        generateWaitingMonthOptions();
+
+        // 소속구분 조건부 필드
+        affiliationSelect?.addEventListener('change', function() {
+            workerFields.style.display = this.value === '직장인' ? 'block' : 'none';
+            studentFields.style.display = this.value === '학생' ? 'block' : 'none';
+        });
+
+        // 전화번호 포맷팅
+        demandPhoneInput?.addEventListener('input', function(e) {
+            let v = e.target.value.replace(/\D/g, '');
+            if (v.length > 11) v = v.slice(0, 11);
+            if (v.length > 7) v = v.replace(/(\d{3})(\d{4})(\d{0,4})/, '$1-$2-$3');
+            else if (v.length > 3) v = v.replace(/(\d{3})(\d{0,4})/, '$1-$2');
+            e.target.value = v;
+        });
+
+        function openDemandModal() {
+            demandModalOverlay.classList.add('active');
+            demandModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeDemandModal() {
+            demandModalOverlay.classList.remove('active');
+            demandModal.classList.remove('active');
+            document.body.style.overflow = '';
+            setTimeout(() => {
+                demandFormContainer.style.display = 'block';
+                demandFormSuccess.classList.remove('show');
+                demandForm.reset();
+                workerFields.style.display = 'none';
+                studentFields.style.display = 'none';
+            }, 300);
+        }
+
+        demandModalOverlay?.addEventListener('click', closeDemandModal);
+        demandModalClose?.addEventListener('click', closeDemandModal);
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && demandModal.classList.contains('active')) closeDemandModal();
+        });
+
+        demandForm?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const submitBtn = demandForm.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = '등록 중...';
+            submitBtn.disabled = true;
+
+            try {
+                const formData = new FormData(demandForm);
+                const data = Object.fromEntries(formData.entries());
+                data.privacy_agreed = document.getElementById('demand-privacy').checked;
+
+                const response = await fetch('/api/scm-demand', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const result = await response.json();
+                if (result.success) {
+                    demandFormContainer.style.display = 'none';
+                    demandFormSuccess.classList.add('show');
+                } else {
+                    alert(result.error || '등록에 실패했습니다.');
+                }
+            } catch (error) {
+                console.error('Demand registration error:', error);
+                alert('네트워크 오류가 발생했습니다. 다시 시도해주세요.');
+            } finally {
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+
+        // Theme Toggle
+        (function() {
+            const themeToggle = document.getElementById('themeToggle');
+            const html = document.documentElement;
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) html.setAttribute('data-theme', savedTheme);
+            if (themeToggle) {
+                themeToggle.addEventListener('click', () => {
+                    const current = html.getAttribute('data-theme');
+                    const next = current === 'light' ? 'dark' : 'light';
+                    if (next === 'dark') html.removeAttribute('data-theme');
+                    else html.setAttribute('data-theme', next);
+                    localStorage.setItem('theme', next);
+                });
+            }
+        })();
+    </script>
+
+    <!-- Programs Module -->
+    <script src="./js/programs.js"></script>
+    <!-- Notion 후기 동적 로드 -->
+    <script src="./js/reviews.js"></script>
+</body>
+</html>

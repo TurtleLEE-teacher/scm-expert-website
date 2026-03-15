@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SCM Labs - 글로벌 SCM 전문가 양성</title>
-    <meta name="description" content="글로벌 컨설팅펌 현직 컨설턴트가 제공하는 SCM 전문 강의와 커리어 컨설팅 서비스. 공급망관리, S&OP, 수요예측, SAP 실무 교육.">
-    <meta name="keywords" content="SCM, 공급망관리, 컨설팅, 강의, 커리어, S&OP, 수요예측, SAP, 물류관리">
+    <title>SCM Labs - SCM · 오퍼레이션 · 컨설팅 전문 교육</title>
+    <meta name="description" content="글로벌 컨설팅펌 현직 컨설턴트가 제공하는 SCM, 오퍼레이션, 컨설팅 스킬 전문 교육. 공급망관리, MRP, 재고관리, 구매, 컨설팅 문서작성 실무 교육.">
+    <meta name="keywords" content="SCM, 공급망관리, 컨설팅, 강의, 커리어, S&OP, 수요예측, SAP, 물류관리, MRP, 재고관리, 구매, 오퍼레이션 컨설팅">
     <meta name="author" content="SCM Labs">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://scm-expert-site.vercel.app/">
 
     <!-- Open Graph -->
-    <meta property="og:title" content="SCM Labs - 글로벌 SCM 전문가 양성">
-    <meta property="og:description" content="글로벌 컨설팅펌 현직 컨설턴트가 제공하는 SCM 전문 강의와 커리어 컨설팅">
+    <meta property="og:title" content="SCM Labs - SCM · 오퍼레이션 · 컨설팅 전문 교육">
+    <meta property="og:description" content="글로벌 컨설팅펌 현직 컨설턴트가 제공하는 SCM, 오퍼레이션, 컨설팅 스킬 전문 교육">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://scm-expert-site.vercel.app/">
     <meta property="og:image" content="https://scm-expert-site.vercel.app/images/og-image.png">
@@ -21,8 +21,8 @@
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="SCM Labs - 글로벌 SCM 전문가 양성">
-    <meta name="twitter:description" content="글로벌 컨설팅펌 현직 컨설턴트가 제공하는 SCM 전문 강의와 커리어 컨설팅">
+    <meta name="twitter:title" content="SCM Labs - SCM · 오퍼레이션 · 컨설팅 전문 교육">
+    <meta name="twitter:description" content="글로벌 컨설팅펌 현직 컨설턴트가 제공하는 SCM, 오퍼레이션, 컨설팅 스킬 전문 교육">
     <meta name="twitter:image" content="https://scm-expert-site.vercel.app/images/og-image.png">
 
     <!-- Favicon -->
@@ -45,18 +45,30 @@
         "@context": "https://schema.org",
         "@type": "EducationalOrganization",
         "name": "SCM Labs",
-        "description": "글로벌 컨설팅펌 현직 컨설턴트가 제공하는 SCM 전문 강의와 커리어 컨설팅 서비스",
+        "description": "글로벌 컨설팅펌 현직 컨설턴트가 제공하는 SCM, 오퍼레이션, 컨설팅 스킬 전문 교육",
         "url": "https://scm-expert-site.vercel.app",
         "hasOfferCatalog": {
             "@type": "OfferCatalog",
-            "name": "SCM 교육 프로그램",
+            "name": "교육 프로그램",
             "itemListElement": [{
                 "@type": "Course",
-                "name": "SCM 실무 과정",
+                "name": "SCM 실무 과정 · 입문반",
                 "description": "5주 직무교육 + 커리어 컨설팅",
                 "provider": { "@type": "EducationalOrganization", "name": "SCM Labs" },
                 "courseMode": "online",
                 "educationalLevel": "Beginner to Intermediate"
+            }, {
+                "@type": "Course",
+                "name": "기준정보 방법론",
+                "description": "SCM 기준정보 체계와 관리 방법론",
+                "provider": { "@type": "EducationalOrganization", "name": "SCM Labs" },
+                "courseMode": "online"
+            }, {
+                "@type": "Course",
+                "name": "MRP 기초",
+                "description": "자재소요계획(MRP) 기본 원리와 실무 적용",
+                "provider": { "@type": "EducationalOrganization", "name": "SCM Labs" },
+                "courseMode": "online"
             }]
         }
     }
@@ -300,12 +312,52 @@
             .grid-3 { grid-template-columns: 1fr; }
         }
 
+        /* ===== Category Tabs ===== */
+        .category-tabs {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-2);
+            margin-bottom: var(--space-8);
+            flex-wrap: wrap;
+        }
+        .category-tab {
+            padding: var(--space-2) var(--space-5);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-full);
+            background: transparent;
+            color: var(--text-secondary);
+            font-size: var(--text-sm);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            white-space: nowrap;
+        }
+        .category-tab:hover {
+            border-color: var(--blue);
+            color: var(--text-primary);
+        }
+        .category-tab.active {
+            background: var(--blue);
+            border-color: var(--blue);
+            color: #fff;
+        }
+        @media (max-width: 480px) {
+            .category-tabs {
+                overflow-x: auto;
+                flex-wrap: nowrap;
+                justify-content: flex-start;
+                padding: 0 var(--space-4);
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+            }
+            .category-tabs::-webkit-scrollbar { display: none; }
+        }
+
         /* ===== Service Map Section ===== */
         .service-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
             gap: var(--space-5);
-            max-width: 800px;
+            max-width: 980px;
             margin: 0 auto;
         }
         @media (max-width: 768px) {
@@ -1098,7 +1150,7 @@
             <nav aria-label="주요 메뉴">
                 <ul class="nav-menu" id="navMenu" role="menubar">
                     <li class="nav-item" role="none">
-                        <a href="#services" class="nav-link" role="menuitem">서비스</a>
+                        <a href="#services" class="nav-link" role="menuitem">프로그램</a>
                     </li>
                     <li class="nav-item" role="none">
                         <a href="#schedule" class="nav-link" role="menuitem">일정</a>
@@ -1171,37 +1223,11 @@
         <!-- Services -->
         <section id="services" class="section section-alt">
             <div class="section-header fade-up">
-                <h2>SCM 실무 과정</h2>
-                <p>다른 곳에서는 이론으로만 배우는 SCM, 여기서는 직접 체험합니다</p>
+                <h2>교육 프로그램</h2>
+                <p>글로벌 컨설팅펌 현직 컨설턴트가 직접 설계한 실무 중심 프로그램</p>
             </div>
-            <div class="service-grid">
-                <div class="service-card recommended fade-up">
-                    <span class="service-card-badge">입문반</span>
-                    <div class="service-price">300,000원</div>
-                    <p class="service-price-note">5주 과정 · 최대 6명 · 라이브 3회 + 서면 2회</p>
-                    <ul>
-                        <li>컨설팅 프로젝트 기반 SCM 프로세스 실전 학습</li>
-                        <li>실무 과제 4건 + 현직 컨설턴트 1:1 피드백</li>
-                        <li>1:1 커리어 컨설팅 1회 (자소서/면접/포트폴리오 택1)</li>
-                        <li>SCM 직무 포트폴리오 완성</li>
-                        <li>카카오톡 커뮤니티 + 네트워킹</li>
-                    </ul>
-                    <a href="basic-package.html" class="btn btn-primary" style="width: 100%;">자세히 보기</a>
-                </div>
-                <div class="service-card coming-soon fade-up">
-                    <span class="service-card-badge badge-muted">심화반 · Open 예정</span>
-                    <div class="service-price" style="color: var(--text-tertiary);">500,000원</div>
-                    <p class="service-price-note">심화 과정 · 준비 중</p>
-                    <ul>
-                        <li>입문반 전체 과정 포함</li>
-                        <li>SCM 심화 실전 프로젝트</li>
-                        <li>현직자 네트워킹 세션</li>
-                        <li>심화 면접 컨설팅</li>
-                        <li>수료 후 커리어 팔로업</li>
-                    </ul>
-                    <span class="btn btn-secondary" style="width: 100%; text-align: center; opacity: 0.5;">준비 중</span>
-                </div>
-            </div>
+            <!-- 카테고리 탭과 카드 그리드는 js/programs.js에서 동적 생성 -->
+            <div class="service-grid"></div>
             <div class="service-note fade-up" style="margin-top: var(--space-6);">
                 커리어 컨설팅만 별도로 필요하신 경우 <a href="career-consulting.html" style="color: var(--blue);">단독 신청(200,000원)</a>도 가능합니다.
             </div>
@@ -2285,6 +2311,9 @@
             }
         })();
     </script>
+
+    <!-- Programs Module -->
+    <script src="./js/programs.js"></script>
 
     <!-- Service Worker -->
     <script>

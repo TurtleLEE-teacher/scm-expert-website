@@ -94,6 +94,7 @@ try {
     }
 
     $notes = Security::sanitizeText($input['notes'] ?? '', 1000);
+    $programId = Security::sanitizeText($input['program_id'] ?? '', 100);
 
     // Notion API 준비
     $config = Config::getInstance();
@@ -123,7 +124,8 @@ try {
         '대기 (월)' => $waitingMonth,
         '특이사항' => $notes,
         '문의일' => date('Y-m-d'),
-        '상태' => '대기중'
+        '상태' => '대기중',
+        '프로그램' => $programId ?: 'scm-basic'
     ];
 
     // Notion에 페이지 생성
