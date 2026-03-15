@@ -396,6 +396,13 @@
                 return;
             }
 
+            if (program.status !== 'active') {
+                heroContainer.innerHTML = '';
+                mainContent.innerHTML = `<div class="section" style="text-align: center; padding: var(--space-16);"><h2>${program.title}</h2><p style="margin-top: var(--space-4); color: var(--text-secondary); font-size: var(--text-lg);">현재 준비 중인 프로그램입니다.<br>오픈 시 안내를 받으시려면 상담을 신청해주세요.</p><div style="margin-top: var(--space-8); display: flex; gap: var(--space-4); justify-content: center;"><a href="index.html#services" class="btn btn-secondary">프로그램 목록</a><button class="btn btn-primary" onclick="openModal && openModal()">오픈 알림 신청</button></div></div>`;
+                document.title = `${program.title} (준비 중) | SCM Labs`;
+                return;
+            }
+
             // Update page title and meta
             document.title = `${program.title} | SCM Labs`;
             const metaDesc = document.querySelector('meta[name="description"]');
