@@ -4,7 +4,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## 프로젝트 개요
 
-SCM(Supply Chain Management) 전문가 양성을 위한 강의 및 컨설팅 웹사이트입니다. 글로벌 컨설팅펌 현직 컨설턴트가 제공하는 전문 교육 서비스를 위한 반응형 웹사이트입니다.
+SCM · 오퍼레이션 · 컨설팅 스킬 전문 교육 및 커리어 컨설팅 웹사이트입니다. 글로벌 컨설팅펌 현직 컨설턴트가 제공하는 다중 프로그램 교육 서비스를 위한 반응형 웹사이트입니다.
+
+### 프로그램 구조 (3개 카테고리, 9개 프로그램)
+- **SCM**: 입문반(active), 심화반, 기준정보 방법론, MRP 기초, 재고관리 실무, 구매 기초
+- **오퍼레이션**: 오퍼레이션 컨설팅 입문
+- **컨설팅 스킬**: Titan Tools, 컨설팅 글쓰기
+- 프로그램 데이터: `data/programs.json`, 렌더링: `js/programs.js`
 
 ## 기술 스택
 
@@ -17,8 +23,8 @@ SCM(Supply Chain Management) 전문가 양성을 위한 강의 및 컨설팅 웹
 ### 주요 페이지 (실제 사용 중)
 | 파일 | 설명 | 비고 |
 |------|------|------|
-| `index.html` | 메인 랜딩 페이지 | 서비스 소개, 강사 프로필 |
-| `basic-package.html` | **기본 패키지 (프로그램)** | 수요 기반 대기 등록 기능 포함 |
+| `index.html` | 메인 랜딩 페이지 | 카테고리 탭 + 프로그램 카드 그리드, 강사 프로필 |
+| `program.html` | **프로그램 상세 페이지** | `?id=scm-basic` 등 쿼리 파라미터로 동적 렌더링 |
 | `career-consulting.html` | 커리어 컨설팅 서비스 | 이력서/면접 컨설팅 |
 | `career-application.html` | 커리어 컨설팅 신청 폼 | |
 | `survey-form.html` | 설문조사 폼 | |
@@ -27,7 +33,8 @@ SCM(Supply Chain Management) 전문가 양성을 위한 강의 및 컨설팅 웹
 ### 레거시 파일 (사용 안 함)
 | 파일 | 설명 |
 |------|------|
-| `scm-basic.html` | 구버전 SCM 강의 페이지 (basic-package.html로 대체됨) |
+| `scm-basic.html` | 구버전 SCM 강의 페이지 |
+| `basic-package.html` | program.html?id=scm-basic으로 리다이렉트됨 |
 | `scm-application.html` | 구버전 수강 신청 폼 |
 
 ### Backend
