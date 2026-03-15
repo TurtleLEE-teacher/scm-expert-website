@@ -85,7 +85,45 @@
     function renderServiceGrid(programs, container) {
         const grid = container.querySelector('.service-grid');
         if (!grid) return;
-        grid.innerHTML = programs.map(p => renderProgramCard(p)).join('');
+
+        const activePrograms = programs.filter(p => p.status === 'active');
+        const comingSoonPrograms = programs.filter(p => p.status !== 'active');
+
+        // Active 프로그램: 기존 풀사이즈 카드
+        let html = activePrograms.map(p => renderProgramCard(p)).join('');
+
+        // Coming-soon 프로그램: 로드맵 형태로 렌더링
+        if (comingSoonPrograms.length > 0) {
+            const roadmapItems = comingSoonPrograms
+                .sort((a, b) => (a.level || 99) - (b.level || 99))
+                .map(p => {
+                    const levelLabel = p.level === 2 ? 'STEP 2' : 'STEP 3';
+                    return `
+                        <div class="roadmap-item fade-up">
+                            <div class="roadmap-step">${levelLabel}</div>
+                            <div class="roadmap-content">
+                                <h4>${p.shortTitle || p.title}</h4>
+                                <p>${p.description}</p>
+                            </div>
+                            <span class="roadmap-badge">준비 중</span>
+                        </div>
+                    `;
+                }).join('');
+
+            html += `
+                <div class="roadmap-section fade-up">
+                    <div class="roadmap-header">
+                        <h3>학습 로드맵</h3>
+                        <p>입문반 수료 후 단계별로 확장할 수 있는 과정들을 준비하고 있습니다</p>
+                    </div>
+                    <div class="roadmap-list">
+                        ${roadmapItems}
+                    </div>
+                </div>
+            `;
+        }
+
+        grid.innerHTML = html;
     }
 
     async function initIndexPage() {
