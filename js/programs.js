@@ -86,44 +86,58 @@
         const grid = container.querySelector('.service-grid');
         if (!grid) return;
 
-        const activePrograms = programs.filter(p => p.status === 'active');
-        const comingSoonPrograms = programs.filter(p => p.status !== 'active');
+        const allPrograms = [...programs].sort((a, b) => (a.level || 99) - (b.level || 99));
+        const activePrograms = allPrograms.filter(p => p.status === 'active');
+        const comingSoonPrograms = allPrograms.filter(p => p.status !== 'active');
 
-        // Active 프로그램: 기존 풀사이즈 카드
-        let html = activePrograms.map(p => renderProgramCard(p)).join('');
-
-        // Coming-soon 프로그램: 로드맵 형태로 렌더링
-        if (comingSoonPrograms.length > 0) {
-            const roadmapItems = comingSoonPrograms
-                .sort((a, b) => (a.level || 99) - (b.level || 99))
-                .map(p => {
-                    const levelLabel = p.level === 2 ? 'STEP 2' : 'STEP 3';
-                    return `
-                        <div class="roadmap-item fade-up">
-                            <div class="roadmap-step">${levelLabel}</div>
-                            <div class="roadmap-content">
-                                <h4>${p.shortTitle || p.title}</h4>
-                                <p>${p.description}</p>
-                            </div>
-                            <span class="roadmap-badge">준비 중</span>
-                        </div>
-                    `;
-                }).join('');
-
-            html += `
-                <div class="roadmap-section fade-up">
-                    <div class="roadmap-header">
-                        <h3>학습 로드맵</h3>
-                        <p>입문반 수료 후 단계별로 확장할 수 있는 과정들을 준비하고 있습니다</p>
+        // 통합 학습 로드맵: active는 STEP 1 featured, coming-soon은 compact
+        const activeItems = activePrograms.map(p => {
+            const stepLabel = `STEP ${p.level || 1}`;
+            const featuresHtml = p.features
+                ? p.features.slice(0, 4).map(f => `<li>${f}</li>`).join('')
+                : '';
+            return `
+                <div class="roadmap-item roadmap-item--active fade-up">
+                    <div class="roadmap-step roadmap-step--active">${stepLabel}</div>
+                    <div class="roadmap-content">
+                        <h4>${p.shortTitle || p.title}</h4>
+                        <p>${p.description}</p>
+                        <ul class="roadmap-features">${featuresHtml}</ul>
                     </div>
-                    <div class="roadmap-list">
-                        ${roadmapItems}
+                    <div class="roadmap-action">
+                        <span class="roadmap-price">${p.price}</span>
+                        <a href="program.html?id=${p.id}" class="btn btn-primary btn-sm">자세히 보기</a>
                     </div>
                 </div>
             `;
-        }
+        }).join('');
 
-        grid.innerHTML = html;
+        const comingSoonItems = comingSoonPrograms.map(p => {
+            const stepLabel = `STEP ${p.level || '?'}`;
+            return `
+                <div class="roadmap-item fade-up">
+                    <div class="roadmap-step">${stepLabel}</div>
+                    <div class="roadmap-content">
+                        <h4>${p.shortTitle || p.title}</h4>
+                        <p>${p.description}</p>
+                    </div>
+                    <span class="roadmap-badge">준비 중</span>
+                </div>
+            `;
+        }).join('');
+
+        grid.innerHTML = `
+            <div class="roadmap-section fade-up">
+                <div class="roadmap-header">
+                    <h3>SCM 학습 로드맵</h3>
+                    <p>단계별로 설계된 커리큘럼을 따라 SCM 전문가로 성장하세요</p>
+                </div>
+                <div class="roadmap-list">
+                    ${activeItems}
+                    ${comingSoonItems}
+                </div>
+            </div>
+        `;
     }
 
     async function initIndexPage() {
