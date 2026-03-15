@@ -11,13 +11,16 @@ const DYNAMIC_CACHE = 'scm-expert-dynamic-v1';
 const STATIC_ASSETS = [
     '/',
     '/index.html',
-    '/scm-basic.html',
+    '/program.html',
     '/career-consulting.html',
     '/privacy-policy.html',
     '/css/design-system.css',
     '/js/enhanced.js',
     '/js/mobile-enhancements.js',
+    '/js/programs.js',
+    '/js/reviews.js',
     '/js/testimonials.js',
+    '/data/programs.json',
     '/images/favicon.ico'
 ];
 
@@ -51,7 +54,7 @@ self.addEventListener('fetch', (event) => {
     const url = new URL(request.url);
 
     // API 요청은 네트워크 우선
-    if (url.pathname.startsWith('/api-php/')) {
+    if (url.pathname.startsWith('/api/')) {
         event.respondWith(networkFirst(request));
         return;
     }
