@@ -96,6 +96,17 @@ try {
     $notes = Security::sanitizeText($input['notes'] ?? '', 1000);
     $programId = Security::sanitizeText($input['program_id'] ?? '', 100);
 
+    // program_id 화이트리스트 검증
+    $validProgramIds = [
+        'scm-basic', 'scm-advanced', 'master-data', 'mrp-basics',
+        'inventory-management', 'purchasing-basics',
+        'ops-consulting-intro', 'titan-tools', 'consulting-writing',
+        'consulting-job-session'
+    ];
+    if (!empty($programId) && !in_array($programId, $validProgramIds)) {
+        throw new Exception('유효하지 않은 프로그램입니다.');
+    }
+
     // Notion API 준비
     $config = Config::getInstance();
     $notionApiKey = $config->get('NOTION_API_KEY');

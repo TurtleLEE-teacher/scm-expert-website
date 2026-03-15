@@ -200,29 +200,36 @@ class SCMWebsite {
         this.monitorParticlePerformance();
     }
 
-    // 파티클 성능 모니터링
+    // 파티클 성능 모니터링 (5초간만 측정 후 중단)
     monitorParticlePerformance() {
         let frameCount = 0;
         let lastTime = performance.now();
+        let checkCount = 0;
+        const maxChecks = 5; // 5초간만 모니터링
 
         const checkFPS = () => {
             frameCount++;
             const currentTime = performance.now();
-            
+
             if (currentTime - lastTime >= 1000) {
                 const fps = frameCount;
                 frameCount = 0;
                 lastTime = currentTime;
-                
+                checkCount++;
+
                 // FPS가 30 이하이면 파티클 비활성화
                 if (fps < 30) {
                     document.getElementById('particleBg')?.classList.add('low-performance');
+                    return; // 비활성화 후 모니터링 중단
                 }
+
+                // 최대 측정 횟수 도달 시 중단
+                if (checkCount >= maxChecks) return;
             }
-            
+
             requestAnimationFrame(checkFPS);
         };
-        
+
         requestAnimationFrame(checkFPS);
     }
 
@@ -343,7 +350,7 @@ class SCMWebsite {
 
     // 문의 폼 제출 (Notion API 연동)
     async submitContactForm(data) {
-        const response = await fetch('./api/contact-form.php', {
+        const response = await fetch('/api/php/contact-form.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

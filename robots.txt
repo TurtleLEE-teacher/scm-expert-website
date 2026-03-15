@@ -6,7 +6,7 @@ Allow: /
 Sitemap: https://scm-expert-site.vercel.app/sitemap.xml
 
 # Block sensitive directories
-Disallow: /api-php/
+Disallow: /api/
 Disallow: /includes/
 Disallow: /logs/
 Disallow: /old/

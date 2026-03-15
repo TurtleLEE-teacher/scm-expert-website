@@ -62,6 +62,17 @@ export default async function handler(req, res) {
       throw new Error('유효하지 않은 소속구분입니다.');
     }
 
+    // program_id 화이트리스트 검증
+    const validProgramIds = [
+      'scm-basic', 'scm-advanced', 'master-data', 'mrp-basics',
+      'inventory-management', 'purchasing-basics',
+      'ops-consulting-intro', 'titan-tools', 'consulting-writing',
+      'consulting-job-session'
+    ];
+    if (input.program_id && !validProgramIds.includes(input.program_id)) {
+      throw new Error('유효하지 않은 프로그램입니다.');
+    }
+
     // Notion API 키 확인
     const notionApiKey = process.env.NOTION_API_KEY;
     // 환경변수가 없으면 기본값 사용 (CRM DB ID는 민감정보가 아님)
