@@ -34,10 +34,6 @@ export default async function handler(req, res) {
       throw new Error('이메일을 입력해주세요.');
     }
 
-    if (!input.affiliation) {
-      throw new Error('소속구분을 선택해주세요.');
-    }
-
     if (!input.privacy_agreed) {
       throw new Error('개인정보 수집·이용 동의가 필요합니다.');
     }
@@ -46,12 +42,6 @@ export default async function handler(req, res) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(input.email)) {
       throw new Error('유효하지 않은 이메일 주소입니다.');
-    }
-
-    // 소속구분 검증
-    const validAffiliations = ['직장인', '학생', '취업준비생', '기타'];
-    if (!validAffiliations.includes(input.affiliation)) {
-      throw new Error('유효하지 않은 소속구분입니다.');
     }
 
     // Notion API 키 확인
@@ -72,9 +62,6 @@ export default async function handler(req, res) {
         },
         '이메일': {
           email: input.email.trim()
-        },
-        '소속구분': {
-          select: { name: input.affiliation }
         },
         '특이사항': {
           rich_text: [{ text: { content: '전자책 다운로드 신청' } }]

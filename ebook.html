@@ -347,16 +347,6 @@
                         <input type="email" class="form-input" id="email" name="email" placeholder="example@email.com" required>
                     </div>
                     <div class="form-group">
-                        <label class="form-label" for="affiliation">소속구분 *</label>
-                        <select class="form-input form-select" id="affiliation" name="affiliation" required>
-                            <option value="">선택해주세요</option>
-                            <option value="직장인">직장인</option>
-                            <option value="학생">학생</option>
-                            <option value="취업준비생">취업준비생</option>
-                            <option value="기타">기타</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
                         <label class="form-checkbox">
                             <input type="checkbox" id="privacy" name="privacy_agreed" required>
                             <span>개인정보 수집·이용에 동의합니다 (필수)</span>
@@ -384,7 +374,7 @@
 
     <!-- Footer -->
     <footer class="footer">
-        <p>&copy; 2025 SCM Labs. All rights reserved.</p>
+        <p>&copy; 2026 SCM Labs. All rights reserved. · <a href="privacy-policy.html" style="color:var(--text-tertiary);">개인정보처리방침</a></p>
     </footer>
 
     <script>
@@ -409,7 +399,7 @@
                 const data = Object.fromEntries(formData.entries());
                 data.privacy_agreed = formData.get('privacy_agreed') === 'on';
 
-                const response = await fetch('https://scm-expert-site.vercel.app/api/ebook-request', {
+                const response = await fetch('/api/ebook-request', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
