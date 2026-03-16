@@ -619,6 +619,41 @@
             }
         }
 
+        /* ===== E-Book CTA ===== */
+        .ebook-cta {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: var(--space-8) var(--space-10);
+            background: linear-gradient(135deg, rgba(0, 113, 227, 0.06) 0%, rgba(0, 113, 227, 0.02) 100%);
+            border: 1px solid rgba(0, 113, 227, 0.15);
+            border-radius: var(--radius-xl);
+            text-align: center;
+        }
+        .ebook-cta-badge {
+            display: inline-block;
+            padding: 2px 12px;
+            background: var(--blue);
+            color: #fff;
+            border-radius: var(--radius-full);
+            font-size: var(--text-xs);
+            font-weight: var(--font-medium);
+            margin-bottom: var(--space-4);
+        }
+        .ebook-cta-title {
+            font-size: var(--text-xl);
+            font-weight: var(--font-bold);
+            margin-bottom: var(--space-2);
+        }
+        .ebook-cta-desc {
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+            line-height: var(--leading-relaxed);
+            margin-bottom: var(--space-6);
+        }
+        @media (max-width: 480px) {
+            .ebook-cta { padding: var(--space-6); }
+        }
+
         /* ===== Reviews Section ===== */
         .review-card {
             background: var(--bg-tertiary);
@@ -1410,6 +1445,18 @@
             <div class="service-grid"></div>
             <div class="service-note fade-up" style="margin-top: var(--space-6);">
                 커리어 컨설팅만 별도로 필요하신 경우 <a href="career-consulting.html" style="color: var(--blue);">단독 신청(200,000원)</a>도 가능합니다.
+            </div>
+        </section>
+
+        <!-- E-Book CTA -->
+        <section class="section">
+            <div class="ebook-cta fade-up">
+                <div class="ebook-cta-content">
+                    <span class="ebook-cta-badge">무료 전자책</span>
+                    <h3 class="ebook-cta-title">SCM & 컨설팅 커리어 가이드</h3>
+                    <p class="ebook-cta-desc">글로벌 컨설팅펌 현직 컨설턴트가 들려주는 커리어를 만들어가는 이야기. 이메일로 무료로 받아보세요.</p>
+                    <a href="ebook.html" class="btn btn-primary">전자책 받기</a>
+                </div>
             </div>
         </section>
 
